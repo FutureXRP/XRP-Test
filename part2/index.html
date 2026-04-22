@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Netting Objection Was Backwards — A Structural Follow-up</title>
+<meta name="description" content="A follow-up to 'XRP is not being valued. It is being sized.' — examining what BIS, Fnality, and Project Meridian FX trial data reveal about netting under atomic settlement.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fbfaf7;
+    --paper:#ffffff;
+    --ink:#1a1a1a;
+    --ink-soft:#383838;
+    --ink-medium:#595959;
+    --ink-faint:#7a7a7a;
+    --rule:#1a1a1a;
+    --rule-soft:#d4d4d0;
+    --accent:#9b2226;
+    --accent-soft:#c9a227;
+    --highlight:#fff3c4;
+    --mono:'IBM Plex Mono', ui-monospace, monospace;
+    --display:'Newsreader', Georgia, serif;
+    --body:'Newsreader', Georgia, serif;
+    --ui:'IBM Plex Sans', system-ui, sans-serif;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:19px;
+    line-height:1.7;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  .container{
+    max-width:720px;
+    margin:0 auto;
+    padding:48px 32px 120px;
+    position:relative;
+  }
+
+  .masthead{
+    border-top:2px solid var(--rule);
+    border-bottom:1px solid var(--rule);
+    padding:16px 0 14px;
+    margin-bottom:48px;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    font-family:var(--ui);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    color:var(--ink-medium);
+  }
+  .masthead-left{font-weight:600;}
+  .masthead-right{letter-spacing:0.1em;}
+
+  .categories{
+    font-family:var(--ui);
+    font-size:11px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:24px;
+    font-weight:600;
+  }
+  .categories span:not(:last-child)::after{
+    content:' · ';
+    margin:0 6px;
+    color:var(--ink-faint);
+  }
+
+  .part-tag{
+    font-family:var(--ui);
+    font-size:10px;
+    letter-spacing:0.25em;
+    text-transform:uppercase;
+    color:var(--ink-medium);
+    padding:6px 12px;
+    border:1px solid var(--ink-medium);
+    display:inline-block;
+    margin-bottom:24px;
+    font-weight:500;
+  }
+
+  h1.headline{
+    font-family:var(--display);
+    font-size:clamp(40px, 6.5vw, 62px);
+    line-height:1.02;
+    font-weight:500;
+    letter-spacing:-0.02em;
+    margin-bottom:26px;
+    color:var(--ink);
+  }
+  h1.headline em{
+    font-style:italic;
+    color:var(--accent);
+    font-weight:500;
+  }
+
+  .deck{
+    font-family:var(--display);
+    font-style:italic;
+    font-size:22px;
+    line-height:1.5;
+    color:var(--ink-soft);
+    font-weight:400;
+    margin-bottom:32px;
+    max-width:640px;
+  }
+
+  .byline{
+    font-family:var(--ui);
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    padding-bottom:36px;
+    border-bottom:1px solid var(--rule-soft);
+    margin-bottom:44px;
+    font-weight:500;
+  }
+
+  .editors-note{
+    background:var(--paper);
+    border:1px solid var(--rule-soft);
+    border-left:3px solid var(--accent);
+    padding:22px 28px;
+    margin:0 0 44px;
+    font-size:17px;
+    line-height:1.6;
+  }
+  .editors-note strong.label{
+    font-weight:600;
+    color:var(--accent);
+    display:block;
+    font-family:var(--ui);
+    font-size:11px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+
+  p{
+    margin-bottom:22px;
+    orphans:3;
+    widows:3;
+  }
+  p.lede{
+    font-size:22px;
+    line-height:1.55;
+    color:var(--ink);
+    margin-bottom:28px;
+    font-weight:400;
+  }
+  p.lede::first-letter{
+    font-family:var(--display);
+    font-size:68px;
+    float:left;
+    line-height:0.88;
+    padding:4px 10px 0 0;
+    font-weight:600;
+    color:var(--accent);
+  }
+
+  em{font-style:italic;}
+  strong{font-weight:600; color:var(--ink);}
+
+  a{color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(155,34,38,0.25); transition:border 0.2s;}
+  a:hover{border-bottom-color:var(--accent);}
+
+  .section-head{
+    margin-top:60px;
+    margin-bottom:36px;
+    border-top:1px solid var(--rule);
+    padding-top:32px;
+  }
+  .section-kicker{
+    font-family:var(--ui);
+    font-size:11px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:600;
+    margin-bottom:8px;
+  }
+  .section-head h2{
+    font-family:var(--display);
+    font-size:34px;
+    line-height:1.15;
+    font-weight:500;
+    letter-spacing:-0.012em;
+    color:var(--ink);
+    font-style:italic;
+  }
+
+  .argument{
+    margin:44px 0;
+    display:grid;
+    grid-template-columns:56px 1fr;
+    gap:20px;
+    align-items:start;
+  }
+  .arg-number{
+    font-family:var(--display);
+    font-size:44px;
+    line-height:0.9;
+    font-weight:500;
+    color:var(--accent);
+    padding-top:4px;
+    font-feature-settings:"lnum";
+  }
+  .arg-body h3{
+    font-family:var(--display);
+    font-size:26px;
+    line-height:1.22;
+    font-weight:500;
+    letter-spacing:-0.008em;
+    margin-bottom:18px;
+    color:var(--ink);
+  }
+
+  .netting-types{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:1px;
+    background:var(--rule);
+    border:1px solid var(--rule);
+    margin:28px 0;
+  }
+  .netting-type{
+    background:var(--paper);
+    padding:22px 24px;
+  }
+  .netting-type-head{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:10px;
+    flex-wrap:wrap;
+  }
+  .netting-type-num{
+    font-family:var(--display);
+    font-size:22px;
+    font-weight:600;
+    color:var(--accent);
+    min-width:28px;
+  }
+  .netting-type-name{
+    font-family:var(--ui);
+    font-size:14px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--ink);
+  }
+  .netting-type-verdict{
+    font-family:var(--ui);
+    font-size:10px;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    padding:3px 8px;
+    border-radius:2px;
+    font-weight:600;
+    margin-left:auto;
+  }
+  .netting-type-verdict.dies{
+    background:#fde4e1;
+    color:var(--accent);
+  }
+  .netting-type-verdict.compressed{
+    background:#fff3c4;
+    color:#7a5a00;
+  }
+  .netting-type-verdict.lives{
+    background:#e0ecd9;
+    color:#3d5a2f;
+  }
+  .netting-type p{
+    font-size:16px;
+    line-height:1.55;
+    margin-bottom:0;
+    color:var(--ink-soft);
+  }
+
+  .pullquote{
+    font-family:var(--display);
+    font-style:italic;
+    font-size:24px;
+    line-height:1.4;
+    color:var(--ink);
+    border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule);
+    padding:26px 0;
+    margin:32px 0;
+    position:relative;
+    font-weight:400;
+  }
+  .pullquote::before{
+    content:'"';
+    font-family:var(--display);
+    font-size:56px;
+    color:var(--accent);
+    position:absolute;
+    left:-4px;
+    top:-4px;
+    line-height:1;
+    font-style:normal;
+  }
+  .pullquote-inner{padding-left:32px;}
+  .attribution{
+    display:block;
+    font-style:normal;
+    font-family:var(--ui);
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-top:14px;
+    padding-left:32px;
+    font-weight:500;
+  }
+
+  .callout{
+    background:var(--paper);
+    border:1px solid var(--rule-soft);
+    padding:26px 28px;
+    margin:28px 0;
+    position:relative;
+  }
+  .callout::before{
+    content:'';
+    position:absolute;
+    top:-1px; left:-1px; right:-1px;
+    height:3px;
+    background:var(--accent);
+  }
+  .callout-label{
+    font-family:var(--ui);
+    font-size:10px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:600;
+    margin-bottom:12px;
+  }
+  .callout h4{
+    font-family:var(--display);
+    font-size:22px;
+    line-height:1.25;
+    font-weight:500;
+    margin-bottom:14px;
+    color:var(--ink);
+  }
+  .callout p{font-size:17px; margin-bottom:12px; line-height:1.6;}
+  .callout p:last-child{margin-bottom:0;}
+
+  .stat-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
+    gap:1px;
+    background:var(--rule);
+    border:1px solid var(--rule);
+    margin:28px 0;
+  }
+  .stat{
+    background:var(--paper);
+    padding:22px 16px;
+    text-align:center;
+  }
+  .stat-value{
+    font-family:var(--display);
+    font-size:38px;
+    line-height:1;
+    font-weight:500;
+    color:var(--accent);
+    display:block;
+    margin-bottom:8px;
+    letter-spacing:-0.01em;
+  }
+  .stat-value.small{font-size:28px;}
+  .stat-label{
+    font-family:var(--ui);
+    font-size:10px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    line-height:1.3;
+    font-weight:500;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:28px 0;
+    font-size:15px;
+    font-family:var(--ui);
+  }
+  th{
+    text-align:left;
+    font-family:var(--ui);
+    font-size:10px;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    color:var(--ink-medium);
+    padding:10px 12px 10px 0;
+    border-bottom:2px solid var(--rule);
+    font-weight:600;
+    vertical-align:bottom;
+    line-height:1.3;
+  }
+  th:not(:first-child){text-align:right;}
+  td{
+    padding:13px 12px 13px 0;
+    border-bottom:1px solid var(--rule-soft);
+    font-family:var(--mono);
+    font-size:13px;
+  }
+  td:first-child{
+    font-family:var(--body);
+    font-size:15px;
+    color:var(--ink);
+  }
+  td:not(:first-child){text-align:right;}
+  tr.emphasis td{
+    background:rgba(255,243,196,0.35);
+    font-weight:500;
+  }
+  tr.emphasis td:first-child{color:var(--accent); font-weight:600;}
+
+  .source-note{
+    font-family:var(--ui);
+    font-size:13px;
+    line-height:1.55;
+    color:var(--ink-faint);
+    font-style:italic;
+    padding:12px 0;
+    border-top:1px dotted var(--rule-soft);
+    margin-top:8px;
+  }
+
+  .finding{
+    background:var(--paper);
+    border-left:4px solid var(--accent);
+    padding:20px 26px;
+    margin:28px 0;
+    font-size:18px;
+    line-height:1.55;
+  }
+  .finding strong.label{
+    color:var(--accent);
+    font-weight:600;
+    font-family:var(--ui);
+    font-size:11px;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    display:block;
+    margin-bottom:8px;
+  }
+
+  .caveat{
+    background:#faf7f0;
+    border:1px solid var(--rule-soft);
+    padding:20px 24px;
+    margin:24px 0;
+    font-size:16px;
+    line-height:1.55;
+  }
+  .caveat strong.label{
+    font-family:var(--ui);
+    font-size:10px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--ink-medium);
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+  }
+
+  .conclusion{
+    margin-top:72px;
+    padding-top:40px;
+    border-top:2px solid var(--rule);
+  }
+  .conclusion-label{
+    font-family:var(--ui);
+    font-size:11px;
+    letter-spacing:0.25em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:600;
+    margin-bottom:16px;
+    text-align:center;
+  }
+  .conclusion h2{
+    font-family:var(--display);
+    font-size:36px;
+    line-height:1.15;
+    font-weight:500;
+    margin-bottom:28px;
+    text-align:center;
+    font-style:italic;
+    letter-spacing:-0.012em;
+  }
+  .conclusion .kicker-line{
+    font-family:var(--display);
+    font-style:italic;
+    font-size:24px;
+    line-height:1.4;
+    text-align:center;
+    margin:36px 0 12px;
+    color:var(--accent);
+    font-weight:500;
+  }
+
+  .colophon{
+    margin-top:72px;
+    padding-top:28px;
+    border-top:1px solid var(--rule-soft);
+    font-family:var(--ui);
+    font-size:12px;
+    line-height:1.6;
+    color:var(--ink-faint);
+  }
+  .colophon strong{
+    color:var(--ink-medium);
+    font-weight:600;
+    font-family:var(--ui);
+  }
+
+  .flourish{
+    text-align:center;
+    margin:44px 0;
+    color:var(--accent);
+    font-size:18px;
+    letter-spacing:0.5em;
+    font-family:var(--display);
+    font-style:italic;
+  }
+
+  @media (max-width: 640px){
+    .container{padding:28px 20px 80px;}
+    body{font-size:17px; line-height:1.65;}
+    h1.headline{font-size:36px;}
+    .deck{font-size:19px;}
+    p.lede{font-size:19px;}
+    p.lede::first-letter{font-size:56px;}
+    .argument{grid-template-columns:42px 1fr; gap:14px;}
+    .arg-number{font-size:34px;}
+    .arg-body h3{font-size:22px;}
+    .pullquote{font-size:20px;}
+    .pullquote::before{font-size:42px;}
+    .pullquote-inner, .attribution{padding-left:24px;}
+    .section-head h2{font-size:26px;}
+    .conclusion h2{font-size:26px;}
+    .callout{padding:22px 20px;}
+    .stat-value{font-size:28px;}
+    .stat-value.small{font-size:22px;}
+    table{font-size:12px;}
+    td{font-size:11px;}
+    td:first-child{font-size:13px;}
+    .netting-type{padding:18px 20px;}
+    .netting-type-verdict{font-size:9px; padding:2px 6px;}
+  }
+
+  @keyframes fadeUp{
+    from{opacity:0; transform:translateY(12px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .container > *{animation:fadeUp 0.5s ease-out backwards;}
+  .container > *:nth-child(1){animation-delay:0.04s;}
+  .container > *:nth-child(2){animation-delay:0.1s;}
+  .container > *:nth-child(3){animation-delay:0.16s;}
+  .container > *:nth-child(4){animation-delay:0.22s;}
+  .container > *:nth-child(5){animation-delay:0.28s;}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="masthead">
+  <div class="masthead-left">Structural Analysis · Follow-up</div>
+  <div class="masthead-right">April 2026</div>
+</div>
+
+<div class="categories">
+  <span>Analysis</span>
+  <span>Settlement Architecture</span>
+  <span>Market Structure</span>
+</div>
+
+<div class="part-tag">Part II · Companion to "XRP is not being valued. It is being sized."</div>
+
+<h1 class="headline">The netting objection was <em>backwards.</em></h1>
+
+<p class="deck">A follow-up. The trial data from BIS, the Bank of England, the IMF, Fnality, and a quiet T+0 equities pilot in India now tells us what happens when real settlement architecture moves toward real-time. The implication for XRP is not smaller than the original analysis suggested. It is larger.</p>
+
+<div class="byline">Structural Analysis · April 2026</div>
+
+<div class="editors-note">
+  <strong class="label">Editor's Note</strong>
+  This piece is a direct follow-up to the April 2026 analysis, "XRP is not being valued. It is being sized." That essay argued that institutional adoption of XRP as a settlement bridge implies prices dramatically above today's, under specific conditions laid out transparently. Section 07 of that piece engaged a netting objection — the argument that multilateral netting efficiencies like those CLS achieves would reduce XRP liquidity requirements. The response was honest but, in hindsight, too generous to the skeptic. A reader asked the harder question: what happens to netting when settlement moves from T+2 to T+0? That question deserved a proper answer grounded in trial data. This is it.
+</div>
+
+<p class="lede">The original analysis treated netting as a skeptic's lever — something that might reduce XRP liquidity requirements by 20–40% if applied aggressively. The table in Section 07 stress-tested the model against that assumption and showed the direction held anyway. But the framing was too generous. The trial data now in from central bank experiments, from at least one live production DLT payment system, and from a quiet real-world T+0 pilot shows that the type of netting that delivers today's efficiency does not survive the transition to atomic settlement. It is not reduced. It is structurally degraded and time-compressed — and what replaces it, micro-batched liquidity-saving mechanisms operating on windows measured in minutes, recovers only a small fraction of the efficiency today's correspondent banking system enjoys.</p>
+
+<p>That changes the direction of the error. The original analysis treated netting as something that might make XRP requirements smaller than the model suggested. The trial data says traditional netting makes today's system <em>look</em> more efficient than it actually is — and compressing its time window exposes more of the true gross-flow liquidity requirement that settlement architecture will need to carry. For a bridge asset, that's not a trimmer on the price scenarios. It points them modestly higher.</p>
+
+<div class="flourish">· · ·</div>
+
+<div class="section-head">
+  <div class="section-kicker">The framing that unlocks everything</div>
+  <h2>Three kinds of netting. Only one of them actually dies.</h2>
+</div>
+
+<p>Almost every argument about netting under atomic settlement suffers from a category error. People say "netting" and mean very different mechanisms. The original article's Section 07 gestured at this distinction. The follow-up starts from it, because the entire debate collapses into clarity the moment the three types are separated.</p>
+
+<div class="netting-types">
+  <div class="netting-type">
+    <div class="netting-type-head">
+      <span class="netting-type-num">01</span>
+      <span class="netting-type-name">Temporal multilateral netting</span>
+      <span class="netting-type-verdict dies">Structurally degraded</span>
+    </div>
+    <p>This is the CLS model. Transactions submitted over many hours are aggregated, offset against one another in a closed-membership system, and settled at fixed daily windows. It depends entirely on the existence of a delay between submission and settlement. It achieves 96% efficiency because the delay is long and the membership is small and overlapping. Atomic T+0 architecture, by definition, removes the delay. This type of netting does not disappear, but it is time-compressed into windows measured in minutes rather than hours — and its efficiency collapses well below current levels.</p>
+  </div>
+
+  <div class="netting-type">
+    <div class="netting-type-head">
+      <span class="netting-type-num">02</span>
+      <span class="netting-type-name">Intraday liquidity-saving mechanisms (micro-netting)</span>
+      <span class="netting-type-verdict compressed">Survives, much thinner</span>
+    </div>
+    <p>This is what BIS Project Meridian FX explicitly re-engineered: short queuing and offsetting windows, sometimes as brief as a minute, attached to otherwise atomic settlement. Research suggests short windows can recover much of the risk benefit of T+2, but the liquidity benefit scales roughly with the length of the window. A minute-scale window captures a meaningful but modest fraction of what a day-scale window captures. This is what survives. It is what the central banks are building. It is not what the skeptic's 40% netting assumption described.</p>
+  </div>
+
+  <div class="netting-type">
+    <div class="netting-type-head">
+      <span class="netting-type-num">03</span>
+      <span class="netting-type-name">Execution-layer and inventory netting</span>
+      <span class="netting-type-verdict lives">Survives, embedded in turnover</span>
+    </div>
+    <p>OTC desks internalize client flows. Market makers net their own position changes across counterparties. AMM pools aggregate orders. None of this changes the aggregate amount of bridge-asset inventory required to service the flow. It redistributes where depth sits. The original analysis's turnover assumption — daily volume as a percentage of market cap — already implicitly contains this layer. A lower turnover ratio <em>is</em> what mature LP netting and OTC internalization look like in the data. This is a feature of the model, not an objection to it.</p>
+  </div>
+</div>
+
+<div class="finding">
+  <strong class="label">The reframing</strong>
+  The system does not abandon netting. It compresses it into shorter windows where its efficiency is materially reduced but not eliminated. Most of the efficiency of type 1 is lost. A fraction is preserved through type 2. Type 3 never went anywhere and is already embedded in the analysis. The sizing implications for a bridge asset come almost entirely from type 1's degradation — and that is precisely the type the trial data shows is being designed out.
+</div>
+
+<div class="flourish">· · ·</div>
+
+<div class="section-head">
+  <div class="section-kicker">Part I — What the trials actually found</div>
+  <h2>The evidence is unanimous. The magnitude is sharper than expected.</h2>
+</div>
+
+<p>Four independent bodies of evidence have reported findings on this question in the past eighteen months. They do not agree on everything. They agree on this.</p>
+
+<div class="argument">
+  <div class="arg-number">01</div>
+  <div class="arg-body">
+    <h3>The IMF and BIS have now stated the mechanism explicitly</h3>
+    <p>The IMF's 2025 working paper on central bank exploration of tokenized reserves states it directly: if settlements are executed instantly, transactions can only occur if cash and assets are immediately available, which could increase pre-funding requirements and liquidity needs. The BIS Project Agorá roundtable reached the same conclusion in October 2025: instant atomic settlement requires full pre-funding of each transaction, and liquidity-saving mechanisms reduce liquidity needs only by introducing settlement delays — meaning near real-time settlement is no longer viable under them. This is not speculation. It is the finding from the largest public-private tokenized cross-border payments project in the world, with seven central banks and more than forty financial institutions participating.</p>
+
+    <p>At the Point Zero Forum in Zurich in November 2025, Agorá participants discussed this tension under the Chatham House rule. The industry reporting headline captured it cleanly: netting and liquidity-saving mechanisms are often at odds with T+0 settlement. The people building the future of cross-border payments have said so on the record. (Agorá itself is in prototype testing phase as of early 2026, with its formal report expected in the first half of the year. The statements cited here come from public roundtable materials and participant commentary, not the final project findings.)</p>
+  </div>
+</div>
+
+<div class="argument">
+  <div class="arg-number">02</div>
+  <div class="arg-body">
+    <h3>The transaction-count explosion signals the scale of what is being removed</h3>
+    <p>GreySpark Partners' March 2026 analysis of real-time securities settlement provides the hardest available figure. In today's netted markets, offsetting reduces payment volume by roughly 98% each day. Eliminating that mechanism would force custodians to process up to fifty times more individual payment transactions. Their concrete illustration: a firm executing 500 buy trades and 480 sell trades in a single security over a day would need to fund all 980 transactions independently under atomic settlement, versus settling the net difference of 20 trades under current regimes.</p>
+
+    <p>A careful reading matters here. The 50× figure describes transaction <em>throughput</em>, not a direct liquidity multiplier. A system can process many more transactions without requiring proportionally more capital if inventory recycles fast enough within each settlement window. What the number does demonstrate — and this is what matters — is the scale of the netting efficiency being removed. Today's settled gross flows are roughly fifty times the size of the net flows custodians actually clear. That entire gap is the work temporal netting performs. Compressing the window from a day to a minute does not bring all fifty times of that work back onto balance sheets, but it brings a meaningful share of it, and the share lands on the assets that sit in the middle of the flow.</p>
+  </div>
+</div>
+
+<div class="callout">
+  <div class="callout-label">The headline number, stated precisely</div>
+  <h4>Multilateral netting currently reduces trillions in daily trade flows to tens of billions in actual settlement movement</h4>
+  <p>This is the DTCC's own figure. The 96–98% netting efficiency that CLS and correspondent banking systems achieve is the reason the world can move trillions cross-border without trillions in dedicated settlement liquidity. That efficiency is built on temporal aggregation — the ability to offset a 9am payment against a 2pm receipt before either actually settles. Compressing the aggregation window from a day to a minute reduces the offsetting opportunity set dramatically, though not all the way to zero.</p>
+</div>
+
+<div class="argument">
+  <div class="arg-number">03</div>
+  <div class="arg-body">
+    <h3>India's T+0 pilot is a real-world signal on cost sensitivity</h3>
+    <p>India launched an optional T+0 settlement scheme on its two major stock exchanges, letting market participants choose same-day settlement if they wanted it. The outcome, as documented by GreySpark: 83 trades recorded on the NSE and 56 on the BSE, combined value approximately $7,400. Not seven point four billion. Not million. Seven thousand four hundred dollars. Total.</p>
+
+    <p>The appropriate reading of this pilot requires care. It was optional, which eliminates network-effect pressure. It was equities, not cross-border FX, which have different liquidity dynamics. The premium Indian brokers charged for T+0 covered both higher infrastructure costs and lost float income, so the price signal is not purely a liquidity signal. With all those caveats stacked, the pilot does not prove that atomic settlement is economically unviable. What it does prove is that market participants, offered a real and voluntary choice between T+2 with full netting benefits and T+0 without them, priced the difference and chose netting. That is cost-sensitivity evidence. It is directionally consistent with what the trial architecture is telling us about the cost of removing netting from a real system.</p>
+  </div>
+</div>
+
+<div class="stat-grid">
+  <div class="stat">
+    <span class="stat-value small">$7,400</span>
+    <span class="stat-label">Total value of India's T+0 equities pilot</span>
+  </div>
+  <div class="stat">
+    <span class="stat-value">139</span>
+    <span class="stat-label">Total trades across both exchanges</span>
+  </div>
+  <div class="stat">
+    <span class="stat-value">~50×</span>
+    <span class="stat-label">Transaction-throughput gap between gross and netted flows</span>
+  </div>
+  <div class="stat">
+    <span class="stat-value">96%</span>
+    <span class="stat-label">CLS-style netting efficiency at risk of degradation</span>
+  </div>
+</div>
+
+<div class="argument">
+  <div class="arg-number">04</div>
+  <div class="arg-body">
+    <h3>Project Meridian FX re-engineered netting back in — and the shape of the re-engineering is the evidence</h3>
+    <p>The April 2025 BIS and Bank of England trial — joined by the ECB, Banque de France, Banca d'Italia, and Deutsche Bundesbank — is the most technically sophisticated test of cross-border atomic settlement conducted to date. What they designed is itself the finding. Rather than deploying pure atomic RTGS, Meridian FX deliberately built two liquidity-saving mechanisms on top of it: gross settlement with queuing, and gross settlement with offsetting. In both, transactions wait briefly in a queue before settling, during which a synchronization operator optimizes ordering or nets obligations.</p>
+
+    <p>This matters. The central banks building the future of cross-border settlement looked at pure atomic RTGS, saw the liquidity cost, and designed netting windows back in. Those windows are measured in minutes, not days — which captures a fraction of the traditional netting benefit while preserving most of the speed benefit. It is a compromise. It is not a vindication of the claim that atomic settlement retains CLS-level netting efficiency. It is an admission that it does not, and an engineered workaround.</p>
+  </div>
+</div>
+
+<div class="pullquote">
+  <div class="pullquote-inner">Netting didn't reduce the need for liquidity. It delayed the moment you had to prove you had it.</div>
+  <span class="attribution">The structural reframe</span>
+</div>
+
+<div class="argument">
+  <div class="arg-number">05</div>
+  <div class="arg-body">
+    <h3>The Meridian FX bridge-currency test is directly relevant — and it strengthens the XRP thesis, not weakens it</h3>
+    <p>Buried in the Meridian FX technical paper is a specific experiment that applies almost perfectly to the XRP thesis. The researchers tested a cross-currency flow using GBP as a bridge between two hypothetical currencies, EXP1 and EXP2. The buy and sell legs in the outer currencies were reserved first. Then the inside legs — the GBP bridge transactions — were netted and settled. Only after the bridge leg cleared did the outer legs settle. This flow, as the paper states, enabled the bridging currency to utilise netting, reducing the liquidity in the bridge currency that would have been required.</p>
+
+    <p>The surface reading is that netting saves bridge liquidity. The deeper implication is sharper: <em>whatever netting survives the transition to atomic settlement concentrates at the bridge currency layer.</em> The outer currencies settle atomically because they have to — they face different counterparties, different jurisdictions, different settlement systems. The one place offsetting remains tractable is in the middle, where many flows converge through the same asset. In a 100-node CBDC and stablecoin world, this implies the bridge becomes the natural netting hub — not despite the transition to atomic settlement, but <em>because</em> of it. XRP in this architecture is not displaced by surviving netting efficiency. It is where that efficiency concentrates. The asset at the hub captures both the gross flow it services and the surviving netting benefit that flows through it.</p>
+  </div>
+</div>
+
+<div class="flourish">· · ·</div>
+
+<div class="section-head">
+  <div class="section-kicker">Part II — What this means for the original analysis</div>
+  <h2>The direction of the error reverses. The magnitude is real but bounded.</h2>
+</div>
+
+<div class="argument">
+  <div class="arg-number">06</div>
+  <div class="arg-body">
+    <h3>ODL is already operating in the no-CLS-netting paradigm — today's volume reflects that</h3>
+    <p>This is the most important and least appreciated point. Ripple's On-Demand Liquidity is, by design, a gross atomic settlement architecture. Every ODL transaction converts fiat into XRP, transfers XRP across the ledger, and converts XRP into destination fiat — all within three to five seconds. There is no intermediate aggregation window of the kind CLS relies on. Each payment hits the XRP liquidity pool as a gross, individual transaction at the moment of execution.</p>
+
+    <p>Ripple's own documentation makes the point explicit: ODL eliminates the need for pre-funded nostro and vostro accounts because settlement is instant. That is atomic settlement, as practiced in production, today. Which means the current XRP daily volume — roughly $1.8 to $2.2 billion — is already the gross-flow number at its operating scale. It is not a number that contemplates 96% CLS-style netting efficiency. It is a number that has already given up that efficiency by architectural choice.</p>
+  </div>
+</div>
+
+<div class="finding">
+  <strong class="label">The implication</strong>
+  Today's XRP volume is not a mature number. It is a proof-of-concept number at sub-institutional scale, already operating in the architectural paradigm that central banks have now concluded is the correct one for cross-border settlement. Scaling that model up does not require re-engineering for lost netting. The loss is already absorbed in the architecture ODL runs on.
+</div>
+
+<div class="argument">
+  <div class="arg-number">07</div>
+  <div class="arg-body">
+    <h3>The original netting objection table assumed the wrong era</h3>
+    <p>Section 07 of the original analysis included a sensitivity table showing institutional scenarios at "no netting," "20% netting," and "40% netting" of peak tickets. The 40% figure was presented as aggressive-but-possible. In light of the trial data, that framing is probably inverted. Aggressive netting assumptions describe today's correspondent banking architecture. The architecture being built — as evidenced by Meridian FX, Agorá, and Fnality — supports micro-batched netting on windows measured in minutes, not the hours or days that support 40% offset rates on peak tickets.</p>
+
+    <p>The honest answer is that nobody has published a definitive figure for netting efficiency under micro-batched atomic settlement, because the architecture is still being built. What we know is the direction: from a 96% efficiency ceiling achievable over a T+2 day, toward something meaningfully lower achievable over a minute-scale window. A defensible modeling range for peak-ticket netting under that architecture lands somewhere in the 5–25% region, depending on flow mix, participant overlap, and how aggressively the micro-batching window can be pushed without losing the near-atomic property that made the transition worthwhile in the first place. The sensitivity below shows what each assumption implies.</p>
+  </div>
+</div>
+
+<table>
+<thead>
+<tr>
+  <th>Scenario (peak ticket)</th>
+  <th>Original<br>40% netting</th>
+  <th>Optimistic<br>25% netting</th>
+  <th>Central<br>15% netting</th>
+  <th>Trial-supported<br>5% netting</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Near-term ($100M)</td><td>$10</td><td>$12</td><td>$14</td><td>$15</td></tr>
+<tr><td>Mid ($500M)</td><td>$126</td><td>$158</td><td>$178</td><td>$200</td></tr>
+<tr class="emphasis"><td>Institutional ($2B)</td><td>$1,771</td><td>$2,213</td><td>$2,508</td><td>$2,803</td></tr>
+<tr><td>Sovereign ($10B)</td><td>$3,934</td><td>$4,918</td><td>$5,573</td><td>$6,229</td></tr>
+</tbody>
+</table>
+
+<div class="source-note">All prices at 61B XRP supply using the original analysis's central 1.0% vol/mcap turnover. The sensitivity spans what can reasonably be defended about peak-ticket netting under the micro-batched atomic architecture that trial data indicates is being built. The original's 40% column described today's correspondent-banking world. The revised columns describe the architecture that is replacing it. The direction of the revision is upward across every reasonable assumption; the magnitude varies, but the central sensitivity lands between the mid and trial-supported columns.</div>
+
+<div class="caveat">
+  <strong class="label">What this table is and isn't</strong>
+  This is a scenario sensitivity, not a forecast. The 5% and 15% figures are judgment calls against the shape of the trial data, not published findings. The 40% figure in the original was also a judgment call against the shape of the correspondent-banking world. What the revised sensitivity demonstrates is not a specific price target but the direction and bounded magnitude of the error when the assumption set updates from "CLS-era netting" to "atomic-era micro-batching." That direction is upward. The bounded magnitude is roughly 25–60% across the reasonable range.
+</div>
+
+<div class="argument">
+  <div class="arg-number">08</div>
+  <div class="arg-body">
+    <h3>Fnality's live data cuts the same direction</h3>
+    <p>Fnality is the most relevant live production case. The Sterling Fnality Payment System has been operating under Bank of England supervision since December 2023, with settlement finality designation since December 2024. Its shareholders include Goldman Sachs, BNY Mellon, State Street, Santander, BNP Paribas, Citi, Bank of America, DTCC, and Euroclear — essentially every institution that matters for this debate. Fnality's marketing claims that its architecture significantly reduces intraday liquidity requirements, and that claim is credible.</p>
+
+    <p>But the claim's fine print is the point. Fnality achieves its liquidity reduction within a single currency, in a closed-membership tokenized system, replacing correspondent-banking pre-positioning with atomic PvP in sterling tokens. That is a direct liquidity saving versus the nostro-and-vostro world, because correspondent banking required far more capital locked in standing balances than actual daily flow requires. The moment Fnality's architecture extends cross-currency — when the planned USD and EUR systems interoperate with the GBP one — the bridge-currency liquidity problem returns, which is why vendors like Baton Systems have built products specifically to combine atomic PvP settlement with netting orchestration. The industry has concluded you cannot have pure atomic cross-currency settlement at institutional scale without explicit netting overlays. Those overlays are exactly what the three-types-of-netting framework calls type 2 — and they do not deliver anything close to CLS's type 1 efficiency.</p>
+  </div>
+</div>
+
+<div class="flourish">· · ·</div>
+
+<div class="section-head">
+  <div class="section-kicker">Part III — The revised framework</div>
+  <h2>What the scenarios should say now</h2>
+</div>
+
+<div class="argument">
+  <div class="arg-number">09</div>
+  <div class="arg-body">
+    <h3>The sovereign and full-system scenarios were understated, not overstated</h3>
+    <p>The original analysis flagged that sovereign and full-system scenarios required RTGS displacement of multilateral netting as an explicit assumption, describing that as a possible but not near-term trajectory. In light of the trial data, the mechanical consequence of that displacement is sharper than the original piece acknowledged. RTGS displacement does not remove netting entirely — type 2 and type 3 survive — but it compresses type 1 down to a fraction of its current efficiency. A world of 100 sovereign CBDCs and stablecoins routing through minute-scale windows cannot replicate 96% CLS netting. The architectural properties that made 96% possible — closed membership, fixed daily windows, small currency set, overlapping counterparty patterns — are precisely the properties the new architecture is removing.</p>
+
+    <p>The sovereign scenario — $10 billion peak tickets at 10 basis points, implying ~$6,560 per XRP at central estimate with zero netting — was calibrated against a world where 40% peak-ticket netting might still apply, which put the sovereign case at $3,934. It should probably be calibrated against the 5–25% range the trial data supports, which places the sovereign case somewhere between $4,900 and $6,200. That is a meaningful revision upward from the original skeptic-friendly number, but well short of the zero-netting extreme.</p>
+  </div>
+</div>
+
+<div class="argument">
+  <div class="arg-number">10</div>
+  <div class="arg-body">
+    <h3>The circular dependency tightens in a specific way</h3>
+    <p>The original analysis noted that OTC execution, pre-positioned corridors, and LP netting cannot operate without the underlying asset being worth enough to fund them. The T+0 finding sharpens this. Under atomic cross-border settlement with only micro-batched netting at minute-scale windows, the market makers providing intermediated liquidity need inventory sufficient to cover peak single-ticket flows without the benefit of day-scale netting to replenish their positions. That inventory must exist somewhere. The people who fund it will only do so if the asset is deep enough to make doing so economically rational.</p>
+
+    <p>Lower XRP price means shallower market maker balance sheets. Shallower balance sheets mean smaller pre-positioned corridors. Smaller corridors mean less peak-ticket capacity. Less capacity means institutional flows cannot route through XRP at the tickets that matter. The architecture either sizes up the bridge asset to handle the flows or it does not carry them through that asset. The compression of type 1 netting eliminates the mechanism by which a small asset can temporarily punch above its weight through temporal offset. It forces the bridge asset to be sized closer to its gross-flow requirement than its net-flow requirement.</p>
+  </div>
+</div>
+
+<div class="pullquote">
+  <div class="pullquote-inner">Atomic settlement is not a technology upgrade. It is a redesign of how the balance sheet participates in markets.</div>
+  <span class="attribution">Edwin Mata, American Banker, February 2026</span>
+</div>
+
+<div class="argument">
+  <div class="arg-number">11</div>
+  <div class="arg-body">
+    <h3>The liquidity-at-execution constraint is the deepest form of the argument</h3>
+    <p>Everything in this analysis reduces to a single institutional constraint that traditional settlement was built to avoid and that atomic settlement restores: <em>liquidity must exist at the moment of execution, not at the end of the day</em>. CLS works because banks can post an intention at 9am and not actually deliver the currency until the daily window at end-of-day — when netting has reduced their obligation to a small fraction of gross. Atomic settlement removes that deferral. The currency has to be there, in the bridge, at the moment the transaction fires. Not in twelve hours. Not in an hour. Now.</p>
+
+    <p>This is why the slippage constraint from the original analysis and the netting finding from this follow-up are the same claim seen from two angles. A $2 billion institutional ticket at the original analysis's 10 basis point slippage tolerance requires real XRP depth available at the moment the transaction executes. There is no temporal workaround. No amount of clever queuing can aggregate a single-ticket $2 billion obligation with offsetting flows that might arrive three hours later, because the transaction cannot wait three hours without ceasing to be atomic settlement. Slippage tolerance governs what the pool has to absorb per transaction. The execution-time liquidity constraint governs when that depth has to be there. Together they size the bridge. The original analysis sized it on the first constraint and treated the second as a netting question that might or might not bind. The trial data says the second constraint binds, for any flow passing through a settlement architecture the central banks are actually building. Sizing the bridge on both constraints simultaneously — which is what the revised framework does — tightens the implied valuation range upward.</p>
+  </div>
+</div>
+
+<div class="argument">
+  <div class="arg-number">12</div>
+  <div class="arg-body">
+    <h3>The speed and the price scenarios are the same claim</h3>
+    <p>The cross-border payments world is not choosing between faster settlement and netting efficiency. It is choosing faster settlement and paying the liquidity cost. Project Agorá, Project Meridian FX, Project Meridian Securities, Fnality's live production system, the IMF's tokenized reserves work, the BIS's Next Generation Correspondent Banking paper, and the FSB's G20 roadmap all point in the same direction. The direction is: T+0, atomic, 24/7, cross-ledger, with micro-batched liquidity-saving overlays. Not better netting on top of DLT.</p>
+
+    <p>If that direction is correct — and it is the direction every major central bank and international financial institution has now endorsed in writing — then the liquidity demand on bridge assets serving that architecture is what the original analysis described, sharpened by the netting revision. It is not what the skeptic's objection suggested. The speed that is being built into cross-border settlement and the price level that a bridge asset like XRP needs to function within that architecture are not separable claims. They are the same claim seen from two angles.</p>
+  </div>
+</div>
+
+<div class="conclusion">
+  <div class="conclusion-label">Conclusion</div>
+  <h2>The debate has moved</h2>
+
+  <p>The original analysis argued that under specific conditions, the math of market impact requires XRP prices dramatically above today's. It presented those conditions honestly and conceded that netting was an objection requiring direct engagement. The direct engagement, now informed by trial data that was not fully synthesized in the original piece, reverses the direction of the concession.</p>
+
+  <p>The netting objection assumed that if T+0 atomic settlement happened, institutional workarounds would preserve most of the liquidity efficiency of today's netted system. The trial data from BIS, the Bank of England, the IMF, Fnality, and India's T+0 pilot says otherwise. CLS-style end-to-end netting does not survive the transition intact. What replaces it is architecturally thinner and recovers only a fraction of the efficiency — meaningful, but bounded. For a bridge asset serving that architecture, the implied liquidity requirement is higher than the original analysis modeled, not lower. The magnitude of the revision is real but bounded: on the central 1.0% turnover case, the institutional scenario moves from ~$1,770 to somewhere between $2,200 and $2,800, and the sovereign scenario moves from ~$3,930 to somewhere between $4,900 and $6,200.</p>
+
+  <p>The question the framework cannot answer remains whether XRP specifically captures the hub-and-spoke role in the architecture that is being built. That is an adoption question, as before. The Meridian FX bridge-currency experiment suggests something important about the role any hub asset plays: it becomes the natural site where the surviving netting concentrates. That is a property any eventual hub will have. Whether XRP is that hub, or RLUSD, or some future neutral asset, is not something math can tell you. What math can tell you — with more clarity than it could in the first piece — is what the hub has to be sized to handle.</p>
+
+  <p class="kicker-line">The direction holds. The magnitude is larger. The debate has moved.</p>
+</div>
+
+<div class="colophon">
+  <p><strong>Sources cited.</strong> IMF Note 2025/011, "Central Bank Exploration of Tokenized Reserves." BIS Innovation Hub, "Project Agorá: Cross-border tokenised payments" (2024–2026, ongoing). BIS Project Meridian FX technical report (April 2025). Bank of England, "Project Meridian Securities" findings paper (December 2025). Fnality International press releases and Bank of England Settlement Finality Designation (December 2024). GreySpark Partners, "Real-time Securities Settlement: Challenges and Further Considerations" (March 2026). American Banker, "Atomic settlement swaps one risk for another" by Edwin Mata of Brickken (February 2026). Cointelegraph, "Instant Settlement Strains Crypto's Capital Efficiency: Ethan Buchman." Central Banking, "Project Agorá faces fragmentation challenges" (November 2025 Point Zero Forum reporting under Chatham House rule). DTCC netting efficiency data. India NSE and BSE T+0 pilot adoption data.</p>
+
+  <p style="margin-top:14px;"><strong>Methodology.</strong> Revised netting sensitivity figures use the same square-root market impact law and central 1.0% vol/mcap turnover assumption as the original analysis. The revised sensitivity spans 5–25% peak-ticket netting, a judgment range consistent with the micro-batched liquidity-saving mechanisms documented in Meridian FX, Agorá, and Fnality architectures. The 5% lower bound represents trial-supported minute-scale windows; the 25% upper bound assumes more aggressive optimization of ordering and participant matching within those windows. Neither bound is a published finding — both are scenario assumptions, as was the 40% figure in the original analysis. Prices at 61B XRP circulating supply.</p>
+
+  <p style="margin-top:14px;"><strong>What this piece does not claim.</strong> It does not claim netting is eliminated — type 2 and type 3 survive. It does not claim atomic settlement is economically unviable — the industry is building it. It does not claim India's T+0 pilot proves T+0 rejection — only that it signals cost sensitivity to the liquidity cost of atomic settlement. It does not claim XRP will capture the hub role in the architecture being built — that is an adoption question the math cannot answer.</p>
+
+  <p style="margin-top:14px;"><strong>Disclosure.</strong> Conditional structural analysis. Every scenario depends on stated assumptions. Adoption is not guaranteed. Not financial advice. Do your own research.</p>
+</div>
+
+</div>
+</body>
+</html>

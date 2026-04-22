@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>When Time Leaves Finance — A Structural Analysis, Part III</title>
+<meta name="description" content="Part III of a structural analysis. Why atomic settlement forces discontinuous repricing, concentrates power at new chokepoints, and changes what a bridge asset has to be.">
+<meta property="og:title" content="When time leaves finance.">
+<meta property="og:description" content="Part III. Why atomic settlement forces discontinuous repricing, concentrates power at new chokepoints, and changes what a bridge asset has to be.">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fbfaf7;
+    --paper:#ffffff;
+    --ink:#1a1a1a;
+    --ink-soft:#383838;
+    --ink-medium:#595959;
+    --ink-faint:#7a7a7a;
+    --rule:#1a1a1a;
+    --rule-soft:#d4d4d0;
+    --accent:#9b2226;
+    --accent-soft:#c9a227;
+    --highlight:#fff3c4;
+    --mono:'IBM Plex Mono', ui-monospace, monospace;
+    --display:'Newsreader', Georgia, serif;
+    --body:'Newsreader', Georgia, serif;
+    --ui:'IBM Plex Sans', system-ui, sans-serif;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:19px;
+    line-height:1.7;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  .container{
+    max-width:720px;
+    margin:0 auto;
+    padding:48px 32px 120px;
+    position:relative;
+  }
+
+  .masthead{
+    border-top:2px solid var(--rule);
+    border-bottom:1px solid var(--rule);
+    padding:16px 0 14px;
+    margin-bottom:48px;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    font-family:var(--ui);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    color:var(--ink-medium);
+  }
+  .masthead-left{font-weight:600;}
+  .masthead-right{letter-spacing:0.1em;}
+
+  .categories{
+    font-family:var(--ui);
+    font-size:11px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:24px;
+    font-weight:600;
+  }
+  .categories span:not(:last-child)::after{
+    content:' · ';
+    margin:0 6px;
+    color:var(--ink-faint);
+  }
+
+  .part-tag{
+    font-family:var(--ui);
+    font-size:10px;
+    letter-spacing:0.25em;
+    text-transform:uppercase;
+    color:var(--ink-medium);
+    padding:6px 12px;
+    border:1px solid var(--ink-medium);
+    display:inline-block;
+    margin-bottom:24px;
+    font-weight:500;
+  }
+
+  h1.headline{
+    font-family:var(--display);
+    font-size:clamp(40px, 6.5vw, 62px);
+    line-height:1.02;
+    font-weight:500;
+    letter-spacing:-0.02em;
+    margin-bottom:26px;
+    color:var(--ink);
+  }
+  h1.headline em{
+    font-style:italic;
+    color:var(--accent);
+    font-weight:500;
+  }
+
+  .deck{
+    font-family:var(--display);
+    font-style:italic;
+    font-size:22px;
+    line-height:1.5;
+    color:var(--ink-soft);
+    font-weight:400;
+    margin-bottom:32px;
+    max-width:640px;
+  }
+
+  .byline{
+    font-family:var(--ui);
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    padding-bottom:36px;
+    border-bottom:1px solid var(--rule-soft);
+    margin-bottom:44px;
+    font-weight:500;
+  }
+
+  .editors-note{
+    background:var(--paper);
+    border:1px solid var(--rule-soft);
+    border-left:3px solid var(--accent);
+    padding:22px 28px;
+    margin:0 0 44px;
+    font-size:17px;
+    line-height:1.6;
+  }
+  .editors-note strong.label{
+    font-weight:600;
+    color:var(--accent);
+    display:block;
+    font-family:var(--ui);
+    font-size:11px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+
+  p{
+    margin-bottom:22px;
+    orphans:3;
+    widows:3;
+  }
+  p.lede{
+    font-size:22px;
+    line-height:1.55;
+    color:var(--ink);
+    margin-bottom:28px;
+    font-weight:400;
+  }
+  p.lede::first-letter{
+    font-family:var(--display);
+    font-size:68px;
+    float:left;
+    line-height:0.88;
+    padding:4px 10px 0 0;
+    font-weight:600;
+    color:var(--accent);
+  }
+
+  em{font-style:italic;}
+  strong{font-weight:600; color:var(--ink);}
+
+  .section-head{
+    margin-top:60px;
+    margin-bottom:36px;
+    border-top:1px solid var(--rule);
+    padding-top:32px;
+  }
+  .section-kicker{
+    font-family:var(--ui);
+    font-size:11px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:600;
+    margin-bottom:8px;
+  }
+  .section-head h2{
+    font-family:var(--display);
+    font-size:34px;
+    line-height:1.15;
+    font-weight:500;
+    letter-spacing:-0.012em;
+    color:var(--ink);
+    font-style:italic;
+  }
+
+  .argument{
+    margin:44px 0;
+    display:grid;
+    grid-template-columns:56px 1fr;
+    gap:20px;
+    align-items:start;
+  }
+  .arg-number{
+    font-family:var(--display);
+    font-size:44px;
+    line-height:0.9;
+    font-weight:500;
+    color:var(--accent);
+    padding-top:4px;
+    font-feature-settings:"lnum";
+  }
+  .arg-body h3{
+    font-family:var(--display);
+    font-size:26px;
+    line-height:1.22;
+    font-weight:500;
+    letter-spacing:-0.008em;
+    margin-bottom:18px;
+    color:var(--ink);
+  }
+
+  .pullquote{
+    font-family:var(--display);
+    font-style:italic;
+    font-size:24px;
+    line-height:1.4;
+    color:var(--ink);
+    border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule);
+    padding:26px 0;
+    margin:32px 0;
+    position:relative;
+    font-weight:400;
+  }
+  .pullquote::before{
+    content:'"';
+    font-family:var(--display);
+    font-size:56px;
+    color:var(--accent);
+    position:absolute;
+    left:-4px;
+    top:-4px;
+    line-height:1;
+    font-style:normal;
+  }
+  .pullquote-inner{padding-left:32px;}
+  .attribution{
+    display:block;
+    font-style:normal;
+    font-family:var(--ui);
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-top:14px;
+    padding-left:32px;
+    font-weight:500;
+  }
+
+  .callout{
+    background:var(--paper);
+    border:1px solid var(--rule-soft);
+    padding:26px 28px;
+    margin:28px 0;
+    position:relative;
+  }
+  .callout::before{
+    content:'';
+    position:absolute;
+    top:-1px; left:-1px; right:-1px;
+    height:3px;
+    background:var(--accent);
+  }
+  .callout-label{
+    font-family:var(--ui);
+    font-size:10px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:600;
+    margin-bottom:12px;
+  }
+  .callout h4{
+    font-family:var(--display);
+    font-size:22px;
+    line-height:1.25;
+    font-weight:500;
+    margin-bottom:14px;
+    color:var(--ink);
+  }
+  .callout p{font-size:17px; margin-bottom:12px; line-height:1.6;}
+  .callout p:last-child{margin-bottom:0;}
+
+  .finding{
+    background:var(--paper);
+    border-left:4px solid var(--accent);
+    padding:20px 26px;
+    margin:28px 0;
+    font-size:18px;
+    line-height:1.55;
+  }
+  .finding strong.label{
+    color:var(--accent);
+    font-weight:600;
+    font-family:var(--ui);
+    font-size:11px;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    display:block;
+    margin-bottom:8px;
+  }
+
+  .caveat{
+    background:#faf7f0;
+    border:1px solid var(--rule-soft);
+    padding:20px 24px;
+    margin:24px 0;
+    font-size:16px;
+    line-height:1.55;
+  }
+  .caveat strong.label{
+    font-family:var(--ui);
+    font-size:10px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--ink-medium);
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+  }
+
+  .conclusion{
+    margin-top:72px;
+    padding-top:40px;
+    border-top:2px solid var(--rule);
+  }
+  .conclusion-label{
+    font-family:var(--ui);
+    font-size:11px;
+    letter-spacing:0.25em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:600;
+    margin-bottom:16px;
+    text-align:center;
+  }
+  .conclusion h2{
+    font-family:var(--display);
+    font-size:36px;
+    line-height:1.15;
+    font-weight:500;
+    margin-bottom:28px;
+    text-align:center;
+    font-style:italic;
+    letter-spacing:-0.012em;
+  }
+  .conclusion .kicker-line{
+    font-family:var(--display);
+    font-style:italic;
+    font-size:24px;
+    line-height:1.4;
+    text-align:center;
+    margin:36px 0 12px;
+    color:var(--accent);
+    font-weight:500;
+  }
+
+  .addendum{
+    margin-top:72px;
+    padding-top:36px;
+    border-top:1px dashed var(--rule-soft);
+  }
+  .addendum-label{
+    font-family:var(--ui);
+    font-size:11px;
+    letter-spacing:0.25em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:600;
+    margin-bottom:8px;
+  }
+  .addendum-meta{
+    font-family:var(--ui);
+    font-size:12px;
+    letter-spacing:0.1em;
+    color:var(--ink-faint);
+    margin-bottom:24px;
+    font-weight:500;
+  }
+  .addendum h2{
+    font-family:var(--display);
+    font-size:30px;
+    line-height:1.18;
+    font-weight:500;
+    letter-spacing:-0.012em;
+    color:var(--ink);
+    margin-bottom:24px;
+  }
+  .addendum h2 em{
+    font-style:italic;
+    color:var(--accent);
+  }
+  .addendum h3{
+    font-family:var(--display);
+    font-size:22px;
+    line-height:1.25;
+    font-weight:500;
+    letter-spacing:-0.008em;
+    color:var(--ink);
+    margin-top:32px;
+    margin-bottom:14px;
+  }
+  .addendum p{
+    font-size:19px;
+    line-height:1.7;
+    color:var(--ink);
+    margin-bottom:20px;
+  }
+
+  .colophon{
+    margin-top:72px;
+    padding-top:28px;
+    border-top:1px solid var(--rule-soft);
+    font-family:var(--ui);
+    font-size:12px;
+    line-height:1.6;
+    color:var(--ink-faint);
+  }
+  .colophon strong{
+    color:var(--ink-medium);
+    font-weight:600;
+    font-family:var(--ui);
+  }
+
+  .flourish{
+    text-align:center;
+    margin:44px 0;
+    color:var(--accent);
+    font-size:18px;
+    letter-spacing:0.5em;
+    font-family:var(--display);
+    font-style:italic;
+  }
+
+  /* Phase-change diagram */
+  .phase-diagram{
+    background:var(--paper);
+    border:1px solid var(--rule-soft);
+    padding:28px 28px 20px;
+    margin:28px 0;
+  }
+  .phase-label{
+    font-family:var(--ui);
+    font-size:10px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:600;
+    margin-bottom:20px;
+    text-align:center;
+  }
+  .phase-stages{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    gap:0;
+    align-items:stretch;
+  }
+  .phase-stage{
+    padding:18px 20px;
+    border:1px solid var(--rule-soft);
+  }
+  .phase-stage.left{
+    background:var(--bg);
+    border-right:none;
+  }
+  .phase-stage.right{
+    background:rgba(155,34,38,0.04);
+  }
+  .phase-arrow{
+    display:flex;
+    align-items:center;
+    padding:0 16px;
+    font-family:var(--display);
+    font-size:24px;
+    color:var(--accent);
+    font-weight:500;
+  }
+  .phase-stage-title{
+    font-family:var(--ui);
+    font-size:10px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--ink-medium);
+    font-weight:600;
+    margin-bottom:10px;
+  }
+  .phase-stage-body{
+    font-family:var(--display);
+    font-size:15px;
+    line-height:1.5;
+    color:var(--ink);
+  }
+  .phase-stage-body em{
+    font-style:italic;
+    color:var(--accent);
+  }
+  .phase-caption{
+    font-family:var(--ui);
+    font-size:12px;
+    color:var(--ink-faint);
+    font-style:italic;
+    text-align:center;
+    margin-top:16px;
+    line-height:1.5;
+  }
+
+  /* Pillar divider */
+  .pillar{
+    margin-top:72px;
+    margin-bottom:36px;
+    border-top:2px solid var(--rule);
+    padding-top:32px;
+  }
+  .pillar-kicker{
+    font-family:var(--ui);
+    font-size:10px;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:600;
+    margin-bottom:12px;
+  }
+  .pillar h2{
+    font-family:var(--display);
+    font-size:38px;
+    line-height:1.1;
+    font-weight:500;
+    letter-spacing:-0.015em;
+    color:var(--ink);
+  }
+  .pillar h2 em{
+    font-style:italic;
+    color:var(--accent);
+    font-weight:500;
+  }
+  .pillar-deck{
+    font-family:var(--display);
+    font-style:italic;
+    font-size:20px;
+    line-height:1.5;
+    color:var(--ink-soft);
+    margin-top:18px;
+    margin-bottom:36px;
+    max-width:620px;
+  }
+
+  @media (max-width: 640px){
+    .container{padding:28px 20px 80px;}
+    body{font-size:17px; line-height:1.65;}
+    h1.headline{font-size:36px;}
+    .deck{font-size:19px;}
+    p.lede{font-size:19px;}
+    p.lede::first-letter{font-size:56px;}
+    .argument{grid-template-columns:42px 1fr; gap:14px;}
+    .arg-number{font-size:34px;}
+    .arg-body h3{font-size:22px;}
+    .pullquote{font-size:20px;}
+    .pullquote::before{font-size:42px;}
+    .pullquote-inner, .attribution{padding-left:24px;}
+    .section-head h2{font-size:26px;}
+    .conclusion h2{font-size:26px;}
+    .addendum h2{font-size:24px;}
+    .addendum h3{font-size:19px;}
+    .addendum p{font-size:17px;}
+    .pillar h2{font-size:28px;}
+    .pillar-deck{font-size:17px;}
+    .callout{padding:22px 20px;}
+    .phase-stages{grid-template-columns:1fr;}
+    .phase-stage.left{border-right:1px solid var(--rule-soft); border-bottom:none;}
+    .phase-arrow{padding:12px 0; justify-content:center;}
+  }
+
+  @keyframes fadeUp{
+    from{opacity:0; transform:translateY(12px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  .container > *{animation:fadeUp 0.5s ease-out backwards;}
+  .container > *:nth-child(1){animation-delay:0.04s;}
+  .container > *:nth-child(2){animation-delay:0.1s;}
+  .container > *:nth-child(3){animation-delay:0.16s;}
+  .container > *:nth-child(4){animation-delay:0.22s;}
+  .container > *:nth-child(5){animation-delay:0.28s;}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="masthead">
+  <div class="masthead-left">Structural Analysis · Part III</div>
+  <div class="masthead-right">April 2026</div>
+</div>
+
+<div class="categories">
+  <span>Analysis</span>
+  <span>Financial Architecture</span>
+  <span>Market Structure</span>
+</div>
+
+<div class="part-tag">Part III · Companion to Parts I and II</div>
+
+<h1 class="headline">When <em>time</em> leaves finance.</h1>
+
+<p class="deck">Part III. Why atomic settlement forces discontinuous repricing, concentrates power at new chokepoints, and changes what a bridge asset has to be. The first two pieces sized the bridge. This one examines the system the bridge must live inside.</p>
+
+<div class="byline">Structural Analysis · April 2026</div>
+
+<div class="editors-note">
+  <strong class="label">Editor's Note</strong>
+  Part I of this series sized the bridge. It argued that if XRP is meaningfully adopted for institutional cross-border settlement, the math of market impact requires prices dramatically above today's. Part II corrected the netting objection to that thesis using trial data from BIS Agorá, Project Meridian FX, Fnality, the IMF, and India's T+0 pilot. It showed that the type of netting delivering today's efficiency degrades under atomic settlement, pointing the implied prices modestly upward rather than downward. This piece steps back from the sizing question entirely. The deeper argument the first two pieces imply but do not state is that the architecture being built — atomic, T+0, 24/7, cross-ledger — removes time as a buffer from financial infrastructure. Every layer of modern finance was built to use that buffer. When it goes, the layers break in specific predictable ways. What follows is about those specific predictable ways. XRP is the case study. The conclusions apply to any asset the architecture selects.
+</div>
+
+<p class="lede">Most of modern finance is a set of workarounds for the fact that time exists. Netting exists because settlement takes time, and time creates offsetting opportunities. Sanctions enforcement exists because settlement takes time, and time creates screening windows. Intraday credit exists because settlement takes time, and time creates funding flexibility. Correspondent banking, CLS, end-of-day liquidity, overnight repo — every layer of the architecture was built to use time as a buffer between intention and finality.</p>
+
+<p>Atomic settlement removes the buffer. The trial data in Part II showed the central banks building the transition have concluded the buffer cannot be preserved at scale — every pure-atomic experiment has had to re-engineer some thin netting window back in to keep the system economically viable. What neither the original analysis nor its follow-up made explicit is that removing time does not just shrink the layers that depended on it. It breaks them. It replaces them with a different architecture whose rules are incompatible with the old one, and the transition from old to new cannot be gradual because the layers cannot be half-built.</p>
+
+<p>The market is still pricing XRP as an asset inside the current system. What it has not yet priced is what happens when the system itself changes.</p>
+
+<div class="flourish">· · ·</div>
+
+<!-- PILLAR 1 -->
+<div class="pillar">
+  <div class="pillar-kicker">Pillar 1 · The Phase Change</div>
+  <h2>Why repricing must be <em>discontinuous.</em></h2>
+  <p class="pillar-deck">Settlement transitions within a paradigm are gradients. Atomic is not within a paradigm. Utility-gated assets do not price continuously across threshold states. And the space between the two states is structurally unstable.</p>
+</div>
+
+<div class="argument">
+  <div class="arg-number">01</div>
+  <div class="arg-body">
+    <h3>Within-paradigm transitions compress time. Atomic settlement removes it.</h3>
+    <p>The last forty years of settlement reform have been about compressing a fixed architecture. T+3 to T+2 to T+1 is a gradient — each step preserved the underlying system. Correspondent banking stayed intact. CLS's 96% multilateral netting stayed intact. End-of-day liquidity windows stayed intact. The daily settlement cycle got shorter, but it was still a daily settlement cycle. A shorter version of the same thing.</p>
+    <p>Atomic settlement is not a shorter version of the same thing. It removes the delay that the system was built around. It collapses the window in which netting finds its offsets, the window in which screening finds its flags, the window in which funding finds its liquidity. The architecture does not scale down to zero. It flips at zero, because what zero requires — pre-funded collateral, pre-trade compliance, continuous intraday liquidity management — is not a compressed version of the old architecture. It is a different architecture.</p>
+    <p>The evidence this is true appears in how central banks have approached the transition. Projects like Meridian FX have explored synchronized cross-border FX settlement between RTGS systems and experimental DLT solutions, and the designs that emerged incorporate liquidity-saving mechanisms, queuing, or offsetting in order to remain viable at scale. These are thin reintroductions of the temporal buffer the legacy architecture relied on. The trial outcomes do not declare pure atomic unworkable &mdash; they demonstrate that strict gross atomic flows at institutional volume create liquidity pressures that production-grade designs accommodate by adding carefully engineered hybrid elements. The architecture does not simply compress. It requires new mechanisms to function, and those new mechanisms are fundamentally different from the old ones even when they look superficially similar.</p>
+    <p>The transition does not require universal atomic settlement everywhere. It only requires that enough of the system migrates for the constraints of atomic architecture to begin binding on the rest &mdash; at which point the layers built on temporal delay cannot be preserved by the portion of the system that has not yet migrated, because the portion that has migrated is already operating under different rules.</p>
+  </div>
+</div>
+
+<div class="argument">
+  <div class="arg-number">02</div>
+  <div class="arg-body">
+    <h3>Utility-gated assets do not price continuously across thresholds</h3>
+    <p>The original analysis used a pipe analogy. The pipe must be sized for the hardest transaction that needs to pass through it, not the average one. What that analogy understated is the implication for how the pipe's value gets discovered.</p>
+    <p>A port that cannot handle a Panamax ship is not a smaller port than one that can. It is a different product. Below a depth threshold, institutional flow routes around the asset entirely — meaning demand is not marginally lower at low prices, it is categorically absent. Above the threshold, flow compounds the asset's liquidity. Depth generates more depth. The transition from can't-service to can-service is a capacity jump, not a valuation creep.</p>
+    <p>This matters because it means the space between the two states is structurally unstable. At an XRP price of $10, institutional flow cannot route through the asset at scale &mdash; the slippage math from Part I forbids it. At an XRP price of $2,950, institutional flow can. There is no valuation in between that is consistent with a stable institutional use case. An asset sitting at $500 is not "partially useful." It is still unusable at institutional scale, just more expensively so. It cannot be smoothly appreciating toward institutional utility, because at $500 the institutional utility does not exist to appreciate toward.</p>
+  </div>
+</div>
+
+<div class="callout">
+  <div class="callout-label">The mechanical consequence</div>
+  <h4>Price under utility-gated infrastructure is not discovered along a curve. It is discovered across a threshold.</h4>
+  <p>Traditional assets have smooth price discovery — incremental buyers, incremental sellers, marginal pricing. A utility-gated bridge asset has threshold price discovery. At $X it cannot service institutional flow. At $Y it can. There is no equilibrium between X and Y that reflects a stable state of the asset, because the utility either exists at that price or it doesn't. The market either prices the asset as unable-to-serve (roughly where XRP is now, with a speculative option premium layered on top) or as able-to-serve (where the model in Part I says). The transition between those two prices is not a gradient. It is a repricing event.</p>
+</div>
+
+<div class="argument">
+  <div class="arg-number">03</div>
+  <div class="arg-body">
+    <h3>Historical parallels confirm the pattern, though imperfectly</h3>
+    <p>Every significant case of an asset class acquiring institutional depth shows the same discontinuous shape. Gold futures launched in 1974 and sat in a thin speculative market for most of the decade. The institutional acceptance came when the CFTC regulatory framework stabilized and a handful of large banks began treating futures as a hedging instrument rather than a speculative curiosity. Volume and open interest did not rise smoothly across that period. They inflected.</p>
+    <p>WTI crude futures launched in 1983 with modest volume and waited years before becoming the global oil price benchmark. The transition, when it came, was not gradual — it tracked the point at which physical oil marketers began using the futures curve for actual delivery pricing. VIX futures launched in 2004 and were a thin product until 2008, when the demand for volatility hedging crossed a threshold that made VIX a standard book at institutional desks. In each case, the asset existed before institutional adoption and traded at prices that reflected its non-institutional use. The transition to institutional use was triggered by a specific threshold — regulatory, operational, or demand-side — and the repricing that followed was rapid, not gradual.</p>
+    <p>None of these is a perfect analog for a bridge asset under atomic settlement. The mechanism is different — what was gated in those cases was institutional acceptance of the instrument, not an architectural requirement to use it. But the shape of the repricing is instructive. Capacity-gated assets do not discover their utility-scale prices through smooth accumulation. They discover them when the threshold is crossed.</p>
+  </div>
+</div>
+
+<div class="argument">
+  <div class="arg-number">04</div>
+  <div class="arg-body">
+    <h3>The adoption path is bifurcated — and the two paths catalyze each other</h3>
+    <p>Most analysis of settlement-architecture adoption treats it as a single variable. It is actually two. <strong>Organic adoption</strong> is the scenario the G20 roadmap and the BIS trial work presume — cross-border efficiency drives institutions to adopt atomic rails because they save money. It is slow, institutional, contested. It produces atomic settlement over a decade-plus timeline with heavy national variation. <strong>Policy-driven adoption</strong> is different. A sufficiently significant geopolitical event — a sanctions regime that fractures enough of the global economy, a major stablecoin failure, a deliberate sovereign push — drives non-US sovereigns to actively seek a bridge alternative. This is much faster. It does not require institutional consensus. It requires one or two large economies to commit.</p>
+    <p>The two paths are not alternatives. They catalyze each other. If organic adoption proceeds slowly, US sanctions leverage continues to compound, which raises the policy incentive for non-US sovereigns to build an alternative — accelerating the policy-driven path. If policy-driven adoption progresses even partially — say, one or two major economies commit to a neutral bridge — that creates the initial depth that makes organic adoption economically viable for institutions that were previously waiting. Each path is a catalyst for the other. Which means the probability of "neither happens" is lower than either scenario evaluated in isolation would suggest. Some form of the transition is more likely than the smooth continuation of the current system.</p>
+  </div>
+</div>
+
+<div class="argument">
+  <div class="arg-number">05</div>
+  <div class="arg-body">
+    <h3>What the current price implicitly assumes</h3>
+    <p>If utility-gated pricing is real, then the current price of any candidate bridge asset is not a valuation of the asset under possible institutional adoption. It is a valuation of the asset assuming institutional adoption does not happen, with a speculative option premium layered on top for the tail probability that it might.</p>
+    <p>This has a specific implication. If at some future date the market comes to believe &mdash; through organic adoption signals, policy-driven signals, or some combination &mdash; that institutional adoption is actually occurring, the price does not incrementally rise toward the institutional-use level. The price has to reset, because the valuation assumption the current price rests on has inverted. The old assumption was "institutional use does not happen." The new assumption is "institutional use is happening." Those two assumptions produce prices separated by orders of magnitude, not percentage points. The adjustment between them cannot be smooth because there is no stable intermediate state the price can occupy.</p>
+    <p>The trigger is more concrete than it sounds. The threshold is crossed the moment a corridor large enough to require depth begins routing through the asset &mdash; not when the market agrees that it should. A single major corridor shifting volume, a sovereign pilot going live at institutional scale, or a large bank publicly committing inventory are all specific events that force the repricing assumption to flip. The market does not need to be convinced in advance. It needs to observe one piece of evidence that the assumption the current price rests on is wrong.</p>
+  </div>
+</div>
+
+<div class="pullquote">
+  <div class="pullquote-inner">The market is still pricing XRP as an asset inside the current system. What it has not yet priced is what happens when the system itself changes.</div>
+  <span class="attribution">The anchor argument</span>
+</div>
+
+<div class="caveat">
+  <strong class="label">On timing</strong>
+  Saying the transition cannot be smooth is not the same as saying it will be immediate. Markets can delay structural truth longer than expected, and the transition could be postponed for years by regulatory caution, institutional inertia, or competitive delays. What this piece claims is that <em>when</em> the transition occurs, the repricing associated with it will be discontinuous — not that the transition itself is imminent. The prediction is about the shape of the move, not its timing.
+</div>
+
+<!-- PILLAR 2 -->
+<div class="pillar">
+  <div class="pillar-kicker">Pillar 2 · The Power Shift</div>
+  <h2>What removing time does to <em>enforcement, collateral, and power.</em></h2>
+  <p class="pillar-deck">Sanctions enforcement depends on settlement delay. Atomic settlement collapses the delay. Compliance moves pre-trade, concentrates at the entry points, and changes who has leverage over whom. A second demand curve — for bridge-asset collateral — appears that no one has modeled.</p>
+</div>
+
+<div class="argument">
+  <div class="arg-number">06</div>
+  <div class="arg-body">
+    <h3>Sanctions enforcement depends on the settlement delay the new architecture removes</h3>
+    <p>The mechanical basis of modern sanctions enforcement is that there is a window between transaction initiation and settlement finality during which the transaction can be screened, flagged, paused, and if necessary reversed. SWIFT messaging, correspondent banking, CLS settlement — every layer has built-in delays, and those delays are where enforcement lives. The OFAC regime, the EU sanctions framework, FinCEN's authorities, every national equivalent — they all operate on the assumption that transactions can be intercepted before finality.</p>
+    <p>Atomic settlement collapses this assumption. You cannot intercept a transaction that has already settled. You can only screen it before it fires, which means the entire compliance apparatus has to migrate from post-trade to pre-trade. This is not a marginal change. Post-trade screening is forgiving — a false negative gets caught on the next cycle, and the transaction can be reversed or the flagged party can be followed. Pre-trade screening under atomic settlement is unforgiving. A missed flag results in a finalized transaction that cannot be reversed. Zero-tolerance for false negatives, because false negatives are no longer recoverable.</p>
+  </div>
+</div>
+
+<div class="argument">
+  <div class="arg-number">07</div>
+  <div class="arg-body">
+    <h3>Pre-trade compliance concentrates at the institutions that can afford to build it</h3>
+    <p>Real-time screening at atomic-settlement speed requires pattern-recognition infrastructure integrated directly into the transaction-initiation pipeline with latency measured in milliseconds and accuracy high enough to avoid reversal-free false negatives. This is not a compliance upgrade that small banks can bolt on. It is infrastructure scale. A retail bank in a mid-sized emerging market cannot build this. A regional bank in a G10 country cannot build this without significant partnerships. Only the largest global institutions and a handful of specialized compliance infrastructure providers can.</p>
+    <p>Which means atomic settlement does not democratize cross-border payments. It concentrates them. Small institutions cannot participate directly in atomic settlement — they have to route through a compliance-capable intermediary. That intermediary needs bridge-asset inventory to service the flows it routes. This tightens the circular dependency Part I identified. It is no longer just market makers that need inventory. It is the compliance-clearing layer itself. The set of institutions that matter in atomic cross-border settlement shrinks to the set that can fund both the bridge-asset inventory and the pre-trade screening infrastructure. That is a small set.</p>
+  </div>
+</div>
+
+<div class="argument">
+  <div class="arg-number">08</div>
+  <div class="arg-body">
+    <h3>The paradox: enforcement becomes simultaneously stronger and weaker</h3>
+    <p>In one direction, pre-trade screening under atomic settlement is <em>more</em> effective than post-trade reversal. A transaction the screening layer blocks cannot happen at all — there is no margin for the sanctioned party to complete the transfer before enforcement catches up. Sanctioned entities face a harder barrier, not a softer one. For the regulated flows that pass through compliance-capable intermediaries, enforcement gets more absolute.</p>
+    <p>In the other direction, a truly neutral settlement protocol — one where no sovereign controls the validators, no sovereign controls the asset issuer, no sovereign can compel freezes at the protocol layer — is harder to sanction than any sovereign-controlled alternative. The sovereign can sanction the compliance intermediaries (which is enforceable), but cannot sanction the protocol itself. This is a limited version of something that has existed in crypto for years: Bitcoin is unsanctionable as a protocol, sanctionable at the compliance layer. What is new under atomic settlement is that the compliance layer becomes the <em>primary</em> enforcement surface, not the fallback.</p>
+    <p>The paradox is that both are true simultaneously. For flows that route through compliance-capable intermediaries, enforcement gets tighter. For flows that route through a neutral bridge's protocol directly — or through non-aligned intermediaries in jurisdictions where a sovereign chooses not to enforce US sanctions — enforcement gets weaker. Whether the net effect is more or less sanctions leverage depends entirely on the proportion of flow that passes through which kind of intermediary. That proportion is a function of which sovereigns participate, which sovereigns don't, and which intermediaries they permit. It is the architecture of enforcement that shifts, not the concept of enforcement itself.</p>
+  </div>
+</div>
+
+<div class="phase-diagram">
+  <div class="phase-label">The enforcement architecture, before and after</div>
+  <div class="phase-stages">
+    <div class="phase-stage left">
+      <div class="phase-stage-title">Current architecture</div>
+      <div class="phase-stage-body">Settlement delay creates the enforcement window. Screening is post-trade, forgiving, and operates on a daily cycle. Every participating institution sees flows in time to pause them. Enforcement surface is <em>temporal</em> — spread across the settlement cycle.</div>
+    </div>
+    <div class="phase-arrow">→</div>
+    <div class="phase-stage right">
+      <div class="phase-stage-title">Atomic architecture</div>
+      <div class="phase-stage-body">No settlement delay. Screening is pre-trade, unforgiving, and operates in milliseconds. Only institutions with infrastructure scale can participate. Enforcement surface is <em>spatial</em> — concentrated at the entry points into the settlement rails.</div>
+    </div>
+  </div>
+  <div class="phase-caption">Time as enforcement buffer is replaced by chokepoints as enforcement surface. The effectiveness of sanctions depends on who controls the chokepoints.</div>
+</div>
+
+<div class="argument">
+  <div class="arg-number">09</div>
+  <div class="arg-body">
+    <h3>Collateral demand creates a second pricing curve &mdash; and closes a reflexive loop the first two pieces did not model</h3>
+    <p>Everything in this analysis so far &mdash; and in the analyses preceding it &mdash; has been about flow demand on the bridge asset. The bridge needs to be sized to handle the flow that passes through it. Part I modeled that flow with a slippage constraint. Part II corrected the netting assumption that made the flow sizing look conservative. Both implicitly treated the bridge asset as a conduit &mdash; flow comes in on one side, flow goes out the other, depth has to be sufficient for the largest single passage.</p>
+    <p>Atomic settlement creates a second demand curve that operates on entirely different mechanics. In the current world, a bank can send a transaction and fund the corresponding position later &mdash; intraday credit, overnight funding, daily settlement windows. Under atomic T+0, if the institution cannot pre-fund, it must pledge collateral that can be atomically converted into the settlement asset. That collateral has to be liquid enough, neutral enough, and instantly convertible enough to support the settlement load. The shortlist of assets that qualify is short: tokenized treasuries, tokenized gold, and &mdash; if the bridge-asset thesis is correct &mdash; the bridge asset itself.</p>
+    <p>Which means the bridge asset is not just a conduit. It is a pledgeable reserve. XRP held in a compliance-capable intermediary's treasury is not just market-making inventory for flow. It is collateral that can be atomically converted to fund transactions the intermediary's clients cannot pre-fund themselves. This is a second demand on the asset that operates on different dynamics than flow demand &mdash; and it closes a reflexive pricing loop that neither Part I nor Part II made explicit.</p>
+  </div>
+</div>
+
+<div class="callout">
+  <div class="callout-label">The reflexive loop, stated mechanically</div>
+  <h4>Collateral demand doesn't add to flow demand. It compounds it &mdash; by taking supply out of the float the flow math assumed was tradeable.</h4>
+  <p>The mechanism runs in six steps, each of which follows from the step before it. <strong>One:</strong> atomic settlement requires pre-funded inventory or pledgeable collateral, and for flows that cannot be pre-funded directly, a neutral bridge asset is one of the few candidates that qualifies on liquidity, neutrality, and instant-convertibility grounds. <strong>Two:</strong> compliance-capable intermediaries and the institutions they serve hold the bridge asset as earmarked collateral reserves &mdash; not for trading, but to maintain participation capacity in the settlement rails. <strong>Three:</strong> collateral-locked inventory is removed from the tradeable float. It does not recycle through transactions. It sits against optionality. <strong>Four:</strong> with a smaller tradeable float supporting the same flow-volume requirement from Parts I and II, the effective turnover on remaining supply falls. <strong>Five:</strong> from Part I's flow-sizing math, lower effective turnover means higher required market cap for the same daily volume requirement &mdash; which means a higher price per unit of the bridge asset. <strong>Six:</strong> a higher-priced bridge asset is more attractive and more capital-efficient as a collateral reserve, which increases the share of supply institutions choose to lock, which tightens the float further, which pushes price higher again. The loop reinforces itself until collateral-locked inventory stabilizes at whatever fraction of total supply the institutional system settles on.</p>
+</div>
+
+<div class="finding">
+  <strong class="label">What this does to the pricing math from Parts I and II</strong>
+  The pricing consequence is mechanical. If collateral-locking removes 10% of XRP supply from tradeable float, effective turnover on remaining supply drops from the 1.0% central estimate toward roughly 0.55% &mdash; the institutional scenario shifts from $2,950 toward approximately $5,400. If 20% locks up, effective turnover approaches the 0.3% figure that Part I presented as a high-scarcity stress test; under the collateral lens, that scenario describes steady state rather than an edge case, and the institutional implied price rises toward $9,800. Above roughly 30% supply locked as collateral reserves &mdash; which is not unreasonable by analogy to how sovereign entities hold gold as a reserve asset &mdash; implied prices push above the original ranges published in Part I. The original turnover sensitivity table in Part I therefore does not contain the full picture of what collateral demand implies. Collateral reflexivity shifts the central estimates upward, not the tail cases.
+</div>
+
+<div class="caveat">
+  <strong class="label">On the quantitative bounds</strong>
+  The collateral-lock percentages cited above &mdash; 10%, 20%, 30% &mdash; are scenario assumptions bounded by analogs rather than derived from direct measurement. No atomic cross-border settlement architecture at institutional scale currently exists, so no data exists on what fraction of a bridge asset's supply institutions would actually lock as collateral. The 10&ndash;30% range is anchored by three reference points: regulatory liquidity coverage ratios under Basel III, which require banks to hold high-quality liquid assets sufficient to cover stressed outflows; sovereign gold reserve practice, where central banks historically allocate meaningful single-digit to double-digit percentages of reserves to non-sovereign stores of value; and current intraday credit patterns in correspondent banking, which suggest pre-funding gaps on the order of 10&ndash;20% of daily gross flow. These analogs bound the range but do not determine where within it actual adoption would land.
+</div>
+
+<div class="callout">
+  <div class="callout-label">Where this sits in the literature</div>
+  <h4>This argument has not been modeled for an institutional settlement bridge asset under atomic settlement, but it does not emerge from nowhere.</h4>
+  <p>The methodology draws on institutional-demand asset pricing of the kind developed by Koijen and Yogo and the literature that followed &mdash; a framework in which equilibrium price is uniquely determined by market clearing, and where demand-side heterogeneity across institutional holder types explains the overwhelming share of cross-sectional return variance. That framework has been applied to equities and corporate bonds. It has not been applied to a bridge settlement asset operating under atomic architecture, because the architecture itself does not yet exist at institutional scale. The reflexive element &mdash; price itself shifting the composition of demand by changing the asset's attractiveness as collateral reserve &mdash; is structurally consistent with established asset-pricing methodology but has not been written up as a specific mechanism for a bridge asset.</p>
+  <p>Adjacent work exists at the edges. Research on cross-chain bridge liquidity has applied Basel III liquidity coverage ratio framings to crypto-native bridge protocols, establishing the plausibility of institutional reserve thinking in bridge contexts. The Bank for International Settlements and the IMF have published on tokenized reserves and settlement-asset requirements under DLT rails. J.P. Morgan's Kinexys platform and Euroclear's tokenized collateral initiative demonstrate real institutional appetite for pledgeable-collateral mechanics in atomic settlement environments. An empirical paper in the cross-chain literature &mdash; <em>The Price of Interoperability</em> &mdash; argues in the opposite direction for crypto-native bridges, proposing that improved bridging lowers native-token returns through supply-side composition shifts where exogenous hard assets substitute for native tokens in collateral roles. That paper is directly relevant because it names the same mechanism &mdash; collateral composition &mdash; running the other way, in a different architectural context. The claim here is not that collateral-composition effects are new. The claim is that in an institutional atomic-settlement regime where the bridge asset itself qualifies as pledgeable collateral, the composition effect runs toward the bridge asset rather than away from it, and the reflexive pricing loop that results has not been written up.</p>
+</div>
+
+<div class="argument">
+  <div class="arg-number">10</div>
+  <div class="arg-body">
+    <h3>Neutrality's option value grows combinatorially, not linearly</h3>
+    <p>The original analysis argued that a neutral settlement asset has insurance value in stress scenarios — correspondent banking froze in 2008, stablecoin issuers can suspend redemptions, CBDCs can close corridors under sanctions. What that argument understated is how the insurance value scales as the CBDC and stablecoin world populates.</p>
+    <p>Each sovereign CBDC that goes live adds a counterparty that can be sanctioned, frozen, or suspended. Each significant stablecoin adds an issuer that can be pressured. In a 100-node world, there are 4,950 possible bilateral pairs and a combinatorial space of potential corridor closures among them. The counterparty risk of the alternative to a neutral bridge is not 100× the risk of any single alternative — it is the permutation space of which corridors might close under which conditions among which counterparties.</p>
+    <p>This means demand for a truly neutral bridge does not grow linearly with the number of CBDC and stablecoin alternatives. It grows combinatorially with their interactions. Every new sovereign issuance makes the case for a non-sovereign escape valve <em>non-linearly</em> stronger, because it expands the set of adverse scenarios a neutral bridge could protect against. The first two pieces priced the bridge's flow role. They did not price its combinatorial insurance role, because that role is not quantifiable from current data. But it is directional, and the direction is accretive.</p>
+  </div>
+</div>
+
+<div class="flourish">· · ·</div>
+
+<div class="conclusion">
+  <div class="conclusion-label">Conclusion</div>
+  <h2>What the architecture requires</h2>
+
+  <p>Part I sized the bridge. Part II corrected the netting assumption that made the sizing look conservative. This piece stepped back from the mechanical question entirely and asked a different one: what does the architecture being built actually do to the system it replaces, and what does that imply for the assets that will serve within it?</p>
+
+  <p>The answer, to the extent the trial data and the structural logic support it, is that atomic settlement is not an upgrade. It is a replacement of the underlying system. Removing time as a buffer breaks the layers that depended on it — netting, sanctions enforcement, intraday funding, collateral management — and replaces them with an architecture whose rules are incompatible with gradient transitions. Repricing under this architecture is discontinuous. Enforcement concentrates at a smaller set of chokepoints. A second demand curve appears for pledgeable collateral that the mechanical sizing models did not include. And the option value of neutrality accretes combinatorially with the alternatives the architecture is generating.</p>
+
+  <p>None of this selects an asset. The architecture does not determine whether XRP serves the bridge role, whether RLUSD captures some portion of it, whether tokenized gold fills the collateral role, or whether some future asset yet unbuilt meets the combined requirements better than any current candidate. What the architecture does is narrow the space of assets that can plausibly serve. The requirements &mdash; neutral, deep, compliant, collateral-eligible, protocol-independent of any single sovereign &mdash; eliminate most candidates. The remaining set is small. Whatever it selects, the mechanical requirements the first two pieces described are requirements on whatever it selects.</p>
+
+  <p class="kicker-line">The market is not mispricing the asset. The market is pricing a world where the transition never happens.</p>
+
+  <p>The investment question implied by all three pieces is not whether XRP is undervalued. The investment question is whether the market has correctly priced an architectural transition that, if it occurs, cannot occur smoothly. The current price of any candidate bridge asset &mdash; XRP, competing digital assets, the extended shortlist &mdash; reflects the assumption that the transition does not happen, or happens slowly enough that the current pricing stays accurate. If the assumption is right, the current prices are approximately correct. If the assumption is wrong, no current price is correct, because the intermediate states between "transition doesn't happen" and "transition does happen" are not stable valuation points.</p>
+
+  <p class="kicker-line">Some asset will meet the requirements the new architecture imposes. The space of candidates is small. The selection will not be gradual, because the architecture does not permit a gradual transition.</p>
+</div>
+
+<div class="addendum">
+  <div class="addendum-label">Addendum</div>
+  <div class="addendum-meta">Added following reader questions on ODL</div>
+  <h2>On ODL and the <em>hybrid</em> world.</h2>
+
+  <p>A reader raised a clarifying question after publication that is worth addressing directly: how does Ripple's On-Demand Liquidity (ODL) product fit into the collateral framework described in Argument 09? The question surfaced something the article treated implicitly rather than explicitly, and it is worth making the distinction plain, because the distinction has real consequences for how the pricing math actually plays out.</p>
+
+  <h3>Two institutional access models, not one</h3>
+  <p>There are two distinct ways an institution can participate in bridge-asset settlement, and the article conflated them when it shouldn't have. <strong>ODL-mode</strong> is intermediated access: the institution does not hold the bridge asset. A service (in XRP's case, ODL) sources the bridge asset at execution, routes the transaction through it in seconds, and delivers the destination currency. The institution never takes custody of XRP. It touches the asset only at the moment of the transaction, and only through the service. <strong>Hold-mode</strong> is direct access: the institution holds the bridge asset on its own balance sheet, either as a pledgeable reserve for flows it cannot pre-fund through cash or as an operational buffer against settlement obligations it anticipates. The institution takes custody. The asset sits.</p>
+
+  <p>These two models produce different pricing dynamics. ODL-routed flow shows up as <em>flow demand</em> — the volume passing through the asset per the original Part I sizing. It does not remove supply from circulation, because the asset is held for seconds, not months. Hold-mode participation shows up as <em>collateral demand</em> — supply taken out of the tradeable float per Argument 09's reflexive loop. A world composed entirely of ODL users does not fire the collateral reflexivity hard. A world composed entirely of direct holders does not generate the flow volume the original Part I framework anchored on. Neither extreme is likely. The realistic outcome is a hybrid.</p>
+
+  <h3>Why the hybrid is the likely equilibrium</h3>
+  <p>Different institutions have different operational preferences, different regulatory constraints, and different treasury philosophies. A useful rough partition: SMEs and smaller banks use ODL by default because they lack the infrastructure to hold crypto directly and the regulatory cost of doing so is high. Mid-tier corporates and regional banks likely prefer ODL for capital efficiency — they get access without the working-capital drag of an XRP position on their balance sheet. Tier-1 banks, large asset managers, and compliance-capable intermediaries lean toward direct holdings, because their volume justifies the operational investment and because sovereignty over their own settlement capacity is strategically valuable. Central banks and sovereign wealth funds, if they participate at all, participate almost exclusively through direct holdings, because their entire reason for adopting a neutral bridge is to control the access themselves rather than route through a commercial intermediary.</p>
+
+  <p>That partition is illustrative, not precise. But the structural point is that no single access model captures the whole market. The mix between ODL-mode and hold-mode determines where in the Part III price range a bridge asset actually lands.</p>
+
+  <h3>The nostro-vostro comparison</h3>
+  <p>A sharper version of the question some readers have raised: if institutions have to hold a bridge asset as collateral anyway, how is this different from the nostro-vostro account structure that correspondent banking already uses? The answer sits in a structural distinction that matters more than it first appears.</p>
+
+  <p>Nostro-vostro accounts are pre-positioned holdings of <em>counterparty currency</em> maintained in specific bilateral corridors — a US bank holds euros at a German bank to facilitate EUR-denominated settlements, holds yen at a Japanese bank for JPY settlements, and so on. Each corridor requires its own account, its own capital allocation, and its own ongoing management. The capital drag scales linearly with the number of corridors served. A bank operating in fifty currency pairs maintains fifty sets of nostro-vostro relationships.</p>
+
+  <p>Holding a neutral bridge asset is different. One held position provides omnidirectional access — the same XRP reserve can settle into any destination currency on the network, because the bridge routes through it rather than sitting as a corridor-specific buffer. This is structurally closer to holding a reserve currency than to holding counterparty positions. The capital drag does not scale linearly with corridors served. It scales with total settlement capacity, independent of which specific corridors the capacity is used for.</p>
+
+  <p>This is why the held-collateral concept is not a reinvention of nostro-vostro under a different name. It is a different operational architecture, and the capital-efficiency math is different. A bank that previously needed fifty counterparty-currency positions can replace a portion of that footprint with a single bridge-asset reserve of equivalent settlement capacity. That substitution is what makes the institutional economics work at scale.</p>
+
+  <h3>What this means for the Part III framework</h3>
+  <p>The collateral reflexivity argument in Argument 09 applies to the hold-mode share of institutional participation, not to the ODL-mode share. The 10%, 20%, and 30% supply-lock scenarios should be read as applying to the portion of the institutional market that takes direct custody — not the whole market. What share of institutions will choose hold-mode over ODL-mode is an empirical question that will not be resolved until adoption actually scales. The realistic hybrid is somewhere between the two extremes. The pricing consequence lands somewhere between "flow-sizing alone" and "full reflexive lock-up."</p>
+
+  <p>What evidence would tell us which mix is forming? ODL corridor volume growth is one signal — it indicates the ODL-mode share expanding. Institutional custody announcements and regulated XRP treasury allocations are the counter-signal — they indicate the hold-mode share expanding. The ratio of on-exchange volume to off-exchange institutional transfers is another useful indicator. None of these signals will be definitive in isolation, but the direction of travel will be observable in the data as adoption matures.</p>
+
+  <p>The article's central conclusion stands: some asset will meet the requirements the new architecture imposes, the space of candidates is small, and the selection will not be gradual. This addendum clarifies that even within the bridge-asset role, institutional access splits into two structurally different models, and the blend between them is itself a variable the article's pricing framework depends on. It is worth naming explicitly. Readers were right to ask.</p>
+</div>
+
+<div class="colophon">
+  <p><strong>What this piece claims, and what it does not.</strong> It claims that atomic settlement removes time as a functional buffer in financial architecture, and that the layers built on that buffer &mdash; netting, sanctions, intraday funding, collateral practice &mdash; cannot be partially reconstructed in a T+0 environment. It claims that repricing of utility-gated assets across threshold states is discontinuous, based on the structural logic of how institutional flow routes and on historical parallels in capacity-gated infrastructure markets. It claims that a second demand curve for pledgeable collateral emerges under atomic settlement and that this collateral demand is reflexively linked to price through the effective-float mechanism the argument spells out. The quantitative price consequences cited in Argument 09 &mdash; 10% lock shifting the institutional scenario toward ~$5,400, 20% lock toward ~$9,800, 30%+ pushing above Part I ranges &mdash; are outputs of applying the original flow-sizing framework to scenario-defined collateral lock rates. They are not forecasts. They are what the framework produces under specified assumptions about an architecture that does not yet exist at institutional scale. The piece does not claim that the transition is imminent, that any specific asset will capture any specific role, or that the price scenarios from this or prior pieces are predictions. It claims the shape of the move, if it occurs, not its timing.</p>
+
+  <p style="margin-top:14px;"><strong>Sources cited or referenced.</strong> BIS Project Agorá technical materials and Point Zero Forum roundtable reporting (Oct–Nov 2025). BIS Project Meridian FX technical report (April 2025). IMF Note 2025/011, "Central Bank Exploration of Tokenized Reserves." Fnality International press materials and Bank of England Settlement Finality Designation (December 2024). GreySpark Partners, "Real-time Securities Settlement: Challenges and Further Considerations" (March 2026). American Banker, "Atomic settlement swaps one risk for another" (February 2026). Historical adoption data for gold futures (1974–1980s), WTI crude futures (1983–1990s), and VIX futures (2004–2008). G20 Roadmap for Enhancing Cross-Border Payments. FSB progress reports on cross-border payments (2024–2025). BIS CPMI work on atomic and synchronized settlement. Koijen and Yogo, "A Demand System Approach to Asset Pricing," <em>Journal of Political Economy</em> (2019), for the institutional-demand methodology applied implicitly to the collateral-reflexivity argument. J.P. Morgan Kinexys and Euroclear tokenized collateral initiatives for real-world signals on pledgeable-collateral mechanics in atomic settlement environments. Huang et al., "The Price of Interoperability" (arXiv, January 2026), for the adjacent supply-side composition hypothesis running in the opposite direction in crypto-native cross-chain contexts.</p>
+
+  <p style="margin-top:14px;"><strong>Disclosure.</strong> Conditional structural analysis. Every claim depends on the atomic settlement transition actually occurring and the architecture described being built at scale. Neither is guaranteed. The asset-selection question is not resolvable from the math alone. This is not financial advice. Do your own research.</p>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The settlement stack of 2030 — XRP Valuation Series, Part IV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F4EDDD;
+    --cream-deep: #EDE3CC;
+    --cream-shadow: #E4D6B8;
+    --ink: #15100B;
+    --ink-soft: #3A2F25;
+    --crimson: #A8182B;
+    --crimson-deep: #7A0F1F;
+    --rule: #D9C9A8;
+    --dim: #8B7A5E;
+    --gold: #A88A2C;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 80px 40px 120px;
+    position: relative;
+  }
+
+  /* Masthead */
+  .masthead {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 24px;
+    margin-bottom: 72px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .masthead .series { color: var(--crimson); }
+
+  .part-mark {
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 20px;
+    color: var(--crimson);
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  h1 {
+    font-family: 'Newsreader', serif;
+    font-weight: 500;
+    font-size: clamp(42px, 6.5vw, 68px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+    font-optical-sizing: auto;
+  }
+  h1 .crimson { color: var(--crimson); font-style: italic; font-weight: 400; }
+
+  .deck {
+    font-family: 'Newsreader', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 23px;
+    line-height: 1.4;
+    color: var(--ink-soft);
+    margin-bottom: 56px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--rule);
+    max-width: 660px;
+  }
+
+  .byline {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 56px;
+  }
+
+  p {
+    margin-bottom: 22px;
+    hyphens: auto;
+  }
+
+  p.lead::first-letter {
+    font-family: 'Newsreader', serif;
+    font-weight: 500;
+    font-size: 72px;
+    line-height: 0.85;
+    float: left;
+    margin: 6px 10px -2px 0;
+    color: var(--crimson);
+  }
+
+  strong, b { font-weight: 600; color: var(--ink); }
+  em { font-style: italic; }
+
+  /* Sections */
+  .section {
+    margin-top: 96px;
+    margin-bottom: 36px;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 20px;
+    align-items: baseline;
+    padding-top: 36px;
+    border-top: 1px solid var(--rule);
+  }
+  .section-num {
+    font-family: 'Newsreader', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 64px;
+    line-height: 1;
+    color: var(--crimson);
+    letter-spacing: -0.02em;
+  }
+  .section-title {
+    font-family: 'Newsreader', serif;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    padding-top: 4px;
+  }
+
+  h3.subheader {
+    font-family: 'Newsreader', serif;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-top: 36px;
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+
+  /* Pull quote */
+  .pullquote {
+    margin: 44px 0;
+    padding: 0 0 0 28px;
+    border-left: 3px solid var(--crimson);
+    font-family: 'Newsreader', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 26px;
+    line-height: 1.3;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  /* The Stack — main visual */
+  .stack {
+    margin: 48px -20px;
+    padding: 40px 32px;
+    background: var(--cream-deep);
+    border: 1px solid var(--rule);
+    position: relative;
+  }
+
+  .stack-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--crimson-deep);
+    margin-bottom: 4px;
+  }
+
+  .stack-sub {
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--ink-soft);
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .layer {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 18px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+  .layer:last-child { border-bottom: none; }
+
+  .layer-num {
+    font-family: 'Newsreader', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 36px;
+    line-height: 1;
+    color: var(--crimson);
+    text-align: right;
+  }
+
+  .layer-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .layer-name {
+    font-family: 'Newsreader', serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.2;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+
+  .layer-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--crimson-deep);
+  }
+
+  .layer-desc {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+
+  .layer-actors {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.03em;
+    margin-top: 6px;
+  }
+
+  .layer.highlight {
+    background: var(--cream-shadow);
+    margin: 0 -32px;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .layer.highlight .layer-num { color: var(--crimson-deep); }
+
+  /* Data block */
+  .data {
+    margin: 36px 0;
+    padding: 28px 32px;
+    background: var(--cream-deep);
+    border-left: 3px solid var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  .data .label {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--crimson-deep);
+    font-size: 11px;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .data .row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    padding: 4px 0;
+    border-bottom: 1px dotted var(--rule);
+  }
+  .data .row:last-child { border-bottom: none; }
+  .data .row .v { font-weight: 500; color: var(--ink); }
+
+  /* Scenario table */
+  .scenarios {
+    margin: 36px 0;
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+  }
+  .scenarios th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--crimson-deep);
+    text-align: left;
+    padding: 14px 14px 10px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .scenarios td {
+    padding: 14px 14px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .scenarios td:first-child {
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--crimson);
+    white-space: nowrap;
+  }
+  .scenarios td.num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    text-align: right;
+    color: var(--ink);
+  }
+
+  code, .mono {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.88em;
+    font-weight: 500;
+    background: var(--cream-deep);
+    padding: 1px 6px;
+    border-radius: 2px;
+  }
+
+  /* Decision tree */
+  .decision {
+    margin: 36px 0;
+    padding: 28px 32px;
+    background: var(--cream-deep);
+    border-top: 3px solid var(--crimson);
+    border-bottom: 3px solid var(--crimson);
+  }
+  .decision h4 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--crimson-deep);
+    margin-bottom: 20px;
+  }
+  .decision-q {
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--ink);
+    margin-bottom: 4px;
+    margin-top: 18px;
+  }
+  .decision-a {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    padding-left: 20px;
+    border-left: 2px solid var(--rule);
+  }
+  .decision-q:first-child { margin-top: 0; }
+
+  /* Coda */
+  .coda {
+    margin-top: 96px;
+    padding-top: 44px;
+    border-top: 2px solid var(--ink);
+    font-family: 'Newsreader', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    text-align: center;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .footer {
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--dim);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .section { grid-template-columns: 52px 1fr; gap: 14px; }
+    .section-num { font-size: 44px; }
+    .section-title { font-size: 26px; }
+    .pullquote { font-size: 22px; padding-left: 22px; }
+    .stack { margin: 36px -20px; padding: 28px 22px; }
+    .layer { grid-template-columns: 36px 1fr; gap: 14px; }
+    .layer-num { font-size: 28px; }
+    .layer-name { font-size: 17px; }
+    .layer.highlight { margin: 0 -22px; padding-left: 22px; padding-right: 22px; }
+    .data, .decision { padding: 22px; }
+    .page { padding: 56px 22px 80px; }
+    .scenarios { font-size: 13px; }
+    .scenarios th, .scenarios td { padding: 10px 8px; }
+  }
+</style>
+</head>
+<body>
+
+<article class="page">
+
+  <div class="masthead">
+    <span class="series">XRP Valuation Series</span>
+    <span>April 2026</span>
+  </div>
+
+  <div class="part-mark">Part IV</div>
+
+  <h1>The settlement stack of 2030. <span class="crimson">Where bridge assets actually live.</span></h1>
+
+  <div class="deck">
+    A structural map of the emerging peak-ticket settlement architecture — five distinct layers, the specialized incumbents populating each, and the single architecture in the stack with native cross-layer flexibility. This is where XRP's thesis survives, deepens, and actually gets stronger.
+  </div>
+
+  <div class="byline">
+    Part IV of IV &middot; Position Paper
+  </div>
+
+  <p class="lead">Parts I and II of this series argued that XRP is not being valued. It is being sized — priced as a function of the peak-ticket flow it would need to absorb as a fixed-supply, freely-floating bridge asset in institutional settlement. The argument held. What it did not do, and what this paper will do, is place that claim inside the competitive architecture that has emerged around it.</p>
+
+  <p>Over the past fifteen months, the peak-ticket settlement landscape has been populated with serious entrants. Circle's Arc and Stripe's Tempo launched as stablecoin-focused L1s. JPMorgan's Kinexys scaled to $5 billion in daily tokenized-deposit volume. SWIFT announced its own blockchain ledger for 24/7 cross-border tokenized deposit settlement, MVP going live this year. BIS Project Agorá moved seven central banks and forty-one private institutions from design to prototype testing. Fnality went live with its regulated Sterling DLT-based wholesale settlement system. And the DTCC received SEC no-action relief to begin tokenizing U.S. Treasury securities on the Canton Network in the second half of 2026.</p>
+
+  <p>The natural question — the question this paper sets out to answer — is where XRP sits in that landscape, and whether the sizing thesis in Parts I and II still holds once the competitive architecture is mapped correctly. The short answer is that the landscape is stratifying into distinct layers rather than converging on a single winner. Every architecture entering the space is layer-locked by design: it solves one kind of settlement problem well and structurally cannot extend to the others. XRP is currently the only widely deployed architecture in the stack with native cross-layer flexibility, which is why Brad Garlinghouse has publicly stated Ripple's ambition to capture 14% of SWIFT's $150T flow — roughly $21T annually across layers one through four — and why that claim is not a rhetorical flourish but a strategic position. The longer answer is the rest of this paper.</p>
+
+  <!-- SECTION 01 -->
+  <div class="section">
+    <div class="section-num">01</div>
+    <div class="section-title">The question the industry has been asking is wrong</div>
+  </div>
+
+  <p>The prevailing framing of the XRP competitive debate — and of every bridge-asset thesis by extension — has been binary. Does stablecoin X or chain Y or initiative Z <em>replace</em> XRP? The framing is wrong because it assumes a single settlement problem with a single winning architecture.</p>
+
+  <p>Settlement is not one problem. It is at least five problems, each with distinct counterparty structures, ticket-size distributions, regulatory frameworks, and technical requirements. A payment between two retail customers of the same bank is a different problem from a $2 billion FX settlement between two institutional counterparties in different jurisdictions with no correspondent relationship. A JPMorgan-to-JPMorgan transfer on Kinexys is a different problem from a cross-ledger DvP settlement between a tokenized U.S. Treasury on Canton and a tokenized equity on Ethereum. The architecture that solves one of these problems cannot be straightforwardly extended to solve the others, and the competitive dynamics in each layer are driven by different forces.</p>
+
+  <p>The question that matters is not "what replaces XRP." It is: <em>what is the settlement stack of 2030, and which architectures can participate in which layers?</em></p>
+
+  <p>The answer, as this paper will argue, is that every specialized incumbent is structurally locked into one layer by design. XRP is currently the only widely deployed architecture that is not. That native cross-layer flexibility is the real thesis, and it has been obscured by the industry's tendency to evaluate settlement assets as if they were competing for a single market.</p>
+
+  <!-- SECTION 02 -->
+  <div class="section">
+    <div class="section-num">02</div>
+    <div class="section-title">The five layers</div>
+  </div>
+
+  <p>The stack below is not a hierarchy of value. It is a segmentation by problem type. Different layers serve different flows, and most institutional settlement traffic will route through whichever layer most efficiently solves its specific combination of counterparty credit structure, jurisdictional scope, and ticket size. Layer numbering runs bottom-up from highest-frequency smallest-ticket flow to lowest-frequency largest-ticket flow.</p>
+
+  <div class="stack">
+    <div class="stack-title">The settlement stack &middot; 2030</div>
+    <div class="stack-sub">Five distinct settlement problems. Specialized incumbents at each. XRP participates across all five.</div>
+
+    <div class="layer">
+      <div class="layer-num">01</div>
+      <div class="layer-body">
+        <div class="layer-sub">Client flow &middot; high-frequency small-ticket</div>
+        <div class="layer-name">Retail and SMB payments</div>
+        <div class="layer-desc">Payments between end customers and merchants, remittance, B2B invoicing, agentic machine payments. Ticket sizes from cents to low six figures. Regulated stablecoins as the dominant settlement asset. Ripple participates via RLUSD and via ODL through regulated corridor operators (SBI, Intermex, Coins.ph).</div>
+        <div class="layer-actors">ARC &middot; TEMPO &middot; STABLE &middot; CCTP &middot; SOLANA PAY &middot; STELLAR / PYUSD &middot; <strong>RIPPLE PAYMENTS / ODL / RLUSD</strong></div>
+      </div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-num">02</div>
+      <div class="layer-body">
+        <div class="layer-sub">Intra-credit-web institutional &middot; high-frequency mid-ticket</div>
+        <div class="layer-name">Tokenized deposit transfers within correspondent networks</div>
+        <div class="layer-desc">Bank-to-bank and treasury transfers where both counterparties hold accounts at participating institutions. Ticket sizes from millions to low billions. Tokenized commercial bank money within the issuer's credit web. Ripple Payments is an institutional rail with 300+ customers (SBI, Deutsche Bank, Santander, etc.) offering XRP, RLUSD, or third-party stablecoin routing.</div>
+        <div class="layer-actors">KINEXYS &middot; SWIFT LEDGER &middot; HSBC TOKENIZED DEPOSITS &middot; PARTIOR &middot; XDC / R3 CORDA &middot; <strong>RIPPLE PAYMENTS / XRP / RLUSD</strong></div>
+      </div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-num">03</div>
+      <div class="layer-body">
+        <div class="layer-sub">Intra-jurisdiction wholesale &middot; mid-frequency high-ticket</div>
+        <div class="layer-name">DLT-based wholesale settlement in central bank money</div>
+        <div class="layer-desc">Interbank wholesale settlement within a single currency jurisdiction. Tokenized claims on central bank reserves for atomic PvP and DvP. Ticket sizes from hundreds of millions to tens of billions. XRPL hosts institutional wholesale activity: SG-FORGE EUR CoinVertible, SBI's ¥10B blockchain bond, Korea's Kyobo Life partnership for bond settlement.</div>
+        <div class="layer-actors">FNALITY (£, $, € IN ROLLOUT) &middot; WHOLESALE CBDC PILOTS &middot; STELLAR / FRANKLIN TEMPLETON &middot; SOLANA (FRANKLIN TEMPLETON, ONDO) &middot; <strong>XRPL HOSTED WHOLESALE INSTRUMENTS</strong></div>
+      </div>
+    </div>
+
+    <div class="layer">
+      <div class="layer-num">04</div>
+      <div class="layer-body">
+        <div class="layer-sub">Cross-jurisdiction wholesale &middot; low-frequency very high-ticket</div>
+        <div class="layer-name">Multi-currency PvP and tokenized cross-border settlement</div>
+        <div class="layer-desc">Peak-ticket FX settlement and cross-border wholesale flows between counterparties in different monetary jurisdictions. Ticket sizes into the tens of billions. CLS covers 18 eligible currencies; Agorá and mBridge cover subsets of central-bank corridors. XRP ODL already operates here: Q1 2026 at $14.2B across 14 corridors, 56% of volume in Asia-Pacific, with demonstrated 60% cost savings over SWIFT at the Tokyo 2026 conference.</div>
+        <div class="layer-actors">CLS SETTLEMENT ($8T DAILY) &middot; PROJECT AGORÁ &middot; mBRIDGE &middot; <strong>XRP ODL</strong></div>
+      </div>
+    </div>
+
+    <div class="layer highlight">
+      <div class="layer-num">05</div>
+      <div class="layer-body">
+        <div class="layer-sub">Cross-ledger peak-ticket &middot; the uncontested slot</div>
+        <div class="layer-name">Bridge-asset routing between tokenization ecosystems</div>
+        <div class="layer-desc">Atomic settlement between asset tokens on different ledgers, where neither counterparty has standing liquidity in the destination asset and pre-funding is infeasible at ticket scale. Canton-to-XRPL-to-Ethereum-to-Solana-to-Fnality-to-stablechain routing. No other asset class has an architectural fit here. Ticket sizes bounded only by bridge-asset depth.</div>
+        <div class="layer-actors"><strong>XRP &middot; XLM</strong> (BOTH NAMED IN DTCC PATENT US20250078162A1)</div>
+      </div>
+    </div>
+  </div>
+
+  <p>Each specialized incumbent at layers one through four is locked to its layer by design choices that cannot be undone without changing what the architecture fundamentally is. Kinexys cannot settle outside the JPMorgan credit web because tokenized deposits <em>are</em> the JPMorgan credit web made programmable. Fnality's Sterling payment system cannot settle dollars because it is legally defined as a claim on sterling reserves at the Bank of England. Arc's StableFX cannot route between arbitrary currencies because StableFX requires regulated stablecoins on both legs. CLS cannot settle non-CLS currencies because the membership structure is the settlement guarantee.</p>
+
+  <p>XRP has no equivalent constraint. The bridge-asset model does not require pre-existing credit relationships, central bank authorization, or stablecoin issuance on both legs. It requires only market liquidity on both sides, which already exists for XRP through global exchange coverage and which continues to deepen with each ETF approval and each institutional custody integration. This is why XRP is listed as a participant at every layer of the stack above. It is not speculation; it is descriptive of what Ripple the company has already built and what Ripple's customers are already using.</p>
+
+  <p>The question the rest of this paper answers is what the cumulative flow capture across layers looks like — and why layer five specifically, the slot where bridge assets are the only architecturally correct answer, is where the terminal valuation scenarios are driven.</p>
+
+  <!-- SECTION 03 -->
+  <div class="section">
+    <div class="section-num">03</div>
+    <div class="section-title">Why each competing architecture is layer-locked</div>
+  </div>
+
+  <p>Understanding why each specialized incumbent cannot extend beyond its layer is what makes XRP's cross-layer flexibility structurally valuable rather than incidentally useful. Each of the four specialized architectures has a design choice that constrains it to one layer; those design choices are features, not bugs, but they leave overflow flow at every layer that XRP is positioned to capture.</p>
+
+  <h3 class="subheader">Stablecoin mesh is bounded by stablecoin coverage and liquidity depth</h3>
+
+  <p>Stablecoin-mesh architectures like Arc's StableFX and Tempo's infrastructure route between regulated stablecoins directly — USD-stablecoin to MXN-stablecoin, for instance. The mesh works well at layer one where ticket sizes are small and retail flow dominates. It hits two structural limits above that scale.</p>
+
+  <p>First, coverage. StableFX only operates between currency pairs where both legs have regulated stablecoins live on Arc. Circle's Partner Stablecoins program launched with eight currencies — BRL, AUD, JPY, MXN, KRW, CAD, ZAR, PHP. Most of the world's currencies will not be in this mesh in 2030. Every corridor outside the mesh is unaddressable by this architecture and falls to Ripple Payments (at layers one and two) or to XRP ODL (at layer four).</p>
+
+  <p>Second, liquidity depth at peak-ticket scale. A $2 billion EUR-to-USD settlement via StableFX requires EURC depth on the destination chain sufficient to absorb $2 billion of buy pressure without unacceptable slippage. That liquidity has to be pre-funded by stablecoin liquidity providers holding balances on-chain. The architecture has simply relocated pre-funding from correspondent bank nostro/vostro accounts into stablecoin liquidity pools — and at peak-ticket size, the pool depth runs out the same way the nostro account did. CLS itself made this point publicly in early 2026: <em>"near-instant settlement on blockchain does not yet provide the liquidity efficiency of payment-versus-payment models... Given the enormous size of the global FX market, with $9.6 trillion being exchanged every day, stablecoins could only play a niche role today."</em></p>
+
+  <h3 class="subheader">Tokenized deposits inherit — and are bounded by — the credit web</h3>
+
+  <p>JPMorgan's Kinexys does real work. Over $3 trillion in cumulative volume, $5 billion daily, Mitsubishi onboarded in April as the first Japanese enterprise adopter. SWIFT's forthcoming blockchain ledger will extend this model across 11,500 member banks with MVP going live in 2026.</p>
+
+  <p>The structural constraint is that <strong>tokenized deposits can only settle between counterparties who both participate in the issuing bank's credit web</strong>. A JPM Coin transfer settles between a JPM client and another JPM client, or between JPM and a correspondent bank with a standing relationship. It cannot settle a $5 billion clearance between a Korean insurance company and a Mexican pension fund with no JPM relationship — at that point the tokenized deposit is not the settlement asset; it is just a faster message about a settlement that still has to happen through conventional correspondent chains.</p>
+
+  <p>SWIFT's ledger inherits the same constraint with more participants. It expands the credit web but does not eliminate its dependence on bilateral counterparty relationships. This leaves two categories of flow uncovered: settlements between counterparties that span multiple disjoint credit webs, and settlements between counterparties where one side has no tokenized-deposit-issuing bank relationship at all. Ripple Payments captures exactly this overflow — institutional counterparties that need cross-institution settlement without pre-existing correspondent relationships, routing via XRP or RLUSD depending on corridor economics.</p>
+
+  <h3 class="subheader">Wholesale central bank money is bounded by jurisdiction</h3>
+
+  <p>Fnality is the most important architecture to understand clearly. Fnality's payment systems settle in tokenized claims on central bank reserves — functionally wholesale CBDC delivered via private consortium. Sterling is live and systemically designated. Dollar and Euro are in rollout. Shareholders include DTCC, BNY Mellon, Barclays, Goldman Sachs, UBS, Santander, Nasdaq, Euroclear, State Street, and BNP Paribas.</p>
+
+  <p>Fnality's own positioning is instructive. Quoted verbatim from their January 2026 commentary: <em>"We don't compete with stablecoins or deposit tokens. We connect them safely... final settlement for wholesale markets must happen in central bank money."</em> Fnality is explicitly the settlement anchor within a jurisdiction, not a cross-jurisdiction bridge.</p>
+
+  <p>A Sterling Fnality Payment System settles pounds. A Dollar FnPS will settle dollars. Cross-currency settlement requires interoperability <em>between</em> Fnality systems, which Fnality themselves acknowledge remains a multi-year problem. Project Agorá covers seven Western-aligned central banks in prototype; mBridge covers five BRICS-leaning jurisdictions at $55B cumulative. Most of the world's currencies will not be in any of these systems in 2030, and even within covered jurisdictions, cross-currency atomicity remains an unsolved problem. The IMF 2025 working paper on tokenized reserves is explicit: <em>"Cross-ledger transactions can, at best, achieve 'weak' atomicity... introducing operational complexity, timeouts, and risks of settlement failure or dispute."</em></p>
+
+  <p>XRP ODL has been solving exactly this problem in production for years. Q1 2026 volume of $14.2B across 14 corridors, Japan-Philippines alone at $800M/month through SBI Remit, 56% of global ODL flow in Asia-Pacific. These are real layer-four settlements happening in corridors that CLS does not cover, that Agorá will not cover for years, and that Fnality will not cover because the destination-leg currencies are not in scope for either architecture's jurisdictional mandate.</p>
+
+  <h3 class="subheader">Cross-chain interoperability protocols solve messaging, not liquidity</h3>
+
+  <p>The steel-manned version of "XRP is obsolete" is not that stablecoin mesh replaces it. The strongest version is that <strong>cross-chain interoperability protocols plus tokenized assets plus regulated stablecoins collectively make any bridge asset unnecessary</strong>. Chainlink's CCIP is the leading protocol here — $33.6 billion in secured cross-chain tokens, 60+ supported chains, $18 billion monthly volume in Q1 2026, production adoption by SWIFT, DTCC, Euroclear, UBS, ANZ, JPMorgan, Standard Chartered, Citi, BNY Mellon, and BNP Paribas.</p>
+
+  <p>But CCIP is an interoperability <em>protocol</em>. It routes messages and token metadata across chains with cryptographic security. It does not, by itself, provide settlement liquidity. When a CCIP-orchestrated transaction needs to deliver $2 billion of asset X on chain A in exchange for $2 billion of asset Y on chain B, the liquidity for each leg has to come from somewhere. Either from locked-and-minted wrapped representations (pre-funding with extra steps), from liquidity pools held by market makers on each chain (AMM slippage at peak-ticket size), or from a bridge asset with globally pooled liquidity that can be acquired and disposed of on either side.</p>
+
+  <p>CCIP and the bridge asset are complementary, not substitutes. CCIP handles the routing; the bridge asset provides the liquidity. A 2030 settlement architecture where Chainlink CCIP routes a Canton-to-XRPL-to-Ethereum atomic DvP <em>using XRP as the bridge-leg asset</em> is not hypothetical — it is consistent with the architecture that every one of the institutional participants in CCIP's production network is actually building toward. Notably, Stellar joined Chainlink Scale in October 2025 and is integrating CCIP; the 2030 architecture likely has XRP and XLM routed through CCIP as complementary bridge-liquidity assets, not competing with CCIP at all.</p>
+
+  <h3 class="subheader">The bridge-asset design pattern has three live implementations</h3>
+
+  <p>The careful reader will have noticed that Stellar appears at multiple layers in the stack — at layer one via PayPal PYUSD and MoneyGram integration, at layer three via Franklin Templeton's tokenized money market fund, and at layer five alongside XRP in the DTCC patent. XDC also appears in the stack, at layer two, via its live integration with R3 Corda through the SBI XDC Network APAC joint venture. These are not competitive threats to the bridge-asset thesis; they are confirmation of it. XRP, XLM, and XDC share the same fundamental architecture: fixed-supply (or capped-supply), jurisdiction-neutral, permissionless bridge assets with on-ledger exchange functionality. The DTCC patent names XRP and XLM because the bridge-asset design pattern is what DTCC is validating, not the specific coin. XDC is the third live implementation of the pattern, with its own distinct institutional positioning — ISO 20022-native, purpose-built for trade finance, integrated into R3 Corda as a settlement vehicle, with SBI (also Ripple's largest Asian institutional partner) developing XDC infrastructure in parallel with its XRP work.</p>
+
+  <p>This paper focuses on XRP rather than on XLM or XDC for three reasons, none of which undermine the other implementations' structural roles. First, the empirical evidence for cross-layer capture is materially stronger for XRP — Ripple the company has built an explicit institutional stack (Ripple Payments, RLUSD, Hidden Road, GTreasury, OCC trust bank charter) aimed at cross-layer flow. Second, Garlinghouse's 14% of SWIFT claim provides a concrete and testable ambition that neither Stellar nor XDC has an equivalent for. Third, XRP's circulating float and market depth materially exceed both — roughly ten times Stellar's depth and substantially more than XDC's — which matters for the peak-ticket absorption constraint at layer five.</p>
+
+  <p>The correct framing is that the bridge-asset design pattern has three live implementations operating at institutional scale. XRP is the production leader by scale and institutional integration. XLM is named alongside XRP in the DTCC patent and has its own institutional footprint, particularly in U.S. tokenized fund distribution. XDC has a separate institutional pathway through R3 Corda's Corda Settler and the SBI XDC Network APAC joint venture. In scenarios where layer-five productionization happens via the DTCC architecture, all three are candidate assets. The sizing math in this paper is applied to XRP specifically, but a reader who preferred to distribute exposure across the three implementations would simply be running the same framework against a combined bridge-asset market-cap denominator.</p>
+
+  <p>What does <em>not</em> fit the bridge-asset design pattern: general-purpose smart contract L1s like Ethereum, Solana, Avalanche, and Sui. These are critical to the architecture — they are the tokenization <em>venues</em> where instruments like BlackRock's BUIDL, Ondo's OUSG, and Franklin Templeton's FOBXX are issued and traded. They host the assets. But their native tokens (ETH, SOL, AVAX, SUI) are gas/staking assets with ongoing inflation and consumption dynamics, not fixed-supply neutral intermediate liquidity assets. A USDC transfer on Solana uses USDC as the settlement asset; SOL is the gas token that pays for the transaction. The bridge-asset role requires a specific set of design features — fixed or capped supply, jurisdiction-neutral, permissionless, with on-ledger exchange — that general-purpose L1 tokens do not satisfy. This is not a preference; it is the structural reason the DTCC patent names XRP and XLM specifically rather than simply listing every major blockchain. The distinction matters because layer-five flow routes <em>through</em> bridge assets <em>between</em> tokenization venues. The venues and the bridge assets are complementary infrastructure, not competing categories.</p>
+
+  <h3 class="subheader">Interoperability is not liquidity</h3>
+
+  <p>One further distinction that matters and deserves naming explicitly, because it is the attack vector that a careful technical reader will construct. The earlier CCIP subsection argued that cross-chain interoperability protocols and bridge assets are complementary rather than competitive. The stronger version of that claim is this: <strong>interoperability and liquidity are different functions that run through every layer of the stack</strong>. Conflating them is the single most common error in the "XRP is obsolete" argument.</p>
+
+  <p>Interoperability is the orchestration function — how a settlement instruction travels between systems, how state is synchronized across ledgers, how compliance and messaging formats translate. Chainlink's CCIP does this via decentralized oracle networks. Quant's Overledger does this via a messaging abstraction layer. Canton's native privacy-preserving sync does this within its own application topology. All three are coordination infrastructure. None of them, by themselves, delivers destination-side liquidity. When a CCIP-orchestrated transaction requires $2 billion of asset Y on chain B, CCIP routes the instruction; it does not manufacture the asset. The liquidity has to come from somewhere — pre-funded pools, wrapped representations, or a bridge asset with globally pooled depth.</p>
+
+  <p>Bridge-asset liquidity is what XRP and XLM provide. It is a different layer of the settlement problem — not a competitor to CCIP but a functional complement. A mature 2030 architecture has CCIP (or equivalent) handling orchestration and XRP (or equivalent bridge asset) handling liquidity, operating together on the same peak-ticket settlement. The reason this paper focuses on bridge assets rather than on orchestration protocols is that orchestration is already solved at institutional scale — Chainlink has won that layer — whereas bridge-asset incumbency is the open question. The question of which coordination protocol wins is largely settled; the question of which bridge asset wins is not.</p>
+
+  <div class="pullquote">
+    Every specialized architecture in the stack is layer-locked by design. XRP is not. That is the structural asymmetry the thesis is pricing.
+  </div>
+
+  <!-- SECTION 04 -->
+  <div class="section">
+    <div class="section-num">04</div>
+    <div class="section-title">XRP's cross-layer footprint, and the 14% of SWIFT claim</div>
+  </div>
+
+  <p>At the 2025 XRPL Apex Conference, Ripple CEO Brad Garlinghouse stated publicly that Ripple's ambition is to capture 14% of SWIFT's cross-border payment flow within five years. SWIFT's annual flow is approximately $150 trillion. Fourteen percent is roughly $21 trillion annually. That is a specific, testable claim, and it is larger than the combined TAM of any single layer in the stack.</p>
+
+  <p>The claim is not bluster. It reflects Ripple's actual strategic position and XRP's cross-layer participation. And it is not a claim about displacing SWIFT directly. It is a claim about absorbing flow that SWIFT's correspondent-banking architecture handles poorly today: non-CLS emerging-market corridors, intra-credit-web transfers between institutions outside the top tier of global banking, cross-ledger routing as tokenization scales, and frontier-market institutional flows where correspondent relationships are thin or absent. SWIFT moves messages; Ripple Payments and XRP move settlement liquidity. Fourteen percent of SWIFT is the fraction of total cross-border flow Ripple expects to capture as those underserved segments migrate to its infrastructure over a five-year horizon.</p>
+
+  <p>Let me walk through what flow capture at each layer already looks like, and what the 14% claim requires.</p>
+
+  <h3 class="subheader">Layer one &middot; retail and SMB payments</h3>
+
+  <p>XRP is live at this layer through ODL corridors that aggregate retail remittance flow via regulated operators. SBI Remit at $800M/month to the Philippines is retail flow. Intermex at the US-Mexico corridor is retail flow. Coins.ph as the Philippine destination-side partner is retail flow. This is not a future plan — the operators exist, the corridors operate, and the destination-side payout into local currency happens billions of times per year. RLUSD extends the footprint into corridors where a dollar-pegged stablecoin is the right answer: BlackRock, Deutsche Bank, LMAX Group, the Mastercard/WebBank/Gemini pilot for instant credit card settlement, SBI's Q1 2026 Japan launch. Distribution partners matter as much as infrastructure at this layer — Visa's stablecoin settlement rails, Mastercard's integration of RLUSD for card-network settlement, and global payment aggregators like Thunes (connecting 100+ countries) determine which infrastructure actually sees production flow. Ripple Payments as a product is architected to route layer-one flow through XRP, RLUSD, or third-party stablecoins depending on corridor economics. Coverage expands as corridors are added.</p>
+
+  <h3 class="subheader">Layer two &middot; intra-credit-web institutional</h3>
+
+  <p>Ripple Payments has 300+ institutional customers including Santander (One Pay FX), Deutsche Bank (integrated in early 2026), SBI Holdings, Axis Bank, Bank Alfalah, Akbank, Zand Bank, Tranglo, Novatti, and many others. SocGen-FORGE deployed EURCV on the XRP Ledger. These are intra-credit-web flows where XRP, RLUSD, or both are available as settlement options. Ripple is now a recognized institutional payment rail, not a crypto-adjacent curiosity. Tokenized deposits at this layer (Kinexys, SWIFT ledger) will dominate within their respective credit webs, but Ripple Payments captures the overflow across webs and for counterparties outside the top tier of global correspondent banking.</p>
+
+  <h3 class="subheader">Layer three &middot; intra-jurisdiction wholesale</h3>
+
+  <p>The XRP Ledger is increasingly being used as a venue for regulated wholesale instruments. SocGen-FORGE's EUR CoinVertible is live on XRPL. SBI's ¥10 billion blockchain bond pays investors in XRP — a first for any major Japanese financial institution. The April 2026 Kyobo Life partnership in Korea brings a $92 billion insurer into the XRPL wholesale ecosystem for bond settlement. Ripple's OCC conditional trust bank charter (December 2025) provides direct access to Fed payment systems and positions Ripple as a federally regulated fiduciary. None of this displaces Fnality within its central-bank-money jurisdiction — Fnality and XRPL serve different structural roles — but the XRP Ledger's layer-three wholesale footprint is real and growing.</p>
+
+  <h3 class="subheader">Layer four &middot; cross-jurisdiction wholesale</h3>
+
+  <p>This is where the 14% of SWIFT ambition is most directly anchored. XRP ODL is the working bridge-asset-based cross-jurisdiction settlement infrastructure in the market today. Q1 2026 volume of $14.2B across 14 corridors represents roughly $56B annualized. Scaling to 14% of SWIFT ($21T/year, or approximately $58B/day) is roughly a 370x increase from current levels — aggressive but not implausible over a five-year horizon given existing institutional partnerships, the 2025 SEC settlement, the March 2026 SEC/CFTC commodity classification, the Japanese Tokyo 2026 bank pilots demonstrating 60% cost savings over SWIFT, Ripple's expansion into Brazil, Korea, Australia, and the UAE, and the steady addition of new corridors each quarter. Standard Chartered's Geoffrey Kendrick cites the same institutional momentum in his $12.60 long-range XRP target; Ripple's own 2025 round at $40B valuation reflects institutional conviction in the growth trajectory.</p>
+
+  <h3 class="subheader">Layer five &middot; cross-ledger peak-ticket</h3>
+
+  <p>The only layer where XRP is architecturally the <em>only</em> institutional-grade candidate alongside XLM, per the DTCC patent. No specialized incumbent exists here. Layer five is covered in detail in the next section, because the DTCC patent evidence and the cross-ledger architecture argument deserve their own treatment.</p>
+
+  <p>Add the layers together. Each specialized incumbent captures the core of its layer; XRP captures meaningful share of each layer's overflow plus the entirety of the structurally uncontested layer five slot. 14% of SWIFT across layers one through four is the ambition Garlinghouse articulated; it requires Ripple Payments to win an aggressive but plausible share of institutional cross-border flow across all four layers. Layer five is the additional upside, and because peak-ticket routing there is bounded only by bridge-asset depth, it is also the layer where the sizing math produces the terminal scenarios.</p>
+
+  <!-- SECTION 05 -->
+  <div class="section">
+    <div class="section-num">05</div>
+    <div class="section-title">The DTCC patent — institutional validation in writing</div>
+  </div>
+
+  <p>The most important single piece of evidence for the layer-five thesis is not a partnership announcement, not a trial result, not an ETF inflow. It is a patent.</p>
+
+  <p>Before that evidence, one honest framing. Layer five is not yet a production market. It is a structural necessity that the current architecture acknowledges without having fully built — a slot that exists because cross-ledger atomic settlement is a real unsolved problem, where no specialized incumbent has emerged because the problem's nature makes specialization structurally wrong. What follows is the strongest institutional evidence that the industry is converging on a bridge-asset architecture for this slot. It is forward-looking evidence. Readers should weigh it accordingly.</p>
+
+  <p>U.S. Patent Application <span class="mono">US20250078162A1</span>, titled <em>"Systems, Methods, and Storage Media for Managing Digital Liquidity Tokens in a Distributed Ledger Platform,"</em> was filed by Securrency, Inc. and is now owned by the Depository Trust & Clearing Corporation following DTCC's acquisition of Securrency in December 2023. The patent proposes a cross-ledger liquidity framework for tokenized asset settlement. Within that framework, <strong>XRP and XLM are explicitly named as "Digital Liquidity Tokens"</strong> — bridge assets that route value between distinct distributed ledger platforms.</p>
+
+  <div class="data">
+    <span class="label">DTCC Patent US20250078162A1 &middot; Key facts</span>
+    <div class="row"><span>Patent family</span><span class="v">Securrency → DTCC Digital Assets</span></div>
+    <div class="row"><span>Named liquidity assets</span><span class="v">XRP, XLM</span></div>
+    <div class="row"><span>Architectural role</span><span class="v">Cross-ledger bridge &middot; liquidity routing</span></div>
+    <div class="row"><span>Illustrative flow</span><span class="v">Ripple ↔ Stellar Development Foundation</span></div>
+    <div class="row"><span>DTCC scale &middot; annual</span><span class="v">$3.7 quadrillion processed</span></div>
+    <div class="row"><span>DTCC scale &middot; custody</span><span class="v">$99 trillion assets</span></div>
+  </div>
+
+  <p>Patents are not adoption. DTCC has also partnered with Digital Asset to tokenize U.S. Treasury securities on the Canton Network, with MVP targeted for the first half of 2026 and broader rollout in the second half. The Canton track is the production track for DTCC's tokenization pilot under the SEC no-action letter. The XRP/XLM track in the patent is the future-state track for cross-ledger liquidity routing between tokenization ecosystems — a capability the production Canton pilot does not yet include. During the pilot phase, tokenized entitlements carry no collateral or settlement value; the blockchain is the mirror, not the settlement rail. That is a deliberate limitation of the no-action relief, not a limitation of DTCC's architectural ambitions.</p>
+
+  <p>What the patent signals is that DTCC has thought through the layer-five problem. They have named the asset class — fixed-supply, high-throughput, cross-chain-capable liquidity tokens — and they have named two specific candidate assets. The fact that one of them is XRP is not a Ripple marketing claim. It is a disclosure in a U.S. patent filing by the entity that sits at the center of $3.7 quadrillion in annual global settlement.</p>
+
+  <p>One honest clarification on asset scope. XDC — the third live implementation of the bridge-asset design pattern — is not named in this patent. Its institutional pathway to DTCC runs indirectly: R3 Corda is the foundational DLT for DTCC's Project Ion equities settlement platform (live since 2022 in parallel production at 100,000+ transactions per day), and XDC has a production bridge to Corda via the SBI XDC Network APAC joint venture. That is a credible but evidentiarily weaker connection than the direct patent naming for XRP and XLM. The 2026 Canton-based tokenization pilot that this paper focuses on does not currently involve XDC. Readers interpreting the bridge-asset thesis across all three implementations should weight XRP and XLM's evidentiary stack above XDC's for this specific layer-five story, while recognizing XDC's real institutional footprint elsewhere in the stack.</p>
+
+  <p>No other institutional validation of the bridge-asset role at layer five exists at this level. The DTCC patent is the strongest single piece of forward-looking institutional evidence the thesis has.</p>
+
+  <div class="pullquote">
+    The question is not whether XRP is the right asset for cross-border payments. The question is whether DTCC meant what they said when they wrote that patent. Because if they did, layer five has a settlement asset, and layer five has an incumbent.
+  </div>
+
+  <!-- SECTION 06 -->
+  <div class="section">
+    <div class="section-num">06</div>
+    <div class="section-title">A decision tree, and what it says about routing</div>
+  </div>
+
+  <p>The practical test for how any given institutional settlement routes through the stack is a short sequence of questions. Applied rigorously, it clarifies both where specialized incumbents dominate and where XRP participates.</p>
+
+  <div class="decision">
+    <h4>Settlement routing decision &middot; institutional</h4>
+
+    <div class="decision-q">Is settlement within a single currency jurisdiction with central-bank-money infrastructure available?</div>
+    <div class="decision-a">Route through RTGS or Fnality (layer three). Specialized incumbent dominates its core. XRPL captures the portion of layer-three wholesale activity that chooses a public ledger for programmability, privacy, or interoperability reasons — a meaningful but not dominant share.</div>
+
+    <div class="decision-q">Are both counterparties in the same correspondent credit web?</div>
+    <div class="decision-a">Route through tokenized deposits (layer two). Kinexys, SWIFT ledger, HSBC, Partior dominate within their respective credit webs. Ripple Payments captures cross-web flows and flows involving counterparties outside the top tier of correspondent banking.</div>
+
+    <div class="decision-q">Are both legs CLS-eligible currencies with both counterparties holding CLS membership?</div>
+    <div class="decision-a">Route through CLS Settlement (layer four). $8 trillion daily, 50% of global FX. XRP ODL captures the non-CLS-eligible tail — approximately $700B daily per CLS's own estimates — plus corridors where one side lacks CLS access.</div>
+
+    <div class="decision-q">Are both legs covered by a live wholesale CBDC corridor (Agorá, mBridge, bilateral CBDC arrangements)?</div>
+    <div class="decision-a">Route through the relevant corridor when it exists. Covers only the specific participating jurisdictions. XRP ODL handles the vast majority of cross-jurisdiction corridors outside these specialized arrangements.</div>
+
+    <div class="decision-q">Is settlement atomic between tokenized assets on different ledgers, where neither counterparty has standing liquidity in the destination asset?</div>
+    <div class="decision-a"><strong>Layer five. Bridge asset required.</strong> No specialized incumbent exists. CCIP routes the message; XRP (or XLM) provides the settlement leg. Ticket size bounded only by bridge-asset depth. DTCC's patent explicitly contemplates this architecture.</div>
+  </div>
+
+  <p>What the decision tree makes clear is that XRP participates in every branch, not just the last one. Specialized incumbents dominate their core layers; XRP captures structural overflow at layers one through four and the uncontested slot at layer five. The 14% of SWIFT claim is cumulative across the first four branches. The layer-five upside is additional to it.</p>
+
+  <p>Four categories of flow specifically anchor the layer-five addressable market:</p>
+
+  <p><strong>Non-CLS emerging-market institutional FX.</strong> CLS itself publicly estimates this at approximately $700 billion daily — currencies that are traded at institutional scale but not CLS-eligible. Vietnamese dong, Thai baht, Indonesian rupiah, Nigerian naira, Egyptian pound, Pakistani rupee, Bangladeshi taka, Turkish lira, Argentine peso, Colombian peso, many more. Not all of this is contestable — much is captured by regional arrangements — but a substantial subset is exactly the XRPL ODL use case at institutional scale.</p>
+
+  <p><strong>Cross-ledger tokenized asset settlement.</strong> This is the primary structural driver of layer-five flow, and it is specifically the problem the DTCC patent contemplates. Tokenized collateral is becoming the dominant asset class in institutional crypto infrastructure: BlackRock's BUIDL at $2.8B+ AUM on Ethereum, Franklin Templeton's FOBXX on Stellar and Solana, Ondo's OUSG at $692M on Ethereum, the DTCC's tokenized U.S. Treasuries on Canton Network (MVP H1 2026). These instruments are not speculative assets — they are the emerging collateral and liquidity layer of institutional finance. The tokenized Treasury market alone reached $12.88B by early 2026 and is projected by Standard Chartered to reach $16T by 2030, with Ripple/BCG projecting $18.9T by 2033. A BlackRock BUIDL holder needing to settle atomically against an OUSG position on a different chain, or a Franklin Templeton Treasury fund token needing to post as collateral against a Canton-issued security, is exactly the layer-five peak-ticket routing problem — and there is no current institutional production architecture for it. Even 0.5% of the projected 2030 tokenized market routing cross-chain at peak-ticket size is a very large number.</p>
+
+  <p><strong>Frontier-market institutional flows</strong> where the destination leg lacks both a regulated stablecoin and a tokenized deposit issuer — most of sub-Saharan Africa, parts of Southeast Asia, parts of Latin America. XRP's current ODL footprint already captures a slice of this; the addressable flow expands as tokenization extends into these markets without the corresponding institutional-grade dollar-backed alternatives.</p>
+
+  <p><strong>OTC derivative cross-margining flows</strong> during stress events, where peak intraday tickets at a single clearinghouse can hit tens of billions of dollars in single movements. ISDA has long identified this as the category of settlement where the absence of jurisdiction-neutral peak-ticket capacity creates systemic risk. The 2008 Lehman and AIG scenarios are the canonical reference case.</p>
+
+  <!-- SECTION 07 -->
+  <div class="section">
+    <div class="section-num">07</div>
+    <div class="section-title">The sizing math, with cross-layer flow</div>
+  </div>
+
+  <p>Parts I and II ran the sizing math against a denominator that was never fully specified — sometimes framed as SWIFT's $150 trillion cross-border payments flow, sometimes framed as peak-ticket institutional settlement. With the five-layer architecture now mapped, the denominator can be stated precisely. The TAM is the sum of XRP's addressable flow across all five layers: the overflow capture at layers one through four (anchored by Garlinghouse's 14% of SWIFT claim) plus the uncontested layer-five slot. The math is the same; the denominator is now honest.</p>
+
+  <p>The sizing constraint is still the peak single ticket the settlement asset must absorb without market-impact failure. The square-root market impact law from Part I still applies: slippage scales with √(T/D), where T is ticket size and D is bridge-asset market depth. The turnover sensitivity from Part I still applies: the flow rate through the asset determines what share of circulating supply is required to support the flow at given turnover. The netting analysis from Part II still applies with the revised netting sensitivity band of 5-25%. None of the mathematical structure of the original thesis changes.</p>
+
+  <p>The scenarios below re-run the Part I framework against cumulative cross-layer flow. The institutional-adoption scenario at $300B/day corresponds closely to Garlinghouse's 14% of SWIFT anchor (~$58B/day from that layer-four capture alone, plus comparable flow across layers one through three as Ripple Payments and RLUSD scale, plus initial layer-five routing). The higher scenarios reflect successful productionization of cross-ledger peak-ticket routing, which is where the terminal valuations are driven.</p>
+
+  <table class="scenarios">
+    <thead>
+      <tr>
+        <th>Scenario</th>
+        <th>Cross-layer flow (daily)</th>
+        <th>Turnover</th>
+        <th>Implied XRP price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Near-term</td>
+        <td class="num">$50B</td>
+        <td class="num">1.5%</td>
+        <td class="num">$18</td>
+      </tr>
+      <tr>
+        <td>Institutional adoption &middot; 14% of SWIFT</td>
+        <td class="num">$300B</td>
+        <td class="num">1.0%</td>
+        <td class="num">$180</td>
+      </tr>
+      <tr>
+        <td>Cross-ledger standard</td>
+        <td class="num">$1.5T</td>
+        <td class="num">0.7%</td>
+        <td class="num">$1,400</td>
+      </tr>
+      <tr>
+        <td>Full-stack integration</td>
+        <td class="num">$4T</td>
+        <td class="num">0.5%</td>
+        <td class="num">$5,600</td>
+      </tr>
+      <tr>
+        <td>Terminal &middot; 2032+</td>
+        <td class="num">$9T</td>
+        <td class="num">0.3%</td>
+        <td class="num">$15,000+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--ink-soft); margin-top: -12px; margin-bottom: 28px; padding: 16px 20px; background: var(--cream-deep); border-left: 2px solid var(--dim);">These scenarios assume institutional-grade order book depth sufficient to absorb $1B–$5B peak tickets at less than 0.1% slippage, consistent with the square-root market-impact constraint derived in Part I and the netting sensitivity band of 5–25% established in Part II.</p>
+
+  <p>These numbers are directionally consistent with the Part I scenarios, because the Part I scenarios were always implicitly pricing the cross-layer cumulative capture. The ambiguity was in the framing, not the math. The revised presentation is more defensible for two reasons: first, the TAM is now anchored to an architecture where each layer's contribution is specifically identified and the structural role of XRP at each is established by existing usage; second, the competitive architecture is explicitly acknowledged, which means the scenarios are compatible with Arc and Tempo and Kinexys and SWIFT's ledger and Fnality and Agorá all succeeding in their respective layer cores while XRP captures overflow plus layer five.</p>
+
+  <p>The institutional-adoption scenario at $180 per token is not the bull case; it is what happens if Garlinghouse's 14% of SWIFT ambition is realized over five years without layer-five productionizing yet. The cross-ledger standard scenario at $1,400 is the central case once layer five begins to mature. The terminal scenarios require both cross-layer capture and cross-ledger routing at institutional scale. None of the scenarios require XRP to win a market-share battle against stablecoins, tokenized deposits, CLS, or wholesale CBDC within each of those architectures' respective cores.</p>
+
+  <!-- SECTION 08 -->
+  <div class="section">
+    <div class="section-num">08</div>
+    <div class="section-title">Two important caveats</div>
+  </div>
+
+  <p>The thesis as stated depends on two claims that are not certain, and this paper would be dishonest not to name them.</p>
+
+  <h3 class="subheader">The DTCC patent may never become production architecture</h3>
+
+  <p>Patents are forward-looking legal filings; they are not commercial commitments. DTCC's current production partner is Digital Asset on the Canton Network, not Ripple or the Stellar Development Foundation. The MVP that goes live in 2026 uses Canton tokens for tokenized Treasury entitlements, settles on DTCC's traditional centralized ledger, and does not involve XRP or XLM at all. The patent describes an architecture DTCC considers technically coherent and commercially plausible. It does not guarantee DTCC will build it. The strongest version of the thesis requires either DTCC or a comparable institutional actor to actually productionize cross-ledger bridge-asset routing at scale. If that never happens, layer five remains a theoretical slot rather than an active market, and bridge-asset flow is bounded by the non-CLS FX tail and frontier-market institutional flows — still a real market, but materially smaller than the scenarios above contemplate.</p>
+
+  <h3 class="subheader">Ripple itself is hedging into stablecoins, with real institutional traction</h3>
+
+  <p>RLUSD reached $1.56 billion in market capitalization within fifteen months of launch. BlackRock, Deutsche Bank, LMAX Group, Mastercard, and SBI are integrated partners. Ripple's acquisitions — Hidden Road for $1.25B, Rail for $200M, GTreasury, and others totaling roughly $2.5-3B in capital deployment since 2023 — are structured around institutional stablecoin-first flows alongside XRP-based flows. The success of RLUSD could either expand XRP routing (by bringing more institutions onto Ripple's stack, deepening the cross-layer flow that XRP serves at peak-ticket tiers) or partially displace it (by substituting stablecoin-denominated settlement where corridor economics favor a dollar peg over a bridge asset) — the balance depends on corridor economics that remain unsettled. This is not evidence against the bridge-asset thesis — the two architectures serve different layers and can coexist — but it does suggest that <em>Ripple the company</em> will capture institutional value through RLUSD and its banking stack even in scenarios where XRP the asset does not reach layer-five incumbency. Holders of XRP should be clear that their exposure is to the bridge-asset thesis specifically, not to Ripple's general institutional success, and those two things are now meaningfully separable.</p>
+
+  <!-- SECTION 09 -->
+  <div class="section">
+    <div class="section-num">09</div>
+    <div class="section-title">What this means for the investment case</div>
+  </div>
+
+  <p>The investment thesis from Parts I and II is intact, and the architectural map sharpens rather than narrows it. XRP is not a bet on capturing a single slot. It is a bet on Ripple and XRP capturing meaningful share at every layer of the stack where a specialized incumbent's design leaves overflow — plus the uncontested layer-five slot where no specialized incumbent exists.</p>
+
+  <p>The bet is more specific than the Part I framing suggested, and therefore more falsifiable. If Ripple captures close to 14% of SWIFT over five years as Garlinghouse has stated, the institutional-adoption scenario is realized and the $180 price level follows from the math. If DTCC productionizes a cross-ledger liquidity routing framework and names XRP as the settlement asset, the cross-ledger standard scenario becomes the central case and the $1,400 level follows. If both happen, the terminal scenarios follow. If neither happens — if Ripple's institutional traction plateaus short of SWIFT-scale capture <em>and</em> layer five never matures into a production market — the thesis is falsified in its strong form and the realistic ceiling sits in the near-term range.</p>
+
+  <p>What the landscape does <em>not</em> support is a flat dismissal of the thesis on the grounds that Arc or Tempo or SWIFT's ledger "replaces" XRP. None of those systems replaces XRP because none of them targets the same cross-layer role. Each is layer-locked by design, and each leaves overflow flow at its layer that XRP is structurally positioned to capture. Arc is not a threat, Tempo is not a threat, Kinexys is not a threat, SWIFT's ledger is not a threat, Fnality is not a threat, Agorá is not a threat — because all of them solve settlement problems at specific layers of the stack while XRP operates across all five. The honest risks to the thesis are the ones Section 8 names: that Ripple's cross-layer traction stalls before reaching SWIFT-scale ambition, and that layer-five productionization does not happen within the investment horizon. Those are the conditions to monitor; those are the falsification triggers; those are what the next two years will settle.</p>
+
+  <div class="pullquote">
+    The settlement stack of 2030 is layered, not winner-take-all. Every specialized incumbent is locked to its layer. XRP is not. That structural asymmetry — plus the uncontested layer-five slot — is what the sizing math is pricing.
+  </div>
+
+  <div class="pullquote" style="border-left-color: var(--ink); margin-top: 28px;">
+    Layers one through four explain why XRP is used. Layer five explains why XRP must be expensive.
+  </div>
+
+  <div class="coda">
+    The question was never whether XRP would replace SWIFT. The question is whether a fixed-supply, jurisdiction-neutral, permissionless bridge asset can capture structural overflow across every specialized incumbent's layer, plus the layer where no specialized incumbent exists at all. DTCC, in writing, has said yes to the second. Ripple's customer base and Garlinghouse's public ambition say yes to the first.
+  </div>
+
+  <!-- REFERENCES -->
+  <div class="section" style="margin-top: 96px;">
+    <div class="section-num">§</div>
+    <div class="section-title">References</div>
+  </div>
+
+  <div style="font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; line-height: 1.55; color: var(--ink-soft); margin-top: 12px;">
+
+    <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--crimson-deep); margin-top: 24px; margin-bottom: 10px;">DTCC Patent and Tokenization Initiative</p>
+
+    <p style="margin-bottom: 8px;">USPTO. <em>"Systems, Methods, and Storage Media for Managing Digital Liquidity Tokens in a Distributed Ledger Platform,"</em> Patent Application US20250078162A1, Securrency Inc. (now DTCC Digital Assets).</p>
+
+    <p style="margin-bottom: 8px;">DTCC. <em>"DTCC Authorized to Offer New Tokenization Service, Paving the Way to Tokenized DTC-Custodied Assets,"</em> December 11, 2025. dtcc.com/news.</p>
+
+    <p style="margin-bottom: 8px;">SEC Division of Trading and Markets. DTC No-Action Letter, December 11, 2025. sec.gov/files/tm/no-action/dtc-nal-121125.pdf.</p>
+
+    <p style="margin-bottom: 8px;">DTCC and Digital Asset. <em>"DTCC and Digital Asset Partner to Tokenize DTC-Custodied U.S. Treasury Securities on the Canton Network,"</em> December 17, 2025.</p>
+
+    <p style="margin-bottom: 8px;">Genfinity. <em>"DTCC's Plan For Digital Liquidity Tokens: New Patent Outlines Integrating XRP Ledger and Stellar Blockchain into Interoperable Asset Management,"</em> January 30, 2026.</p>
+
+    <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--crimson-deep); margin-top: 24px; margin-bottom: 10px;">Settlement Architecture &middot; CLS, Fnality, Wholesale CBDC</p>
+
+    <p style="margin-bottom: 8px;">CLS Group. <em>"CLS execs on FX settlement risk, Europe T+1 and stablecoins in 2026,"</em> Finadium, January 2026. Source of $8T daily and "niche role" quote.</p>
+
+    <p style="margin-bottom: 8px;">CLS Group. <em>"The importance of PvP in an everchanging FX ecosystem,"</em> February 2025. Source of $700B non-CLS tail estimate per BIS Triennial Survey.</p>
+
+    <p style="margin-bottom: 8px;">Fnality International. <em>"The Next Era of Digital Money,"</em> December 11, 2025. fnality.com/news. Source of "We don't compete with stablecoins" quote.</p>
+
+    <p style="margin-bottom: 8px;">Fnality International. <em>"Connecting thousands of stablecoins with a safe settlement anchor,"</em> January 20, 2026.</p>
+
+    <p style="margin-bottom: 8px;">CoinDesk. <em>"Fnality Raises $136M to Expand Blockchain Payment Systems for Banks,"</em> September 23, 2025. Shareholder list and Series C details.</p>
+
+    <p style="margin-bottom: 8px;">The Block. <em>"Fnality raises $136 million Series C to expand settlement rails for tokenized markets,"</em> September 23, 2025.</p>
+
+    <p style="margin-bottom: 8px;">IMF. <em>Central Bank Exploration of Tokenized Reserves,</em> Fintech Note 2025/011. Source of "weak atomicity" quote.</p>
+
+    <p style="margin-bottom: 8px;">Bank for International Settlements. Project Agorá documentation, 2025. bis.org.</p>
+
+    <p style="margin-bottom: 8px;">Atlantic Council via Reuters/The Block. <em>"China-led cross-border CBDC platform mBridge surges past $55 billion in transaction volume,"</em> January 17, 2026.</p>
+
+    <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--crimson-deep); margin-top: 24px; margin-bottom: 10px;">Tokenized Deposits and SWIFT</p>
+
+    <p style="margin-bottom: 8px;">JPMorgan Kinexys. Public volume disclosures, Q1 2026. $3T+ cumulative, $5B daily.</p>
+
+    <p style="margin-bottom: 8px;">SWIFT. <em>"Swift announces shared ledger and AI innovation initiative,"</em> Sibos 2025 / 2026 MVP announcement.</p>
+
+    <p style="margin-bottom: 8px;">Ledger Insights. <em>"Broadridge Collaborates with Fnality to Enable Real-Time Settlement for Intraday Repo Transactions,"</em> April 2025.</p>
+
+    <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--crimson-deep); margin-top: 24px; margin-bottom: 10px;">Chainlink CCIP and Cross-Chain Interoperability</p>
+
+    <p style="margin-bottom: 8px;">Chainlink. <em>"The End-to-End Interoperability Standard Required To Scale Tokenization,"</em> January 2026. blog.chain.link. Source of institutional customer list.</p>
+
+    <p style="margin-bottom: 8px;">Chainlink. CCIP Q1 2026 volume data ($18B monthly, $33.6B secured, 60+ chains).</p>
+
+    <p style="margin-bottom: 8px;">Stellar Development Foundation. <em>"Stellar to join Chainlink Scale and adopt Data Feeds, Data Streams, and CCIP,"</em> October 31, 2025. stellar.org/blog.</p>
+
+    <p style="margin-bottom: 8px;">FinanceFeeds. <em>"How Chainlink CCIP Connects Ethereum, Solana, and Private Bank Chains in 2026,"</em> March 1, 2026.</p>
+
+    <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--crimson-deep); margin-top: 24px; margin-bottom: 10px;">Ripple, XRP, RLUSD, and Cross-Layer Footprint</p>
+
+    <p style="margin-bottom: 8px;">Garlinghouse, Brad. Public remarks, XRPL Apex Conference 2025. Source of 14% of SWIFT capture claim.</p>
+
+    <p style="margin-bottom: 8px;">Ripple. On-Demand Liquidity volume disclosures, Q1 2026. $14.2B across 14 corridors.</p>
+
+    <p style="margin-bottom: 8px;">OCC. Conditional Trust Bank Charter approval, Ripple Labs, December 2025.</p>
+
+    <p style="margin-bottom: 8px;">24/7 Wall St. <em>"Ripple (XRP) News: Ripple and Kyobo Life Insurance Partner to Pioneer Korea's First Blockchain Bond Settlement,"</em> April 15, 2026.</p>
+
+    <p style="margin-bottom: 8px;">Disruption Banking. <em>"Ripple's RLUSD Rise: Is This the End for XRP?"</em> March 25, 2026. Source of RLUSD market cap and partner integrations.</p>
+
+    <p style="margin-bottom: 8px;">SocGen-FORGE. EUR CoinVertible on XRP Ledger deployment announcement.</p>
+
+    <p style="margin-bottom: 8px;">SBI Holdings. ¥10B blockchain bond announcement with XRP distribution, 2025.</p>
+
+    <p style="margin-bottom: 8px;">Standard Chartered. Geoffrey Kendrick, XRP price targets and institutional flow analysis, Q1 2026 digital assets research.</p>
+
+    <p style="margin-bottom: 8px;">CoinDesk. <em>"Ripple taps Singapore sandbox to test stablecoin-powered trade finance with RLUSD,"</em> March 25, 2026.</p>
+
+    <p style="margin-bottom: 8px;">Stablecoin Insider. <em>"Ripple Positions RLUSD as Bank-Grade Stablecoin in 2026,"</em> January 3, 2026.</p>
+
+    <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--crimson-deep); margin-top: 24px; margin-bottom: 10px;">Co-Architecture Implementations &middot; Stellar, XDC, and Institutional Venues</p>
+
+    <p style="margin-bottom: 8px;">Stellar Development Foundation. Q3/Q4 2025 ecosystem report. $5.4B quarterly RWA payment volume.</p>
+
+    <p style="margin-bottom: 8px;">PayPal. PYUSD on Stellar deployment announcement, 2024-2025.</p>
+
+    <p style="margin-bottom: 8px;">Franklin Templeton. FOBXX tokenized money market fund on Stellar and Solana, institutional distribution.</p>
+
+    <p style="margin-bottom: 8px;">SBI Group / SBI XDC Network APAC. <em>"XDC Network and R3 Corda Successfully Complete Inter-Business Settlement PoC,"</em> May 31, 2024.</p>
+
+    <p style="margin-bottom: 8px;">CoinDesk. <em>"R3 Corda Now Has a Bridge to Public Blockchains With Arrival of Ethereum-Based XDC,"</em> March 30, 2021. LAB577-built bridge, XDC as Corda settlement coin.</p>
+
+    <p style="margin-bottom: 8px;">Markets Media. <em>"R3's Corda Chosen for DTCC's Alternative Settlements,"</em> August 2022. Project Ion, 100,000+ transactions/day parallel production.</p>
+
+    <p style="margin-bottom: 8px;">Ledger Insights. <em>"R3 pivots to public blockchain with Solana partnership,"</em> May 22, 2025. Institutional RWA tokenization infrastructure.</p>
+
+    <p style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--crimson-deep); margin-top: 24px; margin-bottom: 10px;">Market Structure and Tokenization Projections</p>
+
+    <p style="margin-bottom: 8px;">Standard Chartered. Tokenized RWA market projection, $16T by 2030.</p>
+
+    <p style="margin-bottom: 8px;">Ripple / Boston Consulting Group. Joint tokenization market projection, $18.9T by 2033.</p>
+
+    <p style="margin-bottom: 8px;">RWA.xyz and DefiLlama. Tokenized real-world asset market data, March 2026. $26B+ current market, tokenized Treasury breakdown.</p>
+
+    <p style="margin-bottom: 8px;">Blocklr. <em>"RWA Tokenization in 2026: How Real-World Assets Are Moving Onchain,"</em> March 18, 2026.</p>
+
+    <p style="margin-bottom: 8px;">CFTC. <em>"Acting Chairman Pham Announces Launch of Digital Assets Pilot Program for Tokenized Collateral in Derivatives Markets,"</em> December 8, 2025. cftc.gov.</p>
+
+    <p style="margin-bottom: 8px;">Crypto.com. <em>"Is 2026 the Year of Tokenization?"</em> December 15, 2025.</p>
+
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div style="margin-top: 72px; padding: 28px 32px; background: var(--cream-deep); border-left: 3px solid var(--dim); font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; line-height: 1.6; color: var(--ink-soft); font-style: italic;">
+    Conditional structural analysis. Scenarios are contingent on the adoption pathways discussed and are not predictions. This paper is not financial advice. Readers should conduct their own research and consult qualified advisors before making investment decisions. The author may hold positions in assets discussed.
+  </div>
+
+  <div class="footer">
+    <span>XRP Valuation Series &middot; Part IV of IV</span>
+    <span>April 2026</span>
+  </div>
+
+</article>
+
+</body>
+</html>

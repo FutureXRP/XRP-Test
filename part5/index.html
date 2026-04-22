@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Derivatives Layer — XRP Valuation Series Part V</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --cream:       #f5f0e8;
+      --cream-deep:  #ede6d6;
+      --cream-card:  #efe9db;
+      --ink:         #1a1510;
+      --ink-soft:    #3a3028;
+      --dim:         #7a6e60;
+      --crimson:     #8b1a1a;
+      --crimson-mid: #a52020;
+      --crimson-pale:#f0dada;
+      --gold:        #b8922a;
+      --rule:        rgba(26,21,16,0.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { font-size: 18px; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── LAYOUT ── */
+    article {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 72px 32px 120px;
+    }
+
+    /* ── CATEGORY NAV ── */
+    .category-nav {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 28px;
+    }
+
+    .category-nav span {
+      color: var(--dim);
+      margin: 0 8px;
+      font-size: 10px;
+    }
+
+    /* ── MASTHEAD ── */
+    .masthead {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dim);
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 36px;
+    }
+
+    /* ── PART MARK — bordered box ── */
+    .part-mark {
+      display: inline-block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      border: 1px solid var(--rule);
+      padding: 8px 16px;
+      margin-bottom: 32px;
+    }
+
+    /* ── HEADLINE ── */
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 6vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 32px;
+    }
+
+    /* single crimson italic word in headline */
+    .h1-accent {
+      color: var(--crimson);
+      font-style: italic;
+      font-weight: 900;
+    }
+
+    /* ── DECK — large flowing italic, no border ── */
+    .deck {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.65;
+      color: var(--ink-soft);
+      margin-bottom: 28px;
+      letter-spacing: 0.01em;
+    }
+
+    .deck strong {
+      font-style: normal;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    /* ── BYLINE ── */
+    .byline {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 56px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    /* ── BODY TEXT ── */
+    p {
+      font-size: 1rem;
+      margin-bottom: 1.5em;
+      color: var(--ink-soft);
+    }
+
+    p.lead {
+      font-size: 1.08rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 2em;
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      margin: 56px 0 28px;
+    }
+
+    .section-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--crimson-pale);
+      line-height: 1;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+
+    /* ── PULL QUOTE ── */
+    .pullquote {
+      background: var(--cream-deep);
+      border-left: 4px solid var(--crimson);
+      padding: 28px 32px;
+      margin: 40px 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--ink-soft);
+      letter-spacing: 0.01em;
+    }
+
+    /* ── DATA CARDS ── */
+    .data-block {
+      background: var(--cream-card);
+      border: 1px solid var(--rule);
+      padding: 28px 32px;
+      margin: 36px 0;
+    }
+
+    .data-block-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 16px;
+    }
+
+    .data-block p {
+      font-size: 0.95rem;
+      margin-bottom: 0.75em;
+      color: var(--ink-soft);
+    }
+
+    .data-block p:last-child { margin-bottom: 0; }
+
+    /* ── SCENARIO TABLE ── */
+    .scenario-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 36px 0;
+      font-size: 0.9rem;
+    }
+
+    .scenario-table thead tr {
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    .scenario-table thead th {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 500;
+    }
+
+    .scenario-table tbody tr {
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .scenario-table tbody tr:nth-child(even) {
+      background: var(--cream-deep);
+    }
+
+    .scenario-table tbody td {
+      padding: 12px 16px;
+      color: var(--ink-soft);
+      vertical-align: top;
+    }
+
+    .scenario-table .price-cell {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 500;
+      color: var(--crimson);
+      white-space: nowrap;
+    }
+
+    .scenario-table .highlight-row {
+      background: var(--crimson-pale) !important;
+    }
+
+    .scenario-table .highlight-row td {
+      color: var(--ink);
+    }
+
+    /* ── FORMULA BLOCK ── */
+    .formula {
+      background: var(--cream-card);
+      border: 1px solid var(--rule);
+      border-left: 4px solid var(--crimson);
+      color: var(--ink-soft);
+      padding: 24px 32px;
+      margin: 32px 0;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.95rem;
+      line-height: 1.9;
+    }
+
+    .formula .label {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 12px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .formula .eq {
+      color: var(--crimson);
+      font-weight: 500;
+    }
+
+    .formula .comment {
+      color: var(--dim);
+      font-size: 0.82rem;
+    }
+
+    /* ── INLINE CALLOUT ── */
+    .callout {
+      border: 1px solid var(--crimson);
+      padding: 20px 24px;
+      margin: 32px 0;
+    }
+
+    .callout-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 10px;
+    }
+
+    .callout p {
+      font-size: 0.95rem;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    /* ── CANDIDATE TABLE ── */
+    .candidate-row {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 0;
+      border-bottom: 1px solid var(--rule);
+      padding: 16px 0;
+      align-items: start;
+    }
+
+    .candidate-row:first-child {
+      border-top: 1px solid var(--rule);
+    }
+
+    .candidate-name {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--ink);
+      padding-right: 20px;
+    }
+
+    .candidate-verdict {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      line-height: 1.55;
+    }
+
+    .pass { color: var(--crimson); font-weight: 500; }
+    .fail { color: var(--dim); }
+
+    /* ── CODA ── */
+    .coda {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.75;
+      color: var(--ink-soft);
+      border-top: 3px double var(--crimson);
+      border-bottom: 3px double var(--crimson);
+      padding: 36px 16px;
+      margin: 56px 0 48px;
+      text-align: center;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── REFERENCES ── */
+    .references {
+      margin-top: 64px;
+      padding-top: 32px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .ref-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 20px;
+    }
+
+    .references p {
+      font-size: 0.82rem;
+      line-height: 1.6;
+      margin-bottom: 8px;
+      color: var(--dim);
+    }
+
+    /* ── DISCLAIMER ── */
+    .disclaimer {
+      margin-top: 48px;
+      padding: 24px 28px;
+      background: var(--cream-deep);
+      border-left: 3px solid var(--dim);
+      font-size: 0.8rem;
+      font-style: italic;
+      color: var(--dim);
+      line-height: 1.65;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+    }
+
+    /* ── UTILITY ── */
+    strong { font-weight: 500; color: var(--ink); }
+    em { font-style: italic; }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 40px 0;
+    }
+
+    @media (max-width: 600px) {
+      article { padding: 48px 20px 80px; }
+      .section-num { font-size: 2.2rem; }
+      .candidate-row { grid-template-columns: 1fr; gap: 4px; }
+      .scenario-table { font-size: 0.8rem; }
+      .scenario-table thead th,
+      .scenario-table tbody td { padding: 10px 10px; }
+    }
+  </style>
+</head>
+<body>
+<article>
+
+  <div class="masthead">
+    <span class="series">XRP Valuation Series</span>
+    <span>April 2026</span>
+  </div>
+
+  <div class="category-nav">
+    Analysis <span>·</span> Derivatives Markets <span>·</span> Market Structure
+  </div>
+
+  <div class="part-mark">Part V &middot; Companion to Parts I through IV</div>
+
+  <h1>The pipe we <span class="h1-accent">forgot</span> to size.</h1>
+
+  <div class="deck">
+    Part V does not assume derivatives must settle through XRP. It shows what price XRP would require if even a fraction of peak derivatives settlement adopts a neutral bridge architecture — because the same formula, at the same slippage standard, applied to a larger Q, produces proportionally larger results. The four articles sized the pipes for payments. This one examines the market they left unexamined.
+  </div>
+
+  <div class="byline">
+    Structural Analysis &middot; April 2026
+  </div>
+
+  <p class="lead">Parts I and II of this series argued that XRP is not being valued. It is being sized — priced as a function of the peak-ticket flow it would need to absorb as a fixed-supply, freely-floating bridge asset in institutional settlement. The argument held through four articles, three netting objections, two competitive threats, and one settlement stack. It survives contact with the derivatives layer too. But the numbers are materially larger.</p>
+
+  <p>The conditional framing that governs this paper: Part V does not claim derivatives must settle through XRP. It derives the price XRP would require if they do — using the identical formula, at the identical slippage standard, with a larger input for peak transaction size. The conditional is the argument. The math follows from it.</p>
+
+  <!-- 01 -->
+  <div class="section">
+    <div class="section-num">01</div>
+    <div class="section-title">What was left on the table</div>
+  </div>
+
+  <p>The settlement stack in Part IV mapped five layers — retail payments, SME cross-border, corporate treasury, interbank institutional, and sovereign/neutral-corridor flows. The scenario math priced XRP at terminal implied values between $6,500 and $18,400 depending on flow capture assumptions, with $18,545 as the cleanly derived figure for a single $50 billion peak transaction at 3.5 basis point institutional slippage tolerance.</p>
+
+  <p>What those articles did not include: the derivatives market and the infrastructure Ripple has since built to sit inside it.</p>
+
+  <div class="data-block">
+    <div class="data-block-title">The derivatives market — confirmed figures (BIS Triennial Survey, June 2025)</div>
+    <p><strong>OTC derivatives notional outstanding:</strong> $846 trillion as of June 2025 — a 16% year-on-year increase, the largest since 2008.</p>
+    <p><strong>Interest rate derivatives daily turnover:</strong> $7.9 trillion per day — up 59% since 2022.</p>
+    <p><strong>FX derivatives daily turnover:</strong> $9.6 trillion per day — up 28% since 2022.</p>
+    <p><strong>Standing margin collateral:</strong> $430.4 billion in cleared derivatives initial margin at major CCPs; an additional $1.5 trillion in non-cleared IM and variation margin. Total margin ecosystem approximately $2 trillion.</p>
+    <p><strong>Peak single-transaction reference:</strong> Individual central bank FX swap draws reached $36.3 billion (ECB, March 2020) to $100-200 billion when crisis-era caps were removed. Aggregate outstanding peaked at $583 billion in December 2008.</p>
+  </div>
+
+  <p>The question the series never asked: if a $50 billion sovereign FX swap principal exchange routes through XRP as the neutral settlement bridge, what does the required liquidity pool imply for price? The answer belongs in the record.</p>
+
+  <!-- 02 -->
+  <div class="section">
+    <div class="section-num">02</div>
+    <div class="section-title">The infrastructure Ripple built while the market looked elsewhere</div>
+  </div>
+
+  <p>While XRP's price declined 61% from its 2025 peak and the market fixated on ETF outflows, Ripple assembled the most consequential derivatives infrastructure stack ever built by a crypto-native company. The sequence is not coincidental.</p>
+
+  <p>April 2025: Ripple acquired Hidden Road Partners for $1.25 billion — making it the first cryptocurrency company to own and operate a global multi-asset prime broker. Hidden Road had been clearing over $3 trillion annually for more than 300 institutional clients across foreign exchange, derivatives, fixed income, and digital assets. The business was renamed Ripple Prime.</p>
+
+  <p>October 2025: The acquisition closed and Ripple Prime launched full OTC spot execution for US institutional clients, with cross-margining across OTC spot, OTC swaps, and CME-listed futures and options in a single collateral framework. RLUSD — Ripple's regulated dollar stablecoin — became the first stablecoin used as margin collateral across a prime brokerage's full derivatives product suite.</p>
+
+  <p>March 2, 2026: Hidden Road Partners CIV US LLC appeared in the National Securities Clearing Corporation directory — clearing broker code 0443. This is the DTCC's clearing subsidiary. Ripple Prime now operates within the same clearing infrastructure as Goldman Sachs and JPMorgan Chase. David Schwartz, Ripple's CTO, commented two words: "Seems important."</p>
+
+  <div class="callout">
+    <div class="callout-label">The DTCC Patent Record</div>
+    <p>DTCC filed two patents in 2025 explicitly naming Ripple and the XRP Ledger as compatible infrastructure for its tokenized finance framework. The patents describe hierarchical rights delegation, cross-ledger liquidity tokens, and bridge architectures designed to move assets across public and private blockchains. DTCC processes $3.7 quadrillion in transactions annually and holds custody of $87 trillion in assets across 130 jurisdictions. Patent filings do not constitute contracts. The directional signal is clear regardless.</p>
+  </div>
+
+  <p>Additionally, December 2025: the CFTC launched a pilot program formally permitting FCMs to accept non-securities digital assets — including Bitcoin, Ether, and USDC — as margin collateral. March 2026: the CFTC published FAQs clarifying that after the initial three-month pilot period, asset restrictions fall away and FCMs may expand to other crypto assets. XRP, as a CFTC-classified digital commodity following the SEC settlement, has a regulatory pathway to eligibility post-window — though formal inclusion is not automatic and remains subject to further CFTC action and individual FCM determination. The pathway exists. It has not been walked yet.</p>
+
+  <p>This is not a payment infrastructure thesis dressed in derivatives clothing. Ripple Prime now clears derivatives. Ripple Prime is listed in DTCC's clearing directory. The CFTC has opened the door for XRP as derivatives margin collateral. These are operating facts, not roadmap aspirations.</p>
+
+  <!-- 03 -->
+  <div class="section">
+    <div class="section-num">03</div>
+    <div class="section-title">Why the candidate set narrows to the same three</div>
+  </div>
+
+  <p>Part IV derived the architectural requirements for a Layer 5 settlement asset from first principles: fixed supply, public permissionless, fast deterministic finality, jurisdiction-neutral, no issuer dependency. The derivatives layer imposes an additional requirement that tightens the field further: settlement finality under stress.</p>
+
+  <p>When a derivatives clearing crisis hits at 3am on a Sunday — the April 2025 liquidation cascade generated $775 million in liquidations in a single session — margin calls must be met within hours. How quickly can each candidate actually move?</p>
+
+  <div class="candidate-row">
+    <div class="candidate-name">Bitcoin</div>
+    <div class="candidate-verdict"><span class="fail">10–60 minutes settlement, congestion risk under peak load, no institutional prime brokerage infrastructure, no cross-margining capability with TradFi derivatives.</span></div>
+  </div>
+  <div class="candidate-row">
+    <div class="candidate-name">Ethereum</div>
+    <div class="candidate-verdict"><span class="fail">12–15 second blocks minimum, significant congestion risk under stress, no fixed supply — net issuance varies with validator economics, no dedicated derivatives prime brokerage pipeline.</span></div>
+  </div>
+  <div class="candidate-row">
+    <div class="candidate-name">USDC / RLUSD</div>
+    <div class="candidate-verdict"><span class="fail">Instant on-chain settlement, but issuer-dependent and dollar-pegged. At Layer 5 the dollar peg is the problem — institutions using derivatives to escape dollar-denominated sovereign risk cannot settle in a dollar-pegged instrument. This is the architecture of the problem, not the solution.</span></div>
+  </div>
+  <div class="candidate-row">
+    <div class="candidate-name">Deposit tokens (JPM Coin)</div>
+    <div class="candidate-verdict"><span class="fail">Bank-issued claims. Carry the issuing bank's counterparty risk and jurisdictional exposure. A Chinese state-owned enterprise and a Brazilian sovereign fund settling a bilateral FX swap will not clear through a JPMorgan liability.</span></div>
+  </div>
+  <div class="candidate-row">
+    <div class="candidate-name">Wholesale CBDC</div>
+    <div class="candidate-verdict"><span class="fail">Sovereign-issued. The opposite of neutral for cross-bloc settlement. mBridge exists specifically because no counterparty will accept settlement in the other's CBDC.</span></div>
+  </div>
+  <div class="candidate-row">
+    <div class="candidate-name">XRP</div>
+    <div class="candidate-verdict"><span class="pass">3–5 second deterministic finality. Fixed supply at 100 billion. Public permissionless. Non-sovereign. CFTC commodity classification. NSCC-listed prime brokerage with $3T+ annual clearing. Cross-margining across OTC spot, swaps, and CME futures. Zero issuer-of-dollar dependency. DTCC patent explicitly named. The only candidate that satisfies every requirement simultaneously.</span></div>
+  </div>
+  <div class="candidate-row">
+    <div class="candidate-name">XLM / XDC</div>
+    <div class="candidate-verdict"><span class="pass">Architecturally eligible — fixed or limited supply, public permissionless, fast settlement. Neither has Ripple Prime's institutional distribution, NSCC clearing status, or the prime brokerage cross-margining infrastructure. The candidate set is three; the institutional infrastructure advantage is one.</span></div>
+  </div>
+
+  <p>The 3–5 second finality matters more in derivatives than in payments. An ODL payment that takes 30 seconds instead of 5 is still a good payment. A margin call unmet for 30 minutes during a clearing crisis is a default. XRP's settlement speed is not a nice-to-have in derivatives; it is the operational requirement.</p>
+
+  <!-- 04 -->
+  <div class="section">
+    <div class="section-num">04</div>
+    <div class="section-title">The layered settlement architecture — and why it is more bullish, not less</div>
+  </div>
+
+  <p>Ripple has built a two-asset architecture at Ripple Prime: RLUSD handles the dollar-denominated legs of institutional derivatives settlement; XRP handles the cross-layer overflow where dollar-pegged settlement creates rather than solves the problem.</p>
+
+  <p>At first glance this looks like a dilution of the XRP thesis. RLUSD is absorbing volume XRP might otherwise move. This reading is backwards.</p>
+
+  <p>The transactions that route through RLUSD are layers 1 through 4: dollar-denominated, institutionally bilateral, within the existing dollar-denominated system. These are the flows that stablecoins are designed for. They are not XRP's use case and never were.</p>
+
+  <p>The transactions that route through XRP are precisely those where dollar settlement is the problem — where counterparties are operating across currency blocs, where one or both legs require a neutral bridge not tied to any sovereign, where the FX swap itself is a hedge against dollar weaponization. These are the Layer 5 transactions. And for these transactions, every other candidate fails the neutrality test.</p>
+
+  <div class="pullquote">
+    The layered architecture does not reduce XRP's pool requirement per transaction. It concentrates demand on XRP for the specific transactions with the highest neutrality requirement — and therefore the deepest required pool. RLUSD and XRP are not competing. RLUSD handles what dollars can handle. XRP handles what dollars cannot.
+  </div>
+
+  <p>Furthermore, the margin collateral dimension introduces a holding demand that has no equivalent in the payment layer. When XRP is posted as initial margin at a DCO, it is held for the life of the derivatives contract — typically weeks to months. This is the opposite of ODL's velocity. Every token locked as margin is removed from the float that must service bridge depth requirements. Supply compression and bridge depth demand compound rather than offset.</p>
+
+  <!-- 05 -->
+  <div class="section">
+    <div class="section-num">05</div>
+    <div class="section-title">The formula applied — same mechanics, larger numbers</div>
+  </div>
+
+  <p>The methodology is identical to Parts I and II. The square-root market impact law, Almgren-Chriss framework, validated against the BIS Project Mariana findings on AMM-based bridge settlement and confirmed against institutional FX execution data. Nothing changes except Q — the peak single transaction size.</p>
+
+  <div class="formula">
+    <div class="label">Almgren-Chriss Market Impact — Pool Sizing Formula</div>
+    <div class="eq">Pool = Q × (σ_daily ÷ MI)²</div>
+    <br>
+    <span class="comment">Where:</span><br>
+    <span class="comment">Q         = single peak transaction size (USD)</span><br>
+    <span class="comment">σ_daily   = XRP daily volatility = 5% (90% annualized ÷ √252)</span><br>
+    <span class="comment">MI        = maximum acceptable market impact = 0.035% (3.5 bp)</span><br>
+    <br>
+    <span class="comment">Multiplier: (0.05 ÷ 0.00035)² = 20,408</span><br>
+    <span class="comment">Implied Price = Required Pool ÷ 55B circulating supply</span>
+  </div>
+
+  <p>The 3.5 basis point slippage standard is not arbitrary. Institutional FX settlement desks execute at sub-5-basis-point tolerances as a matter of operations. For a central bank executing a $50 billion principal exchange, 1% slippage represents a $500 million cost — rendering the entire efficiency argument for blockchain settlement moot. The institution either uses a rail that runs at sub-5-bp tolerance or it does not use blockchain settlement. There is no middle ground at institutional scale.</p>
+
+  <p>Verification against the series: at $50 billion and 3.5 basis points, the formula produces $1,020 trillion in required pool and $18,545 per token. This matches the Part I terminal scenario exactly.</p>
+
+  <div class="data-block">
+    <div class="data-block-title">Peak single transaction sizing — documented historical reference points</div>
+    <p><strong>ECB, March 18, 2020:</strong> Single draw of $36.3 billion at 0.45% interest rate — documented Fed H.4.1 release.</p>
+    <p><strong>ECB/BOJ/BOE/SNB, October 2008:</strong> Caps removed entirely for four central banks; individual draws scaled to $100B+ during the peak crisis window of September–December 2008.</p>
+    <p><strong>Aggregate peak, December 10, 2008:</strong> $583 billion outstanding across all Fed swap lines — approximately 25% of the Fed's total assets at the time.</p>
+    <p><strong>COVID aggregate peak, May 2020:</strong> $470 billion outstanding, approximately 80% to ECB and Bank of Japan.</p>
+    <p><strong>Large institutional FX swap (commercial):</strong> Single principal exchange legs of $10–50 billion are routine for Tier 1 banks in major currency pairs. These are the commercial institutional baseline, not the sovereign ceiling.</p>
+    <p style="font-size:0.88rem; color:var(--dim); margin-top:8px; margin-bottom:0;"><em>These are not theoretical inputs. They are documented transactions. The scenario table uses them as Q — the only variable that changes from Parts I–II.</em></p>
+  </div>
+    <table class="scenario-table">
+      <thead>
+        <tr>
+          <th>Peak Single Transaction</th>
+          <th>Context</th>
+          <th>Required Pool</th>
+          <th>Implied Price (55B float)</th>
+          <th>Implied Price (45B float*)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight-row">
+          <td>$50B</td>
+          <td>Large institutional FX swap / sovereign bilateral — Part I anchor</td>
+          <td>$1,020T</td>
+          <td class="price-cell">$18,545</td>
+          <td class="price-cell">$22,667</td>
+        </tr>
+        <tr>
+          <td>$100B</td>
+          <td>Central bank FX swap draw — documented individual crisis-era draws</td>
+          <td>$2,040T</td>
+          <td class="price-cell">$37,091</td>
+          <td class="price-cell">$45,333</td>
+        </tr>
+        <tr>
+          <td>$200B</td>
+          <td>Large central bank sovereign mobilization — GFC-era individual peaks</td>
+          <td>$4,082T</td>
+          <td class="price-cell">$74,218</td>
+          <td class="price-cell">$90,711</td>
+        </tr>
+        <tr>
+          <td>$500B</td>
+          <td>Aggregate crisis-level sovereign draw — GFC 2008 aggregate peak</td>
+          <td>$10,204T</td>
+          <td class="price-cell">$185,527</td>
+          <td class="price-cell">$226,756</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="font-size:0.82rem; color:var(--dim); margin-top:-20px; margin-bottom:28px;">* 45B effective float assumes 10 billion tokens locked as derivatives margin collateral at mature institutional adoption. If XRP captures 5–15% of eligible non-cleared or cross-margin initial margin demand at a major DCO or FCM, lockup could range from approximately 1–5 billion tokens at mid-range pricing — compressing the bridge depth denominator and amplifying the implied price. Supply compression from margin lockup compounds with bridge depth requirement multiplicatively, not additively.</p>
+
+  <div class="callout">
+    <div class="callout-label">Q sensitivity — effective bridge leg vs. full principal</div>
+    <p>A legitimate question: on a $200B FX swap principal exchange, does the full $200B route through XRP as a bridge asset, or only the cross-currency overflow leg? The honest answer: it depends on the transaction architecture. A fully bilateral sovereign exchange with no dollar leg may route the full principal. A transaction where one leg is already denominated in dollars may route only the cross-currency residual. The table above uses full principal as the ceiling. Below is the floor — effective bridge leg only:</p>
+    <br>
+    <p><strong>$10B effective bridge leg</strong> → Pool $204T → Implied <strong>$3,709/token</strong></p>
+    <p><strong>$20B effective bridge leg</strong> → Pool $408T → Implied <strong>$7,418/token</strong></p>
+    <p><strong>$50B effective bridge leg</strong> → Pool $1,020T → Implied <strong>$18,545/token</strong> (Part I anchor)</p>
+    <p><strong>$100B effective bridge leg</strong> → Pool $2,040T → Implied <strong>$37,091/token</strong></p>
+    <br>
+    <p>Even at the most conservative effective bridge leg — $10B, a fraction of a large bilateral sovereign swap — the implied price is $3,709: more than 2.6× the Part I baseline, and well above any current price. The question is not whether the math works at small effective bridge legs. It does. The question is how large the effective bridge leg becomes as the derivatives layer matures.</p>
+  </div>
+
+  <p>The $100,000+ threshold is not a heroic scenario. It is the mechanical consequence of a $200-500 billion peak transaction at institutional slippage standards, with a modestly compressed float from margin collateral demand. The documentation of such transactions exists. The ECB drew down swap lines in amounts exceeding $100 billion during 2008. These are not theoretical constructs.</p>
+
+  <!-- 06 -->
+  <div class="section">
+    <div class="section-num">06</div>
+    <div class="section-title">The velocity correction and why it strengthens the argument</div>
+  </div>
+
+  <p>A reasonable objection: velocity in the derivatives layer is far lower than in payments. ODL transactions clear in seconds, turning the XRP pool over hundreds of times daily. Derivatives margin sits for weeks or months. Does low velocity weaken the price argument?</p>
+
+  <p>No. It inverts it.</p>
+
+  <p>High velocity means each token generates more economic throughput per unit of time but is not removed from supply. The token transits, is released, and is available for the next transaction. Velocity is high but holding demand is low.</p>
+
+  <p>Low velocity means the opposite: each token locked as margin is removed from the circulating float for the duration of the contract. The same dollar of derivatives exposure creates far more price pressure per token than the same dollar of ODL flow — because the token is held, not returned. A $100 billion initial margin requirement at $10,000 per XRP locks 10 billion tokens. At $50,000 per XRP it locks 2 billion. At both prices the dollar exposure is the same. The price is what adjusts.</p>
+
+  <div class="callout">
+    <div class="callout-label">The velocity inversion</div>
+    <p>Derivatives margin collateral is held for weeks to months — velocity of approximately 2–6 turns per year. ODL runs at effective velocities of several hundred to several thousand turns per year. The same dollar of margin demand removes roughly 100–500× more supply from the float than the equivalent dollar of ODL flow. Low velocity does not reduce the price argument. It is the price argument.</p>
+  </div>
+
+  <p>The two demand sources — bridge depth requirement and margin collateral lockup — are not parallel. They compound through the float compression mechanism. As more tokens are locked as margin, effective circulating supply falls. A smaller effective float requires a higher price per token to satisfy the same bridge depth requirement. The two effects are multiplicative, as shown in the 45B float column above.</p>
+
+  <!-- 07 -->
+  <div class="section">
+    <div class="section-num">07</div>
+    <div class="section-title">What this adds to the thesis</div>
+  </div>
+
+  <p>Parts I and II established: if XRP is used as a bridge asset for institutional settlement, the pool depth requirement forces price to a minimum determined by peak transaction size and acceptable slippage. The series' terminal scenarios — $6,500 to $18,545 — were derived from the payments layer with $50 billion as the peak single transaction.</p>
+
+  <p>Part V establishes three things that the original series did not address.</p>
+
+  <p><strong>First:</strong> The derivatives market's peak single transaction is larger than the payments layer's. Central bank FX swap draws of $100-200 billion are documented. Crisis-aggregate peaks exceed $500 billion. The formula scales linearly. $100 billion implies $37,000 per token using identical methodology. $200 billion implies $74,000. These are not extrapolations — they are the same calculation with a larger input.</p>
+
+  <p><strong>Second:</strong> Ripple Prime's NSCC listing and DTCC's patent record represent the most direct institutional infrastructure positioning any blockchain project has achieved in the derivatives market. The architecture is not hypothetical. The clearing infrastructure is live. The regulatory pathway for XRP as derivatives margin collateral is open. The series' thesis has an institutional delivery mechanism it did not have when Parts I through IV were written.</p>
+
+  <p><strong>Third:</strong> The margin collateral dimension creates a demand source orthogonal to bridge settlement. This demand is characterized by low velocity, high holding periods, and direct float compression. It compounds with the bridge depth requirement rather than competing with it. The derivatives layer does not add a second price argument. It amplifies the first one.</p>
+
+  <div class="pullquote">
+    Parts I through IV established that Layer 5 transactions explain why XRP must be expensive. Part V establishes that the derivatives market is the largest source of Layer 5 transactions in existence — and that Ripple has already built the infrastructure to be inside it.
+  </div>
+
+  <!-- 08 -->
+  <div class="section">
+    <div class="section-num">08</div>
+    <div class="section-title">The falsification criteria</div>
+  </div>
+
+  <p>The thesis remains conditional, and that conditionality is the argument's strength. A framework that cannot be falsified is not analysis — it is advocacy. The derivatives extension inherits the same falsification structure as the payment thesis, with one additional trigger specific to this layer.</p>
+
+  <p>The thesis is confirmed in its strong form if: Ripple Prime successfully routes institutional derivatives settlement through XRP as the cross-currency bridge asset — not RLUSD, not a dollar-denominated instrument, but XRP serving the neutral-corridor function. The first confirmed instance of a $1B+ institutional derivatives transaction settling through XRP, rather than through stablecoins or traditional settlement rails, would constitute confirmation. The framework then demands that the pool exist. If the pool exists, price follows mechanically from the formula.</p>
+
+  <p>The thesis is falsified in its strong form if: RLUSD successfully displaces XRP across all Ripple Prime's cross-currency flows, removing any distinct demand for XRP in the derivatives context. This would require RLUSD to solve the neutrality problem — which it cannot do structurally, because RLUSD is a dollar-pegged instrument and dollar-pegged instruments cannot serve as neutral settlement for cross-bloc sovereign flows. The falsification path is therefore narrow. It requires the Layer 5 market to not develop at volume, which remains a real risk.</p>
+
+  <p>The thesis is partially confirmed — and the price scenarios from Part I adjusted upward — if: XRP is formally approved as eligible derivatives margin collateral by a major DCO. This is a distinct trigger from bridge settlement. It activates the float compression channel independently of whether XRP ever executes a large bridge transaction. Both channels can activate independently; both point in the same direction.</p>
+
+  <!-- CODA -->
+  <div class="coda">
+    The payment layer established the minimum. The derivatives market marks the outer edge of today's knowable economies — not a ceiling, but the furthest horizon currently visible. A ceiling implies a fixed top. What this series describes is a formula that scales with the size of the peak transaction any economy requires. New economies form new corridors. New blocs find new equilibria. New worlds — wherever they emerge — bring new flows that the formula does not distinguish from the ones that came before. The pool requirement is set by the hardest transaction the system must clear. The math is indifferent to the geography. The pipes are the same. The water is larger. And the horizon keeps moving.
+  </div>
+
+  <!-- REFERENCES -->
+  <div class="references">
+    <div class="ref-label">§ References</div>
+
+    <p>Bank for International Settlements. <em>"OTC Derivatives Statistics at End-June 2025."</em> December 2025. bis.org.</p>
+
+    <p>Bank for International Settlements. <em>"OTC Interest Rate Derivatives Turnover in April 2025."</em> Triennial Central Bank Survey. September 2025. bis.org.</p>
+
+    <p>Bank for International Settlements. <em>"OTC Foreign Exchange Turnover in April 2025."</em> Triennial Central Bank Survey. September 2025. bis.org.</p>
+
+    <p>ISDA. <em>"Key Trends in the Size and Composition of OTC Derivatives Markets in the First Half of 2025."</em> January 2026. isda.org.</p>
+
+    <p>Brookings Institution. <em>"What Are Federal Reserve Swap Lines?"</em> August 2025. brookings.edu.</p>
+
+    <p>CFTC. <em>"Staff No-Action Position Regarding Digital Assets Accepted as Margin Collateral."</em> Staff Letter 26-05. December 2025. cftc.gov.</p>
+
+    <p>CFTC. <em>"Staff FAQs on Crypto Assets and Blockchain Technologies in Derivatives Markets."</em> March 20, 2026. cftc.gov.</p>
+
+    <p>Ripple. <em>"Ripple Agrees to Acquire Prime Broker Hidden Road for $1.25B."</em> April 2025. ripple.com.</p>
+
+    <p>Ripple. <em>"Ripple Launches Digital Asset Spot Prime Brokerage for the United States Market."</em> November 3, 2025. businesswire.com.</p>
+
+    <p>Genfinity. <em>"DTCC Named Ripple in Its Patents. Now Ripple Prime Is on DTCC's Clearing Rails."</em> March 4, 2026. genfinity.io.</p>
+
+    <p>CryptoNews. <em>"From Amex to DTCC: Ripple Is Re-Engineering Wall Street Post-Trade Infrastructure."</em> April 2026. cryptonews.com.</p>
+
+    <p>Almgren, R. and Chriss, N. <em>"Optimal Execution of Portfolio Transactions."</em> Journal of Risk. 2000.</p>
+
+    <p>Ripple. <em>"XRP Valuation Series, Parts I–IV."</em> 2026. GitHub Pages.</p>
+  </div>
+
+  <div class="disclaimer">
+    Conditional structural analysis. All scenario prices are mechanical consequences of stated inputs — slippage tolerance, volatility, supply — not predictions. The thesis is conditional on Layer 5 derivatives settlement materializing through XRP specifically, which remains an unrealized possibility as of publication. This paper is not financial advice. Readers should conduct their own research and consult qualified advisors before making investment decisions. The author may hold positions in assets discussed.
+  </div>
+
+  <div class="footer">
+    <span>XRP Valuation Series &middot; Part V of V</span>
+    <span>April 2026</span>
+  </div>
+
+</article>
+</body>
+</html>

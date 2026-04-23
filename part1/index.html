@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HJE2WE51W8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-HJE2WE51W8');
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="A conditional structural analysis of XRP valuation through the lens of liquidity mechanics, market impact, and institutional slippage tolerance.">
@@ -793,9 +802,62 @@
   .page > *:nth-child(3){animation-delay:0.16s;}
   .page > *:nth-child(4){animation-delay:0.22s;}
   .page > *:nth-child(5){animation-delay:0.28s;}
-</style>
+
+  /* === XRP Series Navigation ============================================== */
+  .series-nav {{
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg, #fbfaf7);
+    border-bottom: 1px solid rgba(0,0,0,0.10);
+  }}
+  .series-nav-inner {{
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 46px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }}
+  .series-nav a {{
+    text-decoration: none;
+    transition: opacity 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+    border: none !important;
+    background: none !important;
+    box-shadow: none !important;
+  }}
+  .series-nav a:hover {{ opacity: 0.6; }}
+  .series-nav .nav-home  {{ color: #9b2226; font-weight: 700; }}
+  .series-nav .nav-arrow {{ color: #595959; }}
+  .series-nav .nav-label {{ color: #7a7a7a; font-size: 10px; letter-spacing: 0.05em; }}
+  .series-nav .nav-sep   {{ color: #d4d4d0; margin: 0 8px; font-weight: 300; }}
+  @media (max-width: 600px) {{
+    .series-nav-inner {{ padding: 0 16px; font-size: 10px; }}
+    .series-nav .nav-label {{ display: none; }}
+  }}
+  /* ======================================================================= */
+
+  </style>
 </head>
 <body>
+  <!-- XRP Series Navigation -->
+  <nav class="series-nav" aria-label="XRP Valuation Series navigation">
+    <div class="series-nav-inner">
+      <div style="display:flex;align-items:center;gap:0"><a href="../" class="nav-home">&#8592; XRP Series</a></div>
+      <span class="nav-label">Part 1 of 5</span>
+      <div><a href="../part2/" class="nav-arrow">Part 2 &#8594;</a></div>
+    </div>
+  </nav>
+
 <div class="page">
   <div class="kicker">
     <span class="kicker-left">Structural Analysis</span>

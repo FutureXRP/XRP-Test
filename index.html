@@ -6,7 +6,7 @@
   <title>XRP Valuation Series</title>
   <meta
     name="description"
-    content="A five-part structural analysis of XRP as a bridge asset for institutional settlement."
+    content="A six-part structural analysis of XRP as a bridge asset for institutional settlement."
   />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -314,6 +314,16 @@
       box-shadow: 0 14px 30px rgba(0, 0, 0, 0.06);
     }
 
+    .card.card-series-close {
+      border-color: rgba(155, 34, 38, 0.25);
+      background: linear-gradient(180deg, var(--paper) 0%, rgba(155,34,38,0.03) 100%);
+    }
+
+    .card.card-series-close:hover {
+      border-color: rgba(155, 34, 38, 0.45);
+      box-shadow: 0 14px 30px rgba(155, 34, 38, 0.08);
+    }
+
     .card-link {
       display: grid;
       grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
@@ -590,7 +600,7 @@
         <div class="hero">
           <div class="hero-inner">
             <div class="hero-main">
-              <div class="eyebrow">A five-part publication</div>
+              <div class="eyebrow">A six-part publication</div>
               <h1>XRP Valuation Series</h1>
               <div class="hero-subtitle">
                 A structural analysis of XRP as a bridge asset for institutional settlement.
@@ -598,13 +608,15 @@
               <p class="hero-copy">
                 These essays examine the XRP pricing problem through liquidity mechanics,
                 slippage tolerance, netting compression, settlement architecture, and the
-                full-system demands of a global bridge asset.
+                full-system demands of a global bridge asset. The series closes with an
+                explicit probability framework and position sizing guide.
               </p>
               <div class="hero-note">
                 <strong>Conditional analysis</strong>
                 Every article in this series argues from stated assumptions. The purpose is
                 not to promise outcomes, but to show what the math and structure would require
-                if adoption conditions are actually met.
+                if adoption conditions are actually met &mdash; and in Part VI, to price the
+                probability that those conditions are met at all.
               </div>
             </div>
 
@@ -616,49 +628,45 @@
                   <div class="toc-item">
                     <div class="toc-num">Part I</div>
                     <div class="toc-title">XRP is not being valued. It is being sized.</div>
-                    <div class="toc-desc">
-                      Liquidity mechanics, slippage constraints, and the pricing problem.
-                    </div>
+                    <div class="toc-desc">Liquidity mechanics, slippage constraints, and the pricing problem.</div>
                   </div>
 
                   <div class="toc-item">
                     <div class="toc-num">Part II</div>
                     <div class="toc-title">The netting objection was backwards.</div>
-                    <div class="toc-desc">
-                      What live trials reveal about netting once settlement compresses toward T+0.
-                    </div>
+                    <div class="toc-desc">What live trials reveal about netting once settlement compresses toward T+0.</div>
                   </div>
 
                   <div class="toc-item">
                     <div class="toc-num">Part III</div>
                     <div class="toc-title">When time leaves finance.</div>
-                    <div class="toc-desc">
-                      Why atomic settlement changes power, pricing, and market structure.
-                    </div>
+                    <div class="toc-desc">Why atomic settlement changes power, pricing, and market structure.</div>
                   </div>
 
                   <div class="toc-item">
                     <div class="toc-num">Part IV</div>
                     <div class="toc-title">The settlement stack of 2030.</div>
-                    <div class="toc-desc">
-                      A structural map of where bridge assets actually live.
-                    </div>
+                    <div class="toc-desc">A structural map of where bridge assets actually live.</div>
                   </div>
 
                   <div class="toc-item">
                     <div class="toc-num">Part V</div>
                     <div class="toc-title">The pipe we forgot to size.</div>
-                    <div class="toc-desc">
-                      The derivatives layer and the upper-bound depth problem.
-                    </div>
+                    <div class="toc-desc">The derivatives layer and the upper-bound depth problem.</div>
+                  </div>
+
+                  <div class="toc-item">
+                    <div class="toc-num">Part VI</div>
+                    <div class="toc-title">The case against, taken seriously.</div>
+                    <div class="toc-desc">Honest probability weights, failure modes, and a position sizing framework.</div>
                   </div>
                 </div>
               </div>
 
               <div class="side-meta">
-                Five separate articles<br />
+                Six separate articles<br />
                 Exact article text preserved<br />
-                Publication landing page
+                Series complete · April 2026
               </div>
             </aside>
           </div>
@@ -679,14 +687,11 @@
                   <span class="card-part">Part I</span>
                   <span class="card-type">Structural Analysis</span>
                 </div>
-
                 <h2 class="card-title">XRP is not being valued. It is being sized.</h2>
-
                 <p class="card-deck">
                   A conditional structural analysis of XRP valuation through the lens of
                   liquidity mechanics, market impact, and institutional slippage tolerance.
                 </p>
-
                 <div class="card-footer">
                   <span class="tag accent">Read article</span>
                   <span class="tag">Liquidity</span>
@@ -694,17 +699,15 @@
                   <span class="tag">Market Structure</span>
                 </div>
               </div>
-
               <div class="card-side">
                 <div>
                   <div class="card-kicker">Inside this piece</div>
                   <div class="card-points">
-                    <div class="card-point">Why XRP’s pricing problem differs from an equity valuation model</div>
+                    <div class="card-point">Why XRP's pricing problem differs from an equity valuation model</div>
                     <div class="card-point">Square-root market impact and institutional tolerance thresholds</div>
                     <div class="card-point">Scenario ranges from corridor-scale utility to sovereign-scale settlement</div>
                   </div>
                 </div>
-
                 <div class="read-link">Open Part I</div>
               </div>
             </a>
@@ -717,14 +720,11 @@
                   <span class="card-part">Part II</span>
                   <span class="card-type">Structural Follow-up</span>
                 </div>
-
                 <h2 class="card-title">The netting objection was <em>backwards.</em></h2>
-
                 <p class="card-deck">
                   A follow-up examining what BIS, central bank trials, and production-grade
                   settlement experiments imply about netting under atomic settlement.
                 </p>
-
                 <div class="card-footer">
                   <span class="tag accent">Read article</span>
                   <span class="tag">Netting</span>
@@ -732,17 +732,15 @@
                   <span class="tag">Settlement</span>
                 </div>
               </div>
-
               <div class="card-side">
                 <div>
                   <div class="card-kicker">Inside this piece</div>
                   <div class="card-points">
                     <div class="card-point">Three kinds of netting, and only one that truly dies</div>
                     <div class="card-point">Why time-compression changes the liquidity picture</div>
-                    <div class="card-point">How the skeptic’s objection can become a stronger bull case</div>
+                    <div class="card-point">How the skeptic's objection can become a stronger bull case</div>
                   </div>
                 </div>
-
                 <div class="read-link">Open Part II</div>
               </div>
             </a>
@@ -755,15 +753,12 @@
                   <span class="card-part">Part III</span>
                   <span class="card-type">Structural Analysis</span>
                 </div>
-
                 <h2 class="card-title">When time leaves finance.</h2>
-
                 <p class="card-deck">
                   Part III explores why atomic settlement forces discontinuous repricing,
                   concentrates power at new chokepoints, and changes what a bridge asset
                   has to be.
                 </p>
-
                 <div class="card-footer">
                   <span class="tag accent">Read article</span>
                   <span class="tag">Atomic Settlement</span>
@@ -771,7 +766,6 @@
                   <span class="tag">Repricing</span>
                 </div>
               </div>
-
               <div class="card-side">
                 <div>
                   <div class="card-kicker">Inside this piece</div>
@@ -781,7 +775,6 @@
                     <div class="card-point">What kind of asset survives in a no-time environment</div>
                   </div>
                 </div>
-
                 <div class="read-link">Open Part III</div>
               </div>
             </a>
@@ -794,16 +787,13 @@
                   <span class="card-part">Part IV</span>
                   <span class="card-type">Position Paper</span>
                 </div>
-
                 <h2 class="card-title">
                   The settlement stack of 2030. <em>Where bridge assets actually live.</em>
                 </h2>
-
                 <p class="card-deck">
                   A structural map of the emerging peak-ticket settlement architecture,
-                  its layers, major incumbents, and the narrow place where XRP’s thesis survives.
+                  its layers, major incumbents, and the narrow place where XRP's thesis survives.
                 </p>
-
                 <div class="card-footer">
                   <span class="tag accent">Read article</span>
                   <span class="tag">Architecture</span>
@@ -811,17 +801,15 @@
                   <span class="tag">Bridge Assets</span>
                 </div>
               </div>
-
               <div class="card-side">
                 <div>
                   <div class="card-kicker">Inside this piece</div>
                   <div class="card-points">
                     <div class="card-point">Five layers in the emerging settlement architecture</div>
                     <div class="card-point">Where stablecoins, tokenized deposits, and CBDC rails compete</div>
-                    <div class="card-point">Why XRP’s role narrows, but may deepen where flexibility matters most</div>
+                    <div class="card-point">Why XRP's role narrows, but may deepen where flexibility matters most</div>
                   </div>
                 </div>
-
                 <div class="read-link">Open Part IV</div>
               </div>
             </a>
@@ -832,17 +820,14 @@
               <div class="card-main">
                 <div class="card-meta">
                   <span class="card-part">Part V</span>
-                  <span class="card-type">Series Conclusion</span>
+                  <span class="card-type">Extended Analysis</span>
                 </div>
-
                 <h2 class="card-title">The pipe we forgot to size.</h2>
-
                 <p class="card-deck">
-                  The final paper extends the argument into the derivatives layer and asks
+                  The fifth paper extends the argument into the derivatives layer and asks
                   what price a bridge asset would require if it had to support the deepest,
                   hardest-to-ignore flows in the system.
                 </p>
-
                 <div class="card-footer">
                   <span class="tag accent">Read article</span>
                   <span class="tag">Derivatives</span>
@@ -850,7 +835,6 @@
                   <span class="tag">System Depth</span>
                 </div>
               </div>
-
               <div class="card-side">
                 <div>
                   <div class="card-kicker">Inside this piece</div>
@@ -860,8 +844,43 @@
                     <div class="card-point">The full-system depth question that most analyses never reach</div>
                   </div>
                 </div>
-
                 <div class="read-link">Open Part V</div>
+              </div>
+            </a>
+          </article>
+
+          <article class="card card-series-close">
+            <a class="card-link" href="./part6/">
+              <div class="card-main">
+                <div class="card-meta">
+                  <span class="card-part">Part VI</span>
+                  <span class="card-type">Series Close · Probability Analysis</span>
+                </div>
+                <h2 class="card-title">The case against, <em>taken seriously.</em></h2>
+                <p class="card-deck">
+                  The series close prices the conditions Parts I&ndash;V deferred. Four failure
+                  modes engaged at full strength, the DTCC architecture corrected, mBridge and
+                  CCIP treated with full technical rigor, and an explicit probability-weighted
+                  investment framework with Kelly position sizing.
+                </p>
+                <div class="card-footer">
+                  <span class="tag accent">Read article</span>
+                  <span class="tag">Probability</span>
+                  <span class="tag">Failure Modes</span>
+                  <span class="tag">Position Sizing</span>
+                  <span class="tag">Series Complete</span>
+                </div>
+              </div>
+              <div class="card-side">
+                <div>
+                  <div class="card-kicker">Inside this piece</div>
+                  <div class="card-points">
+                    <div class="card-point">Why DTCC&rsquo;s netted T+0 is not a failure mode &mdash; and what it means for XRP&rsquo;s addressable market</div>
+                    <div class="card-point">Four failure modes including RLUSD cannibalization, mBridge, CCIP, and XLM competition &mdash; each at full strength</div>
+                    <div class="card-point">Honest probability table, expected value calculation, Kelly sizing framework, and falsification criteria</div>
+                  </div>
+                </div>
+                <div class="read-link">Open Part VI</div>
               </div>
             </a>
           </article>
@@ -870,7 +889,7 @@
         <div class="closing">
           <p>
             Each article is hosted as its own standalone page so the original text and
-            article-specific formatting can remain intact.
+            article-specific formatting can remain intact. Series complete, April 2026.
           </p>
         </div>
       </section>
@@ -879,7 +898,7 @@
     <footer class="footer">
       <div class="footer-inner">
         <div>XRP Valuation Series</div>
-        <div>Five-part structural analysis</div>
+        <div>Six-part structural analysis · Series complete</div>
       </div>
     </footer>
   </div>

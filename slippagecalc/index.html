@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Impact Calculator · XRP Valuation Series</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#faf8f2;--cream-dark:#f0ece0;--cream-border:#e0d9c8;
+  --crimson:#8b1a1a;--crimson-muted:#f5e8e8;
+  --ink:#1a1a1a;--ink-muted:#5a5550;--ink-faint:#8a8480;--mono-bg:#f2ede0;
+  --green-bg:#eaf3e8;--green-text:#2d6a2d;
+  --amber-bg:#fdf3e0;--amber-text:#7a4f00;
+  --red-bg:#fde8e8;--red-text:#8b1a1a;
+}
+html{background:var(--cream);color:var(--ink)}
+body{font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:16px;line-height:1.65;background:var(--cream);padding:0 0 5rem}
+.container{max-width:720px;margin:0 auto;padding:3rem 1.5rem 0}
+
+/* price bar */
+.price-bar{background:var(--ink);position:sticky;top:0;z-index:10}
+.price-bar-inner{max-width:720px;margin:0 auto;padding:10px 1.5rem;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.pbl{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.pbp{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:500;color:#fff}
+.pbc{font-family:'IBM Plex Mono',monospace;font-size:12px;padding:2px 8px;border-radius:3px}
+.pbc.up{background:rgba(45,106,45,.35);color:#7ecf7e}
+.pbc.dn{background:rgba(139,26,26,.35);color:#f59090}
+.pbc.fl{background:rgba(255,255,255,.1);color:rgba(255,255,255,.4)}
+.pbm{font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(255,255,255,.3);margin-left:auto}
+.dot{width:6px;height:6px;border-radius:50%;background:#7ecf7e;display:inline-block;margin-right:4px;animation:pulse 2s infinite}
+.dot.loading{background:rgba(255,255,255,.3);animation:none}
+.dot.error{background:#f59090;animation:none}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* header */
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:.75rem}
+.eyebrow a{color:var(--crimson);text-decoration:none}
+.eyebrow a:hover{text-decoration:underline}
+h1{font-family:'Newsreader',Georgia,serif;font-size:clamp(1.7rem,4vw,2.2rem);font-weight:400;line-height:1.2;margin-bottom:.6rem}
+.page-sub{font-size:15px;color:var(--ink-muted);margin-bottom:2.5rem;font-style:italic;font-family:'Newsreader',serif}
+
+/* tabs */
+.tabs{display:flex;border:1px solid var(--cream-border);border-radius:4px;overflow:hidden;margin-bottom:2.5rem;width:fit-content}
+.tab{font-family:'IBM Plex Sans',sans-serif;font-size:13px;padding:9px 20px;cursor:pointer;border:none;background:var(--cream);color:var(--ink-muted);transition:background .15s,color .15s;border-right:1px solid var(--cream-border)}
+.tab:last-child{border-right:none}
+.tab.active{background:var(--crimson);color:#fff}
+.tab:not(.active):hover{background:var(--cream-dark);color:var(--ink)}
+
+/* formula */
+.formula{background:var(--mono-bg);border-left:3px solid var(--crimson);padding:1rem 1.25rem;margin-bottom:2rem;border-radius:0 4px 4px 0}
+.flabel{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:.4rem}
+.ftext{font-family:'IBM Plex Mono',monospace;font-size:15px;color:var(--ink);line-height:1.8}
+.ftext .v{color:var(--crimson);font-weight:500}
+
+/* controls */
+.controls{margin-bottom:2rem}
+.crow{display:grid;grid-template-columns:200px 1fr 90px;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid var(--cream-border)}
+.crow:last-child{border-bottom:none}
+.clabel{font-size:13px;color:var(--ink-muted);line-height:1.3}
+.clabel strong{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;color:var(--crimson);display:block;margin-bottom:1px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:2px;background:var(--cream-border);border-radius:2px;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--crimson);cursor:pointer;border:2px solid var(--cream);box-shadow:0 0 0 1px var(--crimson)}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--crimson);cursor:pointer;border:2px solid var(--cream);box-shadow:0 0 0 1px var(--crimson)}
+.cval{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;text-align:right}
+
+/* result cards */
+.results{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem}
+.rcard{background:var(--cream-dark);border:1px solid var(--cream-border);border-radius:4px;padding:14px 16px}
+.rlabel{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px}
+.rval{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:500;line-height:1;margin-bottom:3px}
+.rsub{font-size:11px;color:var(--ink-faint)}
+
+/* verdict */
+.verdict{padding:12px 16px;border-radius:4px;font-size:13px;line-height:1.5;margin-bottom:2rem;border-left:3px solid}
+.verdict.ok{background:var(--green-bg);color:var(--green-text);border-color:var(--green-text)}
+.verdict.warn{background:var(--amber-bg);color:var(--amber-text);border-color:#c07800}
+.verdict.fail{background:var(--red-bg);color:var(--red-text);border-color:var(--crimson)}
+.vlab{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;opacity:.7}
+
+/* gap panel */
+.gap-panel{border:1px solid var(--cream-border);border-radius:4px;overflow:hidden;margin-bottom:1.5rem}
+.gap-head{background:var(--ink);color:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
+.gap-title{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45)}
+.gap-live{font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.4)}
+.gap-live span{color:#7ecf7e;font-weight:500}
+.gap-grid{display:grid;grid-template-columns:repeat(3,1fr);background:var(--cream-dark)}
+.gcell{padding:14px 16px;border-right:1px solid var(--cream-border)}
+.gcell:last-child{border-right:none}
+.glab{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:5px}
+.gval{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:500;line-height:1;margin-bottom:3px}
+.gval.cur{color:var(--ink-muted)}
+.gval.req{color:var(--crimson)}
+.gsub{font-size:11px;color:var(--ink-faint)}
+.gap-prog{padding:12px 16px 14px;background:var(--cream-dark);border-top:1px solid var(--cream-border)}
+.prog-meta{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-faint);margin-bottom:6px}
+.prog-track{height:4px;background:var(--cream-border);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:var(--crimson);border-radius:2px;transition:width .25s ease;min-width:2px}
+.prog-cap{font-size:11px;color:var(--ink-faint);margin-top:6px;font-style:italic}
+
+/* charts */
+.chart-section{margin-bottom:2.5rem}
+.chart-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:.75rem}
+.chart-wrap{position:relative;width:100%;height:240px}
+
+/* tables */
+.scen-section{margin-bottom:2.5rem}
+.sec-head{font-family:'Newsreader',serif;font-size:1rem;font-weight:400;font-style:italic;color:var(--ink-muted);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--cream-border)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);text-align:left;padding:6px 10px;border-bottom:1px solid var(--cream-border);font-weight:400}
+thead th:not(:first-child){text-align:right}
+tbody td{padding:9px 10px;border-bottom:1px solid var(--cream-border);color:var(--ink-muted);vertical-align:middle}
+tbody td:not(:first-child){font-family:'IBM Plex Mono',monospace;font-size:12px;text-align:right;color:var(--ink)}
+tbody tr:last-child td{border-bottom:none}
+tbody tr.hi td{background:var(--crimson-muted);color:var(--crimson)}
+tbody tr.hi td:not(:first-child){color:var(--crimson)}
+.pill{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 7px;border-radius:2px;background:var(--cream-border);color:var(--ink-muted)}
+.pill.ok{background:var(--green-bg);color:var(--green-text)}
+.pill.warn{background:var(--amber-bg);color:var(--amber-text)}
+.pill.fail{background:var(--red-bg);color:var(--red-text)}
+.gap-col{color:var(--ink-faint) !important;font-size:11px !important}
+.gap-col.live{color:var(--crimson) !important;font-size:12px !important}
+
+.divider{height:1px;background:var(--cream-border);margin:2.5rem 0}
+.footnote{font-size:12px;color:var(--ink-faint);font-style:italic;border-top:1px solid var(--cream-border);padding-top:1.25rem;line-height:1.6}
+.footnote a{color:var(--crimson);text-decoration:none}
+.footnote a:hover{text-decoration:underline}
+
+@media(max-width:600px){
+  .crow{grid-template-columns:1fr 90px;row-gap:6px}
+  .clabel{grid-column:1/-1}
+  .results{grid-template-columns:1fr 1fr}
+  .results .rcard:last-child{grid-column:1/-1}
+  .gap-grid{grid-template-columns:1fr 1fr}
+  .gcell:last-child{grid-column:1/-1;border-right:none;border-top:1px solid var(--cream-border)}
+  .tabs{width:100%}
+  .tab{flex:1;text-align:center;padding:9px 10px}
+  table{font-size:11px}
+  .pbm{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="price-bar">
+  <div class="price-bar-inner">
+    <span class="pbl">XRP / USD</span>
+    <span class="pbp" id="bar-price">—</span>
+    <span class="pbc fl" id="bar-change">—</span>
+    <span class="pbm"><span class="dot loading" id="bar-dot"></span><span id="bar-status">fetching live price…</span></span>
+  </div>
+</div>
+
+<div class="container">
+
+  <p class="eyebrow"><a href="https://xrpvaluation.info/">← XRP Valuation Series</a> &nbsp;·&nbsp; Part I companion tool</p>
+  <h1>Market impact calculator</h1>
+  <p class="page-sub">The square-root law, made interactive. Size transactions against market depth — or invert the formula to find what price XRP requires and see exactly how far today's price needs to travel.</p>
+
+  <div class="tabs" role="tablist">
+    <button class="tab active" role="tab" aria-selected="true" id="tab-fwd" onclick="setMode('forward')">Forward — what is my slippage?</button>
+    <button class="tab" role="tab" aria-selected="false" id="tab-inv" onclick="setMode('inverse')">Inverse — what price does XRP require?</button>
+  </div>
+
+  <!-- FORWARD -->
+  <div id="pnl-fwd">
+    <div class="formula">
+      <div class="flabel">Square-root market impact law</div>
+      <div class="ftext">Impact = <span class="v">σ</span> × √( <span class="v">Q</span> ÷ <span class="v">V</span> )</div>
+    </div>
+    <div class="controls">
+      <div class="crow">
+        <div class="clabel"><strong>σ — daily volatility</strong>How much the asset moves naturally per day</div>
+        <input type="range" id="f-sigma" min="0.5" max="15" step="0.5" value="5">
+        <div class="cval" id="f-sigma-out">5.0%</div>
+      </div>
+      <div class="crow">
+        <div class="clabel"><strong>Q — order size</strong>The transaction you need to execute</div>
+        <input type="range" id="f-q" min="1" max="5000" step="1" value="100">
+        <div class="cval" id="f-q-out">$100M</div>
+      </div>
+      <div class="crow">
+        <div class="clabel"><strong>V — daily volume</strong>Total market volume flowing per day</div>
+        <input type="range" id="f-v" min="0.1" max="500" step="0.1" value="2">
+        <div class="cval" id="f-v-out">$2.0B</div>
+      </div>
+    </div>
+    <div class="results">
+      <div class="rcard"><div class="rlabel">Slippage</div><div class="rval" id="f-impact">—</div><div class="rsub">basis points</div></div>
+      <div class="rcard"><div class="rlabel">Dollar cost on order</div><div class="rval" id="f-cost">—</div><div class="rsub">execution loss</div></div>
+      <div class="rcard"><div class="rlabel">Order as % of volume</div><div class="rval" id="f-ratio">—</div><div class="rsub">Q ÷ V</div></div>
+    </div>
+    <div class="verdict" id="f-verd"><div class="vlab" id="f-vlab">Assessment</div><span id="f-vtxt"></span></div>
+    <div class="chart-section">
+      <div class="chart-label">Slippage curve — impact vs. order size at current settings</div>
+      <div class="chart-wrap"><canvas id="fChart" role="img" aria-label="Slippage vs order size curve">Slippage grows as the square root of order size relative to daily volume.</canvas></div>
+    </div>
+    <div class="divider"></div>
+    <div class="scen-section">
+      <div class="sec-head">Transaction tiers — slippage at current market depth</div>
+      <table><thead><tr><th>Transaction type</th><th>Size</th><th>Slippage</th><th>Cost</th><th>Status</th></tr></thead><tbody id="f-tbody"></tbody></table>
+    </div>
+  </div>
+
+  <!-- INVERSE -->
+  <div id="pnl-inv" style="display:none">
+    <div class="formula">
+      <div class="flabel">Inverted — solving for required price</div>
+      <div class="ftext">Required V = <span class="v">Q</span> × (<span class="v">σ</span> ÷ <span class="v">tol</span>)²<br>Price = V ÷ <span class="v">turnover</span> ÷ 61B XRP</div>
+    </div>
+    <div class="controls">
+      <div class="crow">
+        <div class="clabel"><strong>σ — asset volatility at scale</strong>Compresses naturally as liquidity deepens</div>
+        <input type="range" id="i-sigma" min="0.5" max="10" step="0.5" value="3">
+        <div class="cval" id="i-sigma-out">3.0%</div>
+      </div>
+      <div class="crow">
+        <div class="clabel"><strong>Q — peak ticket size</strong>The hardest transaction the pipe must carry</div>
+        <input type="range" id="i-q" min="0.1" max="20" step="0.1" value="2">
+        <div class="cval" id="i-q-out">$2.0B</div>
+      </div>
+      <div class="crow">
+        <div class="clabel"><strong>Tolerance — max acceptable slippage</strong>Institutional standard is 10bp for settlement</div>
+        <input type="range" id="i-tol" min="1" max="100" step="1" value="10">
+        <div class="cval" id="i-tol-out">10 bp</div>
+      </div>
+      <div class="crow">
+        <div class="clabel"><strong>Turnover ratio — vol ÷ market cap</strong>Lower ratio = deeper OTC execution market</div>
+        <input type="range" id="i-turn" min="0.1" max="3" step="0.1" value="1">
+        <div class="cval" id="i-turn-out">1.0%</div>
+      </div>
+    </div>
+    <div class="results">
+      <div class="rcard"><div class="rlabel">Required daily volume</div><div class="rval" id="i-vol">—</div><div class="rsub">to meet tolerance</div></div>
+      <div class="rcard"><div class="rlabel">Required market cap</div><div class="rval" id="i-mcap">—</div><div class="rsub">at turnover ratio</div></div>
+      <div class="rcard"><div class="rlabel">Required XRP price</div><div class="rval" id="i-price" style="color:var(--crimson)">—</div><div class="rsub">at 61B supply</div></div>
+    </div>
+
+    <!-- Gap panel -->
+    <div class="gap-panel">
+      <div class="gap-head">
+        <span class="gap-title">Real-world gap — required vs. live price</span>
+        <span class="gap-live">Live XRP: <span id="gap-live">—</span></span>
+      </div>
+      <div class="gap-grid">
+        <div class="gcell"><div class="glab">Current price</div><div class="gval cur" id="gap-cur">—</div><div class="gsub">live market</div></div>
+        <div class="gcell"><div class="glab">Required price</div><div class="gval req" id="gap-req">—</div><div class="gsub">your settings</div></div>
+        <div class="gcell"><div class="glab">Multiple needed</div><div class="gval" id="gap-mult">—</div><div class="gsub">to close the gap</div></div>
+      </div>
+      <div class="gap-prog">
+        <div class="prog-meta"><span>Current</span><span id="prog-pct">—</span><span>Required</span></div>
+        <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:1%"></div></div>
+        <div class="prog-cap" id="prog-cap"></div>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <div class="chart-label">Required price across turnover ratios — sensitivity to execution architecture</div>
+      <div class="chart-wrap"><canvas id="iChart" role="img" aria-label="Required XRP price vs turnover ratio, with live price reference line">Required price falls as turnover ratio rises. Live price shown as reference.</canvas></div>
+    </div>
+    <div class="divider"></div>
+    <div class="scen-section">
+      <div class="sec-head">Part I scenario table — required price &amp; gap to live</div>
+      <table>
+        <thead><tr><th>Scenario</th><th>Peak ticket</th><th>0.3% turn.</th><th>1.0% turn.</th><th>1.5% turn.</th><th>Gap (1.0%)</th></tr></thead>
+        <tbody>
+          <tr><td>Near-term<br><span class="pill">SME / remittance</span></td><td>$100M</td><td id="s0a">—</td><td id="s0b">—</td><td id="s0c">—</td><td id="s0g" class="gap-col">—</td></tr>
+          <tr><td>Mid<br><span class="pill">Corporate treasury</span></td><td>$500M</td><td id="s1a">—</td><td id="s1b">—</td><td id="s1c">—</td><td id="s1g" class="gap-col">—</td></tr>
+          <tr><td>Institutional<br><span class="pill">Large bank</span></td><td>$2B</td><td id="s2a">—</td><td id="s2b">—</td><td id="s2c">—</td><td id="s2g" class="gap-col">—</td></tr>
+          <tr><td>Sovereign<br><span class="pill">Central bank</span></td><td>$10B</td><td id="s3a">—</td><td id="s3b">—</td><td id="s3c">—</td><td id="s3g" class="gap-col">—</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:11px;color:var(--ink-faint);margin-top:.75rem;font-style:italic">σ by scenario: 5% (near-term), 4% (mid), 3% (institutional), 2% (sovereign). Gap = multiple from live price to 1.0% turnover central estimate. Source: <a href="https://xrpvaluation.info/part1/" style="color:var(--crimson)">Part I</a>.</p>
+    </div>
+  </div>
+
+  <p class="footnote">The square-root market impact law is an empirical regularity validated across millions of institutional trades. OTC execution and pre-positioned corridors reduce effective Q below the public-market figure. Live price data via CoinGecko public API, refreshed every 60 seconds. This tool does not constitute financial advice. — <a href="https://xrpvaluation.info/">XRP Valuation Series</a></p>
+
+</div>
+
+<script>
+const SUPPLY = 61e9;
+let live = null, chg24 = null;
+let mode = 'forward', fCh = null, iCh = null;
+
+function fmtD(n){
+  if(n>=1e12)return'$'+(n/1e12).toFixed(1)+'T';
+  if(n>=1e9) return'$'+(n/1e9).toFixed(1)+'B';
+  if(n>=1e6) return'$'+(n/1e6).toFixed(1)+'M';
+  if(n>=1e3) return'$'+(n/1e3).toFixed(1)+'K';
+  return'$'+n.toFixed(2);
+}
+function fmtP(n){
+  if(n>=10000)return'$'+Math.round(n).toLocaleString();
+  if(n>=1000) return'$'+Math.round(n).toLocaleString();
+  if(n>=10)   return'$'+n.toFixed(0);
+  if(n>=1)    return'$'+n.toFixed(2);
+  return'$'+n.toFixed(3);
+}
+function fmtX(x){
+  if(x>=1000) return(x/1000).toFixed(1)+',000×';
+  if(x>=100)  return Math.round(x)+'×';
+  if(x>=10)   return x.toFixed(1)+'×';
+  return x.toFixed(2)+'×';
+}
+
+async function fetchPrice(){
+  try{
+    const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ripple&vs_currencies=usd&include_24hr_change=true',{cache:'no-store'});
+    if(!r.ok)throw new Error();
+    const d=await r.json();
+    live=d.ripple.usd; chg24=d.ripple.usd_24h_change;
+    updateBar(); refreshGap(); populateST();
+  }catch(e){
+    document.getElementById('bar-dot').className='dot error';
+    document.getElementById('bar-status').textContent='price unavailable';
+  }
+}
+
+function updateBar(){
+  if(live===null)return;
+  document.getElementById('bar-price').textContent='$'+live.toFixed(4);
+  document.getElementById('bar-dot').className='dot';
+  document.getElementById('bar-status').textContent='live · updates every 60s';
+  if(chg24!==null){
+    const s=chg24>=0?'+':'', el=document.getElementById('bar-change');
+    el.textContent=s+chg24.toFixed(2)+'% (24h)';
+    el.className='pbc '+(chg24>0.1?'up':chg24<-0.1?'dn':'fl');
+  }
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('pnl-fwd').style.display=m==='forward'?'block':'none';
+  document.getElementById('pnl-inv').style.display=m==='inverse'?'block':'none';
+  ['fwd','inv'].forEach(k=>{
+    const t=document.getElementById('tab-'+k);
+    const on=(k==='fwd'&&m==='forward')||(k==='inv'&&m==='inverse');
+    t.classList.toggle('active',on);
+    t.setAttribute('aria-selected',on);
+  });
+  if(m==='forward')updateFwd();
+  else{updateInv();populateST();}
+}
+
+function updateFwd(){
+  const sig=parseFloat(document.getElementById('f-sigma').value)/100;
+  const Q=parseFloat(document.getElementById('f-q').value)*1e6;
+  const V=parseFloat(document.getElementById('f-v').value)*1e9;
+  document.getElementById('f-sigma-out').textContent=(sig*100).toFixed(1)+'%';
+  document.getElementById('f-q-out').textContent=fmtD(Q);
+  document.getElementById('f-v-out').textContent=fmtD(V);
+  const imp=sig*Math.sqrt(Q/V), bps=imp*10000, cost=Q*imp;
+  document.getElementById('f-impact').textContent=bps.toFixed(1)+' bp';
+  document.getElementById('f-cost').textContent=fmtD(cost);
+  document.getElementById('f-ratio').textContent=((Q/V)*100).toFixed(3)+'%';
+  const vd=document.getElementById('f-verd'),vt=document.getElementById('f-vtxt'),vl=document.getElementById('f-vlab');
+  if(bps<=10){vd.className='verdict ok';vl.textContent='Within institutional tolerance';vt.textContent=bps.toFixed(1)+'bp. Acceptable for settlement flows. Large institutional orders can execute cleanly at this depth.';}
+  else if(bps<=50){vd.className='verdict warn';vl.textContent='Marginal — at the outer institutional bound';vt.textContent=bps.toFixed(1)+'bp. Acceptable for lower-urgency flows but exceeds the 10bp institutional standard. Treasury desks would seek deeper liquidity.';}
+  else{vd.className='verdict fail';vl.textContent='Unacceptable — exceeds institutional tolerance';vt.textContent=bps.toFixed(1)+'bp. This '+fmtD(Q)+' transaction incurs '+fmtD(cost)+' in slippage. Institutions cannot route at this depth.';}
+  updateFwdChart(sig,V);
+  populateFwdTable(sig,V,Q);
+}
+
+function updateFwdChart(sig,V){
+  const pts=[1,2,5,10,25,50,100,250,500,1000,2500,5000];
+  const data=pts.map(qm=>parseFloat((sig*Math.sqrt(qm*1e6/V)*10000).toFixed(2)));
+  const labs=pts.map(q=>q>=1000?'$'+(q/1000)+'B':'$'+q+'M');
+  if(fCh){fCh.data.labels=labs;fCh.data.datasets[0].data=data;fCh.update();return;}
+  fCh=new Chart(document.getElementById('fChart').getContext('2d'),{
+    type:'line',data:{labels:labs,datasets:[{label:'Slippage (bp)',data,borderColor:'#8b1a1a',backgroundColor:'rgba(139,26,26,0.06)',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:'#8b1a1a',borderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y.toFixed(1)+' bp'}}},
+      scales:{x:{grid:{color:'rgba(0,0,0,0.06)'},ticks:{font:{family:'IBM Plex Mono',size:11},color:'#8a8480',maxRotation:45,autoSkip:false}},
+              y:{grid:{color:'rgba(0,0,0,0.06)'},ticks:{font:{family:'IBM Plex Mono',size:11},color:'#8a8480',callback:v=>v+'bp'},title:{display:true,text:'Slippage (bp)',color:'#8a8480',font:{size:11,family:'IBM Plex Mono'}}}}}
+  });
+}
+
+function populateFwdTable(sig,V,curQ){
+  const rows=[
+    {l:'Remittance / retail',s:1e6},{l:'SME corridor',s:10e6},{l:'Corporate treasury',s:100e6},
+    {l:'Mid-tier bank',s:500e6},{l:'Large bank',s:2e9},{l:'Sovereign / central bank',s:10e9}
+  ];
+  document.getElementById('f-tbody').innerHTML=rows.map(r=>{
+    const bps=sig*Math.sqrt(r.s/V)*10000, cost=r.s*sig*Math.sqrt(r.s/V);
+    const active=Math.abs(r.s-curQ)/curQ<0.05;
+    const pc=bps<=10?'ok':bps<=50?'warn':'fail', pt=bps<=10?'acceptable':bps<=50?'marginal':'unacceptable';
+    return`<tr class="${active?'hi':''}"><td>${r.l}</td><td>${fmtD(r.s)}</td><td>${bps.toFixed(1)} bp</td><td>${fmtD(cost)}</td><td><span class="pill ${pc}">${pt}</span></td></tr>`;
+  }).join('');
+}
+
+function calcP(q,sig,tol,turn){
+  const t=tol/10000, tr=turn/100;
+  const rv=q*Math.pow(sig/t,2), mc=rv/tr;
+  return{rv,mc,p:mc/SUPPLY};
+}
+
+function updateInv(){
+  const sig=parseFloat(document.getElementById('i-sigma').value)/100;
+  const Q=parseFloat(document.getElementById('i-q').value)*1e9;
+  const tol=parseFloat(document.getElementById('i-tol').value);
+  const turn=parseFloat(document.getElementById('i-turn').value);
+  document.getElementById('i-sigma-out').textContent=(sig*100).toFixed(1)+'%';
+  document.getElementById('i-q-out').textContent=fmtD(Q);
+  document.getElementById('i-tol-out').textContent=tol.toFixed(0)+' bp';
+  document.getElementById('i-turn-out').textContent=turn.toFixed(1)+'%';
+  const{rv,mc,p}=calcP(Q,sig,tol,turn);
+  document.getElementById('i-vol').textContent=fmtD(rv)+'/day';
+  document.getElementById('i-mcap').textContent=fmtD(mc);
+  document.getElementById('i-price').textContent=fmtP(p);
+  refreshGap(p);
+  updateInvChart(sig,Q,tol);
+}
+
+function refreshGap(reqP){
+  if(reqP===undefined){
+    const sig=parseFloat(document.getElementById('i-sigma').value)/100;
+    const Q=parseFloat(document.getElementById('i-q').value)*1e9;
+    const tol=parseFloat(document.getElementById('i-tol').value);
+    const turn=parseFloat(document.getElementById('i-turn').value);
+    reqP=calcP(Q,sig,tol,turn).p;
+  }
+  document.getElementById('gap-live').textContent=live!==null?'$'+live.toFixed(4):'loading…';
+  document.getElementById('gap-cur').textContent=live!==null?'$'+live.toFixed(4):'—';
+  document.getElementById('gap-req').textContent=fmtP(reqP);
+  if(live!==null&&reqP>0){
+    const mult=reqP/live;
+    document.getElementById('gap-mult').textContent=fmtX(mult);
+    const pct=Math.min((live/reqP)*100,100);
+    document.getElementById('prog-fill').style.width=Math.max(pct,0.4).toFixed(2)+'%';
+    document.getElementById('prog-pct').textContent=pct.toFixed(2)+'% of the way';
+    let cap='';
+    if(mult<=1.0) cap='XRP is at or above the required price for this scenario. The pipe is sized.';
+    else if(mult<5) cap='Within near-term scenario range. A '+fmtX(mult)+' move from current price.';
+    else if(mult<100) cap='Mid-range scenario. Requires '+fmtX(mult)+' appreciation from today\'s price.';
+    else cap='Institutional or sovereign scale. '+fmtX(mult)+' from today — possible only if full adoption conditions are met.';
+    document.getElementById('prog-cap').textContent=cap;
+  }
+}
+
+function updateInvChart(sig,Q,tol){
+  const turns=[0.1,0.2,0.3,0.5,0.75,1.0,1.25,1.5,2.0,2.5,3.0];
+  const prices=turns.map(t=>Math.round(calcP(Q,sig,tol,t).p));
+  const labs=turns.map(t=>t.toFixed(1)+'%');
+  const liveLine=live!==null?turns.map(()=>Math.round(live)):null;
+
+  if(iCh){
+    iCh.data.labels=labs;
+    iCh.data.datasets[0].data=prices;
+    if(liveLine&&iCh.data.datasets[1]){iCh.data.datasets[1].data=liveLine;}
+    else if(liveLine&&!iCh.data.datasets[1]){
+      iCh.data.datasets.push({label:'Live XRP price',data:liveLine,borderColor:'#2d6a2d',borderDash:[5,4],borderWidth:1.5,pointRadius:0,fill:false,tension:0});
+    }
+    iCh.update();
+    return;
+  }
+
+  const datasets=[{label:'Required price',data:prices,borderColor:'#8b1a1a',backgroundColor:'rgba(139,26,26,0.06)',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:'#8b1a1a',borderWidth:2}];
+  if(liveLine) datasets.push({label:'Live XRP price',data:liveLine,borderColor:'#2d6a2d',borderDash:[5,4],borderWidth:1.5,pointRadius:0,fill:false,tension:0});
+
+  iCh=new Chart(document.getElementById('iChart').getContext('2d'),{
+    type:'line',data:{labels:labs,datasets},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:!!liveLine,labels:{font:{family:'IBM Plex Mono',size:11},color:'#5a5550',boxWidth:12,padding:16}},
+               tooltip:{callbacks:{label:c=>'$'+Math.round(c.parsed.y).toLocaleString()}}},
+      scales:{
+        x:{grid:{color:'rgba(0,0,0,0.06)'},ticks:{font:{family:'IBM Plex Mono',size:11},color:'#8a8480'},title:{display:true,text:'Turnover ratio (volume ÷ market cap)',color:'#8a8480',font:{size:11,family:'IBM Plex Mono'}}},
+        y:{grid:{color:'rgba(0,0,0,0.06)'},ticks:{font:{family:'IBM Plex Mono',size:11},color:'#8a8480',callback:v=>'$'+v.toLocaleString()},title:{display:true,text:'XRP price ($)',color:'#8a8480',font:{size:11,family:'IBM Plex Mono'}}}
+      }}
+  });
+}
+
+function populateST(){
+  const sc=[
+    {sig:.05,q:100e6,tol:50,ids:['s0a','s0b','s0c','s0g']},
+    {sig:.04,q:500e6,tol:25,ids:['s1a','s1b','s1c','s1g']},
+    {sig:.03,q:2e9,  tol:10,ids:['s2a','s2b','s2c','s2g']},
+    {sig:.02,q:10e9, tol:10,ids:['s3a','s3b','s3c','s3g']},
+  ];
+  const turns=[.3,1.0,1.5];
+  sc.forEach(s=>{
+    turns.forEach((t,j)=>{
+      const el=document.getElementById(s.ids[j]);
+      if(el)el.textContent=fmtP(calcP(s.q,s.sig,s.tol,t).p);
+    });
+    const gEl=document.getElementById(s.ids[3]);
+    if(gEl){
+      if(live!==null){
+        const req=calcP(s.q,s.sig,s.tol,1.0).p;
+        gEl.textContent=fmtX(req/live);
+        gEl.className='gap-col live';
+      }else{gEl.textContent='—';gEl.className='gap-col';}
+    }
+  });
+}
+
+['f-sigma','f-q','f-v'].forEach(id=>document.getElementById(id).addEventListener('input',updateFwd));
+['i-sigma','i-q','i-tol','i-turn'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{updateInv();populateST();}));
+
+updateFwd();
+populateST();
+fetchPrice();
+setInterval(fetchPrice,60000);
+</script>
+</body>
+</html>

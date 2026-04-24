@@ -447,14 +447,14 @@
   }
 
   /* === XRP Series Navigation ============================================== */
-  .series-nav {
+  .series-nav {{
     position: sticky;
     top: 0;
     z-index: 100;
     background: var(--bg, #fbfaf7);
     border-bottom: 1px solid rgba(0,0,0,0.10);
-  }
-  .series-nav-inner {
+  }}
+  .series-nav-inner {{
     max-width: 740px;
     margin: 0 auto;
     padding: 0 32px;
@@ -466,8 +466,8 @@
     font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-  }
-  .series-nav a {
+  }}
+  .series-nav a {{
     text-decoration: none;
     transition: opacity 0.15s;
     display: inline-flex;
@@ -477,27 +477,29 @@
     border: none !important;
     background: none !important;
     box-shadow: none !important;
-  }
-  .series-nav a:hover { opacity: 0.6; }
-  .series-nav .nav-home  { color: #9b2226; font-weight: 700; }
-  .series-nav .nav-arrow { color: #595959; }
-  .series-nav .nav-label { color: #7a7a7a; font-size: 10px; letter-spacing: 0.05em; }
-  @media (max-width: 600px) {
-    .series-nav-inner { padding: 0 16px; font-size: 10px; }
-    .series-nav .nav-label { display: none; }
-  }
+  }}
+  .series-nav a:hover {{ opacity: 0.6; }}
+  .series-nav .nav-home  {{ color: #9b2226; font-weight: 700; }}
+  .series-nav .nav-arrow {{ color: #595959; }}
+  .series-nav .nav-label {{ color: #7a7a7a; font-size: 10px; letter-spacing: 0.05em; }}
+  .series-nav .nav-sep   {{ color: #d4d4d0; margin: 0 8px; font-weight: 300; }}
+  @media (max-width: 600px) {{
+    .series-nav-inner {{ padding: 0 16px; font-size: 10px; }}
+    .series-nav .nav-label {{ display: none; }}
+  }}
   /* ======================================================================= */
 
   </style>
 </head>
 <body>
+  <!-- XRP Series Navigation -->
   <nav class="series-nav" aria-label="XRP Valuation Series navigation">
-  <div class="series-nav-inner">
-    <div><a href="../part3/" class="nav-arrow">&#8592; Part 3</a></div>
-    <span class="nav-label">Part 4 of 6</span>
-    <div><a href="../part5/" class="nav-arrow">Part 5 &#8594;</a></div>
-  </div>
-</nav>
+    <div class="series-nav-inner">
+      <div style="display:flex;align-items:center;gap:0"><a href="../" class="nav-home">&#8592; XRP Series</a><span class="nav-sep">|</span><a href="../part3/" class="nav-arrow">&#8592; Part 3</a></div>
+      <span class="nav-label">Part 4 of 5</span>
+      <div><a href="../part5/" class="nav-arrow">Part 5 &#8594;</a></div>
+    </div>
+  </nav>
 
 
 <article class="page">

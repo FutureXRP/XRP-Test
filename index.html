@@ -506,6 +506,53 @@
       color: var(--ink-faint);
     }
 
+    .author-note {
+      max-width: var(--text-width);
+      margin: 64px auto 0;
+      padding: 36px 40px 32px;
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-top: 2px solid var(--rule-strong);
+    }
+
+    .author-note-label {
+      font-family: var(--ui);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 22px;
+    }
+
+    .author-note p {
+      font-family: var(--body);
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--ink-soft);
+      margin-bottom: 18px;
+    }
+
+    .author-note p:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .author-note p em {
+      font-style: italic;
+      color: var(--ink-medium);
+    }
+
+    .author-note .author-sig {
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px dotted var(--rule);
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+    }
+
     @media (max-width: 980px) {
       .hero-inner,
       .card-link {
@@ -582,6 +629,10 @@
 
       .footer-inner {
         flex-direction: column;
+      }
+
+      .author-note {
+        padding: 26px 22px 24px;
       }
     }
   </style>
@@ -892,6 +943,17 @@
             article-specific formatting can remain intact. Series complete, April 2026.
           </p>
         </div>
+
+        <div class="author-note">
+          <div class="author-note-label">About this series</div>
+          <p>This series began as a question a retail investor couldn&rsquo;t find a satisfying answer to: if XRP actually works at institutional scale, what price does the system require? Not what price do bulls predict, and not what price do skeptics dismiss &mdash; what does the math actually demand?</p>
+          <p>I am not a financial professional. I have no affiliation with Ripple or any entity with a financial interest in XRP. I simply set out to understand what I owned, found the existing literature incomplete, and decided to do the work of discovering the answers for myself.</p>
+          <p>The theses, arguments, questions, objections, and every revision are mine. The pen belongs to Claude (Anthropic), with additional stress-testing and review from Grok and ChatGPT. These tools did not generate the intellectual framework. They helped me build it, pressure-test it, and articulate it at a level I couldn&rsquo;t have reached writing alone. What you are reading is what happens when a retail investor with real questions refuses to settle for easy answers and instead sits down with the best analytical tools available and does the work.</p>
+          <p>Part VI exists not to contradict the conviction behind the first five parts, but to hold it honestly. I hold XRP, and I believe it reaches institutional adoption at scale at a price that reflects it. But believing something will happen and pricing the probability of it happening are different disciplines &mdash; and my desire for XRP to reach a high price is not the same as knowing it will. The series earns the right to the bull case only by taking the bear case seriously on its own terms. That is exactly what it does.</p>
+          <p><em>This is not financial advice. Do your own research.</em></p>
+          <div class="author-sig">FutureXRP &nbsp;&middot;&nbsp; @the5blairs</div>
+        </div>
+
       </section>
     </main>
 

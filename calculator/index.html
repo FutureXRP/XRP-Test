@@ -180,12 +180,12 @@ tbody tr.hi td:not(:first-child){color:var(--crimson)}
       </div>
       <div class="crow">
         <div class="clabel"><strong>Q — order size</strong>The transaction you need to execute</div>
-        <input type="range" id="f-q" min="1" max="5000" step="1" value="100">
+        <input type="range" id="f-q" min="1" max="100000" step="100" value="100">
         <div class="cval" id="f-q-out">$100M</div>
       </div>
       <div class="crow">
         <div class="clabel"><strong>V — daily volume</strong>Total market volume flowing per day</div>
-        <input type="range" id="f-v" min="0.1" max="500" step="0.1" value="2">
+        <input type="range" id="f-v" min="0.1" max="5000" step="1" value="2">
         <div class="cval" id="f-v-out">$2.0B</div>
       </div>
     </div>
@@ -220,7 +220,7 @@ tbody tr.hi td:not(:first-child){color:var(--crimson)}
       </div>
       <div class="crow">
         <div class="clabel"><strong>Q — peak ticket size</strong>The hardest transaction the pipe must carry</div>
-        <input type="range" id="i-q" min="0.1" max="20" step="0.1" value="2">
+        <input type="range" id="i-q" min="0.1" max="100" step="0.1" value="2">
         <div class="cval" id="i-q-out">$2.0B</div>
       </div>
       <div class="crow">
@@ -272,9 +272,11 @@ tbody tr.hi td:not(:first-child){color:var(--crimson)}
           <tr><td>Mid<br><span class="pill">Corporate treasury</span></td><td>$500M</td><td id="s1a">—</td><td id="s1b">—</td><td id="s1c">—</td><td id="s1g" class="gap-col">—</td></tr>
           <tr><td>Institutional<br><span class="pill">Large bank</span></td><td>$2B</td><td id="s2a">—</td><td id="s2b">—</td><td id="s2c">—</td><td id="s2g" class="gap-col">—</td></tr>
           <tr><td>Sovereign<br><span class="pill">Central bank</span></td><td>$10B</td><td id="s3a">—</td><td id="s3b">—</td><td id="s3c">—</td><td id="s3g" class="gap-col">—</td></tr>
+          <tr><td>Full system<br><span class="pill">Dominant bridge</span></td><td>$50B</td><td id="s4a">—</td><td id="s4b">—</td><td id="s4c">—</td><td id="s4g" class="gap-col">—</td></tr>
+          <tr><td>Theoretical max<br><span class="pill">100B ticket</span></td><td>$100B</td><td id="s5a">—</td><td id="s5b">—</td><td id="s5c">—</td><td id="s5g" class="gap-col">—</td></tr>
         </tbody>
       </table>
-      <p style="font-size:11px;color:var(--ink-faint);margin-top:.75rem;font-style:italic">σ by scenario: 5% (near-term), 4% (mid), 3% (institutional), 2% (sovereign). Gap = multiple from live price to 1.0% turnover central estimate. Source: <a href="https://xrpvaluation.info/part1/" style="color:var(--crimson)">Part I</a>.</p>
+      <p style="font-size:11px;color:var(--ink-faint);margin-top:.75rem;font-style:italic">σ by scenario: 5% (near-term), 4% (mid), 3% (institutional), 2% (sovereign), 1.5% (full system), 1% (theoretical max). Gap = multiple from live price to 1.0% turnover central estimate. Source: <a href="https://xrpvaluation.info/part1/" style="color:var(--crimson)">Part I</a>.</p>
     </div>
   </div>
 
@@ -368,7 +370,7 @@ function updateFwd(){
 }
 
 function updateFwdChart(sig,V){
-  const pts=[1,2,5,10,25,50,100,250,500,1000,2500,5000];
+  const pts=[1,5,10,25,50,100,250,500,1000,2500,5000,10000,25000,50000,100000];
   const data=pts.map(qm=>parseFloat((sig*Math.sqrt(qm*1e6/V)*10000).toFixed(2)));
   const labs=pts.map(q=>q>=1000?'$'+(q/1000)+'B':'$'+q+'M');
   if(fCh){fCh.data.labels=labs;fCh.data.datasets[0].data=data;fCh.update();return;}
@@ -383,11 +385,12 @@ function updateFwdChart(sig,V){
 function populateFwdTable(sig,V,curQ){
   const rows=[
     {l:'Remittance / retail',s:1e6},{l:'SME corridor',s:10e6},{l:'Corporate treasury',s:100e6},
-    {l:'Mid-tier bank',s:500e6},{l:'Large bank',s:2e9},{l:'Sovereign / central bank',s:10e9}
+    {l:'Mid-tier bank',s:500e6},{l:'Large bank',s:2e9},{l:'Sovereign / central bank',s:10e9},
+    {l:'Full system / dominant bridge',s:50e9},{l:'Theoretical maximum',s:100e9}
   ];
   document.getElementById('f-tbody').innerHTML=rows.map(r=>{
     const bps=sig*Math.sqrt(r.s/V)*10000, cost=r.s*sig*Math.sqrt(r.s/V);
-    const active=Math.abs(r.s-curQ)/curQ<0.05;
+    const active=curQ>0&&Math.abs(r.s-curQ)/Math.max(r.s,curQ)<0.15;
     const pc=bps<=10?'ok':bps<=50?'warn':'fail', pt=bps<=10?'acceptable':bps<=50?'marginal':'unacceptable';
     return`<tr class="${active?'hi':''}"><td>${r.l}</td><td>${fmtD(r.s)}</td><td>${bps.toFixed(1)} bp</td><td>${fmtD(cost)}</td><td><span class="pill ${pc}">${pt}</span></td></tr>`;
   }).join('');
@@ -476,10 +479,12 @@ function updateInvChart(sig,Q,tol){
 
 function populateST(){
   const sc=[
-    {sig:.05,q:100e6,tol:50,ids:['s0a','s0b','s0c','s0g']},
-    {sig:.04,q:500e6,tol:25,ids:['s1a','s1b','s1c','s1g']},
-    {sig:.03,q:2e9,  tol:10,ids:['s2a','s2b','s2c','s2g']},
-    {sig:.02,q:10e9, tol:10,ids:['s3a','s3b','s3c','s3g']},
+    {sig:.05,q:100e6, tol:50,ids:['s0a','s0b','s0c','s0g']},
+    {sig:.04,q:500e6, tol:25,ids:['s1a','s1b','s1c','s1g']},
+    {sig:.03,q:2e9,   tol:10,ids:['s2a','s2b','s2c','s2g']},
+    {sig:.02,q:10e9,  tol:10,ids:['s3a','s3b','s3c','s3g']},
+    {sig:.015,q:50e9, tol:10,ids:['s4a','s4b','s4c','s4g']},
+    {sig:.01, q:100e9,tol:10,ids:['s5a','s5b','s5c','s5g']},
   ];
   const turns=[.3,1.0,1.5];
   sc.forEach(s=>{

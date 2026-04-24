@@ -302,9 +302,10 @@ function fmtP(n){
   return'$'+n.toFixed(3);
 }
 function fmtX(x){
-  if(x>=1000) return(x/1000).toFixed(1)+',000×';
-  if(x>=100)  return Math.round(x)+'×';
-  if(x>=10)   return x.toFixed(1)+'×';
+  if(x>=10000) return Math.round(x).toLocaleString()+'×';
+  if(x>=1000)  return Math.round(x).toLocaleString()+'×';
+  if(x>=100)   return Math.round(x)+'×';
+  if(x>=10)    return x.toFixed(1)+'×';
   return x.toFixed(2)+'×';
 }
 

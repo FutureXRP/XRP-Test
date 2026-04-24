@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HJE2WE51W8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-HJE2WE51W8');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Five articles built the conditional case. This one prices the conditions — assigning probability mass to each failure mode and answering what a rational investor should do with a 10–20% probability of a 1,000× outcome.">
+<meta property="og:title" content="The case against, taken seriously.">
+<meta property="og:description" content="Five articles built the conditional case. This one prices the conditions honestly — engaging the four failure modes, mBridge, CCIP, and the probability the series never assigned.">
+<meta property="og:type" content="article">
+<title>The case against, taken seriously. | XRP Valuation Series, Part VI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fbfaf7;
+    --paper:#ffffff;
+    --ink:#1a1a1a;
+    --ink-soft:#383838;
+    --ink-medium:#595959;
+    --ink-faint:#7a7a7a;
+    --rule:#1a1a1a;
+    --rule-soft:#d4d4d0;
+    --accent:#9b2226;
+    --accent-soft:#c9a227;
+    --highlight:#fff3c4;
+    --mono:'IBM Plex Mono', ui-monospace, monospace;
+    --display:'Newsreader', Georgia, serif;
+    --body:'Newsreader', Georgia, serif;
+    --ui:'IBM Plex Sans', system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 19px;
+    line-height: 1.7;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 32px 120px;
+    position: relative;
+  }
+
+  /* ── Kicker ──────────────────────────────────────────────────────────── */
+  .kicker {
+    font-family: var(--ui);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    font-weight: 600;
+    padding-top: 20px;
+    padding-bottom: 14px;
+    border-top: 2px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .kicker .kicker-left { color: var(--ink-medium); }
+  .kicker .kicker-right { font-style: normal; color: var(--ink-medium); letter-spacing: 0.1em; }
+
+  .categories-row {
+    font-family: var(--ui);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+  .categories-row span:not(:last-child)::after {
+    content: ' · ';
+    margin: 0 6px;
+    color: var(--ink-faint);
+  }
+
+  /* ── Headline ────────────────────────────────────────────────────────── */
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(40px, 6.5vw, 62px);
+    line-height: 1.02;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 26px;
+    color: var(--ink);
+  }
+
+  .deck {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    font-weight: 400;
+    margin-bottom: 32px;
+    max-width: 640px;
+    padding: 0;
+    border: none;
+  }
+
+  .byline {
+    font-family: var(--ui);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--rule-soft);
+    margin-bottom: 44px;
+    font-weight: 500;
+  }
+
+  /* ── Disclaimer ──────────────────────────────────────────────────────── */
+  .disclaimer {
+    background: var(--paper);
+    border: 1px solid var(--rule-soft);
+    border-left: 3px solid var(--accent);
+    padding: 22px 28px;
+    margin: 0 0 44px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .disclaimer strong {
+    font-weight: 600;
+    color: var(--accent);
+    display: block;
+    font-family: var(--ui);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  /* ── Lede ────────────────────────────────────────────────────────────── */
+  .lede {
+    font-size: 22px;
+    line-height: 1.55;
+    color: var(--ink);
+    margin-bottom: 28px;
+    font-weight: 400;
+  }
+  .lede::first-letter {
+    font-family: var(--display);
+    font-size: 68px;
+    float: left;
+    line-height: 0.88;
+    padding: 4px 10px 0 0;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .lede em { font-style: italic; font-weight: 400; color: var(--ink); }
+
+  /* ── Body ────────────────────────────────────────────────────────────── */
+  p { margin-bottom: 22px; orphans: 3; widows: 3; }
+  .body-text { font-size: 19px; line-height: 1.7; color: var(--ink); margin-bottom: 22px; }
+  em { font-style: italic; }
+  strong { font-weight: 600; color: var(--ink); }
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(155,34,38,0.25); transition: border 0.2s; }
+  a:hover { border-bottom-color: var(--accent); }
+
+  /* ── Section label ───────────────────────────────────────────────────── */
+  .section-label {
+    margin-top: 60px;
+    margin-bottom: 36px;
+    border-top: 1px solid var(--rule);
+    padding-top: 32px;
+    font-family: var(--ui);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ── Point blocks ────────────────────────────────────────────────────── */
+  .point { margin: 44px 0; }
+  .point-header {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 20px;
+    align-items: baseline;
+    margin-bottom: 18px;
+  }
+  .point-num {
+    font-family: var(--display);
+    font-size: 44px;
+    line-height: 0.9;
+    font-weight: 500;
+    color: var(--accent);
+    padding-top: 4px;
+    font-feature-settings: "lnum";
+  }
+  .point-title {
+    font-family: var(--display);
+    font-size: 26px;
+    line-height: 1.22;
+    font-weight: 500;
+    letter-spacing: -0.008em;
+    color: var(--ink);
+  }
+  .point-body {
+    font-size: 19px;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 16px;
+    padding-left: 76px;
+  }
+  .point-body + .point-body { margin-top: 0; }
+  .point-note {
+    font-size: 13px;
+    line-height: 1.55;
+    font-family: var(--ui);
+    color: var(--ink-faint);
+    font-style: italic;
+    padding: 12px 0 12px 76px;
+    border-top: 1px dotted var(--rule-soft);
+    margin-top: 12px;
+  }
+
+  /* ── Callout / eli5 ──────────────────────────────────────────────────── */
+  .eli5 {
+    background: var(--paper);
+    border: 1px solid var(--rule-soft);
+    padding: 26px 28px;
+    margin: 28px 0;
+    position: relative;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .eli5::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px; right: -1px;
+    height: 3px;
+    background: var(--accent);
+  }
+  .eli5 strong { color: var(--ink); }
+
+  /* ── Warning box ─────────────────────────────────────────────────────── */
+  .danger-box {
+    background: var(--paper);
+    border-left: 4px solid var(--accent);
+    padding: 20px 26px;
+    margin: 20px 0;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink);
+    font-family: var(--mono);
+  }
+  .danger-box strong {
+    font-family: var(--body);
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .danger-box > strong:first-child {
+    display: block;
+    font-family: var(--ui);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  /* ── Info / model box ────────────────────────────────────────────────── */
+  .info-box {
+    background: var(--paper);
+    border: 1px solid var(--rule-soft);
+    padding: 24px 28px;
+    margin: 20px 0;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .info-box strong { color: var(--ink); }
+  .info-box-title {
+    font-family: var(--ui);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .model-box {
+    background: var(--paper);
+    border: 1px solid var(--rule-soft);
+    padding: 24px 28px;
+    margin: 20px 0;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .model-box strong { color: var(--ink); }
+  .model-title {
+    font-family: var(--ui);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+
+  /* ── Tables ──────────────────────────────────────────────────────────── */
+  .sens-table, .netting-table, .prob-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-family: var(--ui);
+    font-size: 14px;
+  }
+  .sens-table th, .netting-table th, .prob-table th {
+    text-align: left;
+    font-family: var(--ui);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-medium);
+    padding: 10px 12px 10px 0;
+    border-bottom: 2px solid var(--rule);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .sens-table th:not(:first-child),
+  .netting-table th:not(:first-child),
+  .prob-table th:not(:first-child) { text-align: right; }
+  .sens-table td, .netting-table td, .prob-table td {
+    padding: 13px 12px 13px 0;
+    border-bottom: 1px solid var(--rule-soft);
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .sens-table td:first-child,
+  .netting-table td:first-child,
+  .prob-table td:first-child {
+    font-family: var(--body);
+    font-size: 15px;
+    color: var(--ink);
+    font-weight: 400;
+  }
+  .sens-table td:not(:first-child),
+  .netting-table td:not(:first-child),
+  .prob-table td:not(:first-child) { text-align: right; }
+  .sens-table td.central, .netting-table td.hl {
+    background: rgba(255,243,196,0.35);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .prob-table td.confirmed {
+    background: rgba(155,34,38,0.06);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .prob-table td.modal {
+    background: rgba(255,243,196,0.4);
+    color: #6b5200;
+    font-weight: 600;
+  }
+  .sens-caption, .netting-note, .table-note {
+    font-family: var(--ui);
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-faint);
+    font-style: italic;
+    padding: 12px 0;
+    border-top: 1px dotted var(--rule-soft);
+    margin-top: 8px;
+  }
+
+  /* ── Quadrant grid ───────────────────────────────────────────────────── */
+  .quadrant-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin: 28px 0;
+  }
+  .quadrant {
+    background: var(--paper);
+    padding: 22px 20px;
+  }
+  .quadrant.active {
+    background: rgba(155,34,38,0.04);
+  }
+  .quadrant-label {
+    font-family: var(--ui);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .quadrant-title {
+    font-family: var(--display);
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .quadrant-prob {
+    font-family: var(--mono);
+    font-size: 22px;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+  .quadrant-desc {
+    font-family: var(--ui);
+    font-size: 12px;
+    color: var(--ink-medium);
+    line-height: 1.5;
+  }
+  .quadrant-axis-label {
+    font-family: var(--ui);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 600;
+    text-align: center;
+    padding: 10px 0 0;
+  }
+  .quadrant-axis-y {
+    font-family: var(--ui);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 600;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    padding: 0 0 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── Stat row ────────────────────────────────────────────────────────── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin: 28px 0;
+  }
+  .stat {
+    background: var(--paper);
+    padding: 22px 16px;
+    text-align: center;
+  }
+  .stat-val {
+    font-family: var(--display);
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: var(--ui);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    line-height: 1.3;
+    font-weight: 500;
+  }
+
+  /* ── Pull quotes ─────────────────────────────────────────────────────── */
+  .pull {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 28px;
+    line-height: 1.3;
+    color: var(--ink);
+    border-top: 2px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 28px 0;
+    margin: 40px 0;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .pull-sub {
+    display: block;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--ink-medium);
+    margin-top: 14px;
+    line-height: 1.5;
+    letter-spacing: 0;
+  }
+  .pull-inner {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 24px;
+    line-height: 1.4;
+    color: var(--ink);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 26px 0 26px 32px;
+    margin: 28px 0;
+    position: relative;
+    font-weight: 400;
+  }
+  .pull-inner::before {
+    content: '"';
+    font-family: var(--display);
+    font-size: 56px;
+    color: var(--accent);
+    position: absolute;
+    left: -4px;
+    top: -4px;
+    line-height: 1;
+    font-style: normal;
+  }
+  .pull-inner .pull-sub { font-size: 16px; }
+
+  /* ── Falsification events list ───────────────────────────────────────── */
+  .falsify-block {
+    margin: 28px 0;
+  }
+  .falsify-title {
+    font-family: var(--ui);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .falsify-item {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px dotted var(--rule-soft);
+    align-items: baseline;
+  }
+  .falsify-item:last-child { border-bottom: none; }
+  .falsify-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+  .falsify-dot.down {
+    background: var(--ink-faint);
+  }
+  .falsify-text {
+    font-family: var(--ui);
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .falsify-text strong { color: var(--ink); font-weight: 600; }
+
+  /* ── Kelly box ───────────────────────────────────────────────────────── */
+  .kelly-box {
+    background: var(--paper);
+    border: 1px solid var(--rule-soft);
+    border-top: 3px solid var(--accent-soft);
+    padding: 26px 28px;
+    margin: 28px 0;
+  }
+  .kelly-title {
+    font-family: var(--ui);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .kelly-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--rule-soft);
+    border: 1px solid var(--rule-soft);
+    margin: 18px 0;
+  }
+  .kelly-cell {
+    background: var(--bg);
+    padding: 16px 14px;
+    text-align: center;
+  }
+  .kelly-cell .k-prob {
+    font-family: var(--display);
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--accent);
+    display: block;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .kelly-cell .k-payoff {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-medium);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .kelly-cell .k-kelly {
+    font-family: var(--ui);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: block;
+  }
+  .kelly-cell .k-kelly strong {
+    display: block;
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--accent-soft);
+    font-weight: 500;
+    margin-top: 4px;
+    letter-spacing: 0;
+  }
+
+  /* ── Flywheel ────────────────────────────────────────────────────────── */
+  .flywheel {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    margin: 20px 0;
+    padding: 16px 0;
+  }
+  .fw-step {
+    font-family: var(--ui);
+    font-size: 12px;
+    font-weight: 500;
+    background: var(--paper);
+    border: 1px solid var(--rule-soft);
+    padding: 6px 11px;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    margin: 3px 0;
+  }
+  .fw-arrow { font-size: 14px; color: var(--accent); padding: 0 6px; font-weight: 600; }
+
+  /* ── Conclusion ──────────────────────────────────────────────────────── */
+  .close-block { margin-top: 40px; padding: 0; }
+  .close-block p { font-size: 19px; line-height: 1.7; color: var(--ink); margin-bottom: 22px; }
+  .close-final {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 24px;
+    line-height: 1.4;
+    text-align: center;
+    margin: 36px 0 12px !important;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── Caveat ──────────────────────────────────────────────────────────── */
+  .caveat {
+    margin-top: 72px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule-soft);
+    font-family: var(--ui);
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--ink-faint);
+  }
+  .caveat strong { color: var(--ink-medium); font-weight: 600; font-family: var(--ui); }
+
+  /* ── Flourish ────────────────────────────────────────────────────────── */
+  .flourish {
+    text-align: center;
+    margin: 44px 0;
+    color: var(--accent);
+    font-size: 18px;
+    letter-spacing: 0.5em;
+    font-family: var(--display);
+    font-style: italic;
+  }
+
+  /* ── Series navigation ───────────────────────────────────────────────── */
+  .series-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid rgba(0,0,0,0.10);
+  }
+  .series-nav-inner {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 46px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .series-nav a {
+    text-decoration: none;
+    transition: opacity 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+    border: none !important;
+    background: none !important;
+    box-shadow: none !important;
+  }
+  .series-nav a:hover { opacity: 0.6; }
+  .series-nav .nav-home  { color: #9b2226; font-weight: 700; }
+  .series-nav .nav-arrow { color: #595959; }
+  .series-nav .nav-label { color: #7a7a7a; font-size: 10px; letter-spacing: 0.05em; }
+
+  /* ── Responsive ──────────────────────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .page { padding: 28px 20px 80px; }
+    body { font-size: 17px; line-height: 1.65; }
+    h1 { font-size: 36px; }
+    .deck { font-size: 19px; }
+    .lede { font-size: 19px; }
+    .lede::first-letter { font-size: 56px; }
+    .body-text { font-size: 17px; }
+    .point-header { grid-template-columns: 42px 1fr; gap: 14px; }
+    .point-num { font-size: 34px; }
+    .point-title { font-size: 22px; }
+    .point-body { padding-left: 0; font-size: 17px; }
+    .point-note { padding-left: 0; }
+    .pull { font-size: 22px; }
+    .pull-sub { font-size: 16px; }
+    .pull-inner { font-size: 20px; padding-left: 24px; }
+    .pull-inner::before { font-size: 42px; }
+    .section-label { font-size: 10px; }
+    .quadrant-grid { grid-template-columns: 1fr; }
+    .kelly-grid { grid-template-columns: 1fr; }
+    .series-nav-inner { padding: 0 16px; font-size: 10px; }
+    .series-nav .nav-label { display: none; }
+    .close-final { font-size: 20px; }
+  }
+
+  @media print {
+    body { background: white; font-size: 11pt; }
+    .page { max-width: 100%; padding: 0; }
+    .point { break-inside: avoid; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .page > * { animation: fadeUp 0.5s ease-out backwards; }
+  .page > *:nth-child(1) { animation-delay: 0.04s; }
+  .page > *:nth-child(2) { animation-delay: 0.10s; }
+  .page > *:nth-child(3) { animation-delay: 0.16s; }
+  .page > *:nth-child(4) { animation-delay: 0.22s; }
+  .page > *:nth-child(5) { animation-delay: 0.28s; }
+</style>
+</head>
+<body>
+
+<!-- Series navigation -->
+<nav class="series-nav" aria-label="XRP Valuation Series navigation">
+  <div class="series-nav-inner">
+    <div><a href="../" class="nav-home">&#8592; XRP Series</a></div>
+    <span class="nav-label">Part 6 of 6</span>
+    <div><a href="../part5/" class="nav-arrow">&#8592; Part 5</a></div>
+  </div>
+</nav>
+<!-- END NAV -->
+
+
+<div class="page">
+
+  <div class="kicker">
+    <span class="kicker-left">Series Close &middot; Probability Analysis</span>
+    <span class="kicker-right">April 2026</span>
+  </div>
+
+  <div class="categories-row">
+    <span>Analysis</span>
+    <span>Probability</span>
+    <span>Investment Framework</span>
+  </div>
+
+  <h1>The case against,<br>taken seriously.</h1>
+
+  <p class="deck">Five articles built the conditional case. This one prices the conditions &mdash; mapping the architecture honestly, assigning probability mass to each failure mode, and answering the question the series deferred: what should a rational investor do with this thesis?</p>
+
+  <div class="byline">Series close &middot; Part VI of VI &middot; April 2026</div>
+
+  <div class="disclaimer">
+    <strong>Editor&rsquo;s Note &middot; What this piece does</strong>
+    Parts I through V argued from stated assumptions. This piece examines those assumptions directly. The four failure modes are engaged at full strength, not as straw men. The two most technically sophisticated challenges to the thesis &mdash; mBridge and Chainlink CCIP &mdash; receive full treatment. Most importantly, this piece corrects a framing error that ran through the series: DTCC&rsquo;s stated settlement architecture was mischaracterised as a possible &ldquo;failure mode.&rdquo; It is not. It is the intended domestic architecture &mdash; and understanding precisely what it covers, and what it deliberately does not, reshapes where XRP&rsquo;s thesis actually lives.
+  </div>
+
+  <p class="lede">Five articles built an architecture. This is the piece that stress-tests it. The series showed what the system <em>requires</em> if specific conditions are met &mdash; and it deferred, honestly but repeatedly, the prior question: how probable are those conditions? That deferral, across five articles, creates an effect that disclosure alone cannot fully counteract. When every analytical move resolves in the same direction, the cumulative impression is bullish even when each piece is genuinely conditional. This piece corrects that.</p>
+
+  <p class="body-text">The correction is not a retreat. The math in Parts I through V is defensible. What changes is the prior layer &mdash; the probability that the conditions are met, and critically, the precise identification of which architecture actually creates the conditions the thesis requires.</p>
+
+  <div class="flourish">· · ·</div>
+
+  <!-- ═══ THE ARCHITECTURE CLARIFICATION ═══════════════════════════════ -->
+  <div class="section-label">What DTCC is actually building &mdash; and why it matters for the thesis</div>
+
+  <p class="body-text">The single most important clarification this piece can make is about DTCC&rsquo;s stated settlement architecture. The series framed &ldquo;hybrid T+0 with preserved netting&rdquo; as a possible failure mode &mdash; a compromise that might emerge if pure atomic settlement proved too costly. That framing was wrong. Hybrid netted T+0 is not DTCC&rsquo;s fallback. It is DTCC&rsquo;s explicit, stated destination for US domestic settlement.</p>
+
+  <p class="body-text">DTCC&rsquo;s February 2021 white paper &mdash; the foundational document for US settlement reform &mdash; drew a clear distinction between <em>netted T+0</em> and <em>real-time gross settlement</em>. It supported the former and explicitly rejected the latter for domestic equity and Treasury settlement, noting that real-time gross settlement would reduce or eliminate the significant benefits and cost savings provided by multilateral netting. In March 2026, DTCC&rsquo;s Deputy General Counsel Christian Sabella testified to the House Financial Services Committee, naming multilateral netting twice as a benefit that must remain and stating that any tokenization model that breaks netting &mdash; including atomic bilateral settlement &mdash; is incompatible with this regime. This is the institution that settles every US equity and Treasury trade, testifying to Congress about its own architecture. It is not ambiguous.</p>
+
+  <div class="eli5">
+    <strong>The critical distinction.</strong> DTCC&rsquo;s netted T+0 architecture and XRP&rsquo;s addressable market are not the same space. DTCC covers US domestic equities, Treasuries, and ETFs &mdash; flows between counterparties who share membership in the same netting infrastructure. XRP&rsquo;s ODL corridors operate in a different market entirely: cross-border, cross-jurisdiction, non-CLS-eligible currency flows between counterparties who <em>cannot</em> net because they lack shared ledger membership. DTCC&rsquo;s success at netted T+0 does not compete with XRP&rsquo;s thesis. It defines the boundary of where XRP is <em>not</em> needed &mdash; and by implication, clarifies the space where it potentially is.
+  </div>
+
+  <p class="body-text">The BIS has confirmed the gap DTCC&rsquo;s architecture leaves open. Existing PvP arrangements such as CLS do not support many emerging-market and developing-economy currencies whose trading volumes have been steadily increasing. mBridge and atomic settlement have the potential to extend PvP protection to currencies not currently covered. That is the non-CLS cross-border corridor &mdash; the market where XRP&rsquo;s ODL already operates in production, and where DTCC&rsquo;s netted T+0 architecture has no jurisdiction and no mandate.</p>
+
+  <p class="body-text">The implication for every probability that follows: the question is no longer whether institutions build atomic settlement &mdash; they are building it, right now, for the cross-border non-CLS corridor space. The question is how large that market is, how fast it scales, and whether XRP captures the hub role within it.</p>
+
+  <div class="flourish">· · ·</div>
+
+  <!-- ═══ THE FRAMEWORK ════════════════════════════════════════════════ -->
+  <div class="section-label">The framework</div>
+
+  <p class="body-text">The probability structure reduces to two questions. First: does the cross-border, non-CLS atomic settlement architecture that Parts I through III described get built at institutional scale &mdash; the market DTCC&rsquo;s domestic architecture does not serve? Second: given it is built, does XRP specifically capture the bridge-asset role within it?</p>
+
+  <div class="quadrant-grid">
+    <div class="quadrant active">
+      <div class="quadrant-label">Axis 1 Yes &middot; Axis 2 Yes</div>
+      <div class="quadrant-title">Cross-border atomic scales &amp; XRP wins the hub</div>
+      <div class="quadrant-prob">10&ndash;20%</div>
+      <div class="quadrant-desc">Thesis confirmed in strong form. Parts I&ndash;V price scenarios materialise at institutional and sovereign scale.</div>
+    </div>
+    <div class="quadrant">
+      <div class="quadrant-label">Axis 1 Yes &middot; Axis 2 Partial</div>
+      <div class="quadrant-title">Cross-border atomic scales &amp; XRP holds non-CLS corridor role</div>
+      <div class="quadrant-prob">25&ndash;35%</div>
+      <div class="quadrant-desc">Most structurally coherent outcome. XRP serves non-CLS cross-border flows. RLUSD captures dollar-denominated corridors. DTCC handles domestic. Mid-range scenarios ($50&ndash;$500).</div>
+    </div>
+    <div class="quadrant">
+      <div class="quadrant-label">Axis 1 Yes &middot; Axis 2 No</div>
+      <div class="quadrant-title">Cross-border atomic scales &amp; XRP loses to a competitor</div>
+      <div class="quadrant-prob">5&ndash;10%</div>
+      <div class="quadrant-desc">Bridge-asset pattern confirmed; wrong asset. XLM depth gap and Partior&rsquo;s institutional backing make this unlikely at peak-ticket scale but non-zero.</div>
+    </div>
+    <div class="quadrant">
+      <div class="quadrant-label">Axis 1 Partial</div>
+      <div class="quadrant-title">DTCC wins domestically; cross-border development slower than assumed</div>
+      <div class="quadrant-prob">40&ndash;55%</div>
+      <div class="quadrant-desc">Modal outcome. DTCC&rsquo;s netted T+0 succeeds for domestic flows. Cross-border non-CLS atomic settlement develops at corridor speed. XRP finds a real but smaller and slower role than the series priced.</div>
+    </div>
+  </div>
+
+  <p class="body-text">The key difference from the earlier framing: the lower-right quadrant is no longer &ldquo;hybrid wins as a failure mode.&rdquo; It is &ldquo;DTCC wins the market it was designed for, and XRP&rsquo;s addressable market develops more slowly than assumed.&rdquo; XRP can still be useful and still appreciate meaningfully in this quadrant &mdash; it just doesn&rsquo;t reach the institutional and sovereign scenarios Parts I through V derived.</p>
+
+  <div class="flourish">· · ·</div>
+
+  <!-- ═══ FOUR FAILURE MODES ════════════════════════════════════════════ -->
+  <div class="section-label">The four failure modes</div>
+
+  <div class="point">
+    <div class="point-header">
+      <span class="point-num">01</span>
+      <span class="point-title">Cross-border non-CLS atomic settlement develops more slowly than the series assumed</span>
+    </div>
+    <p class="point-body">The correct framing of this failure mode &mdash; now that DTCC&rsquo;s domestic architecture is properly understood &mdash; is not that atomic settlement fails globally. It is that atomic settlement succeeds domestically under DTCC&rsquo;s netted T+0 architecture, while the cross-border, non-CLS corridor space that XRP actually targets develops at corridor speed rather than system speed.</p>
+    <p class="point-body">The evidence supporting this modal probability is real. The G20 Roadmap&rsquo;s 2027 targets are behind schedule: only 35% of global cross-border retail payments and 55% of wholesale and remittance payments settle within one hour, against targets of 75%. The FSB&rsquo;s October 2025 progress report stated directly that the work done so far is not sufficient and that the targets are unlikely to be met. India&rsquo;s T+0 equities pilot &mdash; voluntary, with real incentives for institutions to choose it &mdash; produced $7,400 in total volume across 139 trades. Market participants priced the liquidity cost of same-day settlement and chose netting efficiency. Every time.</p>
+    <p class="point-body">The institutional friction is specific. Small and regional banks in emerging market corridors &mdash; the exact institutions that ODL was designed for &mdash; face significant compliance infrastructure costs to participate in atomic settlement. Pre-trade screening at atomic-settlement speed requires millisecond-latency compliance infrastructure that concentrates access at large global institutions. This is not a temporary barrier. It is a structural feature of the architecture that limits how quickly ODL corridors can scale beyond the current ~$1.3 trillion quarterly run rate into the institutional and sovereign scenario sizes the series priced.</p>
+    <div class="point-note">Probability: 40&ndash;55%. This is the modal outcome not because atomic settlement fails, but because DTCC&rsquo;s domestic success does not create demand for XRP&rsquo;s cross-border utility, and cross-border adoption develops at the pace of individual corridor economics rather than system-wide mandate.</div>
+  </div>
+
+  <div class="point">
+    <div class="point-header">
+      <span class="point-num">02</span>
+      <span class="point-title">The architecture builds for cross-border flows, but RLUSD and stablecoins capture dominant share</span>
+    </div>
+    <p class="point-body">This is the most consequential internal threat and the one the series treated most gently. The numbers warrant bluntness.</p>
+    <div class="danger-box" style="margin-left:76px;">
+      <strong>The data as of April 2026</strong>
+      RLUSD market cap: <strong>$1.56 billion</strong> &mdash; reached within 15 months of December 2024 launch<br>
+      Ripple President Monica Long, in a direct CoinDesk interview: RLUSD is the <strong>&ldquo;primary stablecoin&rdquo;</strong> for Ripple&rsquo;s payment rails<br>
+      RLUSD multi-chain expansion: deploying to Optimism, Base, Ink, Unichain via Wormhole &mdash; explicitly chain-agnostic strategy<br>
+      Deutsche Bank and Soci&eacute;t&eacute; G&eacute;n&eacute;rale (two of Ripple&rsquo;s largest 2026 institutional additions): settling via <strong>RLUSD and fiat</strong>, not XRP ODL<br>
+      Africa expansion: RLUSD and custody-first, XRP corridors as a future layer not a current one<br>
+      Only <strong>~40%</strong> of RippleNet&rsquo;s 300+ institutions actively use XRP for ODL settlement &mdash; the majority use messaging rails and fiat routing
+    </div>
+    <p class="point-body">The structural argument is plain. When institutions settle in a dollar-pegged stablecoin, they have no reason to absorb XRP&rsquo;s price volatility. RLUSD is stable, regulated under a New York trust charter, and now backed by BlackRock&rsquo;s BUIDL, Deutsche Bank, LMAX Group, and SBI Japan. For dollar-denominated corridors &mdash; which represent the majority of global cross-border institutional flows &mdash; RLUSD is the simpler compliance choice.</p>
+    <p class="point-body">The broader stablecoin market amplifies this. The Federal Reserve&rsquo;s own March 2026 analysis of payment stablecoins under the GENIUS Act specifically addresses their cross-border role. Coinbase Institutional projects total stablecoin market cap reaching $1.2 trillion by 2028, with cross-border transaction settlement as a primary growth use case. These are dollar-pegged instruments. Every dollar of cross-border flow they capture is a dollar that does not require a neutral bridge asset.</p>
+    <p class="point-body">The response the series gave &mdash; that RLUSD cannot serve the geopolitical neutrality function that non-US sovereign flows require &mdash; is structurally correct. A cross-border settlement between a Chinese state entity and a Gulf sovereign fund will not route through a dollar-pegged instrument issued under a New York trust charter. The geopolitical logic is real. The question is what fraction of global cross-border institutional flows are genuinely non-dollar, non-Western, and politically motivated to avoid dollar rails. That fraction is real. It is also a fraction &mdash; not the dominant share.</p>
+    <div class="pull-inner" style="margin-left:76px;">
+      Ripple the company can succeed substantially while XRP the asset finds a narrower role. Those are now separable outcomes.
+      <span class="pull-sub">The ~40% of RippleNet institutions actively using XRP for ODL is a live production base. The ~60% using only messaging rails is the signal that needs watching.</span>
+    </div>
+    <div class="point-note">Probability: 25&ndash;35% that cross-border atomic settlement builds but stablecoins &mdash; RLUSD for dollar flows, USDC for broader DeFi settlement &mdash; capture dominant corridor share, leaving XRP the genuine but narrower non-dollar, cross-bloc, neutrality-requiring overflow role. In this scenario, XRP has real utility and meaningful appreciation from today&rsquo;s price, but the institutional and sovereign scenarios from Parts I through V are not reached within the investment horizon.</div>
+  </div>
+
+  <div class="point">
+    <div class="point-header">
+      <span class="point-num">03</span>
+      <span class="point-title">The architecture builds, a neutral bridge is needed, but XRP does not win it</span>
+    </div>
+    <p class="point-body">The series acknowledged XLM and XDC as co-implementations of the bridge-asset design pattern. It also introduced Partior &mdash; backed by Temasek, DBS, and JPMorgan &mdash; briefly in Part IV. Neither received the competitive treatment they warrant.</p>
+    <p class="point-body"><strong>XLM:</strong> Amundi &mdash; Europe&rsquo;s largest asset manager &mdash; launched a $100 million tokenized fund on Stellar in late March 2026. Franklin Templeton&rsquo;s FOBXX runs on Stellar and Solana. CME launched regulated XLM futures in February 2026. The DTCC patent names XLM alongside XRP as a digital liquidity token. Stellar has $1.2 billion in real-world asset TVL. The governance argument for XLM at Layer 5 &mdash; Stellar Development Foundation is a non-profit with no equity incentive to favour any asset price &mdash; is underappreciated. A sovereign institution choosing a neutral bridge may prefer non-profit governance over a US-headquartered for-profit company with a 20% founder allocation.</p>
+    <p class="point-body">However: XRP&rsquo;s market depth advantage over XLM is decisive for peak-ticket institutional flows. XRP&rsquo;s market cap is roughly 15&ndash;20 times XLM&rsquo;s. The series&rsquo; math is brutally direct on this: for a $2B transaction at 10bp slippage, depth matters more than governance preference. XLM excels at micro-transactions and retail remittance. It is not currently positioned for sovereign-scale peak-ticket flows.</p>
+    <p class="point-body"><strong>Partior</strong> is the competitive threat the series did not adequately price. Partior is a Singapore-based atomic cross-border settlement network, backed by Temasek, DBS, and JPMorgan, explicitly operating in the Layer 4&ndash;5 cross-border institutional settlement space. It uses blockchain and smart contracts for atomic settlement between financial institutions &mdash; precisely the XRP ODL use case. It does not use a neutral bridge asset; instead it uses tokenized cash from participating banks. The structural question Partior raises is whether the neutral bridge asset requirement holds when large enough institutions can pre-fund the settlement legs directly. For flows between counterparties that are both Partior members, the answer may be no. For flows between counterparties in different blocs with no shared membership infrastructure, the neutral bridge requirement re-emerges.</p>
+    <div class="point-note">Probability: 5&ndash;10%. XLM&rsquo;s depth gap makes it an improbable winner at peak-ticket institutional scale. Partior&rsquo;s membership-based model mirrors CLS&rsquo;s structural limitation &mdash; it works for members, not for cross-bloc flows. The wrong-asset scenario is real but constrained by the economics of depth at peak-ticket size. This is the most overstated risk in the original Part VI.</div>
+  </div>
+
+  <div class="point">
+    <div class="point-header">
+      <span class="point-num">04</span>
+      <span class="point-title">The math is wrong in a systematic direction</span>
+    </div>
+    <p class="point-body">The series engaged this in Part I&rsquo;s methodology note. With DTCC&rsquo;s architecture now properly understood, one version of this failure mode disappears and another sharpens.</p>
+    <p class="point-body">The version that disappears: the claim that DTCC&rsquo;s preserved netting makes the series&rsquo; central estimates too high. That argument applied to US domestic equity and Treasury flows, which are not XRP&rsquo;s addressable market. For the cross-border, non-CLS corridor flows that XRP actually targets, netting efficiency is structurally lower because there is no shared netting infrastructure to preserve. The series&rsquo; scenarios for those flows are not overcorrected by DTCC&rsquo;s netting preference.</p>
+    <p class="point-body">The version that sharpens: the turnover assumption (0.3%&ndash;1.5% daily vol/mcap) remains the least empirically constrained variable in the model. At 1.0% turnover &mdash; the central estimate &mdash; the institutional scenario implies ~$2,950. At 0.5% &mdash; a plausible mature settlement-asset level consistent with gold and oil futures at institutional maturity &mdash; the institutional scenario rises toward $5,900. The direction of model error from the central turnover estimate, if wrong, is more likely to produce <em>underestimates</em> of required prices than overestimates. This is the one systematic bias in the model that cuts against the bear case rather than for it.</p>
+    <div class="point-note">Probability: 10&ndash;20% that the math is systematically biased enough to shift implied prices down by more than 50% across all scenarios. The formula is well-established. The model risk is real but bounded, and the direction of bias is uncertain. This failure mode is relevant but not dominant.</div>
+  </div>
+
+  <div class="flourish">· · ·</div>
+
+  <!-- ═══ TWO TECHNICAL CHALLENGES ════════════════════════════════════ -->
+  <div class="section-label">Two technical challenges deserving full treatment</div>
+
+  <div class="point">
+    <div class="point-header">
+      <span class="point-num">05</span>
+      <span class="point-title">mBridge: the strongest argument that no private neutral bridge is needed</span>
+    </div>
+    <p class="point-body">mBridge is not a crypto project. It is a multi-CBDC platform built by the central banks of China, Hong Kong, Thailand, the UAE, and Saudi Arabia, now operated independently after the BIS withdrew in October 2024. As of January 2026, mBridge had processed over 4,000 transactions worth approximately $55.5 billion cumulatively &mdash; roughly 2,500 times its early 2022 pilot scale. China&rsquo;s e-CNY accounts for approximately 95% of total settlement volume. The UAE conducted its first government agency transaction on the platform in November 2025.</p>
+
+    <div class="stat-row">
+      <div class="stat"><div class="stat-val">$55.5B</div><div class="stat-label">Cumulative volume through Nov 2025</div></div>
+      <div class="stat"><div class="stat-val">4,000+</div><div class="stat-label">Transactions processed</div></div>
+      <div class="stat"><div class="stat-val">95%</div><div class="stat-label">Share of volume: China e-CNY</div></div>
+      <div class="stat"><div class="stat-val">5</div><div class="stat-label">Central bank participants post-BIS exit</div></div>
+    </div>
+
+    <p class="point-body">The strongest version of the mBridge challenge is specific: if the geopolitical bloc most motivated to escape dollar-denominated settlement &mdash; China, the Gulf states, and associated EMDE partners &mdash; builds its own multi-CBDC infrastructure and scales it within that bloc, the demand for a private neutral bridge asset in exactly the corridors where neutrality matters most may be lower than the thesis assumed.</p>
+    <p class="point-body">The counterarguments are structurally important. China&rsquo;s e-CNY dominates 95% of mBridge volume, which means mBridge is functionally CNY-distribution infrastructure with multi-CBDC framing. A UAE institution routing through mBridge is routing through Chinese-controlled rails. That is neutral within the BRICS-adjacent bloc; it is not neutral to Western-aligned counterparties, or to Gulf institutions that need to preserve relationships with both blocs simultaneously. mBridge is geopolitically local, not globally neutral. The 4,950-bilateral-pair problem the series identified in Parts I and IX is not solved by a system covering five of them.</p>
+    <p class="point-body">More importantly: the BIS&rsquo;s own withdrawal from mBridge, citing concerns about BRICS nations using the platform to bypass sanctions, is itself evidence that the geopolitical fragmentation creating demand for truly neutral infrastructure is accelerating, not slowing. The more mBridge succeeds within its bloc, the stronger the institutional logic for a neutral bridge that sits between both blocs &mdash; one that neither sovereign controls and neither can sanction at the protocol layer.</p>
+    <p class="point-body">What mBridge genuinely does change is the TAM. The settlement architecture of 2030 is more geopolitically segmented than the series assumed. The neutral bridge requirement concentrates at cross-bloc flows &mdash; which are real, growing, and documented at sovereign scale &mdash; rather than applying to all institutional flows. That is a smaller but more defensible addressable market.</p>
+    <div class="point-note">Assessment: mBridge bounds the addressable market for the thesis at cross-bloc flows rather than all institutional settlement flows. It does not falsify the thesis. It clarifies the market. The BIS&rsquo;s exit from mBridge strengthens rather than weakens the case that neutral infrastructure is needed at the cross-bloc layer.</div>
+  </div>
+
+  <div class="point">
+    <div class="point-header">
+      <span class="point-num">06</span>
+      <span class="point-title">Chainlink CCIP: the strongest argument that no bridge asset is needed at all</span>
+    </div>
+    <p class="point-body">Chainlink CCIP is in institutional production at significant scale. In November 2025, Swift&rsquo;s integration with CCIP went live &mdash; 11,500 banks with the ability to attach blockchain wallet addresses to payment messages and settle tokenized assets across public and private chains through their existing infrastructure. DTCC, Euroclear, UBS, BNY Mellon, JPMorgan Kinexys, Ondo Finance, Franklin Templeton, Fidelity International, ANZ, and Standard Chartered are live production participants. Cross-chain transfers via CCIP surged approximately 1,972% in 2025 to $7.77 billion. The protocol connects 60+ blockchains.</p>
+    <p class="point-body">The steel-manned argument: CCIP&rsquo;s Cross-Chain Token (CCT) standard enables zero-slippage transfers using secure burn/mint mechanisms rather than liquidity pools. If every tokenized asset is a CCT, cross-chain transfers do not require a bridge asset. In this architecture, XRP is an unnecessary intermediary.</p>
+    <p class="point-body">The precise response: CCT burn/mint mechanics work for <em>homogeneous</em> transfers &mdash; moving BUIDL from chain A to chain B, where BUIDL on both chains represents the same underlying claim. They do not work for <em>heterogeneous</em> settlement &mdash; where chain A has BUIDL and chain B has OUSG and the parties need to exchange one for the other atomically. The Layer 5 use case is not &ldquo;move an asset between chains.&rdquo; It is &ldquo;exchange two different assets across chains atomically, with neither party pre-funding the destination leg.&rdquo; CCT handles the former. The latter requires either a liquidity pool or a bridge asset.</p>
+
+    <div class="model-box" style="margin-left:76px;">
+      <div class="model-title">Interoperability and liquidity are different functions</div>
+      <strong>What CCIP solves:</strong> Cross-chain message routing, compliance metadata, orchestration of multi-step settlement workflows, moving the same token between chains securely.<br><br>
+      <strong>What CCIP does not solve:</strong> Destination-side liquidity for cross-asset exchanges. When a CCIP-orchestrated transaction requires $2 billion of asset Y on chain B, CCIP routes the instruction &mdash; it does not manufacture the asset. Something must provide that liquidity: pre-funded pools, wrapped representations, or a bridge asset with globally pooled depth.<br><br>
+      <strong>The correct framing:</strong> CCIP and XRP are complementary, not substitutes. CCIP handles orchestration. XRP (or equivalent) handles liquidity. A mature 2030 architecture has both operating on the same peak-ticket settlement. Chainlink has won the orchestration layer. The bridge-asset liquidity question remains open.
+    </div>
+
+    <p class="point-body">The CCIP challenge does tighten the competitive space. In a world where CCIP handles orchestration and compliance routing at the institutional layer, the bridge-asset&rsquo;s role narrows to providing destination-side liquidity for cross-asset, heterogeneous cross-ledger exchanges specifically. That is a real and structurally necessary role. It is also a subset of what the series was pricing.</p>
+    <div class="point-note">Assessment: CCIP does not eliminate the bridge-asset use case. It narrows it to cross-asset, cross-ledger settlement where neither counterparty has standing liquidity in the destination asset. That remaining use case is architecturally necessary and unserved by CCIP itself. But it is a subset of all cross-border institutional settlement, and the TAM shrinks accordingly.</div>
+  </div>
+
+  <div class="flourish">· · ·</div>
+
+  <!-- ═══ PROBABILITY TABLE ════════════════════════════════════════════ -->
+  <div class="section-label">The probability table</div>
+
+  <p class="body-text">Combining the four failure modes and the two technical challenges, and incorporating the correct understanding of DTCC&rsquo;s architecture, a revised probability distribution across the four states follows. These are rough ranges, not point estimates. Reasonable analysts will assign different values. The structure of the framework matters more than the precision of any individual number.</p>
+
+  <div class="model-box">
+    <div class="model-title">Revised probability distribution &middot; 10-year horizon</div>
+    <table class="prob-table">
+      <thead>
+        <tr>
+          <th>State</th>
+          <th>Description</th>
+          <th>Probability</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Strong-form confirmation</td>
+          <td style="font-family:var(--ui);font-size:13px;text-align:left;">Cross-border non-CLS atomic scales &amp; XRP wins hub role</td>
+          <td class="confirmed">10&ndash;20%</td>
+        </tr>
+        <tr>
+          <td>Partial confirmation</td>
+          <td style="font-family:var(--ui);font-size:13px;text-align:left;">XRP holds non-CLS cross-border role; RLUSD captures dollar corridors; DTCC handles domestic</td>
+          <td class="modal">25&ndash;35%</td>
+        </tr>
+        <tr>
+          <td>Wrong-asset confirmation</td>
+          <td style="font-family:var(--ui);font-size:13px;text-align:left;">Architecture builds; XLM, Partior, or future asset wins over XRP</td>
+          <td>5&ndash;10%</td>
+        </tr>
+        <tr>
+          <td>Modal: slower development</td>
+          <td style="font-family:var(--ui);font-size:13px;text-align:left;">DTCC succeeds domestically; cross-border corridor growth slower; XRP finds real but smaller role</td>
+          <td>40&ndash;55%</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="table-note">Combined probability of some form of confirmation (strong or partial): 35&ndash;55%. The partial-confirmation scenario &mdash; XRP holds the non-CLS cross-border role alongside RLUSD and DTCC in their respective spaces &mdash; has been upgraded to 25&ndash;35% because it is the most structurally coherent outcome given what institutions are actually building simultaneously. The modal outcome is not failure; it is a real but smaller role developing at corridor speed rather than system speed.</div>
+  </div>
+
+  <p class="body-text">The key change from earlier framings: the partial-confirmation scenario is not a disappointment. It is the stable equilibrium most consistent with the observable architecture. DTCC solves domestic institutional settlement with netting preserved. mBridge solves BRICS-bloc cross-border flows. Stablecoins solve dollar-denominated corridors at retail and institutional scale. XRP solves the cross-bloc, non-CLS, non-dollar, neutrality-requiring residual &mdash; which includes the largest single transactions in the documented sovereign record.</p>
+
+  <div class="flourish">· · ·</div>
+
+  <!-- ═══ WHAT THE CURRENT PRICE IMPLIES ══════════════════════════════ -->
+  <div class="section-label">What the current price implies</div>
+
+  <p class="body-text">If the probability distribution above is approximately correct, the expected value of XRP at a ten-year horizon can be roughly back-calculated.</p>
+
+  <div class="info-box">
+    <div class="info-box-title">Rough expected value calculation &middot; 10-year horizon</div>
+    <strong>Strong-form confirmation</strong> (15% probability) &times; ~$5,000 median implied price = <strong>$750</strong><br><br>
+    <strong>Partial confirmation</strong> (30% probability) &times; ~$200 median implied price = <strong>$60</strong><br><br>
+    <strong>Wrong-asset / slower development</strong> (55% probability) &times; ~$3 median (modest growth from current) = <strong>$1.65</strong><br><br>
+    <strong>Rough probability-weighted expected value: ~$812</strong>, skewed heavily by the tail scenario.<br><br>
+    <em>Note: probabilities are approximate midpoints of the stated ranges and are illustrative, not model outputs. The current price of ~$1.35 trades well below this rough expected value. The market is either underweighting the tail scenarios, applying a steeper discount rate, or holds a more pessimistic probability distribution than this estimate. All three are plausible. The calculation is a framework for understanding what the market currently implies about probability mass &mdash; not a price target.</em>
+  </div>
+
+  <p class="body-text">The expected value calculation is higher than a first reading of the probability table suggests, because the partial-confirmation scenario has been upgraded and because the tail outcome is very large. But the wide probability ranges and the five-to-ten year horizon mean this is guidance for thinking about sizing, not a basis for timing.</p>
+
+  <div class="flourish">· · ·</div>
+
+  <!-- ═══ HOW TO HOLD THE THESIS ═══════════════════════════════════════ -->
+  <div class="section-label">How to hold the thesis</div>
+
+  <p class="body-text">The series has argued from math to implied prices and from evidence to probability. The remaining question is practical: what should a rational investor actually do with a 10&ndash;20% probability of a 1,000&times; outcome alongside a 25&ndash;35% probability of a meaningful but smaller outcome? This is not financial advice. It is a framework for thinking about position sizing under explicit uncertainty.</p>
+
+  <p class="body-text">The scenarios in Parts I through V are conditional outcomes. They answer: <em>if the conditions are met, what price is required?</em> They do not answer: <em>how likely are the conditions?</em> Position size must be derived from the probability &mdash; not from the upside. The upside is already in the model. Your edge, or your risk, is in how accurately you&rsquo;ve estimated the probability.</p>
+
+  <div class="kelly-box">
+    <div class="kelly-title">Kelly position sizing &middot; anchored to the partial-confirmation mid-case</div>
+    <p style="font-size:15px;color:var(--ink-soft);line-height:1.6;margin-bottom:16px;">The standard framework for asymmetric bets is the Kelly criterion: <strong style="font-family:var(--mono);font-size:14px;">f* = (p &times; b &minus; q) &divide; b</strong> &nbsp; where p&nbsp;=&nbsp;win probability, b&nbsp;=&nbsp;net payoff multiple, q&nbsp;=&nbsp;1&minus;p. The payoff used here is the <strong>partial-confirmation mid-case (~$200, approximately 150&times; from $1.35)</strong> &mdash; not the tail scenario. Using the tail ($5,000+) would produce much larger Kelly outputs. The mid-case is the correct anchor: it has meaningful probability and a quantified payoff, and it does not require every assumption to hold simultaneously.</p>
+    <div class="danger-box" style="margin:0 0 18px;border-left-color:var(--accent-soft);">
+      <strong style="color:var(--accent-soft);">Critical constraint &mdash; model fragility</strong>
+      Kelly assumes your probability estimate is <strong>correct</strong>. If your probability is wrong, Kelly over-allocates aggressively &mdash; the formula has no mechanism to correct for overconfidence. This is why serious capital allocators use half-Kelly or quarter-Kelly as a practical ceiling. <strong>If you cannot clearly articulate why your probability estimate is right, use a smaller fraction.</strong>
+    </div>
+    <div class="kelly-grid">
+      <div class="kelly-cell">
+        <span class="k-prob">10%</span>
+        <span class="k-payoff">p=0.10 &nbsp;·&nbsp; b=150&times;</span>
+        <span class="k-kelly">Full Kelly<strong>~9%</strong></span>
+        <span class="k-kelly" style="margin-top:6px;">Half Kelly<strong>~4&ndash;5%</strong></span>
+      </div>
+      <div class="kelly-cell">
+        <span class="k-prob">20%</span>
+        <span class="k-payoff">p=0.20 &nbsp;·&nbsp; b=150&times;</span>
+        <span class="k-kelly">Full Kelly<strong>~19%</strong></span>
+        <span class="k-kelly" style="margin-top:6px;">Half Kelly<strong>~9&ndash;10%</strong></span>
+      </div>
+      <div class="kelly-cell">
+        <span class="k-prob">30%</span>
+        <span class="k-payoff">p=0.30 &nbsp;·&nbsp; b=150&times;</span>
+        <span class="k-kelly">Full Kelly<strong>~29%</strong></span>
+        <span class="k-kelly" style="margin-top:6px;">Half Kelly<strong>~14&ndash;15%</strong></span>
+      </div>
+    </div>
+    <p style="font-size:13px;font-family:var(--ui);color:var(--ink-faint);font-style:italic;margin-top:12px;line-height:1.5;">These are upper bounds, not targets. The payoff anchor is the partial-confirmation scenario ($200), not the tail. Substituting the full-thesis scenario ($5,000) produces dramatically larger Kelly outputs &mdash; precisely why anchoring to the mid-case matters. Treat full-Kelly as a ceiling and apply fractional Kelly in practice.</p>
+  </div>
+
+  <p class="body-text">Three ways to hold the thesis &mdash; matched to how you assess the probability:</p>
+
+  <div class="model-box">
+    <div class="model-title">The Skeptic &middot; Cross-border adoption develops slowly</div>
+    <strong>View:</strong> 40&ndash;55% probability the modal scenario plays out &mdash; DTCC wins domestically, cross-border non-CLS atomic settlement develops at corridor speed, XRP plays a real but smaller role than the series priced.<br><br>
+    <strong>Action:</strong> Small asymmetric allocation &mdash; meaningful enough to matter if the tail fires, small enough to ignore if it doesn&rsquo;t. Half-Kelly at 10% probability: roughly 2&ndash;5% of risk capital.<br><br>
+    <strong>Discipline:</strong> No averaging unless a specific falsification trigger fails to materialise. This is a long shot held with open eyes, not a conviction position.
+  </div>
+
+  <div class="model-box">
+    <div class="model-title">The Pattern Investor &middot; Architecture likely, XRP uncertain</div>
+    <strong>View:</strong> Architecture builds for cross-border non-CLS flows, but uncertain which asset captures the hub. XLM&rsquo;s governance model, Partior&rsquo;s institutional backing, and a future neutral asset are all real alternatives.<br><br>
+    <strong>Action:</strong> Split exposure across XRP, XLM, and XDC rather than concentrated in one. You are betting on the bridge-asset design pattern being validated &mdash; a higher-probability outcome than XRP specifically winning at peak-ticket scale. Sizing the pattern rather than the winner is a defensible portfolio construction choice.<br><br>
+    <strong>Discipline:</strong> Watch for the DTCC patent becoming production architecture and for which asset is named as the live digital liquidity token. Concentrate from pattern to specific asset if that evidence arrives.
+  </div>
+
+  <div class="model-box">
+    <div class="model-title">The Conviction Holder &middot; XRP captures the hub role</div>
+    <strong>View:</strong> 20%+ probability on strong-form confirmation &mdash; weighting Ripple Prime&rsquo;s NSCC clearing listing, the DTCC patent, XRP&rsquo;s 15&ndash;20&times; depth advantage over XLM, and the documented $10B+ sovereign transaction size in non-CLS corridors more heavily than the modal scenario does.<br><br>
+    <strong>Action:</strong> Half-Kelly at 20% probability: roughly 8&ndash;10% of risk capital. Justified by the math. Not a load-the-boat call.<br><br>
+    <strong>Discipline:</strong> Active monitoring required. If RLUSD is confirmed as displacing XRP in a major ODL corridor, reduce. If Agor&aacute;&rsquo;s final report does not identify a neutral bridge requirement for cross-border flows, reduce. If the ~40% ODL adoption rate inside RippleNet stalls or falls, reduce. This position requires watching the falsification events below.
+  </div>
+
+  <p class="body-text">The core principle: position size should come from your probability assessment, not from the upside scenarios. If you believe 10% &mdash; small bet. If you believe 20% &mdash; meaningful allocation. If you believe 30%+ &mdash; concentrated conviction with active monitoring. The Kelly framework has no internal protection against overconfidence. That protection has to come from you.</p>
+
+  <div class="flourish">· · ·</div>
+
+  <!-- ═══ FALSIFICATION ═════════════════════════════════════════════════ -->
+  <div class="section-label">What to watch</div>
+
+  <p class="body-text">These are the specific observable events that would shift the probability distribution materially in either direction. They are not price targets or buy/sell signals. They are the evidence that tells you your probability assessment needs updating.</p>
+
+  <div class="falsify-block" style="margin-left:76px;">
+    <div class="falsify-title">Events that shift probability upward toward strong-form confirmation</div>
+    <div class="falsify-item">
+      <div class="falsify-dot"></div>
+      <div class="falsify-text"><strong>Non-US sovereign reserve allocation.</strong> A central bank publicly discloses XRP as part of its reserve strategy or settlement collateral &mdash; not a pilot, a disclosed holding. This is the single most important leading indicator. It reveals revealed preference from the counterparty type that makes the neutrality argument structurally necessary and which no stablecoin can satisfy.</div>
+    </div>
+    <div class="falsify-item">
+      <div class="falsify-dot"></div>
+      <div class="falsify-text"><strong>Ripple Prime routes a documented &gt;$1B cross-border transaction through XRP as the bridge leg</strong> in a non-dollar corridor &mdash; not RLUSD, not fiat routing, specifically XRP serving the neutral bridge function in a high-value bilateral settlement. This distinguishes Ripple the company succeeding from XRP the asset capturing its intended role.</div>
+    </div>
+    <div class="falsify-item">
+      <div class="falsify-dot"></div>
+      <div class="falsify-text"><strong>DTCC Canton pilot expands to include cross-ledger liquidity routing in production</strong>, with XRP or XLM named as the live digital liquidity token in a settled transaction. This converts the patent from intellectual property to production architecture and directly confirms Layer 5 demand.</div>
+    </div>
+    <div class="falsify-item">
+      <div class="falsify-dot"></div>
+      <div class="falsify-text"><strong>The ~40% ODL adoption rate inside RippleNet rises materially</strong> &mdash; meaning new institutional additions are choosing XRP routing rather than defaulting to RLUSD or fiat rails. The trend direction of this metric is the most observable near-term signal of whether RLUSD is complementing or replacing XRP within Ripple&rsquo;s own stack.</div>
+    </div>
+  </div>
+
+  <div class="falsify-block" style="margin-left:76px;">
+    <div class="falsify-title">Events that shift probability downward toward modal or no confirmation</div>
+    <div class="falsify-item">
+      <div class="falsify-dot down"></div>
+      <div class="falsify-text"><strong>The ODL adoption rate falls below 40%</strong> as new RippleNet institutions default to RLUSD routing. Deutsche Bank and Soci&eacute;t&eacute; G&eacute;n&eacute;rale&rsquo;s RLUSD preference in 2026 is the current signal to watch. If it becomes the pattern for major institutional additions, the RLUSD cannibalization thesis materialises.</div>
+    </div>
+    <div class="falsify-item">
+      <div class="falsify-dot down"></div>
+      <div class="falsify-text"><strong>Partior scales to cover cross-bloc institutional flows</strong> using tokenized bank deposits rather than a neutral bridge asset &mdash; specifically demonstrating that peak-ticket cross-border settlement between non-aligned institutions is achievable through pre-funded membership rather than open-access bridge liquidity. This would be the sharpest available falsification of the neutral-bridge structural requirement.</div>
+    </div>
+    <div class="falsify-item">
+      <div class="falsify-dot down"></div>
+      <div class="falsify-text"><strong>Agor&aacute;&rsquo;s 2026 final report recommends permanent hybrid architecture without identifying a neutral bridge asset as structurally necessary</strong> for the cross-border flows it covers. This would shift the dominant central-bank view toward the modal scenario.</div>
+    </div>
+    <div class="falsify-item">
+      <div class="falsify-dot down"></div>
+      <div class="falsify-text"><strong>CCIP&rsquo;s CCT standard extends to heterogeneous cross-asset settlement</strong> &mdash; not just moving the same token between chains, but exchanging different assets atomically at institutional scale without a bridge liquidity provider. This would eliminate the remaining use case where a bridge asset is architecturally necessary rather than merely convenient.</div>
+    </div>
+  </div>
+
+  <div class="flourish">· · ·</div>
+
+  <!-- ═══ CONCLUSION ════════════════════════════════════════════════════ -->
+  <div class="section-label">Where the analytical work ends</div>
+
+  <div class="close-block">
+    <p>Five articles built the architecture of the argument. This piece placed probability mass on the conditions the architecture depends on &mdash; and corrected a framing error that ran through the earlier drafts. DTCC&rsquo;s netted T+0 is not a failure mode. It is the domestic architecture succeeding exactly as designed. The XRP thesis lives in the space DTCC explicitly does not cover: cross-border, non-CLS, cross-bloc flows where bilateral netting is structurally impossible and political neutrality is a genuine institutional requirement.</p>
+
+    <p>That market is real. The documented evidence for $10B+ single transactions within it is unambiguous &mdash; central bank swap line draws are historical fact, not theoretical constructs. The BIS has confirmed that CLS does not support the EMDE currencies that increasingly need PvP settlement protection. mBridge&rsquo;s growth within its geopolitical bloc, and the BIS&rsquo;s withdrawal from it, simultaneously confirm both that the demand for bloc-level settlement infrastructure is real and that the demand for cross-bloc neutral settlement is growing as the blocs diverge.</p>
+
+    <p>The honest probability that XRP specifically captures the hub role in that market, within a ten-year investment horizon, is 10&ndash;20% for strong-form confirmation and 25&ndash;35% for meaningful partial confirmation. Those probabilities, combined with the magnitude of the upside in the strong-form scenario and the real but smaller gains in partial confirmation, produce an expected value substantially above today&rsquo;s price. The bet is not irrational. It requires sizing for the probability, not for the scenario.</p>
+
+    <p>The error the XRP community makes is treating the conditional analysis as if the conditions were given. The error the skeptic community makes is dismissing the architecture as marketing noise without engaging what central banks are actually building in the non-CLS cross-border space. The honest position is between them: the architecture is real, the math is sound, the probability of full confirmation is 10&ndash;20%, and the addressable market is the cross-border non-CLS corridor &mdash; not all institutional settlement globally.</p>
+
+    <p class="close-final">The debate should be about the probability of the conditions &mdash; not the math, which holds. The math has always been the less fragile part.</p>
+  </div>
+
+  <!-- ═══ COLOPHON ═══════════════════════════════════════════════════════ -->
+  <div class="caveat">
+    <strong>What this series has and has not claimed.</strong> Parts I through V argued from the math of market impact to implied price requirements under specific adoption conditions. Part VI assigns probability mass to those conditions using the best available evidence as of April 2026, and corrects a framing error in earlier drafts that characterised DTCC&rsquo;s netted T+0 architecture as a possible failure mode rather than the intended domestic destination. Neither the conditional analysis nor the probability framework constitutes a price prediction.
+
+    <p style="margin-top:14px;"><strong>On the DTCC architecture correction.</strong> DTCC&rsquo;s February 2021 white paper explicitly distinguished netted T+0 (its stated destination) from real-time gross settlement (which it rejected for domestic settlement). DTCC Deputy General Counsel Christian Sabella&rsquo;s March 2026 Congressional testimony named multilateral netting twice as a benefit that must remain and stated that atomic bilateral settlement is incompatible with DTCC&rsquo;s regime. Earlier drafts of this piece treated &ldquo;hybrid T+0 with preserved netting&rdquo; as a failure mode. It is not. It is DTCC&rsquo;s design. XRP&rsquo;s addressable market is the cross-border, non-CLS corridor space that DTCC&rsquo;s domestic architecture does not cover. The BIS has confirmed that CLS does not support many EMDE currencies whose trading volumes are increasing, and that mBridge and atomic settlement have the potential to extend PvP protection to those currencies. That is XRP&rsquo;s market.</p>
+
+    <p style="margin-top:14px;"><strong>On the probability ranges.</strong> The ranges in this piece are judgment calls against the cited evidence, not model outputs. A different analyst applying the same framework could reasonably assign 5% to strong-form confirmation (more bearish) or 25% (more bullish). The partial-confirmation probability has been upgraded from the earlier 15&ndash;25% range to 25&ndash;35% because it is the most structurally coherent outcome given what DTCC, Ripple, mBridge, and CCIP are simultaneously building. The wrong-asset probability has been reduced from 10&ndash;20% to 5&ndash;10% because XLM&rsquo;s 15&ndash;20&times; depth disadvantage relative to XRP makes it improbable as a winner at peak-ticket institutional scale, and Partior&rsquo;s membership-based model mirrors CLS&rsquo;s structural limitation at the cross-bloc layer.</p>
+
+    <p style="margin-top:14px;"><strong>On the Kelly calculation.</strong> The Kelly outputs are illustrative consequences of the formula applied to stated inputs. They assume the partial-confirmation scenario ($200) as the payoff reference and full capital loss as the downside. Most practitioners apply fractional Kelly to account for model uncertainty. These are upper bounds on position sizing, not recommendations.</p>
+
+    <p style="margin-top:14px;"><strong>Sources.</strong> All sources from Parts I through V apply to the underlying mathematical framework and scenario estimates. Additional sources for Part VI: DTCC, &ldquo;Advancing Together: Leading the Industry to Accelerated Settlement&rdquo; (February 2021) &mdash; netted T+0 as DTCC&rsquo;s stated destination; rejection of real-time gross settlement for domestic equity and Treasury flows. Christian Sabella (DTCC Deputy General Counsel), written testimony to the House Financial Services Committee on tokenized securities (March 25, 2026) &mdash; multilateral netting named twice as a benefit that must remain; atomic bilateral settlement characterised as incompatible with DTCC&rsquo;s regime. BIS CPMI, &ldquo;FX Settlement Risk Mitigation in (Wholesale) Cross-Border Payments&rdquo; &mdash; CLS does not support many EMDE currencies; mBridge and atomic settlement can extend PvP protection to uncovered currencies. Atlantic Council CBDC Tracker (April 2026) &mdash; mBridge $55.5B cumulative volume, 4,000+ transactions, e-CNY 95% share, BIS withdrawal October 2024. Chainlink blog, &ldquo;Chainlink&rsquo;s Dominance Across Onchain Finance in 2025&rdquo; (December 2025) &mdash; CCIP 1,972% volume surge, $7.77B 2025 volume, Swift production integration November 2025. Monica Long (Ripple President), interview with CoinDesk (November 2025) &mdash; RLUSD is the &ldquo;primary stablecoin&rdquo; for Ripple&rsquo;s payment rails; source of direct quote. Disruption Banking, &ldquo;Ripple&rsquo;s RLUSD Rise: Is This the End for XRP?&rdquo; (March 2026) &mdash; Deutsche Bank and Soci&eacute;t&eacute; G&eacute;n&eacute;rale settling via RLUSD and fiat; 40% ODL adoption rate inside RippleNet. CryptoSlate, &ldquo;XRP ETFs are booming, but a quiet $15 billion payment layer matters more&rdquo; (December 2025) &mdash; 40% ODL adoption figure; ODL volume metrics. CoinDesk, Ripple RLUSD multi-chain expansion via Wormhole (December 2025) &mdash; chain-agnostic strategy confirmed in official Ripple communications. Kapronasia, &ldquo;Why atomic settlement could be a game-changer in cross-border payments&rdquo; &mdash; Partior background, JPMorgan and Temasek backing. Coinbase Institutional, &ldquo;2026 Crypto Market Outlook&rdquo; &mdash; stablecoin market cap projection $1.2T by 2028, cross-border settlement as primary growth use case. Federal Reserve, &ldquo;Payment Stablecoins and Cross-Border Payments&rdquo;, FEDS Notes (March 30, 2026) &mdash; cross-border payment stablecoin role under GENIUS Act. Council on Foreign Relations, Central Bank Currency Swaps Tracker &mdash; ECB EUR 10 billion swap with National Bank of Poland; documented sovereign transaction scale. FSB, G20 Roadmap Consolidated Progress Report 2025 &mdash; targets behind schedule; 35% of cross-border retail payments within one hour against 75% target. Changelly, Stellar (XLM) price prediction and institutional footprint (April 2026) &mdash; XLM market cap $5&ndash;7B versus XRP $80&ndash;120B; depth gap confirmed. India T+0 pilot data &mdash; NSE 83 trades, BSE 56 trades, $7,400 total value. American Banker, &ldquo;Atomic settlement swaps one risk for another&rdquo; (February 2026).</p>
+
+    <p style="margin-top:14px;"><strong>Disclosure.</strong> Conditional structural analysis incorporating explicit probability weighting. All scenario prices remain mechanical consequences of stated inputs, not predictions. This is not financial advice. Do your own research.</p>
+
+    <p style="margin-top:14px;font-style:italic;color:var(--ink-medium);"><em>XRP Valuation Series &middot; Part VI of VI &middot; April 2026 &middot; Series complete.</em></p>
+  </div>
+
+</div>
+</body>
+</html>

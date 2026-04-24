@@ -21,7 +21,7 @@ import os
 # ── Nav HTML for each part ────────────────────────────────────────────────────
 
 NAVS = {
-    "part1.html": """<nav class="series-nav" aria-label="XRP Valuation Series navigation">
+    "part1/index.html": """<nav class="series-nav" aria-label="XRP Valuation Series navigation">
   <div class="series-nav-inner">
     <div><a href="../" class="nav-home">&#8592; XRP Series</a></div>
     <span class="nav-label">Part 1 of 6</span>
@@ -29,7 +29,7 @@ NAVS = {
   </div>
 </nav>""",
 
-    "part2.html": """<nav class="series-nav" aria-label="XRP Valuation Series navigation">
+    "part2/index.html": """<nav class="series-nav" aria-label="XRP Valuation Series navigation">
   <div class="series-nav-inner">
     <div><a href="../part1/" class="nav-arrow">&#8592; Part 1</a></div>
     <span class="nav-label">Part 2 of 6</span>
@@ -37,7 +37,7 @@ NAVS = {
   </div>
 </nav>""",
 
-    "part3.html": """<nav class="series-nav" aria-label="XRP Valuation Series navigation">
+    "part3/index.html": """<nav class="series-nav" aria-label="XRP Valuation Series navigation">
   <div class="series-nav-inner">
     <div><a href="../part2/" class="nav-arrow">&#8592; Part 2</a></div>
     <span class="nav-label">Part 3 of 6</span>
@@ -45,7 +45,7 @@ NAVS = {
   </div>
 </nav>""",
 
-    "part4.html": """<nav class="series-nav" aria-label="XRP Valuation Series navigation">
+    "part4/index.html": """<nav class="series-nav" aria-label="XRP Valuation Series navigation">
   <div class="series-nav-inner">
     <div><a href="../part3/" class="nav-arrow">&#8592; Part 3</a></div>
     <span class="nav-label">Part 4 of 6</span>
@@ -53,7 +53,7 @@ NAVS = {
   </div>
 </nav>""",
 
-    "part5.html": """<nav class="series-nav" aria-label="XRP Valuation Series navigation">
+    "part5/index.html": """<nav class="series-nav" aria-label="XRP Valuation Series navigation">
   <div class="series-nav-inner">
     <div><a href="../part4/" class="nav-arrow">&#8592; Part 4</a></div>
     <span class="nav-label">Part 5 of 6</span>
@@ -141,8 +141,14 @@ def process(filename):
 if __name__ == '__main__':
     print("Fixing XRP Valuation Series navigation (Parts 1-5)...")
     print()
-    for fname in ["part1.html", "part2.html", "part3.html", "part4.html", "part5.html"]:
+    for fname in [
+        "part1/index.html",
+        "part2/index.html",
+        "part3/index.html",
+        "part4/index.html",
+        "part5/index.html",
+    ]:
         process(fname)
     print()
-    print("Done. Run: diff partN.html partN.html.bak to review changes.")
+    print("Done. Run: diff partN/index.html partN/index.html.bak to review changes.")
     print("Delete .bak files once confirmed.")

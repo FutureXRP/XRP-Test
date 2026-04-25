@@ -210,7 +210,7 @@ tbody tr.hi td:not(:first-child){color:var(--crimson)}
   <div id="pnl-inv" style="display:none">
     <div class="formula">
       <div class="flabel">Inverted — solving for required price</div>
-      <div class="ftext">Required V = <span class="v">Q</span> × (<span class="v">σ</span> ÷ <span class="v">tol</span>)²<br>Price = V ÷ <span class="v">turnover</span> ÷ 61B XRP</div>
+      <div class="ftext">Required V = <span class="v">Q</span> × (<span class="v">σ</span> ÷ <span class="v">tol</span>)²<br>Price = V ÷ <span class="v">turnover</span> ÷ <span class="v">float</span></div>
     </div>
     <div class="controls">
       <div class="crow">
@@ -233,11 +233,16 @@ tbody tr.hi td:not(:first-child){color:var(--crimson)}
         <input type="range" id="i-turn" min="0.1" max="3" step="0.1" value="1">
         <div class="cval" id="i-turn-out">1.0%</div>
       </div>
+      <div class="crow">
+        <div class="clabel"><strong>Float — circulating supply</strong>Current ~57.7B liquid; 100B total issued</div>
+        <input type="range" id="i-float" min="40" max="100" step="0.1" value="57.7">
+        <div class="cval" id="i-float-out">57.7B</div>
+      </div>
     </div>
     <div class="results">
       <div class="rcard"><div class="rlabel">Required daily volume</div><div class="rval" id="i-vol">—</div><div class="rsub">to meet tolerance</div></div>
       <div class="rcard"><div class="rlabel">Required market cap</div><div class="rval" id="i-mcap">—</div><div class="rsub">at turnover ratio</div></div>
-      <div class="rcard"><div class="rlabel">Required XRP price</div><div class="rval" id="i-price" style="color:var(--crimson)">—</div><div class="rsub">at 61B supply</div></div>
+      <div class="rcard"><div class="rlabel">Required XRP price</div><div class="rval" id="i-price" style="color:var(--crimson)">—</div><div class="rsub" id="i-supply-sub">at 57.7B float</div></div>
     </div>
 
     <!-- Gap panel -->
@@ -285,7 +290,7 @@ tbody tr.hi td:not(:first-child){color:var(--crimson)}
 </div>
 
 <script>
-const SUPPLY = 61e9;
+const SUPPLY = 61e9; // legacy reference; actual supply read from #i-float slider
 let live = null, chg24 = null;
 let mode = 'forward', fCh = null, iCh = null;
 
@@ -396,10 +401,10 @@ function populateFwdTable(sig,V,curQ){
   }).join('');
 }
 
-function calcP(q,sig,tol,turn){
+function calcP(q,sig,tol,turn,supply){
   const t=tol/10000, tr=turn/100;
   const rv=q*Math.pow(sig/t,2), mc=rv/tr;
-  return{rv,mc,p:mc/SUPPLY};
+  return{rv,mc,p:mc/supply};
 }
 
 function updateInv(){
@@ -407,16 +412,20 @@ function updateInv(){
   const Q=parseFloat(document.getElementById('i-q').value)*1e9;
   const tol=parseFloat(document.getElementById('i-tol').value);
   const turn=parseFloat(document.getElementById('i-turn').value);
+  const floatB=parseFloat(document.getElementById('i-float').value);
+  const supply=floatB*1e9;
   document.getElementById('i-sigma-out').textContent=(sig*100).toFixed(1)+'%';
   document.getElementById('i-q-out').textContent=fmtD(Q);
   document.getElementById('i-tol-out').textContent=tol.toFixed(0)+' bp';
   document.getElementById('i-turn-out').textContent=turn.toFixed(1)+'%';
-  const{rv,mc,p}=calcP(Q,sig,tol,turn);
+  document.getElementById('i-float-out').textContent=floatB.toFixed(1)+'B';
+  document.getElementById('i-supply-sub').textContent='at '+floatB.toFixed(1)+'B float';
+  const{rv,mc,p}=calcP(Q,sig,tol,turn,supply);
   document.getElementById('i-vol').textContent=fmtD(rv)+'/day';
   document.getElementById('i-mcap').textContent=fmtD(mc);
   document.getElementById('i-price').textContent=fmtP(p);
   refreshGap(p);
-  updateInvChart(sig,Q,tol);
+  updateInvChart(sig,Q,tol,supply);
 }
 
 function refreshGap(reqP){
@@ -445,9 +454,9 @@ function refreshGap(reqP){
   }
 }
 
-function updateInvChart(sig,Q,tol){
+function updateInvChart(sig,Q,tol,supply){
   const turns=[0.1,0.2,0.3,0.5,0.75,1.0,1.25,1.5,2.0,2.5,3.0];
-  const prices=turns.map(t=>Math.round(calcP(Q,sig,tol,t).p));
+  const prices=turns.map(t=>Math.round(calcP(Q,sig,tol,t,supply).p));
   const labs=turns.map(t=>t.toFixed(1)+'%');
   const liveLine=live!==null?turns.map(()=>Math.round(live)):null;
 
@@ -478,6 +487,8 @@ function updateInvChart(sig,Q,tol){
 }
 
 function populateST(){
+  const floatB=parseFloat(document.getElementById('i-float').value);
+  const supply=floatB*1e9;
   const sc=[
     {sig:.05,q:100e6, tol:50,ids:['s0a','s0b','s0c','s0g']},
     {sig:.04,q:500e6, tol:25,ids:['s1a','s1b','s1c','s1g']},
@@ -490,12 +501,12 @@ function populateST(){
   sc.forEach(s=>{
     turns.forEach((t,j)=>{
       const el=document.getElementById(s.ids[j]);
-      if(el)el.textContent=fmtP(calcP(s.q,s.sig,s.tol,t).p);
+      if(el)el.textContent=fmtP(calcP(s.q,s.sig,s.tol,t,supply).p);
     });
     const gEl=document.getElementById(s.ids[3]);
     if(gEl){
       if(live!==null){
-        const req=calcP(s.q,s.sig,s.tol,1.0).p;
+        const req=calcP(s.q,s.sig,s.tol,1.0,supply).p;
         gEl.textContent=fmtX(req/live);
         gEl.className='gap-col live';
       }else{gEl.textContent='—';gEl.className='gap-col';}
@@ -504,7 +515,7 @@ function populateST(){
 }
 
 ['f-sigma','f-q','f-v'].forEach(id=>document.getElementById(id).addEventListener('input',updateFwd));
-['i-sigma','i-q','i-tol','i-turn'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{updateInv();populateST();}));
+['i-sigma','i-q','i-tol','i-turn','i-float'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{updateInv();populateST();}));
 
 updateFwd();
 populateST();

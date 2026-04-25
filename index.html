@@ -8,14 +8,12 @@
     name="description"
     content="A six-part structural analysis of XRP as a bridge asset for institutional settlement."
   />
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
     rel="stylesheet"
   />
-
   <style>
     :root {
       --bg: #fbfaf7;
@@ -31,26 +29,15 @@
       --accent: #9b2226;
       --accent-deep: #7f1d1d;
       --accent-soft: #efe2d2;
-      --highlight: #fff3c4;
-
       --display: "Newsreader", Georgia, serif;
       --body: "Newsreader", Georgia, serif;
       --ui: "IBM Plex Sans", system-ui, sans-serif;
       --mono: "IBM Plex Mono", ui-monospace, monospace;
-
       --page-width: 1120px;
       --text-width: 760px;
-      --radius: 18px;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-
     body {
       background: var(--bg);
       color: var(--ink);
@@ -60,18 +47,12 @@
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
-
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
     .site-shell { min-height: 100vh; }
 
     /* ── Topbar ── */
-    .topbar {
-      max-width: var(--page-width);
-      margin: 0 auto;
-      padding: 24px 28px 0;
-    }
-
+    .topbar { max-width: var(--page-width); margin: 0 auto; padding: 24px 28px 0; }
     .topbar-inner {
       border-top: 2px solid var(--rule-strong);
       border-bottom: 1px solid var(--rule-strong);
@@ -86,17 +67,10 @@
       letter-spacing: 0.14em;
       color: var(--ink-medium);
     }
-
     .topbar-left { font-weight: 600; color: var(--accent); }
-    .topbar-right { letter-spacing: 0.1em; }
 
-    /* ── Live price strip ── */
-    .price-strip-wrap {
-      max-width: var(--page-width);
-      margin: 0 auto;
-      padding: 0 28px;
-    }
-
+    /* ── Price strip ── */
+    .price-strip-wrap { max-width: var(--page-width); margin: 0 auto; padding: 0 28px; }
     .price-strip {
       border-bottom: 1px solid var(--rule);
       padding: 11px 0 10px;
@@ -105,556 +79,160 @@
       gap: 22px;
       flex-wrap: wrap;
     }
-
-    .ps-label {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--ink-faint);
-    }
-
-    .ps-price {
-      font-family: var(--mono);
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--ink);
-      letter-spacing: -0.01em;
-    }
-
-    .ps-change {
-      font-family: var(--mono);
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 2px;
-    }
-
+    .ps-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); }
+    .ps-price { font-family: var(--mono); font-size: 15px; font-weight: 600; color: var(--ink); }
+    .ps-change { font-family: var(--mono); font-size: 11px; padding: 2px 8px; border-radius: 2px; }
     .ps-change.up   { background: #eaf3e8; color: #2d6a2d; }
     .ps-change.dn   { background: #fde8e8; color: #8b1a1a; }
     .ps-change.flat { background: var(--paper-soft); color: var(--ink-faint); }
-
-    .ps-divider {
-      width: 1px;
-      height: 14px;
-      background: var(--rule);
-      flex-shrink: 0;
-    }
-
-    .ps-stat {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--ink-faint);
-    }
-
-    .ps-stat span {
-      color: var(--ink-medium);
-      font-weight: 500;
-    }
-
+    .ps-divider { width: 1px; height: 14px; background: var(--rule); flex-shrink: 0; }
+    .ps-stat { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }
+    .ps-stat span { color: var(--ink-medium); font-weight: 500; }
     .ps-tool-link {
       margin-left: auto;
-      font-family: var(--ui);
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: opacity 0.15s;
+      font-family: var(--ui); font-size: 11px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent); font-weight: 600;
+      display: flex; align-items: center; gap: 6px; transition: opacity 0.15s;
     }
-
     .ps-tool-link:hover { opacity: 0.72; }
-
-    .ps-tool-link::after {
-      content: "→";
-      font-size: 13px;
-    }
-
-    .ps-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: #2d6a2d;
-      flex-shrink: 0;
-      animation: blink 2.2s infinite;
-    }
-
+    .ps-tool-link::after { content: "→"; font-size: 13px; }
+    .ps-dot { width: 5px; height: 5px; border-radius: 50%; background: #2d6a2d; flex-shrink: 0; animation: blink 2.2s infinite; }
     .ps-dot.loading { background: var(--ink-faint); animation: none; }
     .ps-dot.error   { background: var(--accent); animation: none; }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
     /* ── Hero ── */
-    .hero-wrap {
-      max-width: var(--page-width);
-      margin: 0 auto;
-      padding: 26px 28px 0;
-    }
-
+    .hero-wrap { max-width: var(--page-width); margin: 0 auto; padding: 26px 28px 0; }
     .hero {
-      position: relative;
       background:
-        radial-gradient(circle at top right, rgba(155, 34, 38, 0.06), transparent 28%),
-        radial-gradient(circle at bottom left, rgba(201, 162, 39, 0.08), transparent 24%),
+        radial-gradient(circle at top right, rgba(155,34,38,0.06), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(201,162,39,0.08), transparent 24%),
         linear-gradient(180deg, var(--paper) 0%, var(--paper-soft) 100%);
       border: 1px solid var(--rule);
       border-radius: 28px;
       overflow: hidden;
     }
-
-    .hero-inner {
-      display: grid;
-      grid-template-columns: 1.25fr 0.85fr;
-      gap: 0;
-    }
-
+    .hero-inner { display: grid; grid-template-columns: 1.25fr 0.85fr; }
     .hero-main { padding: 60px 56px 56px; }
-
-    .eyebrow {
-      font-family: var(--ui);
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
-
-    .hero h1 {
-      font-family: var(--display);
-      font-size: clamp(46px, 7vw, 86px);
-      line-height: 0.98;
-      font-weight: 500;
-      letter-spacing: -0.03em;
-      margin-bottom: 18px;
-      color: var(--ink);
-    }
-
-    .hero-subtitle {
-      font-family: var(--display);
-      font-style: italic;
-      font-size: clamp(22px, 3vw, 30px);
-      line-height: 1.35;
-      color: var(--accent);
-      margin-bottom: 28px;
-      max-width: 640px;
-    }
-
-    .hero-copy {
-      max-width: 640px;
-      font-size: 21px;
-      line-height: 1.65;
-      color: var(--ink-soft);
-      margin-bottom: 30px;
-    }
-
+    .eyebrow { font-family: var(--ui); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 20px; }
+    .hero h1 { font-family: var(--display); font-size: clamp(46px, 7vw, 86px); line-height: 0.98; font-weight: 500; letter-spacing: -0.03em; margin-bottom: 18px; }
+    .hero-subtitle { font-family: var(--display); font-style: italic; font-size: clamp(22px, 3vw, 30px); line-height: 1.35; color: var(--accent); margin-bottom: 28px; max-width: 640px; }
+    .hero-copy { max-width: 640px; font-size: 21px; line-height: 1.65; color: var(--ink-soft); margin-bottom: 30px; }
     .hero-note {
-      max-width: 640px;
-      padding: 20px 22px;
-      background: rgba(255, 255, 255, 0.65);
-      border: 1px solid var(--rule);
-      border-left: 3px solid var(--accent);
-      font-size: 17px;
-      line-height: 1.6;
-      color: var(--ink-soft);
+      max-width: 640px; padding: 20px 22px;
+      background: rgba(255,255,255,0.65); border: 1px solid var(--rule);
+      border-left: 3px solid var(--accent); font-size: 17px; line-height: 1.6; color: var(--ink-soft);
     }
-
     .hero-note strong {
-      display: block;
-      font-family: var(--ui);
-      font-size: 10px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 8px;
-      font-weight: 600;
+      display: block; font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 8px; font-weight: 600;
     }
-
     .hero-side {
       border-left: 1px solid var(--rule);
       background: linear-gradient(180deg, rgba(255,255,255,0.72), rgba(244,239,228,0.9));
       padding: 34px 30px 30px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      display: flex; flex-direction: column; justify-content: space-between;
     }
-
-    .side-label {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--ink-faint);
-      margin-bottom: 18px;
-    }
-
+    .side-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 18px; }
     .toc { display: flex; flex-direction: column; gap: 14px; }
-
     .toc-item { padding: 14px 0; border-top: 1px solid var(--rule); }
     .toc-item:first-child { border-top: 0; padding-top: 0; }
-
-    .toc-num {
-      display: inline-block;
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 6px;
-    }
-
-    .toc-title {
-      font-family: var(--display);
-      font-size: 21px;
-      line-height: 1.2;
-      font-weight: 500;
-      color: var(--ink);
-      margin-bottom: 6px;
-    }
-
+    .toc-num { display: inline-block; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+    .toc-title { font-family: var(--display); font-size: 21px; line-height: 1.2; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
     .toc-desc { font-size: 15px; line-height: 1.55; color: var(--ink-medium); }
-
-    .side-meta {
-      margin-top: 28px;
-      padding-top: 18px;
-      border-top: 1px solid var(--rule);
-      font-family: var(--mono);
-      font-size: 11px;
-      line-height: 1.8;
-      color: var(--ink-faint);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
+    .side-meta { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; line-height: 1.8; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.08em; }
 
     /* ── Content ── */
-    .content-wrap {
-      max-width: var(--page-width);
-      margin: 0 auto;
-      padding: 34px 28px 110px;
-    }
-
+    .content-wrap { max-width: var(--page-width); margin: 0 auto; padding: 34px 28px 110px; }
     .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 20px;
-      padding: 18px 0 16px;
-      border-top: 1px solid var(--rule-strong);
-      margin-bottom: 20px;
-      font-family: var(--ui);
-      font-size: 11px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-      font-weight: 600;
+      display: flex; justify-content: space-between; align-items: baseline; gap: 20px;
+      padding: 18px 0 16px; border-top: 1px solid var(--rule-strong); margin-bottom: 20px;
+      font-family: var(--ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600;
     }
-
     .section-head .muted { color: var(--ink-faint); letter-spacing: 0.1em; }
-
     .cards { display: grid; grid-template-columns: 1fr; gap: 20px; }
 
-    /* ── Article cards ── */
+    /* ── Cards ── */
     .card {
-      background: var(--paper);
-      border: 1px solid var(--rule);
-      border-radius: 24px;
-      overflow: hidden;
-      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+      background: var(--paper); border: 1px solid var(--rule); border-radius: 24px;
+      overflow: hidden; transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
       box-shadow: 0 1px 0 rgba(0,0,0,0.02);
     }
-
-    .card:hover {
-      transform: translateY(-2px);
-      border-color: #b9ab97;
-      box-shadow: 0 14px 30px rgba(0,0,0,0.06);
-    }
-
-    .card.card-series-close {
-      border-color: rgba(155, 34, 38, 0.25);
-      background: linear-gradient(180deg, var(--paper) 0%, rgba(155,34,38,0.03) 100%);
-    }
-
-    .card.card-series-close:hover {
-      border-color: rgba(155, 34, 38, 0.45);
-      box-shadow: 0 14px 30px rgba(155, 34, 38, 0.08);
-    }
-
-    /* ── Tool card ── */
-    .card.card-tool {
-      border-color: rgba(155, 34, 38, 0.18);
-      background: linear-gradient(180deg, var(--paper) 0%, rgba(244,239,228,0.5) 100%);
-    }
-
-    .card.card-tool:hover {
-      border-color: rgba(155, 34, 38, 0.38);
-      box-shadow: 0 14px 30px rgba(155, 34, 38, 0.07);
-    }
-
-    .card-link {
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
-      min-height: 100%;
-    }
-
+    .card:hover { transform: translateY(-2px); border-color: #b9ab97; box-shadow: 0 14px 30px rgba(0,0,0,0.06); }
+    .card.card-series-close { border-color: rgba(155,34,38,0.25); background: linear-gradient(180deg, var(--paper) 0%, rgba(155,34,38,0.03) 100%); }
+    .card.card-series-close:hover { border-color: rgba(155,34,38,0.45); box-shadow: 0 14px 30px rgba(155,34,38,0.08); }
+    .card.card-tool { border-color: rgba(155,34,38,0.18); background: linear-gradient(180deg, var(--paper) 0%, rgba(244,239,228,0.5) 100%); }
+    .card.card-tool:hover { border-color: rgba(155,34,38,0.38); box-shadow: 0 14px 30px rgba(155,34,38,0.07); }
+    .card-link { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr); min-height: 100%; }
     .card-main { padding: 32px 34px 30px; }
-
-    .card-meta {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px 14px;
-      margin-bottom: 16px;
-      font-family: var(--ui);
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
+    .card-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 16px; font-family: var(--ui); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
     .card-part { color: var(--accent); font-weight: 600; }
     .card-type { color: var(--ink-faint); }
-
-    .card-title {
-      font-family: var(--display);
-      font-size: clamp(28px, 4vw, 42px);
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      font-weight: 500;
-      color: var(--ink);
-      margin-bottom: 14px;
-    }
-
-    .card-title em { color: var(--accent); font-style: italic; font-weight: 500; }
-
-    .card-deck {
-      font-size: 20px;
-      line-height: 1.65;
-      color: var(--ink-soft);
-      margin-bottom: 22px;
-      max-width: 720px;
-    }
-
+    .card-title { font-family: var(--display); font-size: clamp(28px, 4vw, 42px); line-height: 1.05; letter-spacing: -0.02em; font-weight: 500; color: var(--ink); margin-bottom: 14px; }
+    .card-title em { color: var(--accent); font-style: italic; }
+    .card-deck { font-size: 20px; line-height: 1.65; color: var(--ink-soft); margin-bottom: 22px; max-width: 720px; }
     .card-footer { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      padding: 5px 10px;
-      border: 1px solid var(--rule);
-      background: var(--paper-soft);
-      font-family: var(--ui);
-      font-size: 11px;
-      line-height: 1.3;
-      color: var(--ink-medium);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .tag.accent {
-      border-color: rgba(155, 34, 38, 0.2);
-      color: var(--accent);
-      background: rgba(155, 34, 38, 0.05);
-      font-weight: 600;
-    }
-
-    .tag.live-tag {
-      border-color: rgba(45, 106, 45, 0.25);
-      color: #2d6a2d;
-      background: rgba(45, 106, 45, 0.06);
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .tag.live-tag .tag-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: #2d6a2d;
-      animation: blink 2.2s infinite;
-      flex-shrink: 0;
-    }
-
+    .tag { display: inline-flex; align-items: center; padding: 5px 10px; border: 1px solid var(--rule); background: var(--paper-soft); font-family: var(--ui); font-size: 11px; color: var(--ink-medium); text-transform: uppercase; letter-spacing: 0.08em; }
+    .tag.accent { border-color: rgba(155,34,38,0.2); color: var(--accent); background: rgba(155,34,38,0.05); font-weight: 600; }
+    .tag.live-tag { border-color: rgba(45,106,45,0.25); color: #2d6a2d; background: rgba(45,106,45,0.06); font-weight: 500; gap: 6px; }
+    .tag.live-tag .tag-dot { width: 5px; height: 5px; border-radius: 50%; background: #2d6a2d; animation: blink 2.2s infinite; flex-shrink: 0; }
     .card-side {
       border-left: 1px solid var(--rule);
       background: linear-gradient(180deg, rgba(244,239,228,0.35), rgba(244,239,228,0.8));
-      padding: 28px 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 22px;
+      padding: 28px 24px; display: flex; flex-direction: column; justify-content: space-between; gap: 22px;
     }
-
-    .card-kicker {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--ink-faint);
-      margin-bottom: 12px;
-    }
-
+    .card-kicker { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px; }
     .card-points { display: flex; flex-direction: column; gap: 10px; }
-
-    .card-point {
-      position: relative;
-      padding-left: 14px;
-      font-size: 15px;
-      line-height: 1.55;
-      color: var(--ink-medium);
-    }
-
-    .card-point::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0.72em;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--accent);
-      transform: translateY(-50%);
-    }
-
-    /* Live price display inside tool card side panel */
-    .tool-price-block {
-      padding: 16px 18px;
-      background: var(--ink);
-      border-radius: 10px;
-      margin-bottom: 16px;
-    }
-
-    .tpb-label {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
-      margin-bottom: 6px;
-    }
-
-    .tpb-row {
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-    }
-
-    .tpb-price {
-      font-family: var(--mono);
-      font-size: 24px;
-      font-weight: 600;
-      color: #fff;
-      line-height: 1;
-    }
-
-    .tpb-change {
-      font-family: var(--mono);
-      font-size: 11px;
-      padding: 2px 6px;
-      border-radius: 2px;
-    }
-
+    .card-point { position: relative; padding-left: 14px; font-size: 15px; line-height: 1.55; color: var(--ink-medium); }
+    .card-point::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); transform: translateY(-50%); }
+    .tool-price-block { padding: 16px 18px; background: var(--ink); border-radius: 10px; margin-bottom: 16px; }
+    .tpb-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 6px; }
+    .tpb-row { display: flex; align-items: baseline; gap: 10px; }
+    .tpb-price { font-family: var(--mono); font-size: 24px; font-weight: 600; color: #fff; line-height: 1; }
+    .tpb-change { font-family: var(--mono); font-size: 11px; padding: 2px 6px; border-radius: 2px; }
     .tpb-change.up { background: rgba(45,106,45,0.4); color: #7ecf7e; }
     .tpb-change.dn { background: rgba(139,26,26,0.4); color: #f59090; }
     .tpb-change.fl { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.4); }
-
-    .tpb-sub {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: rgba(255,255,255,0.3);
-      margin-top: 5px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .read-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-family: var(--ui);
-      font-size: 12px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--accent);
-      font-weight: 600;
-    }
-
+    .tpb-sub { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 5px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .read-link { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ui); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
     .read-link::after { content: "→"; font-size: 15px; line-height: 1; }
 
-    /* ── Closing / Author note ── */
-    .closing {
-      max-width: var(--text-width);
-      margin: 52px auto 0;
-      padding-top: 24px;
-      border-top: 1px solid var(--rule);
-      text-align: center;
-    }
-
+    /* ── Closing / About ── */
+    .closing { max-width: var(--text-width); margin: 52px auto 0; padding-top: 24px; border-top: 1px solid var(--rule); text-align: center; }
     .closing p { font-size: 18px; line-height: 1.7; color: var(--ink-medium); }
-
     .author-note {
-      max-width: var(--text-width);
-      margin: 64px auto 0;
-      padding: 36px 40px 32px;
-      background: var(--paper);
-      border: 1px solid var(--rule);
-      border-top: 2px solid var(--rule-strong);
+      max-width: var(--text-width); margin: 64px auto 0; padding: 36px 40px 32px;
+      background: var(--paper); border: 1px solid var(--rule); border-top: 2px solid var(--rule-strong);
     }
-
-    .author-note-label {
-      font-family: var(--ui);
-      font-size: 10px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--accent);
-      font-weight: 600;
-      margin-bottom: 22px;
-    }
-
-    .author-note p {
-      font-family: var(--body);
-      font-size: 17px;
-      line-height: 1.75;
-      color: var(--ink-soft);
-      margin-bottom: 18px;
-    }
-
-    .author-note p:last-of-type { margin-bottom: 0; }
+    .author-note-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 22px; }
+    .author-note p { font-size: 17px; line-height: 1.75; color: var(--ink-soft); margin-bottom: 18px; }
     .author-note p em { font-style: italic; color: var(--ink-medium); }
 
-    .author-note .author-sig {
-      margin-top: 24px;
-      padding-top: 18px;
-      border-top: 1px dotted var(--rule);
-      font-family: var(--mono);
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      color: var(--ink-faint);
-      text-transform: uppercase;
+    /* ── Living framework note ── */
+    .living-note {
+      margin: 24px 0;
+      padding: 20px 24px;
+      background: var(--paper-soft);
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--accent);
     }
+    .living-note-label {
+      font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px;
+    }
+    .living-note p {
+      font-size: 16px !important;
+      line-height: 1.7;
+      color: var(--ink-medium) !important;
+      margin-bottom: 0 !important;
+    }
+
+    .author-sig { margin-top: 24px; padding-top: 18px; border-top: 1px dotted var(--rule); font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; color: var(--ink-faint); text-transform: uppercase; }
 
     /* ── Footer ── */
     .footer { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 40px; }
-
-    .footer-inner {
-      border-top: 1px solid var(--rule);
-      padding-top: 18px;
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-      font-family: var(--mono);
-      font-size: 11px;
-      line-height: 1.8;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--ink-faint);
-    }
+    .footer-inner { border-top: 1px solid var(--rule); padding-top: 18px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; line-height: 1.8; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
 
     /* ── Responsive ── */
     @media (max-width: 980px) {
@@ -666,458 +244,385 @@
       .card-side { padding: 22px 26px 24px; }
       .ps-tool-link { display: none; }
     }
-
     @media (max-width: 640px) {
       body { font-size: 18px; }
       .topbar, .hero-wrap, .content-wrap, .footer, .price-strip-wrap { padding-left: 18px; padding-right: 18px; }
       .hero { border-radius: 20px; }
       .hero-main { padding: 36px 22px 24px; }
       .hero-side { padding: 24px 22px 24px; }
-      .hero-copy { font-size: 19px; }
       .card { border-radius: 18px; }
       .card-main, .card-side { padding-left: 20px; padding-right: 20px; }
       .section-head { flex-direction: column; align-items: flex-start; gap: 8px; }
       .footer-inner { flex-direction: column; }
       .author-note { padding: 26px 22px 24px; }
+      .living-note { padding: 16px 18px; }
       .ps-divider, .ps-stat { display: none; }
     }
   </style>
 </head>
 <body>
-  <div class="site-shell">
-    <header class="topbar">
-      <div class="topbar-inner">
-        <div class="topbar-left">XRP Valuation Series</div>
-        <div class="topbar-right">Structural Analysis · April 2026</div>
-      </div>
-    </header>
+<div class="site-shell">
 
-    <!-- ── Live price strip ── -->
-    <div class="price-strip-wrap">
-      <div class="price-strip">
-        <span class="ps-dot loading" id="ps-dot"></span>
-        <span class="ps-label">XRP / USD</span>
-        <span class="ps-price" id="ps-price">—</span>
-        <span class="ps-change flat" id="ps-change">—</span>
-        <span class="ps-divider"></span>
-        <span class="ps-stat">24h vol &nbsp;<span id="ps-vol">—</span></span>
-        <span class="ps-divider"></span>
-        <span class="ps-stat">Market cap &nbsp;<span id="ps-mcap">—</span></span>
-        <a class="ps-tool-link" href="./calculator/">Impact calculator</a>
-      </div>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-left">XRP Valuation Series</div>
+      <div class="topbar-right">Structural Analysis · April 2026</div>
     </div>
+  </header>
 
-    <main>
-      <section class="hero-wrap">
-        <div class="hero">
-          <div class="hero-inner">
-            <div class="hero-main">
-              <div class="eyebrow">A six-part publication</div>
-              <h1>XRP Valuation Series</h1>
-              <div class="hero-subtitle">
-                A structural analysis of XRP as a bridge asset for institutional settlement.
-              </div>
-              <p class="hero-copy">
-                These essays examine the XRP pricing problem through liquidity mechanics,
-                slippage tolerance, netting compression, settlement architecture, and the
-                full-system demands of a global bridge asset. The series closes with an
-                explicit probability framework and position sizing guide.
-              </p>
-              <div class="hero-note">
-                <strong>Conditional analysis</strong>
-                Every article in this series argues from stated assumptions. The purpose is
-                not to promise outcomes, but to show what the math and structure would require
-                if adoption conditions are actually met &mdash; and in Part VI, to price the
-                probability that those conditions are met at all.
-              </div>
-            </div>
-
-            <aside class="hero-side">
-              <div>
-                <div class="side-label">Contents</div>
-                <div class="toc">
-                  <div class="toc-item">
-                    <div class="toc-num">Part I</div>
-                    <div class="toc-title">XRP is not being valued. It is being sized.</div>
-                    <div class="toc-desc">Liquidity mechanics, slippage constraints, and the pricing problem.</div>
-                  </div>
-                  <div class="toc-item">
-                    <div class="toc-num">Part II</div>
-                    <div class="toc-title">The netting objection was backwards.</div>
-                    <div class="toc-desc">What live trials reveal about netting once settlement compresses toward T+0.</div>
-                  </div>
-                  <div class="toc-item">
-                    <div class="toc-num">Part III</div>
-                    <div class="toc-title">When time leaves finance.</div>
-                    <div class="toc-desc">Why atomic settlement changes power, pricing, and market structure.</div>
-                  </div>
-                  <div class="toc-item">
-                    <div class="toc-num">Part IV</div>
-                    <div class="toc-title">The settlement stack of 2030.</div>
-                    <div class="toc-desc">A structural map of where bridge assets actually live.</div>
-                  </div>
-                  <div class="toc-item">
-                    <div class="toc-num">Part V</div>
-                    <div class="toc-title">The pipe we forgot to size.</div>
-                    <div class="toc-desc">The derivatives layer and the upper-bound depth problem.</div>
-                  </div>
-                  <div class="toc-item">
-                    <div class="toc-num">Part VI</div>
-                    <div class="toc-title">The case against, taken seriously.</div>
-                    <div class="toc-desc">Honest probability weights, failure modes, and a position sizing framework.</div>
-                  </div>
-                </div>
-              </div>
-              <div class="side-meta">
-                Six separate articles<br />
-                Exact article text preserved<br />
-                Series complete · April 2026
-              </div>
-            </aside>
-          </div>
-        </div>
-      </section>
-
-      <section class="content-wrap">
-        <div class="section-head">
-          <span>Articles</span>
-          <span class="muted">Select a part to read</span>
-        </div>
-
-        <div class="cards">
-
-          <!-- Part I -->
-          <article class="card">
-            <a class="card-link" href="./part1/">
-              <div class="card-main">
-                <div class="card-meta">
-                  <span class="card-part">Part I</span>
-                  <span class="card-type">Structural Analysis</span>
-                </div>
-                <h2 class="card-title">XRP is not being valued. It is being sized.</h2>
-                <p class="card-deck">
-                  A conditional structural analysis of XRP valuation through the lens of
-                  liquidity mechanics, market impact, and institutional slippage tolerance.
-                </p>
-                <div class="card-footer">
-                  <span class="tag accent">Read article</span>
-                  <span class="tag">Liquidity</span>
-                  <span class="tag">Slippage</span>
-                  <span class="tag">Market Structure</span>
-                </div>
-              </div>
-              <div class="card-side">
-                <div>
-                  <div class="card-kicker">Inside this piece</div>
-                  <div class="card-points">
-                    <div class="card-point">Why XRP's pricing problem differs from an equity valuation model</div>
-                    <div class="card-point">Square-root market impact and institutional tolerance thresholds</div>
-                    <div class="card-point">Scenario ranges from corridor-scale utility to sovereign-scale settlement</div>
-                  </div>
-                </div>
-                <div class="read-link">Open Part I</div>
-              </div>
-            </a>
-          </article>
-
-          <!-- Part II -->
-          <article class="card">
-            <a class="card-link" href="./part2/">
-              <div class="card-main">
-                <div class="card-meta">
-                  <span class="card-part">Part II</span>
-                  <span class="card-type">Structural Follow-up</span>
-                </div>
-                <h2 class="card-title">The netting objection was <em>backwards.</em></h2>
-                <p class="card-deck">
-                  A follow-up examining what BIS, central bank trials, and production-grade
-                  settlement experiments imply about netting under atomic settlement.
-                </p>
-                <div class="card-footer">
-                  <span class="tag accent">Read article</span>
-                  <span class="tag">Netting</span>
-                  <span class="tag">T+0</span>
-                  <span class="tag">Settlement</span>
-                </div>
-              </div>
-              <div class="card-side">
-                <div>
-                  <div class="card-kicker">Inside this piece</div>
-                  <div class="card-points">
-                    <div class="card-point">Three kinds of netting, and only one that truly dies</div>
-                    <div class="card-point">Why time-compression changes the liquidity picture</div>
-                    <div class="card-point">How the skeptic's objection can become a stronger bull case</div>
-                  </div>
-                </div>
-                <div class="read-link">Open Part II</div>
-              </div>
-            </a>
-          </article>
-
-          <!-- Part III -->
-          <article class="card">
-            <a class="card-link" href="./part3/">
-              <div class="card-main">
-                <div class="card-meta">
-                  <span class="card-part">Part III</span>
-                  <span class="card-type">Structural Analysis</span>
-                </div>
-                <h2 class="card-title">When time leaves finance.</h2>
-                <p class="card-deck">
-                  Part III explores why atomic settlement forces discontinuous repricing,
-                  concentrates power at new chokepoints, and changes what a bridge asset
-                  has to be.
-                </p>
-                <div class="card-footer">
-                  <span class="tag accent">Read article</span>
-                  <span class="tag">Atomic Settlement</span>
-                  <span class="tag">Market Power</span>
-                  <span class="tag">Repricing</span>
-                </div>
-              </div>
-              <div class="card-side">
-                <div>
-                  <div class="card-kicker">Inside this piece</div>
-                  <div class="card-points">
-                    <div class="card-point">Why delay leaving finance changes the economic structure</div>
-                    <div class="card-point">How chokepoints shift once settlement turns atomic</div>
-                    <div class="card-point">What kind of asset survives in a no-time environment</div>
-                  </div>
-                </div>
-                <div class="read-link">Open Part III</div>
-              </div>
-            </a>
-          </article>
-
-          <!-- Part IV -->
-          <article class="card">
-            <a class="card-link" href="./part4/">
-              <div class="card-main">
-                <div class="card-meta">
-                  <span class="card-part">Part IV</span>
-                  <span class="card-type">Position Paper</span>
-                </div>
-                <h2 class="card-title">
-                  The settlement stack of 2030. <em>Where bridge assets actually live.</em>
-                </h2>
-                <p class="card-deck">
-                  A structural map of the emerging peak-ticket settlement architecture,
-                  its layers, major incumbents, and the narrow place where XRP's thesis survives.
-                </p>
-                <div class="card-footer">
-                  <span class="tag accent">Read article</span>
-                  <span class="tag">Architecture</span>
-                  <span class="tag">Incumbents</span>
-                  <span class="tag">Bridge Assets</span>
-                </div>
-              </div>
-              <div class="card-side">
-                <div>
-                  <div class="card-kicker">Inside this piece</div>
-                  <div class="card-points">
-                    <div class="card-point">Five layers in the emerging settlement architecture</div>
-                    <div class="card-point">Where stablecoins, tokenized deposits, and CBDC rails compete</div>
-                    <div class="card-point">Why XRP's role narrows, but may deepen where flexibility matters most</div>
-                  </div>
-                </div>
-                <div class="read-link">Open Part IV</div>
-              </div>
-            </a>
-          </article>
-
-          <!-- Part V -->
-          <article class="card">
-            <a class="card-link" href="./part5/">
-              <div class="card-main">
-                <div class="card-meta">
-                  <span class="card-part">Part V</span>
-                  <span class="card-type">Extended Analysis</span>
-                </div>
-                <h2 class="card-title">The pipe we forgot to size.</h2>
-                <p class="card-deck">
-                  The fifth paper extends the argument into the derivatives layer and asks
-                  what price a bridge asset would require if it had to support the deepest,
-                  hardest-to-ignore flows in the system.
-                </p>
-                <div class="card-footer">
-                  <span class="tag accent">Read article</span>
-                  <span class="tag">Derivatives</span>
-                  <span class="tag">Upper Bound</span>
-                  <span class="tag">System Depth</span>
-                </div>
-              </div>
-              <div class="card-side">
-                <div>
-                  <div class="card-kicker">Inside this piece</div>
-                  <div class="card-points">
-                    <div class="card-point">Why the derivatives layer changes the scale of the discussion</div>
-                    <div class="card-point">Candidate bridge architectures and their failure points</div>
-                    <div class="card-point">The full-system depth question that most analyses never reach</div>
-                  </div>
-                </div>
-                <div class="read-link">Open Part V</div>
-              </div>
-            </a>
-          </article>
-
-          <!-- Part VI -->
-          <article class="card card-series-close">
-            <a class="card-link" href="./part6/">
-              <div class="card-main">
-                <div class="card-meta">
-                  <span class="card-part">Part VI</span>
-                  <span class="card-type">Series Close · Probability Analysis</span>
-                </div>
-                <h2 class="card-title">The case against, <em>taken seriously.</em></h2>
-                <p class="card-deck">
-                  The series close prices the conditions Parts I&ndash;V deferred. Four failure
-                  modes engaged at full strength, the DTCC architecture corrected, mBridge and
-                  CCIP treated with full technical rigor, and an explicit probability-weighted
-                  investment framework with Kelly position sizing.
-                </p>
-                <div class="card-footer">
-                  <span class="tag accent">Read article</span>
-                  <span class="tag">Probability</span>
-                  <span class="tag">Failure Modes</span>
-                  <span class="tag">Position Sizing</span>
-                  <span class="tag">Series Complete</span>
-                </div>
-              </div>
-              <div class="card-side">
-                <div>
-                  <div class="card-kicker">Inside this piece</div>
-                  <div class="card-points">
-                    <div class="card-point">Why DTCC&rsquo;s netted T+0 is not a failure mode &mdash; and what it means for XRP&rsquo;s addressable market</div>
-                    <div class="card-point">Four failure modes including RLUSD cannibalization, mBridge, CCIP, and XLM competition &mdash; each at full strength</div>
-                    <div class="card-point">Honest probability table, expected value calculation, Kelly sizing framework, and falsification criteria</div>
-                  </div>
-                </div>
-                <div class="read-link">Open Part VI</div>
-              </div>
-            </a>
-          </article>
-
-          <!-- Tool card -->
-          <article class="card card-tool">
-            <a class="card-link" href="./calculator/">
-              <div class="card-main">
-                <div class="card-meta">
-                  <span class="card-part">Tools</span>
-                  <span class="card-type">Interactive Calculator</span>
-                </div>
-                <h2 class="card-title">Market impact calculator.</h2>
-                <p class="card-deck">
-                  The square-root market impact law from Part I, made interactive. Size any
-                  transaction against live market depth — or invert the formula to see exactly
-                  what price XRP must reach to carry institutional flows without unacceptable slippage.
-                </p>
-                <div class="card-footer">
-                  <span class="tag accent">Open calculator</span>
-                  <span class="tag live-tag"><span class="tag-dot"></span>Live XRP price</span>
-                  <span class="tag">Forward &amp; inverse modes</span>
-                  <span class="tag">Scenario table</span>
-                </div>
-              </div>
-              <div class="card-side">
-                <div>
-                  <div class="card-kicker">Live market data</div>
-                  <div class="tool-price-block">
-                    <div class="tpb-label">XRP / USD · Live</div>
-                    <div class="tpb-row">
-                      <span class="tpb-price" id="card-price">—</span>
-                      <span class="tpb-change fl" id="card-change">—</span>
-                    </div>
-                    <div class="tpb-sub" id="card-status">fetching price&hellip;</div>
-                  </div>
-                  <div class="card-kicker" style="margin-top:4px">What this tool shows</div>
-                  <div class="card-points">
-                    <div class="card-point">Slippage for any transaction size at current or custom market depth</div>
-                    <div class="card-point">The price XRP must reach for each Part I scenario — versus live</div>
-                    <div class="card-point">The exact multiple from today's price to every scenario threshold</div>
-                  </div>
-                </div>
-                <div class="read-link">Open calculator</div>
-              </div>
-            </a>
-          </article>
-
-        </div>
-
-        <div class="closing">
-          <p>
-            Each article is hosted as its own standalone page so the original text and
-            article-specific formatting can remain intact. Series complete, April 2026.
-          </p>
-        </div>
-
-        <div class="author-note">
-          <div class="author-note-label">About this series</div>
-          <p>This series began as a question a retail investor couldn&rsquo;t find a satisfying answer to: if XRP actually works at institutional scale, what price does the system require? Not what price do bulls predict, and not what price do skeptics dismiss &mdash; what does the math actually demand?</p>
-          <p>I am not a financial professional. I have no affiliation with Ripple or any entity with a financial interest in XRP. I simply set out to understand what I owned, found the existing literature incomplete, and decided to do the work of discovering the answers for myself.</p>
-          <p>The theses, arguments, questions, objections, and every revision are mine. The pen belongs to Claude (Anthropic), with additional stress-testing and review from Grok and ChatGPT. These tools did not generate the intellectual framework. They helped me build it, pressure-test it, and articulate it at a level I couldn&rsquo;t have reached writing alone. What you are reading is what happens when a retail investor with real questions refuses to settle for easy answers and instead sits down with the best analytical tools available and does the work.</p>
-          <p>Part VI exists not to contradict the conviction behind the first five parts, but to hold it honestly. I hold XRP, and I believe it reaches institutional adoption at scale at a price that reflects it. But believing something will happen and pricing the probability of it happening are different disciplines &mdash; and my desire for XRP to reach a high price is not the same as knowing it will. The series earns the right to the bull case only by taking the bear case seriously on its own terms. That is exactly what it does.</p>
-          <p><em>This is not financial advice. Do your own research.</em></p>
-          <div class="author-sig">FutureXRP &nbsp;&middot;&nbsp; @the5blairs</div>
-        </div>
-
-      </section>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        <div>XRP Valuation Series</div>
-        <div>Six-part structural analysis · Series complete</div>
-      </div>
-    </footer>
+  <div class="price-strip-wrap">
+    <div class="price-strip">
+      <span class="ps-dot loading" id="ps-dot"></span>
+      <span class="ps-label">XRP / USD</span>
+      <span class="ps-price" id="ps-price">—</span>
+      <span class="ps-change flat" id="ps-change">—</span>
+      <span class="ps-divider"></span>
+      <span class="ps-stat">24h vol &nbsp;<span id="ps-vol">—</span></span>
+      <span class="ps-divider"></span>
+      <span class="ps-stat">Market cap &nbsp;<span id="ps-mcap">—</span></span>
+      <a class="ps-tool-link" href="./calculator/">Impact calculator</a>
+    </div>
   </div>
 
-  <script>
-    async function fetchPrice() {
-      try {
-        const r = await fetch(
-          'https://api.coingecko.com/api/v3/simple/price?ids=ripple&vs_currencies=usd&include_24hr_change=true&include_24hr_vol=true&include_market_cap=true',
-          { cache: 'no-store' }
-        );
-        if (!r.ok) throw new Error();
-        const d = await r.json();
-        const price = d.ripple.usd;
-        const chg   = d.ripple.usd_24h_change;
-        const vol   = d.ripple.usd_24h_vol;
-        const mcap  = d.ripple.usd_market_cap;
+  <main>
+    <section class="hero-wrap">
+      <div class="hero">
+        <div class="hero-inner">
+          <div class="hero-main">
+            <div class="eyebrow">A six-part publication</div>
+            <h1>XRP Valuation Series</h1>
+            <div class="hero-subtitle">A structural analysis of XRP as a bridge asset for institutional settlement.</div>
+            <p class="hero-copy">These essays examine the XRP pricing problem through liquidity mechanics, slippage tolerance, netting compression, settlement architecture, and the full-system demands of a global bridge asset. The series closes with an explicit probability framework and position sizing guide.</p>
+            <div class="hero-note">
+              <strong>Conditional analysis</strong>
+              Every article in this series argues from stated assumptions. The purpose is not to promise outcomes, but to show what the math and structure would require if adoption conditions are actually met &mdash; and in Part VI, to price the probability that those conditions are met at all.
+            </div>
+          </div>
+          <aside class="hero-side">
+            <div>
+              <div class="side-label">Contents</div>
+              <div class="toc">
+                <div class="toc-item">
+                  <div class="toc-num">Part I</div>
+                  <div class="toc-title">XRP is not being valued. It is being sized.</div>
+                  <div class="toc-desc">Liquidity mechanics, slippage constraints, and the pricing problem.</div>
+                </div>
+                <div class="toc-item">
+                  <div class="toc-num">Part II</div>
+                  <div class="toc-title">The netting objection was backwards.</div>
+                  <div class="toc-desc">What live trials reveal about netting once settlement compresses toward T+0.</div>
+                </div>
+                <div class="toc-item">
+                  <div class="toc-num">Part III</div>
+                  <div class="toc-title">When time leaves finance.</div>
+                  <div class="toc-desc">Why atomic settlement changes power, pricing, and market structure.</div>
+                </div>
+                <div class="toc-item">
+                  <div class="toc-num">Part IV</div>
+                  <div class="toc-title">The settlement stack of 2030.</div>
+                  <div class="toc-desc">A structural map of where bridge assets actually live.</div>
+                </div>
+                <div class="toc-item">
+                  <div class="toc-num">Part V</div>
+                  <div class="toc-title">The pipe we forgot to size.</div>
+                  <div class="toc-desc">The derivatives layer and the upper-bound depth problem.</div>
+                </div>
+                <div class="toc-item">
+                  <div class="toc-num">Part VI</div>
+                  <div class="toc-title">The case against, taken seriously.</div>
+                  <div class="toc-desc">Honest probability weights, failure modes, and a position sizing framework.</div>
+                </div>
+              </div>
+            </div>
+            <div class="side-meta">
+              Six separate articles<br />
+              Exact article text preserved<br />
+              Series complete · April 2026
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
 
-        function fmtB(n) {
-          if (n >= 1e12) return '$' + (n / 1e12).toFixed(2) + 'T';
-          if (n >= 1e9)  return '$' + (n / 1e9).toFixed(1) + 'B';
-          return '$' + (n / 1e6).toFixed(0) + 'M';
-        }
+    <section class="content-wrap">
+      <div class="section-head">
+        <span>Articles</span>
+        <span class="muted">Select a part to read</span>
+      </div>
 
-        const chgClass = chg > 0.1 ? 'up' : chg < -0.1 ? 'dn' : 'flat';
-        const sign     = chg >= 0 ? '+' : '';
-        const chgText  = sign + chg.toFixed(2) + '%';
+      <div class="cards">
 
-        // Price strip
-        document.getElementById('ps-price').textContent  = '$' + price.toFixed(4);
-        document.getElementById('ps-change').textContent = chgText;
-        document.getElementById('ps-change').className   = 'ps-change ' + chgClass;
-        document.getElementById('ps-vol').textContent    = fmtB(vol);
-        document.getElementById('ps-mcap').textContent   = fmtB(mcap);
-        document.getElementById('ps-dot').className      = 'ps-dot';
+        <!-- Part I -->
+        <article class="card">
+          <a class="card-link" href="./part1/">
+            <div class="card-main">
+              <div class="card-meta"><span class="card-part">Part I</span><span class="card-type">Structural Analysis</span></div>
+              <h2 class="card-title">XRP is not being valued. It is being sized.</h2>
+              <p class="card-deck">A conditional structural analysis of XRP valuation through the lens of liquidity mechanics, market impact, and institutional slippage tolerance.</p>
+              <div class="card-footer">
+                <span class="tag accent">Read article</span><span class="tag">Liquidity</span><span class="tag">Slippage</span><span class="tag">Market Structure</span>
+              </div>
+            </div>
+            <div class="card-side">
+              <div>
+                <div class="card-kicker">Inside this piece</div>
+                <div class="card-points">
+                  <div class="card-point">Why XRP's pricing problem differs from an equity valuation model</div>
+                  <div class="card-point">Square-root market impact and institutional tolerance thresholds</div>
+                  <div class="card-point">Scenario ranges from corridor-scale utility to sovereign-scale settlement</div>
+                </div>
+              </div>
+              <div class="read-link">Open Part I</div>
+            </div>
+          </a>
+        </article>
 
-        // Tool card panel
-        document.getElementById('card-price').textContent  = '$' + price.toFixed(4);
-        document.getElementById('card-change').textContent = chgText;
-        document.getElementById('card-change').className   = 'tpb-change ' + chgClass;
-        document.getElementById('card-status').textContent = 'live · via CoinGecko';
+        <!-- Part II -->
+        <article class="card">
+          <a class="card-link" href="./part2/">
+            <div class="card-main">
+              <div class="card-meta"><span class="card-part">Part II</span><span class="card-type">Structural Follow-up</span></div>
+              <h2 class="card-title">The netting objection was <em>backwards.</em></h2>
+              <p class="card-deck">A follow-up examining what BIS, central bank trials, and production-grade settlement experiments imply about netting under atomic settlement.</p>
+              <div class="card-footer">
+                <span class="tag accent">Read article</span><span class="tag">Netting</span><span class="tag">T+0</span><span class="tag">Settlement</span>
+              </div>
+            </div>
+            <div class="card-side">
+              <div>
+                <div class="card-kicker">Inside this piece</div>
+                <div class="card-points">
+                  <div class="card-point">Three kinds of netting, and only one that truly dies</div>
+                  <div class="card-point">Why time-compression changes the liquidity picture</div>
+                  <div class="card-point">How the skeptic's objection can become a stronger bull case</div>
+                </div>
+              </div>
+              <div class="read-link">Open Part II</div>
+            </div>
+          </a>
+        </article>
 
-      } catch (e) {
-        document.getElementById('ps-dot').className      = 'ps-dot error';
-        document.getElementById('ps-price').textContent  = '—';
-        document.getElementById('card-status').textContent = 'price unavailable';
+        <!-- Part III -->
+        <article class="card">
+          <a class="card-link" href="./part3/">
+            <div class="card-main">
+              <div class="card-meta"><span class="card-part">Part III</span><span class="card-type">Structural Analysis</span></div>
+              <h2 class="card-title">When time leaves finance.</h2>
+              <p class="card-deck">Part III explores why atomic settlement forces discontinuous repricing, concentrates power at new chokepoints, and changes what a bridge asset has to be.</p>
+              <div class="card-footer">
+                <span class="tag accent">Read article</span><span class="tag">Atomic Settlement</span><span class="tag">Market Power</span><span class="tag">Repricing</span>
+              </div>
+            </div>
+            <div class="card-side">
+              <div>
+                <div class="card-kicker">Inside this piece</div>
+                <div class="card-points">
+                  <div class="card-point">Why delay leaving finance changes the economic structure</div>
+                  <div class="card-point">How chokepoints shift once settlement turns atomic</div>
+                  <div class="card-point">What kind of asset survives in a no-time environment</div>
+                </div>
+              </div>
+              <div class="read-link">Open Part III</div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Part IV -->
+        <article class="card">
+          <a class="card-link" href="./part4/">
+            <div class="card-main">
+              <div class="card-meta"><span class="card-part">Part IV</span><span class="card-type">Position Paper</span></div>
+              <h2 class="card-title">The settlement stack of 2030. <em>Where bridge assets actually live.</em></h2>
+              <p class="card-deck">A structural map of the emerging peak-ticket settlement architecture, its layers, major incumbents, and the narrow place where XRP's thesis survives.</p>
+              <div class="card-footer">
+                <span class="tag accent">Read article</span><span class="tag">Architecture</span><span class="tag">Incumbents</span><span class="tag">Bridge Assets</span>
+              </div>
+            </div>
+            <div class="card-side">
+              <div>
+                <div class="card-kicker">Inside this piece</div>
+                <div class="card-points">
+                  <div class="card-point">Five layers in the emerging settlement architecture</div>
+                  <div class="card-point">Where stablecoins, tokenized deposits, and CBDC rails compete</div>
+                  <div class="card-point">Why XRP's role narrows, but may deepen where flexibility matters most</div>
+                </div>
+              </div>
+              <div class="read-link">Open Part IV</div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Part V -->
+        <article class="card">
+          <a class="card-link" href="./part5/">
+            <div class="card-main">
+              <div class="card-meta"><span class="card-part">Part V</span><span class="card-type">Extended Analysis</span></div>
+              <h2 class="card-title">The pipe we forgot to size.</h2>
+              <p class="card-deck">The fifth paper extends the argument into the derivatives layer and asks what price a bridge asset would require if it had to support the deepest, hardest-to-ignore flows in the system.</p>
+              <div class="card-footer">
+                <span class="tag accent">Read article</span><span class="tag">Derivatives</span><span class="tag">Upper Bound</span><span class="tag">System Depth</span>
+              </div>
+            </div>
+            <div class="card-side">
+              <div>
+                <div class="card-kicker">Inside this piece</div>
+                <div class="card-points">
+                  <div class="card-point">Why the derivatives layer changes the scale of the discussion</div>
+                  <div class="card-point">Candidate bridge architectures and their failure points</div>
+                  <div class="card-point">The full-system depth question that most analyses never reach</div>
+                </div>
+              </div>
+              <div class="read-link">Open Part V</div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Part VI -->
+        <article class="card card-series-close">
+          <a class="card-link" href="./part6/">
+            <div class="card-main">
+              <div class="card-meta"><span class="card-part">Part VI</span><span class="card-type">Series Close · Probability Analysis</span></div>
+              <h2 class="card-title">The case against, <em>taken seriously.</em></h2>
+              <p class="card-deck">The series close prices the conditions Parts I&ndash;V deferred. Four failure modes engaged at full strength, the DTCC architecture corrected, mBridge and CCIP treated with full technical rigor, and an explicit probability-weighted investment framework with Kelly position sizing.</p>
+              <div class="card-footer">
+                <span class="tag accent">Read article</span><span class="tag">Probability</span><span class="tag">Failure Modes</span><span class="tag">Position Sizing</span><span class="tag">Series Complete</span>
+              </div>
+            </div>
+            <div class="card-side">
+              <div>
+                <div class="card-kicker">Inside this piece</div>
+                <div class="card-points">
+                  <div class="card-point">Why DTCC&rsquo;s netted T+0 is not a failure mode &mdash; and what it means for XRP&rsquo;s addressable market</div>
+                  <div class="card-point">Four failure modes including RLUSD cannibalization, mBridge, CCIP, and XLM competition &mdash; each at full strength</div>
+                  <div class="card-point">Honest probability table, expected value calculation, Kelly sizing framework, and falsification criteria</div>
+                </div>
+              </div>
+              <div class="read-link">Open Part VI</div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Tool card -->
+        <article class="card card-tool">
+          <a class="card-link" href="./calculator/">
+            <div class="card-main">
+              <div class="card-meta"><span class="card-part">Tools</span><span class="card-type">Interactive Calculator</span></div>
+              <h2 class="card-title">Market impact calculator.</h2>
+              <p class="card-deck">The square-root market impact law from Part I, made interactive. Size any transaction against live market depth &mdash; or invert the formula to see exactly what price XRP must reach to carry institutional flows without unacceptable slippage.</p>
+              <div class="card-footer">
+                <span class="tag accent">Open calculator</span>
+                <span class="tag live-tag"><span class="tag-dot"></span>Live XRP price</span>
+                <span class="tag">Forward &amp; inverse modes</span>
+                <span class="tag">Scenario table</span>
+              </div>
+            </div>
+            <div class="card-side">
+              <div>
+                <div class="card-kicker">Live market data</div>
+                <div class="tool-price-block">
+                  <div class="tpb-label">XRP / USD · Live</div>
+                  <div class="tpb-row">
+                    <span class="tpb-price" id="card-price">—</span>
+                    <span class="tpb-change fl" id="card-change">—</span>
+                  </div>
+                  <div class="tpb-sub" id="card-status">fetching price&hellip;</div>
+                </div>
+                <div class="card-kicker" style="margin-top:4px">What this tool shows</div>
+                <div class="card-points">
+                  <div class="card-point">Slippage for any transaction size at current or custom market depth</div>
+                  <div class="card-point">The price XRP must reach for each Part I scenario &mdash; versus live</div>
+                  <div class="card-point">The exact multiple from today's price to every scenario threshold</div>
+                </div>
+              </div>
+              <div class="read-link">Open calculator</div>
+            </div>
+          </a>
+        </article>
+
+      </div><!-- /cards -->
+
+      <div class="closing">
+        <p>Each article is hosted as its own standalone page so the original text and article-specific formatting can remain intact. Series complete, April 2026.</p>
+      </div>
+
+      <!-- ── About this series ── -->
+      <div class="author-note">
+        <div class="author-note-label">About this series</div>
+
+        <p>This series began as a question a retail investor couldn&rsquo;t find a satisfying answer to: if XRP actually works at institutional scale, what price does the system require? Not what price do bulls predict, and not what price do skeptics dismiss &mdash; what does the math actually demand?</p>
+
+        <p>I am not a financial professional. I have no affiliation with Ripple or any entity with a financial interest in XRP. I simply set out to understand what I owned, found the existing literature incomplete, and decided to do the work of discovering the answers for myself.</p>
+
+        <p>The theses, arguments, questions, objections, and every revision are mine. The pen belongs to Claude (Anthropic), with additional stress-testing and review from Grok and ChatGPT. These tools did not generate the intellectual framework. They helped me build it, pressure-test it, and articulate it at a level I couldn&rsquo;t have reached writing alone. What you are reading is what happens when a retail investor with real questions refuses to settle for easy answers and instead sits down with the best analytical tools available and does the work.</p>
+
+        <p>Part VI exists not to contradict the conviction behind the first five parts, but to hold it honestly. I hold XRP, and I believe it reaches institutional adoption at scale at a price that reflects it. But believing something will happen and pricing the probability of it happening are different disciplines &mdash; and my desire for XRP to reach a high price is not the same as knowing it will. The series earns the right to the bull case only by taking the bear case seriously on its own terms. That is exactly what it does.</p>
+
+        <!-- ── Living framework note — NEW ── -->
+        <div class="living-note">
+          <div class="living-note-label">A living framework</div>
+          <p>This framework is not frozen. Since publication, the series has been subjected to independent stress-testing by outside analytical models. That process identified two open questions &mdash; liquidity provider cost of capital dynamics and crisis volatility expansion under stress &mdash; as items the current text engages but does not fully close. Neither finding breaks the core argument. Both remain under active consideration. When real-world evidence or rigorous critique merits an update to the framework, the framework will reflect it. The math does not change. The intellectual honesty has to keep up with it.</p>
+        </div>
+
+        <p><em>This is not financial advice. Do your own research.</em></p>
+
+        <div class="author-sig">FutureXRP &nbsp;&middot;&nbsp; @the5blairs</div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>XRP Valuation Series</div>
+      <div>Six-part structural analysis · Series complete</div>
+    </div>
+  </footer>
+
+</div><!-- /site-shell -->
+
+<script>
+  async function fetchPrice() {
+    try {
+      const r = await fetch(
+        'https://api.coingecko.com/api/v3/simple/price?ids=ripple&vs_currencies=usd&include_24hr_change=true&include_24hr_vol=true&include_market_cap=true',
+        { cache: 'no-store' }
+      );
+      if (!r.ok) throw new Error();
+      const d     = await r.json();
+      const price = d.ripple.usd;
+      const chg   = d.ripple.usd_24h_change;
+      const vol   = d.ripple.usd_24h_vol;
+      const mcap  = d.ripple.usd_market_cap;
+
+      function fmtB(n) {
+        if (n >= 1e12) return '$' + (n / 1e12).toFixed(2) + 'T';
+        if (n >= 1e9)  return '$' + (n / 1e9).toFixed(1) + 'B';
+        return '$' + (n / 1e6).toFixed(0) + 'M';
       }
-    }
 
-    fetchPrice();
-    setInterval(fetchPrice, 60000);
-  </script>
+      const chgClass = chg > 0.1 ? 'up' : chg < -0.1 ? 'dn' : 'flat';
+      const sign     = chg >= 0 ? '+' : '';
+      const chgText  = sign + chg.toFixed(2) + '%';
+
+      document.getElementById('ps-price').textContent  = '$' + price.toFixed(4);
+      document.getElementById('ps-change').textContent = chgText;
+      document.getElementById('ps-change').className   = 'ps-change ' + chgClass;
+      document.getElementById('ps-vol').textContent    = fmtB(vol);
+      document.getElementById('ps-mcap').textContent   = fmtB(mcap);
+      document.getElementById('ps-dot').className      = 'ps-dot';
+
+      document.getElementById('card-price').textContent  = '$' + price.toFixed(4);
+      document.getElementById('card-change').textContent = chgText;
+      document.getElementById('card-change').className   = 'tpb-change ' + (chg > 0.1 ? 'up' : chg < -0.1 ? 'dn' : 'fl');
+      document.getElementById('card-status').textContent = 'live · via CoinGecko';
+    } catch (e) {
+      document.getElementById('ps-dot').className       = 'ps-dot error';
+      document.getElementById('ps-price').textContent   = '—';
+      document.getElementById('card-status').textContent = 'price unavailable';
+    }
+  }
+  fetchPrice();
+  setInterval(fetchPrice, 60000);
+</script>
 </body>
 </html>

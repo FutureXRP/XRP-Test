@@ -14,5 +14,13 @@
     "tags": ["Methodology", "Market Structure"],
     "title": "The derivatives market doesn't break the model. It completes it.",
     "deck": "A reader challenged whether using spot-only volume understates XRP's settlement capacity. The answer is counterintuitive: spot-only is the correct input for settlement analysis, and a deep derivatives market is a precondition for the thesis — not a competing narrative."
+  },
+  {
+    "number": 3,
+    "slug": "batch-transactions",
+    "date": "April 27, 2026",
+    "tags": ["Protocol Development", "Settlement Architecture"],
+    "title": "Batch transactions on the XRPL: what they mean for the settlement thesis.",
+    "deck": "The series has not addressed batch transactions on the XRPL. It should. A native protocol feature that bundles multiple atomic payments through XRP changes the liquidity demand picture — and its near-miss with a critical bug tells us something important about where the protocol is in its maturity curve."
   }
 ]

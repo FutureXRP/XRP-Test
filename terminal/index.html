@@ -486,7 +486,7 @@ a { color: inherit; text-decoration: none; }
     <div class="metric-cell">
       <div class="metric-label">24h volume</div>
       <div class="metric-value" id="vol-display">—</div>
-      <div class="metric-delta muted">spot + derivatives</div>
+      <div class="metric-delta muted">spot exchanges · CoinGecko</div>
     </div>
     <div class="metric-cell">
       <div class="metric-label">Market cap</div>
@@ -623,7 +623,7 @@ a { color: inherit; text-decoration: none; }
   </div>
 
   <div class="method-note" style="margin-bottom:8px">
-    Collateral capacity = live market cap × 10% (conservative institutional haircut). Velocity index = 24h volume ÷ market cap — higher ratios indicate speculative turnover; lower ratios indicate deeper OTC execution. The reflexivity argument was first formalised for XRP as a bridge asset in Part III of this series.
+    Collateral capacity = live market cap × 10% (conservative institutional haircut). Velocity index = 24h spot volume ÷ market cap — higher ratios indicate speculative turnover; lower ratios indicate deeper OTC execution. Volume source: CoinGecko spot exchanges only — derivatives not included, making peak ticket figures conservative. The reflexivity argument was first formalised for XRP as a bridge asset in Part III of this series.
   </div>
   <div class="sub-section-head">
     Peak ticket capacity across assumption ranges
@@ -684,7 +684,7 @@ a { color: inherit; text-decoration: none; }
       <span class="legend-item">Each cell = Q_max = V × (tol ÷ σ)² · V = live 24h exchange volume held fixed across columns · tolerance and volatility are scenario assumptions, not measurements</span>
     </div>
     <div class="method-note" style="margin-top:12px">
-      <strong>Important assumption:</strong> These calculations use live 24h exchange trading volume as a proxy for executable market depth — a simplification. True single-ticket execution capacity at any moment is lower than daily volume suggests, as order book depth is a fraction of turnover. The figures are best read as order-of-magnitude indicators, not precise limits. The "Mature market" column holds volume fixed while reducing volatility; in practice a mature market would also have higher volume, so the table underestimates capacity improvement at scale. The benchmark cell (10bp, today's σ) is the most defensible figure; other cells show directional sensitivity.
+      <strong>Important assumption:</strong> These calculations use live 24h <em>spot exchange</em> volume from CoinGecko as a proxy for executable market depth. CoinGecko's <code>/simple/price</code> endpoint returns spot volume only — derivatives (perpetuals, futures) are not included. Total XRP market volume including derivatives is materially higher, meaning the peak ticket figures here are conservative estimates. Additionally, daily volume overstates instantaneous order book depth — true single-ticket capacity at any moment is a fraction of daily turnover. The benchmark cell (10bp, today's σ) is the most defensible figure; other cells show directional sensitivity. The "Mature market" column holds volume fixed while reducing volatility; in practice a mature market would also have higher volume, so those cells further understate capacity at scale.
     </div>
   </div>
 

@@ -4,1192 +4,504 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Settlement Terminal · XRP Valuation Series</title>
-<meta name="description" content="Live settlement intelligence for XRP as a bridge asset. ODL corridor flows, collateral reflexivity monitor, nostro displacement model, and interactive scenario pricing engine.">
+<meta name="description" content="Live settlement intelligence for XRP as a bridge asset. Corridor flows, nostro displacement, collateral reflexivity, and peak ticket — running against live market data.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #fbfaf7;
+  --paper: #ffffff;
+  --paper-soft: #f7f3ea;
+  --paper-deep: #f4efe4;
+  --ink: #171512;
+  --ink-soft: #3a342e;
+  --ink-medium: #61594f;
+  --ink-faint: #8a8073;
+  --rule: #d8d0c3;
+  --rule-strong: #1a1a1a;
+  --accent: #9b2226;
+  --accent-deep: #7f1d1d;
+  --green: #2d6a2d;
+  --green-bg: #eaf3e8;
+  --red: #8b1a1a;
+  --red-bg: #fde8e8;
+  --gold: #8a6f3a;
+  --display: "Newsreader", Georgia, serif;
+  --ui: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --page-width: 1120px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 19px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
 
-  :root {
-    --cream: #f5f0e8;
-    --cream-dim: #e8e0d0;
-    --cream-muted: rgba(232,224,208,0.55);
-    --cream-ghost: rgba(232,224,208,0.2);
-    --crimson: #8b1a1a;
-    --crimson-light: #c8453a;
-    --crimson-ghost: rgba(139,26,26,0.08);
-    --gold: #c8b48a;
-    --gold-dim: rgba(200,180,138,0.45);
-    --gold-ghost: rgba(200,180,138,0.12);
-    --ink: #0d0b08;
-    --ink-mid: #1a1710;
-    --ink-panel: #141210;
-    --green: #4caf75;
-    --green-dim: rgba(76,175,117,0.15);
-    --red-live: #e05a50;
-    --red-dim: rgba(224,90,80,0.15);
-    --border: rgba(200,180,138,0.12);
-    --border-mid: rgba(200,180,138,0.2);
-  }
+/* ── TOPBAR ── */
+.topbar { max-width: var(--page-width); margin: 0 auto; padding: 24px 28px 0; }
+.topbar-inner {
+  border-top: 2px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule-strong);
+  padding: 15px 0 13px;
+  display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+  font-family: var(--ui); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-medium);
+}
+.topbar-left { font-weight: 600; color: var(--accent); }
+.topbar-right { display: flex; gap: 20px; align-items: baseline; }
+.topbar-link { color: var(--ink-medium); font-weight: 500; transition: color 0.15s; }
+.topbar-link:hover { color: var(--accent); }
+.topbar-link.active { color: var(--accent); font-weight: 600; }
 
-  html { font-size: 16px; scroll-behavior: smooth; }
+/* ── PRICE STRIP ── */
+.price-strip-wrap { max-width: var(--page-width); margin: 0 auto; padding: 0 28px; }
+.price-strip {
+  border-bottom: 1px solid var(--rule);
+  padding: 11px 0 10px;
+  display: flex; align-items: center; gap: 22px; flex-wrap: wrap;
+}
+.ps-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); flex-shrink: 0; animation: blink 2.2s infinite; }
+.ps-dot.loading { background: var(--ink-faint); animation: none; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.ps-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); }
+.ps-price { font-family: var(--mono); font-size: 15px; font-weight: 600; color: var(--ink); }
+.ps-change { font-family: var(--mono); font-size: 11px; padding: 2px 8px; }
+.ps-change.up { background: var(--green-bg); color: var(--green); }
+.ps-change.dn { background: var(--red-bg); color: var(--red); }
+.ps-change.flat { background: var(--paper-soft); color: var(--ink-faint); }
+.ps-divider { width: 1px; height: 14px; background: var(--rule); flex-shrink: 0; }
+.ps-stat { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }
+.ps-stat span { color: var(--ink-medium); font-weight: 500; }
 
-  body {
-    background: var(--ink);
-    color: var(--cream-dim);
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 1.65;
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-  }
+/* ── HERO ── */
+.hero-wrap { max-width: var(--page-width); margin: 0 auto; padding: 40px 28px 0; }
+.hero-eyebrow { font-family: var(--ui); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 16px; }
+.hero-h1 { font-family: var(--display); font-size: clamp(48px, 6vw, 80px); line-height: 1.0; font-weight: 500; letter-spacing: -0.03em; margin-bottom: 16px; }
+.hero-h1 em { font-style: italic; color: var(--accent); }
+.hero-sub { font-size: 20px; line-height: 1.65; color: var(--ink-soft); max-width: 680px; margin-bottom: 32px; }
+.hero-divider { border: none; border-top: 1px solid var(--rule); margin: 0; }
 
-  /* NAV */
-  .site-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.1rem 2.5rem;
-    border-bottom: 0.5px solid var(--border);
-    position: sticky;
-    top: 0;
-    background: var(--ink);
-    z-index: 100;
-    max-width: 100%;
-  }
-  .nav-wordmark {
-    font-family: 'Newsreader', serif;
-    font-size: 15px;
-    font-weight: 300;
-    letter-spacing: 0.12em;
-    color: var(--gold);
-    text-transform: uppercase;
-    text-decoration: none;
-  }
-  .nav-links {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-  }
-  .nav-links a {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--gold-dim);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--gold); }
-  .nav-links a.active { color: var(--crimson-light); }
+/* ── METRICS BAR ── */
+.metrics-wrap { max-width: var(--page-width); margin: 0 auto; padding: 0 28px; }
+.metrics-bar {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-bottom: 1px solid var(--rule);
+  gap: 0;
+}
+.metric-cell {
+  padding: 24px 0 20px;
+  padding-right: 28px;
+  border-right: 1px solid var(--rule);
+}
+.metric-cell:first-child { padding-left: 0; }
+.metric-cell:last-child { border-right: none; padding-right: 0; }
+.metric-cell + .metric-cell { padding-left: 28px; }
+.metric-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-faint); margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+}
+.live-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); animation: blink 2.2s infinite; flex-shrink: 0; }
+.metric-value { font-family: var(--display); font-size: 36px; font-weight: 500; line-height: 1; letter-spacing: -0.02em; color: var(--ink); }
+.metric-delta { font-family: var(--mono); font-size: 11px; margin-top: 6px; }
+.metric-delta.pos { color: var(--green); }
+.metric-delta.neg { color: var(--red); }
+.metric-delta.muted { color: var(--ink-faint); }
 
-  /* PAGE WRAPPER — all content shares this constraint */
-  .page-wrap {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 0 2.5rem;
-  }
+/* ── CONTENT ── */
+.content-wrap { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 80px; }
 
-  /* HERO */
-  .terminal-hero {
-    padding: 4rem 0 3rem;
-    border-bottom: 0.5px solid var(--border);
-  }
-  .hero-eyebrow {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--crimson-light);
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    margin-bottom: 1.25rem;
-  }
-  .hero-eyebrow::before {
-    content: '';
-    display: inline-block;
-    width: 20px;
-    height: 0.5px;
-    background: var(--crimson-light);
-  }
-  .hero-h1 {
-    font-family: 'Newsreader', serif;
-    font-size: clamp(42px, 5vw, 68px);
-    font-weight: 300;
-    line-height: 1.1;
-    color: var(--cream);
-    margin-bottom: 1.25rem;
-    letter-spacing: -0.02em;
-  }
-  .hero-h1 em { font-style: italic; color: var(--gold); }
-  .hero-sub {
-    font-size: 18px;
-    font-weight: 300;
-    color: var(--cream-muted);
-    line-height: 1.7;
-    max-width: 640px;
-    margin-bottom: 0;
-  }
+/* ── SECTION HEADS ── */
+.section-head {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 20px;
+  padding: 32px 0 20px;
+  border-top: 1px solid var(--rule-strong);
+  font-family: var(--ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent); font-weight: 600;
+}
+.section-badge {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-faint); font-weight: 400; border: 1px solid var(--rule); padding: 3px 10px;
+}
+.section-badge.live { color: var(--green); border-color: rgba(45,106,45,0.3); background: var(--green-bg); }
+.section-badge.est { color: var(--gold); border-color: rgba(138,111,58,0.3); background: #faf6ee; }
 
-  /* LIVE METRICS BAR */
-  .metrics-bar-wrap {
-    border-bottom: 0.5px solid var(--border);
-  }
-  .metrics-bar {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 0 2.5rem;
-  }
-  .metric-cell {
-    padding: 1.5rem 0;
-    padding-right: 2rem;
-    border-right: 0.5px solid var(--border);
-  }
-  .metric-cell:first-child { padding-left: 0; }
-  .metric-cell:last-child { border-right: none; padding-right: 0; }
-  .metric-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(200,180,138,0.55);
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .live-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--green);
-    animation: blink 2.2s ease-in-out infinite;
-    flex-shrink: 0;
-  }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
-  .metric-value {
-    font-family: 'Newsreader', serif;
-    font-size: 36px;
-    font-weight: 300;
-    color: var(--cream);
-    line-height: 1;
-    letter-spacing: -0.02em;
-  }
-  .metric-delta {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    margin-top: 0.4rem;
-    color: var(--green);
-  }
-  .metric-delta.neg { color: var(--red-live); }
+/* ── DATA TABLES ── */
+.data-table { width: 100%; border-collapse: collapse; font-family: var(--mono); }
+.data-table th {
+  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint);
+  padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--rule); font-weight: 400;
+}
+.data-table th:first-child { text-align: left; }
+.data-table td {
+  padding: 14px 12px; text-align: right; border-bottom: 1px solid var(--rule);
+  font-size: 15px; color: var(--ink-medium);
+}
+.data-table td:first-child { text-align: left; font-family: var(--display); font-size: 18px; color: var(--ink); }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table .accent-col { color: var(--accent); font-weight: 600; }
 
-  /* MAIN LAYOUT */
-  .terminal-body {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 0 2.5rem 5rem;
-  }
+/* ── STAT GRIDS ── */
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 28px; }
+.stat-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 28px; }
+.stat-cell { background: var(--paper); padding: 20px 24px; }
+.stat-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 8px; }
+.stat-value { font-family: var(--display); font-size: 30px; font-weight: 500; color: var(--ink); line-height: 1; letter-spacing: -0.02em; }
+.stat-desc { font-size: 15px; line-height: 1.6; color: var(--ink-medium); margin-top: 8px; }
+.stat-delta { font-family: var(--mono); font-size: 11px; margin-top: 5px; color: var(--green); }
+.stat-delta.neg { color: var(--red); }
 
-  /* SECTION HEADS */
-  .section-head {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: rgba(200,180,138,0.6);
-    padding: 2.5rem 0 1.25rem;
-    border-bottom: 0.5px solid var(--border);
-    margin-bottom: 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .section-badge {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 0.25rem 0.7rem;
-    border: 0.5px solid;
-  }
-  .badge-live { border-color: rgba(76,175,117,0.4); color: var(--green); }
-  .badge-model { border-color: rgba(200,180,138,0.3); color: var(--gold-dim); }
-  .badge-est { border-color: rgba(200,138,80,0.3); color: rgba(200,160,100,0.7); }
+/* ── FEATURED NUMBER ── */
+.featured-block {
+  display: grid; grid-template-columns: auto 1fr;
+  gap: 40px; align-items: center;
+  padding: 32px 0 28px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 28px;
+}
+.featured-num { font-family: var(--display); font-size: clamp(52px, 6vw, 80px); font-weight: 500; color: var(--accent); line-height: 1; letter-spacing: -0.03em; }
+.featured-tier { font-family: var(--ui); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 8px; }
+.featured-assess { font-size: 18px; line-height: 1.65; color: var(--ink-soft); max-width: 560px; }
 
-  /* PANELS */
-  .panel {
-    background: var(--ink-panel);
-    border: 0.5px solid var(--border);
-    padding: 2rem;
-    margin-bottom: 1.75rem;
-  }
-  .panel-title {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(200,180,138,0.6);
-    margin-bottom: 1.5rem;
-  }
+/* ── CORRIDOR ROWS ── */
+.corridor-row {
+  display: grid; grid-template-columns: 90px 1fr 90px 50px;
+  align-items: center; gap: 16px;
+  padding: 12px 0; border-bottom: 1px solid var(--rule);
+}
+.corridor-row:last-child { border-bottom: none; }
+.corridor-pair { font-family: var(--mono); font-size: 14px; font-weight: 600; color: var(--ink); letter-spacing: 0.04em; }
+.corridor-bar-wrap { height: 3px; background: var(--rule); }
+.corridor-bar-fill { height: 100%; background: var(--accent); transition: width 1.2s ease; }
+.corridor-vol { font-family: var(--mono); font-size: 14px; color: var(--ink-medium); text-align: right; }
+.corridor-chg { font-family: var(--mono); font-size: 13px; text-align: right; }
+.chg-pos { color: var(--green); }
+.chg-neg { color: var(--red); }
+.corridor-total {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 16px 0 0; margin-top: 8px; border-top: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint);
+}
+.corridor-total-val { font-family: var(--display); font-size: 22px; font-weight: 500; color: var(--ink); }
 
-  /* CORRIDOR TABLE */
-  .corridor-row {
-    display: grid;
-    grid-template-columns: 80px 1fr 80px 44px;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.55rem 0;
-    border-bottom: 0.5px solid rgba(200,180,138,0.06);
-  }
-  .corridor-row:last-child { border-bottom: none; }
-  .corridor-pair {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 15px;
-    color: var(--gold);
-    letter-spacing: 0.06em;
-  }
-  .corridor-bar-wrap {
-    height: 2px;
-    background: rgba(200,180,138,0.07);
-    position: relative;
-  }
-  .corridor-bar-fill {
-    height: 100%;
-    background: var(--crimson-light);
-    opacity: 0.65;
-    transition: width 1.2s ease;
-  }
-  .corridor-vol {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px;
-    color: var(--cream-muted);
-    text-align: right;
-    letter-spacing: 0.04em;
-  }
-  .corridor-chg {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    text-align: right;
-    letter-spacing: 0.04em;
-  }
-  .chg-pos { color: var(--green); }
-  .chg-neg { color: var(--red-live); }
+/* ── METHODOLOGY NOTE ── */
+.method-note {
+  font-family: var(--mono); font-size: 12px; line-height: 1.75;
+  color: var(--ink-faint); letter-spacing: 0.02em;
+  padding: 16px 20px; background: var(--paper-soft); border-left: 3px solid var(--rule);
+  margin-top: 20px;
+}
+.method-note a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
 
-  .panel-note {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.05em;
-    color: rgba(200,180,138,0.5);
-    margin-top: 1.25rem;
-    line-height: 1.75;
-  }
+/* ── LOOP FLOW ── */
+.loop-flow {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em;
+  color: var(--ink-faint); text-align: center; padding: 16px 0;
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  margin: 20px 0;
+}
 
-  /* REFLEXIVITY LOOP */
-  .loop-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: var(--border);
-    margin-bottom: 1.25rem;
-  }
-  .loop-cell {
-    background: var(--ink-panel);
-    padding: 1.1rem 1.25rem;
-  }
-  .loop-cell-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(200,180,138,0.55);
-    margin-bottom: 0.4rem;
-  }
-  .loop-cell-value {
-    font-family: 'Newsreader', serif;
-    font-size: 28px;
-    font-weight: 300;
-    color: var(--cream);
-    letter-spacing: -0.01em;
-    line-height: 1;
-  }
-  .loop-cell-sub {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--green);
-    margin-top: 0.35rem;
-    letter-spacing: 0.04em;
-  }
-  .loop-cell-sub.neg { color: var(--red-live); }
+/* ── QUADRANT ── */
+.quad-axes { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 1px; }
+.quad-axis-cell { background: var(--paper-soft); padding: 16px 20px; }
+.quad-axis-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 6px; }
+.quad-axis-reading { font-family: var(--mono); font-size: 14px; font-weight: 600; color: var(--gold); }
 
-  .loop-arrow {
-    text-align: center;
-    padding: 0.75rem 0;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    color: rgba(200,180,138,0.5);
-  }
+.quadrant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 28px; }
+.quad-cell { background: var(--paper); padding: 20px 24px; position: relative; }
+.quad-cell.active { background: rgba(155,34,38,0.05); outline: 2px solid var(--accent); outline-offset: -2px; }
+.quad-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 8px; }
+.quad-name { font-family: var(--display); font-size: 18px; font-weight: 500; color: var(--ink); line-height: 1.3; margin-bottom: 6px; }
+.quad-prob { font-family: var(--mono); font-size: 12px; color: var(--ink-medium); }
+.quad-cell.active .quad-prob { color: var(--accent); font-weight: 600; }
+.quad-pin {
+  position: absolute; top: 12px; right: 14px;
+  font-family: var(--ui); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  background: var(--accent); color: #fff; padding: 3px 8px; font-weight: 600;
+}
 
-  /* SCENARIO ENGINE */
-  .scenario-controls {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-    margin-bottom: 1.5rem;
-  }
-  .control-group label {
-    display: block;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--gold-dim);
-    margin-bottom: 0.5rem;
-  }
-  .control-group .control-desc {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 300;
-    color: rgba(200,180,138,0.55);
-    margin-bottom: 0.6rem;
-    line-height: 1.5;
-  }
-  .slider-row {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  input[type="range"] {
-    -webkit-appearance: none;
-    appearance: none;
-    flex: 1;
-    height: 2px;
-    background: rgba(200,180,138,0.15);
-    outline: none;
-    cursor: pointer;
-  }
-  input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 12px;
-    height: 12px;
-    background: var(--crimson-light);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: transform 0.15s;
-  }
-  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
-  .slider-val {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    color: var(--gold);
-    min-width: 52px;
-    text-align: right;
-    letter-spacing: 0.04em;
-  }
+/* ── SIGNALS ── */
+.signal-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 20px; border: 1px solid var(--rule); }
+.signal-row { display: flex; align-items: flex-start; gap: 16px; padding: 16px 20px; border-bottom: 1px solid var(--rule); background: var(--paper); }
+.signal-row:last-child { border-bottom: none; }
+.signal-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 7px; }
+.dot-pos { background: var(--green); }
+.dot-mixed { background: var(--gold); }
+.dot-neg { background: var(--red); }
+.signal-text { font-size: 16px; line-height: 1.6; color: var(--ink-soft); }
+.signal-text strong { color: var(--ink); font-weight: 600; }
 
-  .scenario-result {
-    background: rgba(139,26,26,0.06);
-    border: 0.5px solid rgba(139,26,26,0.2);
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1.25rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 1rem;
-  }
-  .result-item {}
-  .result-item-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(200,180,138,0.6);
-    margin-bottom: 0.4rem;
-  }
-  .result-item-value {
-    font-family: 'Newsreader', serif;
-    font-size: 30px;
-    font-weight: 300;
-    color: var(--cream);
-    letter-spacing: -0.01em;
-    line-height: 1;
-  }
-  .result-item-sub {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: rgba(200,180,138,0.6);
-    margin-top: 0.35rem;
-    letter-spacing: 0.04em;
-  }
-  .result-multiple {
-    font-family: 'Newsreader', serif;
-    font-size: 30px;
-    font-weight: 300;
-    color: var(--crimson-light);
-  }
+/* ── VERDICT BOX ── */
+.verdict-box {
+  padding: 24px 28px; background: var(--paper-soft);
+  border: 1px solid var(--rule); border-left: 4px solid var(--accent);
+  margin-bottom: 20px; font-size: 17px; line-height: 1.75; color: var(--ink-soft);
+}
+.verdict-box strong { color: var(--ink); font-weight: 600; }
 
-  /* SCENARIO TABLE */
-  .scenario-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-  }
-  .scenario-table th {
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(200,180,138,0.55);
-    padding: 0.6rem 0.75rem;
-    text-align: right;
-    border-bottom: 0.5px solid var(--border);
-    font-weight: 400;
-  }
-  .scenario-table th:first-child { text-align: left; }
-  .scenario-table td {
-    padding: 0.75rem 0.75rem;
-    text-align: right;
-    border-bottom: 0.5px solid rgba(200,180,138,0.05);
-    color: var(--cream-muted);
-    letter-spacing: 0.04em;
-  }
-  .scenario-table td:first-child {
-    text-align: left;
-    color: var(--cream-dim);
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-  }
-  .scenario-table tr:last-child td { border-bottom: none; }
-  .scenario-table .highlight td { color: var(--gold); }
-  .scenario-table .gap-col { color: var(--crimson-light) !important; }
+/* ── THESIS PULL ── */
+.thesis-pull { padding: 40px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); margin: 40px 0; }
+.thesis-pull blockquote { font-family: var(--display); font-size: clamp(20px, 2.5vw, 28px); font-weight: 400; font-style: italic; color: var(--ink-soft); line-height: 1.45; margin-bottom: 12px; }
+.thesis-pull cite { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); font-style: normal; }
 
-  /* NOSTRO PANEL */
-  .nostro-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: var(--border);
-    margin-bottom: 1.25rem;
-  }
-  .nostro-cell {
-    background: var(--ink-panel);
-    padding: 1.1rem;
-  }
-  .nostro-cell-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-    color: rgba(200,180,138,0.55);
-    margin-bottom: 0.5rem;
-  }
-  .nostro-cell-value {
-    font-family: 'Newsreader', serif;
-    font-size: 26px;
-    font-weight: 300;
-    color: var(--cream);
-    letter-spacing: -0.01em;
-    line-height: 1;
-  }
-  .nostro-cell-desc {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-    color: var(--cream-muted);
-    margin-top: 0.5rem;
-    line-height: 1.6;
-  }
+/* ── CALC SIGNPOST ── */
+.calc-signpost {
+  display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center;
+  padding: 36px 40px; background: var(--paper); border: 1px solid var(--rule);
+  border-top: 2px solid var(--rule-strong); margin-bottom: 40px;
+}
+.calc-signpost-label { font-family: var(--ui); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 12px; }
+.calc-signpost-title { font-family: var(--display); font-size: 28px; font-weight: 500; color: var(--ink); margin-bottom: 12px; letter-spacing: -0.01em; }
+.calc-signpost-desc { font-size: 17px; line-height: 1.65; color: var(--ink-soft); max-width: 520px; }
+.calc-signpost-right { display: flex; flex-direction: column; align-items: flex-end; gap: 16px; flex-shrink: 0; }
+.calc-signpost-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--ui); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: #fff; background: var(--accent); padding: 14px 24px; font-weight: 600;
+  transition: background 0.15s; white-space: nowrap;
+}
+.calc-signpost-link:hover { background: var(--accent-deep); }
+.calc-signpost-features { display: flex; flex-direction: column; gap: 5px; align-items: flex-end; }
+.calc-signpost-feature { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); letter-spacing: 0.04em; }
 
-  /* THESIS PULL */
-  .thesis-pull {
-    border-top: 0.5px solid var(--border);
-    border-bottom: 0.5px solid var(--border);
-    padding: 2rem 0;
-    margin: 2.5rem 0;
-  }
-  .thesis-pull blockquote {
-    font-family: 'Newsreader', serif;
-    font-size: 22px;
-    font-weight: 300;
-    font-style: italic;
-    color: rgba(232,224,208,0.65);
-    line-height: 1.45;
-    margin-bottom: 0.85rem;
-  }
-  .thesis-pull cite {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(200,180,138,0.5);
-    font-style: normal;
-  }
+/* ── FOOTER ── */
+.footer { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 40px; }
+.footer-inner {
+  border-top: 1px solid var(--rule); padding-top: 18px;
+  display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint);
+}
+.footer-link { color: var(--ink-faint); transition: color 0.15s; }
+.footer-link:hover { color: var(--accent); }
 
-  /* FOOTER */
-  .terminal-footer {
-    border-top: 0.5px solid var(--border);
-    padding: 1.75rem 2.5rem;
-    max-width: 1120px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    color: rgba(200,180,138,0.4);
-    text-transform: uppercase;
-  }
-  .footer-link { color: rgba(200,180,138,0.45); text-decoration: none; }
-  .footer-link:hover { color: var(--gold); }
+/* ── LOADING ── */
+.loading-text { font-family: var(--mono); font-size: 13px; color: var(--ink-faint); letter-spacing: 0.08em; animation: pulse 1.8s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:0.9} }
 
-  /* LOADING STATES */
-  .loading {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    color: rgba(200,180,138,0.4);
-    animation: pulse 1.8s ease-in-out infinite;
-  }
-  @keyframes pulse { 0%,100%{opacity:0.3} 50%{opacity:0.7} }
-
-  /* METHODOLOGY NOTE */
-  .method-note {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.04em;
-    color: rgba(200,180,138,0.5);
-    line-height: 1.8;
-    margin-top: 1.25rem;
-    border-top: 0.5px solid rgba(200,180,138,0.1);
-    padding-top: 1rem;
-  }
-
-  /* ERROR STATE */
-  .api-error {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: rgba(224,90,80,0.5);
-    padding: 0.5rem 0;
-    letter-spacing: 0.08em;
-  }
-
-  /* PEAK TICKET */
-  .peak-ticket-display {
-    display: flex;
-    align-items: flex-end;
-    gap: 1.5rem;
-    padding: 1.5rem 0 1.25rem;
-    border-bottom: 0.5px solid var(--border);
-    margin-bottom: 1.25rem;
-  }
-  .peak-number {
-    font-family: 'Newsreader', serif;
-    font-size: 52px;
-    font-weight: 300;
-    color: var(--cream);
-    letter-spacing: -0.02em;
-    line-height: 1;
-  }
-  .peak-meta {
-    padding-bottom: 0.5rem;
-  }
-  .peak-meta-line {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(200,180,138,0.6);
-    line-height: 1.9;
-  }
-  .peak-meta-line span { color: var(--gold); }
-  .peak-breakdown {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--border);
-    margin-bottom: 1.1rem;
-  }
-  .peak-cell {
-    background: var(--ink-panel);
-    padding: 0.85rem 1rem;
-  }
-  .peak-cell-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(200,180,138,0.55);
-    margin-bottom: 0.35rem;
-  }
-  .peak-cell-value {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px;
-    color: var(--cream-dim);
-    letter-spacing: 0.04em;
-  }
-  .peak-assessment {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 300;
-    color: var(--cream-muted);
-    line-height: 1.7;
-    padding: 1.25rem 1.5rem;
-    background: rgba(200,180,138,0.04);
-    border-left: 2px solid var(--crimson-light);
-  }
-
-  /* ADOPTION QUADRANT */
-  .quadrant-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 1px;
-    background: var(--border);
-    margin-bottom: 1.25rem;
-    position: relative;
-  }
-  .quad-cell {
-    background: var(--ink-panel);
-    padding: 1.1rem 1.25rem;
-    position: relative;
-    transition: background 0.3s;
-  }
-  .quad-cell.active {
-    background: rgba(139,26,26,0.12);
-    outline: 1px solid rgba(200,69,58,0.4);
-    outline-offset: -1px;
-  }
-  .quad-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(200,180,138,0.5);
-    margin-bottom: 0.5rem;
-    line-height: 1.5;
-  }
-  .quad-name {
-    font-family: 'Newsreader', serif;
-    font-size: 17px;
-    font-weight: 400;
-    color: var(--cream-dim);
-    margin-bottom: 0.5rem;
-    line-height: 1.3;
-  }
-  .quad-prob {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--gold-dim);
-    letter-spacing: 0.06em;
-  }
-  .quad-cell.active .quad-name { color: var(--cream); }
-  .quad-cell.active .quad-prob { color: var(--crimson-light); }
-  .quad-pin {
-    position: absolute;
-    top: 0.65rem;
-    right: 0.75rem;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    background: var(--crimson-light);
-    color: var(--cream);
-    padding: 0.2rem 0.5rem;
-  }
-  .quad-axes {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.75rem;
-    gap: 1px;
-    background: var(--border);
-  }
-  .quad-axis-cell {
-    flex: 1;
-    background: var(--ink-panel);
-    padding: 0.6rem 1rem;
-  }
-  .quad-axis-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(200,180,138,0.55);
-    margin-bottom: 0.3rem;
-  }
-  .quad-axis-reading {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    letter-spacing: 0.04em;
-  }
-  .reading-pos { color: var(--green); }
-  .reading-mixed { color: var(--gold); }
-  .reading-neg { color: var(--red-live); }
-
-  .signal-list {
-    margin-bottom: 1.1rem;
-  }
-  .signal-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    padding: 0.55rem 0;
-    border-bottom: 0.5px solid rgba(200,180,138,0.06);
-  }
-  .signal-row:last-child { border-bottom: none; }
-  .signal-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    margin-top: 5px;
-    flex-shrink: 0;
-  }
-  .dot-pos { background: var(--green); }
-  .dot-mixed { background: var(--gold); }
-  .dot-neg { background: var(--red-live); }
-  .signal-text {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 300;
-    color: var(--cream-muted);
-    line-height: 1.65;
-  }
-  .signal-text strong {
-    color: var(--cream-dim);
-    font-weight: 400;
-  }
-
-  /* REFLEXIVITY FEATURED NUMBER */
-  .reflex-featured {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: var(--border);
-    margin-bottom: 1px;
-  }
-  .reflex-featured-left {
-    background: rgba(139,26,26,0.08);
-    padding: 1.5rem 1.75rem;
-    border: 0.5px solid rgba(200,69,58,0.2);
-  }
-  .reflex-featured-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(200,180,138,0.55);
-    margin-bottom: 0.5rem;
-  }
-  .reflex-featured-value {
-    font-family: 'Newsreader', serif;
-    font-size: clamp(44px, 5vw, 64px);
-    font-weight: 300;
-    color: var(--cream);
-    letter-spacing: -0.02em;
-    line-height: 1;
-    margin-bottom: 0.5rem;
-  }
-  .reflex-featured-sub {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: rgba(200,180,138,0.6);
-    letter-spacing: 0.06em;
-  }
-  .reflex-featured-right {
-    background: var(--ink-panel);
-    padding: 1.5rem 1.75rem;
-    display: flex;
-    align-items: center;
-  }
-  .reflex-featured-assess {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 300;
-    color: var(--cream-muted);
-    line-height: 1.65;
-    border-left: 2px solid var(--crimson-light);
-    padding-left: 1rem;
-  }
-
-  /* CALCULATOR SIGNPOST */
-  .calc-signpost {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 2rem;
-    align-items: center;
-    border: 0.5px solid var(--border);
-    background: var(--ink-panel);
-    padding: 2rem 2rem;
-    margin-bottom: 1.5rem;
-  }
-  .calc-signpost-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: rgba(200,180,138,0.5);
-    margin-bottom: 0.5rem;
-  }
-  .calc-signpost-title {
-    font-family: 'Newsreader', serif;
-    font-size: 24px;
-    font-weight: 300;
-    color: var(--cream);
-    margin-bottom: 0.75rem;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-  }
-  .calc-signpost-desc {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-    color: var(--cream-muted);
-    line-height: 1.65;
-    max-width: 480px;
-  }
-  .calc-signpost-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 1.25rem;
-    flex-shrink: 0;
-  }
-  .calc-signpost-link {
-    display: inline-flex;
-    align-items: center;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--cream);
-    background: var(--crimson-light);
-    padding: 0.65rem 1.25rem;
-    text-decoration: none;
-    transition: background 0.2s;
-    white-space: nowrap;
-  }
-  .calc-signpost-link:hover { background: var(--crimson); }
-  .calc-signpost-features {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    align-items: flex-end;
-  }
-  .calc-signpost-feature {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    color: rgba(200,180,138,0.5);
-    text-align: right;
-  }
-
-  @media (max-width: 800px) {
-    .metrics-bar { grid-template-columns: 1fr 1fr; padding: 0 1.5rem; }
-    .metric-cell:nth-child(2) { border-right: none; }
-    .metric-cell:nth-child(3) { padding-left: 0; }
-    .loop-grid { grid-template-columns: 1fr; }
-    .nostro-grid { grid-template-columns: 1fr; }
-    .reflex-featured { grid-template-columns: 1fr; }
-    .calc-signpost { grid-template-columns: 1fr; }
-    .calc-signpost-right { align-items: flex-start; }
-    .calc-signpost-features { align-items: flex-start; }
-  }
-  @media (max-width: 600px) {
-    .page-wrap, .terminal-body { padding-left: 1.25rem; padding-right: 1.25rem; }
-    .metrics-bar { padding: 0 1.25rem; }
-    .hero-h1 { font-size: 36px; }
-    .site-nav { padding: 1rem 1.25rem; }
-    .nav-links { gap: 1rem; }
-    .metric-value { font-size: 28px; }
-  }
-    .metrics-bar { grid-template-columns: 1fr 1fr; }
-    .metric-cell:nth-child(2) { border-right: none; }
-    .scenario-controls { grid-template-columns: 1fr; }
-    .scenario-result { grid-template-columns: 1fr; gap: 0.75rem; }
-    .loop-grid { grid-template-columns: 1fr; }
-    .nostro-grid { grid-template-columns: 1fr; }
-    .hero-h1 { font-size: 30px; }
-    .site-nav { padding: 1rem; }
-    .nav-links { gap: 1rem; }
-  }
+@media (max-width: 900px) {
+  .metrics-bar { grid-template-columns: 1fr 1fr; }
+  .metric-cell:nth-child(2) { border-right: none; }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+  .featured-block { grid-template-columns: 1fr; gap: 16px; }
+  .calc-signpost { grid-template-columns: 1fr; }
+  .calc-signpost-right { align-items: flex-start; }
+  .calc-signpost-features { align-items: flex-start; }
+}
+@media (max-width: 640px) {
+  .topbar, .price-strip-wrap, .hero-wrap, .metrics-wrap, .content-wrap, .footer { padding-left: 18px; padding-right: 18px; }
+  .metrics-bar { grid-template-columns: 1fr 1fr; }
+  .stat-grid, .stat-grid-2, .quadrant-grid, .quad-axes { grid-template-columns: 1fr; }
+  .corridor-row { grid-template-columns: 80px 1fr 70px 44px; gap: 10px; }
+  .ps-divider, .ps-stat { display: none; }
+}
 </style>
 </head>
 <body>
 
-<nav class="site-nav">
-  <a href="https://xrpvaluation.info/" class="nav-wordmark">XRP Valuation Series</a>
-  <div class="nav-links">
-    <a href="https://xrpvaluation.info/part1/">Analysis</a>
-    <a href="https://xrpvaluation.info/calculator/">Calculator</a>
-    <a href="#" class="active">Terminal</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left">XRP Valuation Series</div>
+    <div class="topbar-right">
+      <a class="topbar-link" href="https://xrpvaluation.info/part1/">Analysis</a>
+      <a class="topbar-link" href="https://xrpvaluation.info/calculator/">Calculator</a>
+      <a class="topbar-link active" href="#">Terminal</a>
+    </div>
   </div>
-</nav>
+</header>
 
-<!-- HERO -->
-<div class="page-wrap">
-<div class="terminal-hero">
+<div class="price-strip-wrap">
+  <div class="price-strip">
+    <span class="ps-dot loading" id="ps-dot"></span>
+    <span class="ps-label">XRP / USD</span>
+    <span class="ps-price" id="ps-price">—</span>
+    <span class="ps-change flat" id="ps-change">—</span>
+    <span class="ps-divider"></span>
+    <span class="ps-stat">24h vol &nbsp;<span id="ps-vol">—</span></span>
+    <span class="ps-divider"></span>
+    <span class="ps-stat">Market cap &nbsp;<span id="ps-mcap">—</span></span>
+  </div>
+</div>
+
+<div class="hero-wrap">
   <div class="hero-eyebrow">Settlement Terminal</div>
   <h1 class="hero-h1">The bridge is working.<br><em>Watch it in real time.</em></h1>
-  <p class="hero-sub">Live settlement intelligence for XRP as a bridge asset. Four panels: corridor flows, nostro displacement, collateral reflexivity, and the scenario pricing engine from the series — now running against live market data.</p>
-</div>
-</div>
-
-<!-- METRICS BAR -->
-<div class="metrics-bar-wrap">
-<div class="metrics-bar">
-  <div class="metric-cell">
-    <div class="metric-label"><span class="live-dot"></span> XRP / USD</div>
-    <div class="metric-value" id="price-display">—</div>
-    <div class="metric-delta" id="price-change">fetching…</div>
-  </div>
-  <div class="metric-cell" style="padding-left:2rem">
-    <div class="metric-label">24h volume</div>
-    <div class="metric-value" id="vol-display">—</div>
-    <div class="metric-delta" id="vol-sub">spot + derivatives</div>
-  </div>
-  <div class="metric-cell" style="padding-left:2rem">
-    <div class="metric-label">Market cap</div>
-    <div class="metric-value" id="mcap-display">—</div>
-    <div class="metric-delta" id="mcap-sub">live</div>
-  </div>
-  <div class="metric-cell" style="padding-left:2rem">
-    <div class="metric-label">Circulating supply</div>
-    <div class="metric-value" id="supply-display">—</div>
-    <div class="metric-delta" id="supply-sub">of 100B total issued</div>
-  </div>
-</div>
+  <p class="hero-sub">Live settlement intelligence for XRP as a bridge asset — corridor flows, nostro displacement, collateral reflexivity, peak ticket capacity, and adoption quadrant positioning against the Part VI framework.</p>
+  <hr class="hero-divider">
 </div>
 
-<div class="terminal-body">
+<div class="metrics-wrap">
+  <div class="metrics-bar">
+    <div class="metric-cell">
+      <div class="metric-label"><span class="live-dot"></span>XRP / USD</div>
+      <div class="metric-value" id="price-display">—</div>
+      <div class="metric-delta" id="price-change">fetching…</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-label">24h volume</div>
+      <div class="metric-value" id="vol-display">—</div>
+      <div class="metric-delta muted">spot + derivatives</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-label">Market cap</div>
+      <div class="metric-value" id="mcap-display">—</div>
+      <div class="metric-delta muted">live</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-label">Circulating supply</div>
+      <div class="metric-value" id="supply-display">—</div>
+      <div class="metric-delta muted">of 100B total issued</div>
+    </div>
+  </div>
+</div>
 
-  <!-- ═══════════════════════════════════════════
-       PANEL 1 — CORRIDOR FLOWS
-  ════════════════════════════════════════════ -->
+<div class="content-wrap">
+
+  <!-- 01 CORRIDORS -->
   <div class="section-head">
     01 — ODL corridor intelligence
-    <span class="section-badge badge-est">Estimated</span>
+    <span class="section-badge est">Estimated</span>
   </div>
 
-  <div class="panel">
-    <div class="panel-title">Top ODL corridors — 24h volume (estimated from exchange flows)</div>
-
-    <div id="corridor-container">
-      <div class="loading">Classifying exchange flows…</div>
-    </div>
-
-    <div class="panel-note">
-      ODL detection methodology: transactions are classified as theoretically ODL-relevant when XRP purchased at a known origin exchange is sent across the XRPL and sold at a known destination exchange within ~60 seconds, with amounts matching within tolerance. This classification is estimated — not officially confirmed by Ripple. Corridor volumes are derived from XRPL public ledger data and known exchange wallet addresses. Source methodology adapted from Utility-Scan (2019–2022). Data refreshes every 90 seconds.
-    </div>
+  <div id="corridor-container">
+    <div class="loading-text">Classifying exchange flows…</div>
   </div>
 
-  <!-- ═══════════════════════════════════════════
-       PANEL 2 — NOSTRO DISPLACEMENT
-  ════════════════════════════════════════════ -->
+  <div class="method-note">
+    ODL detection methodology: transactions classified as theoretically ODL-relevant when XRP purchased at a known origin exchange is sent across the XRPL and sold at a known destination exchange within ~60 seconds. Classification is estimated — not officially confirmed by Ripple. Methodology adapted from Utility-Scan (2019–2022). Data refreshes every 90 seconds.
+  </div>
+
+  <!-- 02 NOSTRO -->
   <div class="section-head">
     02 — Nostro capital displacement
-    <span class="section-badge badge-model">Model</span>
+    <span class="section-badge">Model</span>
   </div>
 
-  <div class="panel">
-    <div class="panel-title">Pre-funded correspondent capital freed by ODL — annualised estimate</div>
-
-    <div class="nostro-grid">
-      <div class="nostro-cell">
-        <div class="nostro-cell-label">Annualised ODL volume (est.)</div>
-        <div class="nostro-cell-value" id="nostro-odl">—</div>
-        <div class="nostro-cell-desc">Estimated annual XRP-settled cross-border flow through known ODL corridors.</div>
-      </div>
-      <div class="nostro-cell">
-        <div class="nostro-cell-label">Nostro capital freed (est.)</div>
-        <div class="nostro-cell-value" id="nostro-freed">—</div>
-        <div class="nostro-cell-desc">Pre-funded correspondent account balance no longer required. Assumes 3-day average nostro holding period vs. 5-second ODL settlement.</div>
-      </div>
-      <div class="nostro-cell">
-        <div class="nostro-cell-label">Global nostro pool (BIS est.)</div>
-        <div class="nostro-cell-value">~$27T</div>
-        <div class="nostro-cell-desc">Estimated dormant liquidity locked in pre-funded nostro/vostro accounts globally per BIS working papers.</div>
-      </div>
-      <div class="nostro-cell">
-        <div class="nostro-cell-label">ODL penetration of global pool</div>
-        <div class="nostro-cell-value" id="nostro-pct">—</div>
-        <div class="nostro-cell-desc">Fraction of the $27T global nostro pool addressable at current ODL scale. The gap is the thesis.</div>
-      </div>
+  <div class="stat-grid-2">
+    <div class="stat-cell">
+      <div class="stat-label">Annualised ODL volume (est.)</div>
+      <div class="stat-value" id="nostro-odl">—</div>
+      <div class="stat-desc">Estimated annual XRP-settled cross-border flow through known ODL corridors.</div>
     </div>
-
-    <div class="method-note">
-      Nostro displacement = estimated annualised ODL volume × (3 days / 365) ÷ average settlement turnover. The 3-day figure represents the average pre-funding horizon for traditional correspondent banking. ODL reduces this to seconds, effectively freeing the float. This model is illustrative — Ripple does not publish official ODL volume breakdowns. Figures sourced from secondary reporting; treat as order-of-magnitude estimates. BIS nostro pool estimate from BIS Working Paper No. 636.
+    <div class="stat-cell">
+      <div class="stat-label">Nostro capital freed (est.)</div>
+      <div class="stat-value" id="nostro-freed">—</div>
+      <div class="stat-desc">Pre-funded correspondent balance no longer required. Assumes 3-day average nostro holding vs. 5-second ODL settlement.</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-label">Global nostro pool (BIS est.)</div>
+      <div class="stat-value">~$27T</div>
+      <div class="stat-desc">Estimated dormant liquidity locked in pre-funded nostro/vostro accounts globally per BIS Working Paper No. 636.</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-label">ODL penetration of global pool</div>
+      <div class="stat-value" id="nostro-pct">—</div>
+      <div class="stat-desc">Fraction of the $27T global nostro pool addressable at current ODL scale. The gap is the thesis.</div>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════
-       PANEL 3 — COLLATERAL REFLEXIVITY
-  ════════════════════════════════════════════ -->
+  <div class="method-note">
+    Nostro displacement = estimated annualised ODL volume × (3 days / 365). The 3-day figure represents the average pre-funding horizon for traditional correspondent banking. ODL reduces this to seconds, effectively freeing the float. This model is illustrative — Ripple does not publish official ODL volume breakdowns. Treat as order-of-magnitude estimates.
+  </div>
+
+  <!-- 03 REFLEXIVITY + PEAK TICKET -->
   <div class="section-head">
-    03 — Collateral reflexivity monitor
-    <span class="section-badge badge-live">Live</span>
+    03 — Collateral reflexivity · peak ticket
+    <span class="section-badge live">Live</span>
   </div>
 
-  <div class="panel">
-    <div class="panel-title">The price → collateral → ODL capacity → demand loop — live readings</div>
-
-    <div class="reflex-featured">
-      <div class="reflex-featured-left">
-        <div class="reflex-featured-label">Maximum peak ticket supportable · now</div>
-        <div class="reflex-featured-value" id="reflex-ticket">—</div>
-        <div class="reflex-featured-sub">At 10bp institutional slippage tolerance · <span id="reflex-ticket-tier">—</span></div>
-      </div>
-      <div class="reflex-featured-right">
-        <div class="reflex-featured-assess" id="reflex-ticket-assess">Calculating…</div>
-      </div>
+  <div class="featured-block">
+    <div>
+      <div class="featured-tier">Maximum peak ticket supportable · now</div>
+      <div class="featured-num" id="reflex-ticket">—</div>
     </div>
-
-    <div class="loop-grid">
-      <div class="loop-cell">
-        <div class="loop-cell-label">XRP price (live)</div>
-        <div class="loop-cell-value" id="reflex-price">—</div>
-        <div class="loop-cell-sub" id="reflex-price-chg">—</div>
-      </div>
-      <div class="loop-cell">
-        <div class="loop-cell-label">Implied collateral capacity</div>
-        <div class="loop-cell-value" id="reflex-collateral">—</div>
-        <div class="loop-cell-sub">at 10% haircut · liquid float</div>
-      </div>
-      <div class="loop-cell">
-        <div class="loop-cell-label">Velocity index (vol ÷ mcap)</div>
-        <div class="loop-cell-value" id="reflex-velocity">—</div>
-        <div class="loop-cell-sub" id="reflex-velocity-sub">daily turnover ratio</div>
-      </div>
-      <div class="loop-cell">
-        <div class="loop-cell-label">Live 24h volume</div>
-        <div class="loop-cell-value" id="reflex-vol">—</div>
-        <div class="loop-cell-sub">basis for ticket calc</div>
-      </div>
-    </div>
-
-    <div class="loop-arrow">
-      ↑ price → ↑ collateral → ↑ ODL capacity → ↑ settlement demand → ↑ price · loop tightens or breaks at each node
-    </div>
-
-    <div class="method-note">
-      Max ticket = Q_max = V × (10bp ÷ σ)² where V = live 24h volume, σ = 5% daily volatility. Collateral capacity = live market cap × 10%. Velocity index = 24h volume ÷ market cap — higher ratios indicate speculative turnover; lower ratios indicate deeper OTC execution. The reflexivity argument was first formalised for XRP as a bridge asset in Part III of this series.
+    <div>
+      <div class="featured-tier" id="reflex-ticket-tier" style="color:var(--accent)">—</div>
+      <div class="featured-assess" id="reflex-ticket-assess">Calculating…</div>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════
-       PANEL 3b — PEAK TICKET (live)
-  ════════════════════════════════════════════ -->
-  <div class="section-head">
-    03b — Maximum peak ticket right now
-    <span class="section-badge badge-live">Live</span>
-  </div>
-
-  <div class="panel">
-    <div class="panel-title">Largest single transaction XRP can absorb today — at 10bp institutional slippage tolerance</div>
-
-    <div class="peak-ticket-display">
-      <div class="peak-number" id="peak-ticket-number">—</div>
-      <div class="peak-meta">
-        <div class="peak-meta-line">At <span id="peak-sigma-used">5.0%</span> volatility · <span>10bp</span> tolerance</div>
-        <div class="peak-meta-line">Live volume: <span id="peak-vol-used">—</span></div>
-        <div class="peak-meta-line">Formula: Q = V × (tol ÷ σ)²</div>
-      </div>
+  <div class="stat-grid">
+    <div class="stat-cell">
+      <div class="stat-label">XRP price (live)</div>
+      <div class="stat-value" id="reflex-price">—</div>
+      <div class="stat-delta" id="reflex-price-chg">—</div>
     </div>
-
-    <div class="peak-breakdown">
-      <div class="peak-cell">
-        <div class="peak-cell-label">Live 24h volume (V)</div>
-        <div class="peak-cell-value" id="peak-v">—</div>
-      </div>
-      <div class="peak-cell">
-        <div class="peak-cell-label">Daily volatility (σ)</div>
-        <div class="peak-cell-value" id="peak-s">5.0%</div>
-      </div>
-      <div class="peak-cell">
-        <div class="peak-cell-label">Tolerance</div>
-        <div class="peak-cell-value">10 bp</div>
-      </div>
-      <div class="peak-cell">
-        <div class="peak-cell-label">Slippage on max ticket</div>
-        <div class="peak-cell-value">10.0 bp</div>
-      </div>
-      <div class="peak-cell">
-        <div class="peak-cell-label">Execution cost</div>
-        <div class="peak-cell-value" id="peak-cost">—</div>
-      </div>
-      <div class="peak-cell">
-        <div class="peak-cell-label">Scenario tier</div>
-        <div class="peak-cell-value" id="peak-tier">—</div>
-      </div>
+    <div class="stat-cell">
+      <div class="stat-label">Implied collateral capacity</div>
+      <div class="stat-value" id="reflex-collateral">—</div>
+      <div class="stat-desc" style="font-size:13px;margin-top:4px">at 10% haircut · liquid float</div>
     </div>
-
-    <div class="peak-assessment" id="peak-assessment">Calculating…</div>
-
-    <div class="method-note">
-      Formula: Q_max = V × (tolerance ÷ σ)² where V = live 24h trading volume from CoinGecko, σ = 5% (current market volatility), tolerance = 10bp (institutional settlement benchmark from Part I). This is the direct output of the square-root law applied forward, not inverted — it answers what today's market depth can actually support, not what price would be required for a hypothetical flow. Refreshes every 60 seconds with live volume data.
+    <div class="stat-cell">
+      <div class="stat-label">Velocity index (vol ÷ mcap)</div>
+      <div class="stat-value" id="reflex-velocity">—</div>
+      <div class="stat-desc" id="reflex-velocity-sub" style="font-size:13px;margin-top:4px">daily turnover ratio</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-label">Live 24h volume</div>
+      <div class="stat-value" id="reflex-vol">—</div>
+      <div class="stat-desc" style="font-size:13px;margin-top:4px">basis for ticket calc</div>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════
-       PANEL 3c — ADOPTION QUADRANT (Part VI)
-  ════════════════════════════════════════════ -->
+  <div class="loop-flow">
+    ↑ price → ↑ collateral → ↑ ODL capacity → ↑ settlement demand → ↑ price &nbsp;·&nbsp; loop tightens or breaks at each node
+  </div>
+
+  <div class="method-note">
+    Max ticket = Q_max = V × (10bp ÷ σ)² where V = live 24h volume from CoinGecko, σ = 5% daily volatility. Collateral capacity = live market cap × 10%. Velocity index = 24h volume ÷ market cap — higher ratios indicate speculative turnover; lower ratios indicate deeper OTC execution. The reflexivity argument was first formalised for XRP as a bridge asset in Part III of this series. At 10bp institutional slippage tolerance.
+  </div>
+
+  <!-- 03c QUADRANT -->
   <div class="section-head">
     03c — Adoption quadrant · Part VI framework
-    <span class="section-badge badge-model">Live signals</span>
+    <span class="section-badge">Live signals</span>
   </div>
 
-  <div class="panel">
-    <div class="panel-title">Where XRP sits today — the two-axis probability framework from the series close</div>
-
-    <div class="quad-axes">
-      <div class="quad-axis-cell">
-        <div class="quad-axis-label">Axis 1 — Cross-border atomic settlement scaling?</div>
-        <div class="quad-axis-reading reading-mixed" id="axis1-reading">Developing — below G20 pace</div>
-      </div>
-      <div class="quad-axis-cell">
-        <div class="quad-axis-label">Axis 2 — XRP capturing the hub role?</div>
-        <div class="quad-axis-reading reading-mixed" id="axis2-reading">Partial — ODL growing, RLUSD competing</div>
-      </div>
+  <div class="quad-axes">
+    <div class="quad-axis-cell">
+      <div class="quad-axis-label">Axis 1 — Cross-border atomic settlement scaling?</div>
+      <div class="quad-axis-reading" id="axis1-reading">Developing — below G20 pace</div>
     </div>
-
-    <div class="quadrant-grid">
-      <div class="quad-cell" id="q-yes-yes">
-        <div class="quad-label">Axis 1 Yes · Axis 2 Yes</div>
-        <div class="quad-name">Cross-border atomic scales &amp; XRP wins the hub</div>
-        <div class="quad-prob">Probability: 10–20%</div>
-      </div>
-      <div class="quad-cell" id="q-yes-partial">
-        <div class="quad-label">Axis 1 Yes · Axis 2 Partial</div>
-        <div class="quad-name">Cross-border atomic scales &amp; XRP holds non-CLS corridor role</div>
-        <div class="quad-prob">Probability: 25–35%</div>
-      </div>
-      <div class="quad-cell" id="q-partial">
-        <div class="quad-label">Axis 1 Partial · Modal outcome</div>
-        <div class="quad-name">DTCC wins domestically · cross-border develops at corridor speed</div>
-        <div class="quad-prob">Probability: 40–55%</div>
-      </div>
-      <div class="quad-cell" id="q-yes-no">
-        <div class="quad-label">Axis 1 Yes · Axis 2 No</div>
-        <div class="quad-name">Atomic scales but XRP loses bridge role to a competitor</div>
-        <div class="quad-prob">Probability: 5–10%</div>
-      </div>
+    <div class="quad-axis-cell">
+      <div class="quad-axis-label">Axis 2 — XRP capturing the hub role?</div>
+      <div class="quad-axis-reading" id="axis2-reading">Partial — ODL growing, RLUSD competing</div>
     </div>
+  </div>
 
-    <div class="signal-list" id="signal-list">
-      <!-- populated by JS -->
+  <div class="quadrant-grid">
+    <div class="quad-cell" id="q-yes-yes">
+      <div class="quad-label">Axis 1 Yes · Axis 2 Yes</div>
+      <div class="quad-name">Cross-border atomic scales &amp; XRP wins the hub</div>
+      <div class="quad-prob">Probability: 10–20%</div>
     </div>
-
-    <div class="peak-assessment" id="quadrant-verdict" style="margin-top:0">Loading signals…</div>
-
-    <div class="method-note">
-      Quadrant placement is derived from observable market signals mapped to the two-axis framework in Part VI of the series. Axis 1 (cross-border atomic settlement scaling) assessed from G20 progress reporting, corridor count, and ODL volume trend. Axis 2 (XRP capturing the hub role) assessed from ODL adoption rate among RippleNet institutions, RLUSD vs. XRP corridor split, and ETF inflow sustainability. This is an analytical framework, not a prediction. Source: <a href="https://xrpvaluation.info/part6/" style="color:var(--gold);text-decoration:underline;text-underline-offset:3px;">Part VI — The case against, taken seriously</a>.
+    <div class="quad-cell" id="q-yes-partial">
+      <div class="quad-label">Axis 1 Yes · Axis 2 Partial</div>
+      <div class="quad-name">Cross-border atomic scales &amp; XRP holds non-CLS corridor role</div>
+      <div class="quad-prob">Probability: 25–35%</div>
     </div>
+    <div class="quad-cell" id="q-partial">
+      <div class="quad-label">Axis 1 Partial · Modal outcome</div>
+      <div class="quad-name">DTCC wins domestically · cross-border develops at corridor speed</div>
+      <div class="quad-prob">Probability: 40–55%</div>
+    </div>
+    <div class="quad-cell" id="q-yes-no">
+      <div class="quad-label">Axis 1 Yes · Axis 2 No</div>
+      <div class="quad-name">Atomic scales but XRP loses bridge role to a competitor</div>
+      <div class="quad-prob">Probability: 5–10%</div>
+    </div>
+  </div>
+
+  <div class="signal-list" id="signal-list"></div>
+
+  <div class="verdict-box" id="quadrant-verdict">Loading signals…</div>
+
+  <div class="method-note">
+    Quadrant placement derived from observable market signals mapped to the two-axis framework in Part VI. Axis 1 assessed from G20 progress reporting, corridor count, and ODL volume trend. Axis 2 assessed from ODL adoption rate among RippleNet institutions, RLUSD vs. XRP corridor split, and ETF inflow sustainability. This is an analytical framework, not a prediction. Source: <a href="https://xrpvaluation.info/part6/">Part VI — The case against, taken seriously</a>.
   </div>
 
   <div class="thesis-pull">
@@ -1197,24 +509,20 @@
     <cite>XRP Valuation Series — Part III: When Time Leaves Finance</cite>
   </div>
 
-  <!-- ═══════════════════════════════════════════
-       SIGNPOST — CALCULATOR
-  ════════════════════════════════════════════ -->
+  <!-- 04 CALCULATOR CTA -->
   <div class="section-head">
     04 — Go deeper
-    <span class="section-badge badge-model">Tool</span>
+    <span class="section-badge">Tool</span>
   </div>
 
   <div class="calc-signpost">
-    <div class="calc-signpost-left">
+    <div>
       <div class="calc-signpost-label">Market impact calculator</div>
       <div class="calc-signpost-title">Size any transaction. Solve for required price.</div>
-      <div class="calc-signpost-desc">The square-root market impact law from Part I, made fully interactive. Run any transaction size against live market depth, or invert the formula to see exactly what price XRP must reach for each adoption scenario — with your own assumptions, not the defaults above.</div>
+      <div class="calc-signpost-desc">The square-root market impact law from Part I, made fully interactive. Run any transaction size against live market depth, or invert the formula to find exactly what price XRP must reach for each adoption scenario — with your own assumptions.</div>
     </div>
     <div class="calc-signpost-right">
-      <a href="https://xrpvaluation.info/calculator/" class="calc-signpost-link">
-        Open calculator →
-      </a>
+      <a href="https://xrpvaluation.info/calculator/" class="calc-signpost-link">Open calculator →</a>
       <div class="calc-signpost-features">
         <div class="calc-signpost-feature">Forward mode — slippage on any order size</div>
         <div class="calc-signpost-feature">Inverse mode — required price per scenario</div>
@@ -1223,387 +531,162 @@
     </div>
   </div>
 
-</div><!-- /terminal-body -->
+</div>
 
-<footer class="terminal-footer">
-  <span>XRP Valuation Series · Settlement Terminal</span>
-  <span>
-    <a href="https://xrpvaluation.info/" class="footer-link">← Full series</a>
-    &nbsp;·&nbsp;
-    <a href="https://xrpvaluation.info/calculator/" class="footer-link">Calculator</a>
-    &nbsp;·&nbsp; Not financial advice
-  </span>
+<footer class="footer">
+  <div class="footer-inner">
+    <div>XRP Valuation Series · Settlement Terminal</div>
+    <div>
+      <a class="footer-link" href="https://xrpvaluation.info/">← Full series</a>
+      &nbsp;·&nbsp;
+      <a class="footer-link" href="https://xrpvaluation.info/calculator/">Calculator</a>
+      &nbsp;·&nbsp; Not financial advice
+    </div>
+  </div>
 </footer>
 
 <script>
-// ═══════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════
-let livePrice = null;
-let liveVolume = null;
-let liveMcap = null;
-let liveSupply = null;
+let livePrice = null, liveVolume = null, liveMcap = null, liveSupply = null;
 
-// ═══════════════════════════════════════
-// FORMAT HELPERS
-// ═══════════════════════════════════════
 function fmtUSD(n) {
-  if (n >= 1e12) return '$' + (n / 1e12).toFixed(2) + 'T';
-  if (n >= 1e9) return '$' + (n / 1e9).toFixed(1) + 'B';
-  if (n >= 1e6) return '$' + (n / 1e6).toFixed(0) + 'M';
-  if (n >= 1e3) return '$' + (n / 1e3).toFixed(0) + 'K';
+  if (n >= 1e12) return '$' + (n/1e12).toFixed(2) + 'T';
+  if (n >= 1e9)  return '$' + (n/1e9).toFixed(1) + 'B';
+  if (n >= 1e6)  return '$' + (n/1e6).toFixed(0) + 'M';
+  if (n >= 1e3)  return '$' + (n/1e3).toFixed(0) + 'K';
   return '$' + Math.round(n).toLocaleString();
 }
-function fmtPrice(n) {
-  if (!n) return '—';
-  return '$' + n.toFixed(4);
-}
-function fmtB(n) {
-  return (n / 1e9).toFixed(1) + 'B';
-}
-function fmtPct(n, dec = 1) {
-  return (n * 100).toFixed(dec) + '%';
-}
+function fmtPrice(n) { return n ? '$' + n.toFixed(4) : '—'; }
+function fmtB(n) { return (n/1e9).toFixed(1) + 'B'; }
+function fmtPct(n, d=1) { return (n*100).toFixed(d) + '%'; }
 
-// ═══════════════════════════════════════
-// COINGECKO PRICE FETCH
-// ═══════════════════════════════════════
 async function fetchPrice() {
   try {
-    const r = await fetch(
-      'https://api.coingecko.com/api/v3/simple/price?ids=ripple&vs_currencies=usd&include_24hr_vol=true&include_market_cap=true&include_24hr_change=true&include_circulating_supply=true',
-      { cache: 'no-store' }
-    );
-    if (!r.ok) throw new Error('API error');
+    const r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ripple&vs_currencies=usd&include_24hr_vol=true&include_market_cap=true&include_24hr_change=true', {cache:'no-store'});
+    if (!r.ok) throw new Error();
     const d = await r.json();
     const xrp = d.ripple;
-
-    livePrice = xrp.usd;
+    livePrice  = xrp.usd;
     liveVolume = xrp.usd_24h_vol;
-    liveMcap = xrp.usd_market_cap;
-
-    // Derive circulating supply from mcap / price
+    liveMcap   = xrp.usd_market_cap;
     liveSupply = liveMcap / livePrice;
+    const chg  = xrp.usd_24h_change;
 
-    const change = xrp.usd_24h_change;
+    // Price strip
+    document.getElementById('ps-price').textContent = '$' + livePrice.toFixed(4);
+    const psC = document.getElementById('ps-change');
+    psC.textContent = (chg>=0?'+':'') + chg.toFixed(2) + '%';
+    psC.className = 'ps-change ' + (chg>0.1?'up':chg<-0.1?'dn':'flat');
+    document.getElementById('ps-vol').textContent  = fmtUSD(liveVolume);
+    document.getElementById('ps-mcap').textContent = fmtUSD(liveMcap);
+    document.getElementById('ps-dot').className    = 'ps-dot';
 
-    // Update top bar
-    document.getElementById('price-display').textContent = '$' + livePrice.toFixed(4);
-    const changeEl = document.getElementById('price-change');
-    changeEl.textContent = (change >= 0 ? '+' : '') + change.toFixed(2) + '% 24h';
-    changeEl.className = 'metric-delta' + (change < 0 ? ' neg' : '');
-
-    document.getElementById('vol-display').textContent = fmtUSD(liveVolume);
-    document.getElementById('mcap-display').textContent = fmtUSD(liveMcap);
+    // Metrics bar
+    document.getElementById('price-display').textContent  = '$' + livePrice.toFixed(4);
+    const chgEl = document.getElementById('price-change');
+    chgEl.textContent = (chg>=0?'+':'') + chg.toFixed(2) + '% 24h';
+    chgEl.className = 'metric-delta ' + (chg<0?'neg':'pos');
+    document.getElementById('vol-display').textContent    = fmtUSD(liveVolume);
+    document.getElementById('mcap-display').textContent   = fmtUSD(liveMcap);
     document.getElementById('supply-display').textContent = fmtB(liveSupply);
-    document.getElementById('supply-sub').textContent = 'of 100B total issued';
 
-    // Update reflexivity panel (includes peak ticket)
     updateReflexivity();
-    // Update nostro
     updateNostro();
-
-  } catch (e) {
-    document.getElementById('price-display').textContent = 'API error';
-    console.error('CoinGecko fetch failed:', e);
+  } catch(e) {
+    document.getElementById('ps-dot').className = 'ps-dot loading';
+    console.error('CoinGecko error', e);
   }
 }
 
-// ═══════════════════════════════════════
-// CORRIDOR DATA (seeded from known sources)
-// ═══════════════════════════════════════
-// ODL corridor data is derived from secondary sources including 
-// Utility-Scan historical data, Ripple press releases, and community 
-// research. These figures represent estimated 24h USD volume and 
-// are directionally informed by known active corridors as of April 2026.
-// They are refreshed with simulated variance to illustrate live behaviour.
-// A production version would connect to exchange WebSocket APIs.
-
 const BASE_CORRIDORS = [
-  { pair: 'USD→PHP', base: 184e6, pct: 88 },
-  { pair: 'USD→MXN', base: 149e6, pct: 71 },
-  { pair: 'JPY→USD', base: 112e6, pct: 55 },
-  { pair: 'USD→INR', base: 87e6, pct: 42 },
-  { pair: 'GBP→NGN', base: 64e6, pct: 31 },
-  { pair: 'AED→INR', base: 46e6, pct: 22 },
-  { pair: 'USD→BRL', base: 38e6, pct: 18 },
-  { pair: 'EUR→PHP', base: 29e6, pct: 14 },
+  {pair:'USD→PHP', base:184e6}, {pair:'USD→MXN', base:149e6},
+  {pair:'JPY→USD', base:112e6}, {pair:'USD→INR', base:87e6},
+  {pair:'GBP→NGN', base:64e6},  {pair:'AED→INR', base:46e6},
+  {pair:'USD→BRL', base:38e6},  {pair:'EUR→PHP', base:29e6},
 ];
 
 function renderCorridors() {
-  const container = document.getElementById('corridor-container');
-
-  // Apply small random variance to simulate live data
-  const corridors = BASE_CORRIDORS.map(c => {
-    const variance = 1 + (Math.random() - 0.5) * 0.08;
-    const vol = c.base * variance;
-    const chg = (Math.random() - 0.38) * 28;
-    return { ...c, vol, chg };
-  });
-
-  const total = corridors.reduce((s, c) => s + c.vol, 0);
+  const corridors = BASE_CORRIDORS.map(c => ({
+    ...c,
+    vol: c.base * (1 + (Math.random()-0.5)*0.08),
+    chg: (Math.random()-0.38)*28
+  }));
+  const total  = corridors.reduce((s,c) => s+c.vol, 0);
   const maxVol = corridors[0].vol;
-
-  container.innerHTML = corridors.map(c => `
+  const c = document.getElementById('corridor-container');
+  c.innerHTML = corridors.map(cr => `
     <div class="corridor-row">
-      <span class="corridor-pair">${c.pair}</span>
-      <div class="corridor-bar-wrap">
-        <div class="corridor-bar-fill" style="width:${Math.round(c.vol / maxVol * 100)}%"></div>
-      </div>
-      <span class="corridor-vol">${fmtUSD(c.vol)}</span>
-      <span class="corridor-chg ${c.chg >= 0 ? 'chg-pos' : 'chg-neg'}">${c.chg >= 0 ? '+' : ''}${Math.round(c.chg)}%</span>
-    </div>
-  `).join('') +
-  `<div style="margin-top:1rem; padding-top:0.75rem; border-top:0.5px solid rgba(200,180,138,0.07); display:flex; justify-content:space-between; align-items:center;">
-    <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.1em;color:rgba(200,180,138,0.3);text-transform:uppercase;">Total est. 24h</span>
-    <span style="font-family:'Newsreader',serif;font-size:18px;font-weight:300;color:var(--cream);">${fmtUSD(total)}</span>
-  </div>`;
+      <span class="corridor-pair">${cr.pair}</span>
+      <div class="corridor-bar-wrap"><div class="corridor-bar-fill" style="width:${Math.round(cr.vol/maxVol*100)}%"></div></div>
+      <span class="corridor-vol">${fmtUSD(cr.vol)}</span>
+      <span class="corridor-chg ${cr.chg>=0?'chg-pos':'chg-neg'}">${cr.chg>=0?'+':''}${Math.round(cr.chg)}%</span>
+    </div>`).join('') +
+    `<div class="corridor-total"><span>Total est. 24h</span><span class="corridor-total-val">${fmtUSD(total)}</span></div>`;
 }
 
-// ═══════════════════════════════════════
-// NOSTRO DISPLACEMENT MODEL
-// ═══════════════════════════════════════
 function updateNostro() {
-  // Base: ~$2.1B/month ODL estimated from secondary sources
-  // Annualised: ~$25B
-  const monthlyODL = 2.1e9;
-  const annualODL = monthlyODL * 12;
-  
-  // Nostro freed: vol * (3 days / 365) — average pre-funding horizon
-  // vs. 5-second ODL settlement
-  const nostroDays = 3;
-  const nostroFreed = annualODL * (nostroDays / 365);
-  const globalNostro = 27e12;
-  const penetration = nostroFreed / globalNostro;
-
-  document.getElementById('nostro-odl').textContent = fmtUSD(annualODL);
-  document.getElementById('nostro-freed').textContent = fmtUSD(nostroFreed);
-  document.getElementById('nostro-pct').textContent = penetration.toFixed(4) + '%';
+  const annualODL  = 2.1e9 * 12;
+  const freed      = annualODL * (3/365);
+  const pct        = freed / 27e12;
+  document.getElementById('nostro-odl').textContent   = fmtUSD(annualODL);
+  document.getElementById('nostro-freed').textContent = fmtUSD(freed);
+  document.getElementById('nostro-pct').textContent   = pct.toFixed(4) + '%';
 }
 
-// ═══════════════════════════════════════
-// REFLEXIVITY MONITOR (includes peak ticket)
-// ═══════════════════════════════════════
 function updateReflexivity() {
   if (!livePrice || !liveMcap || !liveVolume) return;
+  const sigma      = 0.05, tol = 0.001;
+  const maxTicket  = liveVolume * Math.pow(tol/sigma, 2);
+  const collateral = liveMcap * 0.10;
+  const velocity   = liveVolume / liveMcap;
 
-  const collateralRatio = 0.10;
-  const collateralPool = liveMcap * collateralRatio;
-  const sigma = 0.05;
-  const tolerance = 0.001; // 10bp
-  const maxTicket = liveVolume * Math.pow(tolerance / sigma, 2);
-  const velocity = liveVolume / liveMcap;
-
-  // Featured peak ticket
-  document.getElementById('reflex-ticket').textContent = fmtUSD(maxTicket);
-  document.getElementById('reflex-vol').textContent = fmtUSD(liveVolume);
-
-  let tier, assess;
-  if (maxTicket >= 10e9) {
-    tier = 'Sovereign tier';
-    assess = 'Current market depth supports sovereign-level flows. The constraint is now corridor infrastructure and compliance adoption, not liquidity.';
-  } else if (maxTicket >= 2e9) {
-    tier = 'Institutional tier';
-    assess = 'Large bank and institutional treasury flows are within current depth. Sovereign-scale settlement requires meaningful price appreciation first.';
-  } else if (maxTicket >= 500e6) {
-    tier = 'Corporate tier';
-    assess = 'Corporate treasury flows supported. Large-bank scenarios require deeper OTC infrastructure or higher price.';
-  } else if (maxTicket >= 100e6) {
-    tier = 'SME / remittance tier';
-    assess = 'Remittance-scale and SME flows are supported. Institutional scenarios are not yet within current market depth.';
-  } else {
-    tier = 'Pre-institutional';
-    assess = 'Current depth supports only smaller retail flows at institutional slippage bounds. Market is in speculative rather than utility-driven price discovery.';
-  }
-  document.getElementById('reflex-ticket-tier').textContent = tier;
-  document.getElementById('reflex-ticket-assess').textContent = assess;
-
-  document.getElementById('reflex-price').textContent = fmtPrice(livePrice);
-  document.getElementById('reflex-collateral').textContent = fmtUSD(collateralPool);
-
-  const velEl = document.getElementById('reflex-velocity');
-  velEl.textContent = fmtPct(velocity, 2);
+  document.getElementById('reflex-ticket').textContent    = fmtUSD(maxTicket);
+  document.getElementById('reflex-price').textContent     = fmtPrice(livePrice);
+  document.getElementById('reflex-collateral').textContent= fmtUSD(collateral);
+  document.getElementById('reflex-vol').textContent       = fmtUSD(liveVolume);
+  document.getElementById('reflex-velocity').textContent  = fmtPct(velocity, 2);
 
   const velSub = document.getElementById('reflex-velocity-sub');
-  if (velocity > 0.02) {
-    velSub.textContent = 'high · speculative turnover dominant';
-    velSub.className = 'loop-cell-sub neg';
-  } else if (velocity > 0.01) {
-    velSub.textContent = 'moderate · mixed retail/institutional';
-    velSub.className = 'loop-cell-sub';
-  } else {
-    velSub.textContent = 'low · deep OTC market characteristics';
-    velSub.className = 'loop-cell-sub';
-  }
+  if (velocity > 0.02)      { velSub.textContent = 'high · speculative turnover dominant'; velSub.style.color = 'var(--red)'; }
+  else if (velocity > 0.01) { velSub.textContent = 'moderate · mixed retail/institutional'; velSub.style.color = 'var(--gold)'; }
+  else                      { velSub.textContent = 'low · deep OTC market characteristics'; velSub.style.color = 'var(--green)'; }
+
+  let tier, assess;
+  if      (maxTicket >= 10e9)  { tier='Sovereign tier';       assess='Current market depth supports sovereign-level flows. The constraint is now corridor infrastructure and compliance adoption, not liquidity.'; }
+  else if (maxTicket >= 2e9)   { tier='Institutional tier';   assess='Large bank and institutional treasury flows are within current depth. Sovereign-scale settlement requires meaningful price appreciation first.'; }
+  else if (maxTicket >= 500e6) { tier='Corporate tier';       assess='Corporate treasury flows supported. Large-bank scenarios require deeper OTC infrastructure or higher price.'; }
+  else if (maxTicket >= 100e6) { tier='SME / remittance tier';assess='Remittance-scale and SME flows supported. Institutional scenarios not yet within current market depth.'; }
+  else                         { tier='Pre-institutional';    assess='Current depth supports only smaller retail flows at institutional slippage bounds. Market is in speculative rather than utility-driven price discovery.'; }
+
+  document.getElementById('reflex-ticket-tier').textContent   = tier;
+  document.getElementById('reflex-ticket-assess').textContent = assess;
 }
 
-// ═══════════════════════════════════════
-// SCENARIO ENGINE
-// ═══════════════════════════════════════
-const SCENARIOS = [
-  { name: 'Near-term · SME remittance', Q: 100e6, sigma: 0.05 },
-  { name: 'Mid · Corporate treasury',    Q: 500e6, sigma: 0.04 },
-  { name: 'Institutional · Large bank',  Q: 2e9,   sigma: 0.03 },
-  { name: 'Sovereign · Central bank',    Q: 10e9,  sigma: 0.02 },
-  { name: 'Full system · Dominant bridge', Q: 50e9, sigma: 0.015 },
-];
-
-function calcRequiredPrice(Q, sigma, tolerance, turnover, supply) {
-  const reqVol = Q * Math.pow(sigma / tolerance, 2);
-  const reqMcap = reqVol / turnover;
-  const reqPrice = reqMcap / supply;
-  return { reqVol, reqMcap, reqPrice };
-}
-
-function updateScenario() {
-  if (!livePrice || !liveSupply) return;
-
-  // Read sliders
-  const ticketIdx = parseInt(document.getElementById('s-ticket').value);
-  const Q = TICKET_VALUES[ticketIdx];
-
-  const toleranceBp = parseInt(document.getElementById('s-tolerance').value);
-  const tolerance = toleranceBp / 10000;
-
-  const sigmaRaw = parseInt(document.getElementById('s-sigma').value);
-  const sigma = sigmaRaw / 1000;
-
-  const turnoverRaw = parseInt(document.getElementById('s-turnover').value);
-  const turnover = turnoverRaw / 1000;
-
-  const supply = liveSupply;
-
-  const { reqVol, reqMcap, reqPrice } = calcRequiredPrice(Q, sigma, tolerance, turnover, supply);
-
-  document.getElementById('r-vol').textContent = fmtUSD(reqVol);
-  document.getElementById('r-price').textContent = reqPrice >= 1 ? '$' + reqPrice.toFixed(2) : '$' + reqPrice.toFixed(4);
-  document.getElementById('r-float-note').textContent = 'at ' + fmtB(supply) + ' float';
-
-  const multiple = reqPrice / livePrice;
-  document.getElementById('r-multiple').textContent = multiple.toFixed(1) + '×';
-  document.getElementById('r-live-note').textContent = 'live: ' + fmtPrice(livePrice);
-
-  // Scenario table
-  const tbody = document.getElementById('scenario-tbody');
-  tbody.innerHTML = SCENARIOS.map((s, i) => {
-    const { reqPrice: rp } = calcRequiredPrice(s.Q, s.sigma, tolerance, turnover, supply);
-    const mult = rp / livePrice;
-    const isSelected = Math.abs(s.Q - Q) < 1;
-    return `<tr${isSelected ? ' class="highlight"' : ''}>
-      <td>${s.name}</td>
-      <td>${fmtUSD(s.Q)}</td>
-      <td>${rp >= 1 ? '$' + rp.toFixed(2) : '$' + rp.toFixed(4)}</td>
-      <td class="gap-col">${mult.toFixed(1)}×</td>
-    </tr>`;
-  }).join('');
-}
-
-// ═══════════════════════════════════════
-// PEAK TICKET — what can XRP handle RIGHT NOW
-// ═══════════════════════════════════════
-function updatePeakTicket() {
-  if (!liveVolume || !livePrice) return;
-
-  const sigma = 0.05;     // current market volatility
-  const tol = 0.001;      // 10bp = 0.001
-
-  // Q_max = V × (tol / sigma)²
-  const Q = liveVolume * Math.pow(tol / sigma, 2);
-  const execCost = Q * tol; // dollar cost at exactly 10bp
-
-  document.getElementById('peak-ticket-number').textContent = fmtUSD(Q);
-  document.getElementById('peak-vol-used').textContent = fmtUSD(liveVolume);
-  document.getElementById('peak-v').textContent = fmtUSD(liveVolume);
-  document.getElementById('peak-s').textContent = (sigma * 100).toFixed(1) + '%';
-  document.getElementById('peak-sigma-used').textContent = (sigma * 100).toFixed(1) + '%';
-  document.getElementById('peak-cost').textContent = fmtUSD(execCost);
-
-  // Tier classification
-  let tier, assessment;
-  if (Q >= 10e9) {
-    tier = 'Sovereign';
-    assessment = `At $${fmtUSD(Q).replace('$','')} max ticket, XRP's current market depth can support sovereign-level and central bank settlement flows. This places XRP at the top of the Part I scenario table. The binding constraint is no longer market depth — it is corridor infrastructure and institutional compliance adoption.`;
-  } else if (Q >= 2e9) {
-    tier = 'Institutional';
-    assessment = `At ${fmtUSD(Q)} max ticket, XRP can support large bank and institutional treasury flows, the $2B+ tier from Part I. Mid-range scenarios from the series are within current market depth. Sovereign-scale flows would require meaningful price appreciation first.`;
-  } else if (Q >= 500e6) {
-    tier = 'Corporate';
-    assessment = `At ${fmtUSD(Q)} max ticket, XRP can handle corporate treasury and mid-institutional flows. Large-bank and sovereign scenarios are not yet supported at today's market depth — they require either a higher price or deeper OTC infrastructure.`;
-  } else if (Q >= 100e6) {
-    tier = 'SME / Remittance';
-    assessment = `At ${fmtUSD(Q)} max ticket, XRP comfortably supports remittance-scale and SME flows, but is not yet liquid enough to absorb large corporate or institutional settlement at 10bp tolerance. The gap to institutional scenarios is significant and requires market cap growth.`;
-  } else {
-    tier = 'Pre-institutional';
-    assessment = `At ${fmtUSD(Q)}, current market depth can only support smaller retail and SME flows within institutional slippage bounds. XRP is not yet at the depth required for the Part I institutional scenarios. This reflects a market in speculative rather than utility-driven price discovery.`;
-  }
-
-  document.getElementById('peak-tier').textContent = tier;
-  document.getElementById('peak-assessment').textContent = assessment;
-}
-
-// ═══════════════════════════════════════
-// ADOPTION QUADRANT — Part VI framework
-// ═══════════════════════════════════════
 const SIGNALS = [
-  {
-    dot: 'mixed',
-    text: '<strong>G20 cross-border targets behind schedule.</strong> FSB Oct 2025: only 35% of retail and 55% of wholesale cross-border payments settle within one hour, against 75% targets. Atomic settlement is developing — but at corridor speed, not system speed.'
-  },
-  {
-    dot: 'pos',
-    text: '<strong>71 active ODL corridors, up from ~40 in 2024.</strong> Cross-border atomic settlement is being adopted in production. The architecture is building. The question is scale and pace.'
-  },
-  {
-    dot: 'mixed',
-    text: '<strong>India T+0 pilot: $7,400 total volume, 139 trades.</strong> Institutions chose netting efficiency over settlement speed. Structural friction in atomic adoption is real and documented.'
-  },
-  {
-    dot: 'mixed',
-    text: '<strong>~40% of 300+ RippleNet institutions use XRP for ODL.</strong> The majority use messaging rails and fiat routing. The 60% not using XRP is the signal that needs watching. Source: secondary reporting, April 2026.'
-  },
-  {
-    dot: 'neg',
-    text: '<strong>RLUSD is the "primary stablecoin" for Ripple rails</strong> (Monica Long, CoinDesk). $1.56B market cap, expanding multi-chain. Deutsche Bank and Société Générale settling via RLUSD, not XRP ODL.'
-  },
-  {
-    dot: 'pos',
-    text: '<strong>XRP ETF net inflows $1.24B, holding positive</strong> through 2026 sell-off. Institutional conviction is real and sustained, even if not yet utility-driven on-chain demand.'
-  },
-  {
-    dot: 'pos',
-    text: '<strong>ODL volume ~$2.1B/month estimated, up 30%+ YoY.</strong> The XRP-settled corridor base is growing in absolute terms. RLUSD competition narrows the addressable market but does not eliminate it.'
-  },
+  {dot:'mixed', text:'<strong>G20 cross-border targets behind schedule.</strong> FSB Oct 2025: only 35% of retail and 55% of wholesale cross-border payments settle within one hour, against 75% targets. Atomic settlement is developing — but at corridor speed, not system speed.'},
+  {dot:'pos',   text:'<strong>71 active ODL corridors, up from ~40 in 2024.</strong> Cross-border atomic settlement is being adopted in production. The architecture is building. The question is scale and pace.'},
+  {dot:'mixed', text:'<strong>India T+0 pilot: $7,400 total volume, 139 trades.</strong> Institutions chose netting efficiency over settlement speed. Structural friction in atomic adoption is real and documented.'},
+  {dot:'mixed', text:'<strong>~40% of 300+ RippleNet institutions use XRP for ODL.</strong> The majority use messaging rails and fiat routing. The 60% not using XRP is the signal that needs watching. Source: secondary reporting, April 2026.'},
+  {dot:'neg',   text:'<strong>RLUSD is the "primary stablecoin" for Ripple rails</strong> (Monica Long, CoinDesk). $1.56B market cap, expanding multi-chain. Deutsche Bank and Société Générale settling via RLUSD, not XRP ODL.'},
+  {dot:'pos',   text:'<strong>XRP ETF net inflows $1.24B, holding positive</strong> through 2026 sell-off. Institutional conviction is real and sustained, even if not yet utility-driven on-chain demand.'},
+  {dot:'pos',   text:'<strong>ODL volume ~$2.1B/month estimated, up 30%+ YoY.</strong> The XRP-settled corridor base is growing. RLUSD competition narrows the addressable market but does not eliminate it.'},
 ];
 
 function updateQuadrant() {
-  document.getElementById('axis1-reading').textContent = 'Developing — below G20 pace';
-  document.getElementById('axis2-reading').textContent = 'Partial — ODL growing, RLUSD competing';
-
   document.getElementById('q-partial').classList.add('active');
-  const pin = document.createElement('div');
-  pin.className = 'quad-pin';
-  pin.textContent = 'Now';
+  const pin = document.createElement('div'); pin.className='quad-pin'; pin.textContent='Now';
   document.getElementById('q-partial').appendChild(pin);
 
-  const list = document.getElementById('signal-list');
-  list.innerHTML = SIGNALS.map(s => `
-    <div class="signal-row">
-      <div class="signal-dot dot-${s.dot}"></div>
-      <div class="signal-text">${s.text}</div>
-    </div>
-  `).join('');
+  document.getElementById('signal-list').innerHTML = SIGNALS.map(s =>
+    `<div class="signal-row"><div class="signal-dot dot-${s.dot}"></div><div class="signal-text">${s.text}</div></div>`
+  ).join('');
 
   document.getElementById('quadrant-verdict').innerHTML =
-    `<strong style="color:var(--cream-dim);font-weight:400;">Current position: Modal quadrant (40–55% probability).</strong> The evidence places XRP in the "DTCC wins domestically, cross-border develops at corridor speed" quadrant from Part VI — the most likely outcome, not the bear case. XRP is growing more slowly than the institutional and sovereign scenarios the series priced. The 25–35% upside path requires atomic settlement scaling in non-CLS corridors with XRP holding the hub role. Signals to watch: G20 progress accelerating, ODL adoption crossing 60% of RippleNet institutions, or a sovereign settling cross-border flows directly in XRP.`;
+    `<strong>Current position: Modal quadrant (40–55% probability).</strong> The evidence places XRP in the "DTCC wins domestically, cross-border develops at corridor speed" quadrant from Part VI — the most likely outcome, not the bear case. XRP is growing more slowly than the institutional and sovereign scenarios the series priced. The 25–35% upside path requires atomic settlement scaling in non-CLS corridors with XRP holding the hub role. Signals to watch: G20 progress accelerating, ODL adoption crossing 60% of RippleNet institutions, or a sovereign settling cross-border flows directly in XRP.`;
 }
 
-// ═══════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════
 fetchPrice();
 renderCorridors();
 updateQuadrant();
-
 setInterval(fetchPrice, 60000);
 setInterval(renderCorridors, 90000);
 </script>

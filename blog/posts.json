@@ -6,5 +6,13 @@
     "title": "Why <em>just-in-time sourcing</em> doesn't kill the price argument",
     "deck": "The sharpest bear case against the framework isn't about adoption — it's about inventory. If banks source XRP three seconds before each transaction and dump it immediately after, does the price argument collapse? The answer reveals something the series left implicit.",
     "tags": ["Store of Value", "Liquidity Mechanics"]
+  },
+  {
+    "number": 2,
+    "slug": "derivatives-and-spot",
+    "date": "April 27, 2026",
+    "tags": ["Methodology", "Market Structure"],
+    "title": "The derivatives market doesn't break the model. It completes it.",
+    "deck": "A reader challenged whether using spot-only volume understates XRP's settlement capacity. The answer is counterintuitive: spot-only is the correct input for settlement analysis, and a deep derivatives market is a precondition for the thesis — not a competing narrative."
   }
 ]

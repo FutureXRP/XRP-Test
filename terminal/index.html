@@ -569,8 +569,8 @@ a { color: inherit; text-decoration: none; }
 
   <!-- SETTLEMENT STACK TABLE -->
   <div class="sub-section-head" style="padding-top:16px;margin-top:8px">
-    Part IV settlement stack · required price per layer · gap from today
-    <span class="sub-badge">At 10bp · 5% volatility · 1% turnover · live price &amp; supply</span>
+    Calculator scenarios · required price · gap from today
+    <span class="sub-badge">Aligned with calculator page · per-scenario tolerance &amp; volatility · 0.3% turnover central · live price &amp; supply</span>
   </div>
 
   <div class="stack-wrap">
@@ -593,7 +593,7 @@ a { color: inherit; text-decoration: none; }
   </div>
 
   <div class="method-note">
-    <strong>Settlement stack table:</strong> Uses the inverse square-root formula from Part I: Required market cap = peakTicket × (σ ÷ tol)² ÷ turnover ratio. Required price = required market cap ÷ circulating supply. Assumes σ = 5% daily volatility, 10bp slippage tolerance, 1% daily turnover ratio (mid-case from Part I). Peak ticket per layer sourced from Part IV narrative: Layer 1 = retail/SMB ceiling ($500K), Layer 2 = intra-credit-web institutional ($2B), Layer 3 = intra-jurisdiction wholesale ($10B), Layer 4 = cross-jurisdiction wholesale/FX ($50B), Layer 5 = cross-ledger bridge-asset peak-ticket ($500B, derivatives upper bound from Part V). Updates with live price and supply every 60 seconds. Source: <a href="https://xrpvaluation.info/part4/">Part IV — The settlement stack of 2030</a> · <a href="https://xrpvaluation.info/part5/">Part V — The pipe we forgot to size</a>.
+    <strong>Settlement stack table:</strong> Scenarios and parameters aligned exactly with the <a href="https://xrpvaluation.info/calculator/">calculator page</a>. Formula: Required price = peakTicket × (σ ÷ tol)² ÷ turnover ÷ circulating supply. Central estimate uses 0.3% daily turnover (OTC/institutional depth). Range: low at 1.0% turnover (liquid public market), high at 0.1% turnover (deep OTC). Each scenario uses its own volatility and tolerance as shown in the calculator. Layer structure from Part IV. Updates with live price and supply every 60 seconds. Source: <a href="https://xrpvaluation.info/part4/">Part IV — The settlement stack of 2030</a> · <a href="https://xrpvaluation.info/part5/">Part V — The pipe we forgot to size</a>.
   </div>
 
   <div class="stat-grid">
@@ -941,47 +941,75 @@ function updateReflexivity() {
 // Peak ticket per layer sourced directly from Part IV narrative.
 // ═══════════════════════════════════════
 
+// ═══════════════════════════════════════
+// SETTLEMENT STACK TABLE
+// Scenarios aligned exactly with the calculator page.
+// Same peak tickets, tolerances, volatilities, and turnover assumptions.
+// Central estimate uses 0.3% turnover (OTC/institutional depth, mid-case).
+// Range: low at 0.1% turnover (deep OTC), high at 1.0% turnover (public market).
+// Formula: reqPrice = peakTicket × (σ/tol)² / turnover / liveSupply
+// ═══════════════════════════════════════
+
 const STACK_LAYERS = [
   {
-    num: 'Layer 01',
-    name: 'Client flow',
-    desc: 'Retail & SMB · remittance · agentic payments',
-    incumbents: 'ODL / RLUSD · Arc · Tempo · Stellar/PYUSD',
-    peakTicket: 500e3,    // cents to low six figures per Part IV; $500K as practical ceiling
+    num:         'Near-term',
+    name:        'SME and remittance corridors',
+    desc:        'Layer 01 · Retail & SMB · high-frequency small-ticket flows',
+    incumbents:  'ODL / RLUSD · Arc · Tempo · Stellar/PYUSD',
+    peakTicket:  100e6,
+    tol:         0.005,    // 50bp
+    sigma:       0.05,     // 5%
+    note:        'Already exceeded by current price — remittance-scale flows work today at smaller ticket sizes. This scenario validates the model against current reality.',
   },
   {
-    num: 'Layer 02',
-    name: 'Intra-credit-web institutional',
-    desc: 'Bank-to-bank tokenized deposit transfers',
-    incumbents: 'Kinexys · SWIFT Ledger · Partior · Ripple Payments',
-    peakTicket: 2e9,      // millions to low billions per Part IV
+    num:         'Mid',
+    name:        'Corporate treasury and regional bank flows',
+    desc:        'Layer 02 · Intra-credit-web institutional · tokenized deposit transfers',
+    incumbents:  'Kinexys · SWIFT Ledger · Partior · Ripple Payments',
+    peakTicket:  500e6,
+    tol:         0.0025,   // 25bp
+    sigma:       0.04,     // 4%
+    note:        'The mid scenario is where institutional adoption begins to have real price implications even under generous turnover assumptions. $140–$700 is a wide range but the direction is unambiguous.',
   },
   {
-    num: 'Layer 03',
-    name: 'Intra-jurisdiction wholesale',
-    desc: 'DLT wholesale settlement in central bank money',
-    incumbents: 'Fnality · Wholesale CBDC pilots · XRPL hosted instruments',
-    peakTicket: 10e9,     // hundreds of millions to tens of billions per Part IV
+    num:         'Institutional',
+    name:        'Large bank and fund operations',
+    desc:        'Layer 03 · Intra-jurisdiction wholesale · DLT settlement in central bank money',
+    incumbents:  'Fnality · Wholesale CBDC pilots · XRPL hosted instruments',
+    peakTicket:  2e9,
+    tol:         0.001,    // 10bp
+    sigma:       0.03,     // 3%
+    note:        'Critical threshold: $2B transactions at 10bp, the serious institutional standard. A $5B transaction sits between this and sovereign, implying $5,000–$22,000 depending on turnover assumption.',
   },
   {
-    num: 'Layer 04',
-    name: 'Cross-jurisdiction wholesale',
-    desc: 'Multi-currency PvP · peak-ticket FX settlement',
-    incumbents: 'CLS ($8T/day) · Project Agorá · mBridge · XRP ODL',
-    peakTicket: 50e9,     // tens of billions per Part IV; CLS operates at $8T/day
+    num:         'Sovereign',
+    name:        'Central bank and reserve operations',
+    desc:        'Layer 04 · Cross-jurisdiction wholesale · multi-currency PvP settlement',
+    incumbents:  'CLS ($8T/day) · Project Agorá · mBridge · XRP ODL',
+    peakTicket:  10e9,
+    tol:         0.001,    // 10bp
+    sigma:       0.02,     // 2%
+    note:        'Requires broad CBDC/stablecoin node proliferation and material RTGS displacement of multilateral netting. Plausible trajectory, not near-term probability.',
   },
   {
-    num: 'Layer 05',
-    name: 'Cross-ledger peak-ticket',
-    desc: 'Bridge-asset routing between tokenization ecosystems',
-    incumbents: 'XRP · XLM (named in DTCC patent US20250078162A1)',
-    peakTicket: 500e9,    // bounded only by bridge-asset depth per Part IV/V; $500B upper bound
+    num:         'Full system',
+    name:        'Dominant global bridge, mature asset',
+    desc:        'Layer 05 · Cross-ledger peak-ticket · bridge-asset routing between tokenization ecosystems',
+    incumbents:  'XRP · XLM (named in DTCC patent US20250078162A1)',
+    peakTicket:  50e9,
+    tol:         0.001,    // 10bp
+    sigma:       0.015,    // 1.5%
+    note:        'Full-system scenario requires XRP as the dominant neutral bridge at institutional depth across all major tokenization venues. Derivatives layer upper bound from Part V.',
   },
 ];
 
-const STACK_TURNOVER = 0.01; // 1% mid-case from Part I
-const STACK_SIGMA    = 0.05; // 5% current volatility
-const STACK_TOL      = 0.001;// 10bp institutional benchmark
+const TURNOVER_MID  = 0.010;  // 1.0% — calculator central estimate (hybrid OTC/public)
+const TURNOVER_LOW  = 0.015;  // 1.5% — high-turnover end → lower price bound
+const TURNOVER_HIGH = 0.003;  // 0.3% — low-turnover end → higher price bound (deep OTC)
+
+function calcStackPrice(layer, turnover, supply) {
+  return layer.peakTicket * Math.pow(layer.sigma / layer.tol, 2) / turnover / supply;
+}
 
 function updateStackTable() {
   if (!livePrice || !liveSupply) return;
@@ -991,42 +1019,64 @@ function updateStackTable() {
 
   const tbody = document.getElementById('stack-tbody');
   tbody.innerHTML = STACK_LAYERS.map(layer => {
-    const reqMcap  = layer.peakTicket * Math.pow(STACK_SIGMA / STACK_TOL, 2) / STACK_TURNOVER;
-    const reqPrice = reqMcap / liveSupply;
-    const multiple = reqPrice / livePrice;
+    const central  = calcStackPrice(layer, TURNOVER_MID,  liveSupply);
+    const low      = calcStackPrice(layer, TURNOVER_HIGH, liveSupply); // high turnover = lower price
+    const high     = calcStackPrice(layer, TURNOVER_LOW,  liveSupply); // low turnover = higher price
+    const multiple = central / livePrice;
 
-    const reqPriceFmt = reqPrice >= 1000
-      ? '$' + (reqPrice/1000).toFixed(1) + 'K'
-      : reqPrice >= 1
-        ? '$' + reqPrice.toFixed(2)
-        : '$' + reqPrice.toFixed(4);
+    // Format central price
+    const centralFmt = central >= 10000
+      ? '$' + Math.round(central/1000) + 'K'
+      : central >= 1000
+        ? '$' + (central/1000).toFixed(1) + 'K'
+        : central >= 1
+          ? '$' + central.toFixed(0)
+          : '$' + central.toFixed(2);
 
+    // Format range
+    const fmtR = n => n >= 10000
+      ? '$' + Math.round(n/1000) + 'K'
+      : n >= 1000
+        ? '$' + (n/1000).toFixed(1) + 'K'
+        : '$' + n.toFixed(0);
+
+    const rangeFmt = fmtR(low) + ' – ' + fmtR(high);
+
+    // Multiple display
     const multFmt = multiple < 1
       ? '< 1×'
       : multiple >= 1000
-        ? Math.round(multiple/1000) + ',000×'
-        : multiple.toFixed(1) + '×';
+        ? (multiple/1000).toFixed(1) + 'K×'
+        : multiple.toFixed(0) + '×';
 
+    // Gap label
     let gapClass, gapText;
-    if (multiple <= 1)       { gapClass='gap-live';     gapText='✓ Within range now'; }
-    else if (multiple <= 5)  { gapClass='gap-near';     gapText='Near-term · ' + multiple.toFixed(1) + '× needed'; }
-    else if (multiple <= 50) { gapClass='gap-mid';      gapText='Mid-term · ' + multiple.toFixed(0) + '× needed'; }
-    else if (multiple <= 500){ gapClass='gap-far';      gapText='Long-term · ' + Math.round(multiple) + '× needed'; }
-    else                     { gapClass='gap-frontier'; gapText='Frontier · ' + (multiple>=1000 ? Math.round(multiple/1000)+'K' : Math.round(multiple)) + '× needed'; }
+    if      (multiple <= 1)    { gapClass='gap-live';     gapText='✓ Within range now'; }
+    else if (multiple <= 5)    { gapClass='gap-near';     gapText=multiple.toFixed(1) + '× needed'; }
+    else if (multiple <= 20)   { gapClass='gap-near';     gapText=multiple.toFixed(0) + '× needed'; }
+    else if (multiple <= 200)  { gapClass='gap-mid';      gapText=multiple.toFixed(0) + '× needed'; }
+    else if (multiple <= 5000) { gapClass='gap-far';      gapText=Math.round(multiple) + '× needed'; }
+    else                       { gapClass='gap-frontier'; gapText=(multiple/1000).toFixed(1) + 'K× needed'; }
 
-    const priceColor = multiple <= 1 ? 'var(--green)' : multiple <= 50 ? 'var(--ink)' : 'var(--accent)';
+    const priceColor = multiple <= 1 ? 'var(--green)' : 'var(--accent)';
 
     return `<tr>
-      <td style="min-width:240px">
+      <td style="min-width:220px">
         <span class="stack-layer-num">${layer.num}</span>
         <span class="stack-layer-name">${layer.name}</span>
         <span class="stack-layer-desc">${layer.desc}</span>
-        <span class="stack-layer-desc" style="margin-top:3px;color:var(--ink-faint);font-style:italic">${layer.incumbents}</span>
+        <span class="stack-layer-desc" style="margin-top:3px;font-style:italic">${layer.incumbents}</span>
       </td>
       <td style="text-align:right;font-family:var(--mono);font-size:14px">${fmtUSD(layer.peakTicket)}</td>
-      <td><span class="stack-price" style="color:${priceColor}">${reqPriceFmt}</span></td>
+      <td style="text-align:right">
+        <span class="stack-price" style="color:${priceColor}">${centralFmt}</span>
+        <span style="display:block;font-family:var(--mono);font-size:11px;color:var(--ink-faint);margin-top:3px">range: ${rangeFmt}</span>
+      </td>
       <td><span class="stack-multiple">${multFmt}</span></td>
       <td style="padding-left:16px"><span class="stack-gap ${gapClass}">${gapText}</span></td>
+    </tr>
+    <tr class="stack-note-row">
+      <td colspan="5" style="padding:0 16px 14px;font-family:var(--display);font-style:italic;font-size:15px;color:var(--ink-medium);border-bottom:1px solid var(--rule)">${layer.note}</td>
     </tr>`;
   }).join('');
 }

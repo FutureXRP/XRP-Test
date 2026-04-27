@@ -279,7 +279,89 @@ a { color: inherit; text-decoration: none; }
 .footer-link { color: var(--ink-faint); transition: color 0.15s; }
 .footer-link:hover { color: var(--accent); }
 
-/* ── LOADING ── */
+/* ── SUB-SECTION HEADS ── */
+.sub-section-head {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+  padding: 24px 0 14px;
+  border-top: 1px solid var(--rule);
+  margin-top: 28px;
+  font-family: var(--ui); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--ink-medium); font-weight: 600;
+}
+.sub-badge {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: none;
+  color: var(--ink-faint); font-weight: 400; flex-shrink: 0;
+}
+
+/* ── SENSITIVITY TABLE ── */
+.sensitivity-wrap { margin-bottom: 8px; overflow-x: auto; }
+.sensitivity-table {
+  width: 100%; border-collapse: collapse;
+  font-family: var(--mono); font-size: 14px;
+  border: 1px solid var(--rule);
+}
+.sensitivity-table thead tr { background: var(--paper-soft); }
+.sensitivity-table th {
+  padding: 14px 18px; border-bottom: 1px solid var(--rule);
+  border-right: 1px solid var(--rule); font-weight: 500; text-align: center;
+  font-family: var(--ui);
+}
+.sensitivity-table th:last-child { border-right: none; }
+.sensitivity-table th.row-header { text-align: left; width: 200px; }
+.col-head-label { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 3px; letter-spacing: 0; text-transform: none; }
+.col-head-sub { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--ink-faint); text-transform: uppercase; font-weight: 400; }
+.sensitivity-table tbody tr { background: var(--paper); }
+.sensitivity-table tbody tr:hover { background: var(--paper-soft); }
+.sens-row-highlight { background: rgba(155,34,38,0.03) !important; }
+.sensitivity-table td {
+  padding: 16px 18px; border-bottom: 1px solid var(--rule);
+  border-right: 1px solid var(--rule); vertical-align: middle;
+}
+.sensitivity-table tbody tr:last-child td { border-bottom: none; }
+.sensitivity-table td:last-child { border-right: none; }
+.sensitivity-table td.row-header { background: var(--paper-soft); }
+.tol-label {
+  font-family: var(--mono); font-size: 15px; font-weight: 600; color: var(--ink);
+  display: flex; align-items: center; gap: 8px; margin-bottom: 3px;
+}
+.tol-desc { font-family: var(--ui); font-size: 12px; color: var(--ink-faint); letter-spacing: 0; text-transform: none; }
+.current-tag {
+  font-family: var(--ui); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  background: var(--accent); color: #fff; padding: 1px 6px; font-weight: 600; border-radius: 2px;
+}
+.sens-cell { text-align: center; }
+.sens-value { font-family: var(--mono); font-size: 16px; font-weight: 600; color: var(--ink); }
+.sens-tier { font-family: var(--ui); font-size: 11px; color: var(--ink-faint); margin-top: 3px; letter-spacing: 0; text-transform: none; }
+.current-cell { background: rgba(155,34,38,0.06) !important; }
+.current-cell .sens-value { color: var(--accent); }
+.sensitivity-legend {
+  display: flex; gap: 24px; align-items: center; flex-wrap: wrap;
+  padding: 10px 0 4px;
+  font-family: var(--mono); font-size: 11px; color: var(--ink-faint); letter-spacing: 0.04em;
+}
+.legend-current { color: var(--accent); }
+
+/* ── CORRIDOR PRICE TABLE ── */
+.corridor-price-wrap { overflow-x: auto; margin-bottom: 8px; }
+.corridor-price-status {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--ui); font-size: 12px; font-weight: 600;
+  padding: 2px 8px; border-radius: 2px;
+}
+.status-supported { background: var(--green-bg); color: var(--green); }
+.status-partial { background: #fdf6e8; color: #7a5c1a; }
+.status-requires { background: var(--red-bg); color: var(--red); }
+
+/* ── QUADRANT DATESTAMP ── */
+.quadrant-datestamp {
+  display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  padding: 12px 16px; background: var(--paper-soft);
+  border: 1px solid var(--rule); border-left: 3px solid var(--rule-strong);
+  margin-bottom: 20px; font-family: var(--mono);
+}
+.quadrant-date-label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); }
+.quadrant-date-value { font-size: 13px; font-weight: 600; color: var(--ink); }
+.quadrant-date-note { font-size: 11px; color: var(--ink-faint); letter-spacing: 0.02em; line-height: 1.6; }
 .loading-text { font-family: var(--mono); font-size: 13px; color: var(--ink-faint); letter-spacing: 0.08em; animation: pulse 1.8s ease-in-out infinite; }
 @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:0.9} }
 
@@ -410,8 +492,8 @@ a { color: inherit; text-decoration: none; }
 
   <!-- 03 REFLEXIVITY + PEAK TICKET -->
   <div class="section-head">
-    03 — Collateral reflexivity · peak ticket
-    <span class="section-badge live">Live</span>
+    03 — What today's market can and cannot handle
+    <span class="section-badge live">Live · volume</span>
   </div>
 
   <div class="featured-block">
@@ -444,7 +526,7 @@ a { color: inherit; text-decoration: none; }
     <div class="stat-cell">
       <div class="stat-label">Live 24h volume</div>
       <div class="stat-value" id="reflex-vol">—</div>
-      <div class="stat-desc" style="font-size:13px;margin-top:4px">basis for ticket calc</div>
+      <div class="stat-desc" style="font-size:13px;margin-top:4px">basis for all calculations below</div>
     </div>
   </div>
 
@@ -452,14 +534,105 @@ a { color: inherit; text-decoration: none; }
     ↑ price → ↑ collateral → ↑ ODL capacity → ↑ settlement demand → ↑ price &nbsp;·&nbsp; loop tightens or breaks at each node
   </div>
 
+  <!-- SENSITIVITY TABLE -->
+  <div class="sub-section-head">
+    Peak ticket capacity across assumption ranges
+    <span class="sub-badge">Volume is live · tolerance and volatility are scenario assumptions</span>
+  </div>
+
+  <div class="sensitivity-wrap">
+    <table class="sensitivity-table" id="sensitivity-table">
+      <thead>
+        <tr>
+          <th class="row-header">Slippage tolerance</th>
+          <th>
+            <div class="col-head-label">Today's market</div>
+            <div class="col-head-sub">σ = 5% volatility</div>
+          </th>
+          <th>
+            <div class="col-head-label">Mid adoption</div>
+            <div class="col-head-sub">σ = 3% volatility</div>
+          </th>
+          <th>
+            <div class="col-head-label">Mature market</div>
+            <div class="col-head-sub">σ = 2% volatility</div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-header">
+            <div class="tol-label">5 bp</div>
+            <div class="tol-desc">Sovereign / central bank</div>
+          </td>
+          <td class="sens-cell" id="s-5-5"><span class="loading-text">—</span></td>
+          <td class="sens-cell" id="s-5-3"><span class="loading-text">—</span></td>
+          <td class="sens-cell" id="s-5-2"><span class="loading-text">—</span></td>
+        </tr>
+        <tr class="sens-row-highlight">
+          <td class="row-header">
+            <div class="tol-label">10 bp <span class="current-tag">benchmark</span></div>
+            <div class="tol-desc">Institutional settlement</div>
+          </td>
+          <td class="sens-cell current-cell" id="s-10-5"><span class="loading-text">—</span></td>
+          <td class="sens-cell" id="s-10-3"><span class="loading-text">—</span></td>
+          <td class="sens-cell" id="s-10-2"><span class="loading-text">—</span></td>
+        </tr>
+        <tr>
+          <td class="row-header">
+            <div class="tol-label">50 bp</div>
+            <div class="tol-desc">Remittance / retail</div>
+          </td>
+          <td class="sens-cell" id="s-50-5"><span class="loading-text">—</span></td>
+          <td class="sens-cell" id="s-50-3"><span class="loading-text">—</span></td>
+          <td class="sens-cell" id="s-50-2"><span class="loading-text">—</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="sensitivity-legend">
+      <span class="legend-item legend-current">■ Current headline figure (10bp / today's volatility)</span>
+      <span class="legend-item">Each cell = Q_max = V × (tol ÷ σ)² · V = live 24h volume, refreshes every 60s</span>
+    </div>
+  </div>
+
+  <!-- CORRIDOR PRICE TABLE -->
+  <div class="sub-section-head">
+    Price required to serve each active ODL corridor
+    <span class="sub-badge">At 10bp tolerance · 5% volatility · live volume</span>
+  </div>
+
+  <div class="corridor-price-wrap">
+    <table class="data-table" id="corridor-price-table">
+      <thead>
+        <tr>
+          <th style="text-align:left">Corridor</th>
+          <th>Est. peak ticket</th>
+          <th>Required XRP price</th>
+          <th>Multiple from live</th>
+          <th style="text-align:left;padding-left:16px">Status</th>
+        </tr>
+      </thead>
+      <tbody id="corridor-price-tbody">
+        <tr><td colspan="5" class="loading-text" style="padding:16px 12px">Calculating…</td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <div class="method-note">
-    Max ticket = Q_max = V × (10bp ÷ σ)² where V = live 24h volume from CoinGecko, σ = 5% daily volatility. Collateral capacity = live market cap × 10%. Velocity index = 24h volume ÷ market cap — higher ratios indicate speculative turnover; lower ratios indicate deeper OTC execution. The reflexivity argument was first formalised for XRP as a bridge asset in Part III of this series. At 10bp institutional slippage tolerance.
+    <strong>Sensitivity table:</strong> Q_max = V × (tolerance ÷ σ)² where V = live 24h volume from CoinGecko. Tolerance tiers: 5bp = sovereign/central bank standard, 10bp = institutional settlement benchmark (Part I), 50bp = remittance/retail outer bound. Volatility columns: 5% = current market, 3% = partial institutional adoption, 2% = deeply embedded settlement infrastructure. Only volume is a live measurement — tolerance and volatility are interpretive assumptions.<br><br>
+    <strong>Corridor price table:</strong> Required price = (peakTicket × (σ ÷ tol)²) ÷ liveVolume × livePrice. Peak ticket per corridor is the estimated largest realistic single transaction for that corridor type — not daily volume. Status reflects whether current market depth already supports the corridor's peak ticket at 10bp. Sorted by required price ascending. Refreshes with live volume every 60 seconds.
   </div>
 
   <!-- 03c QUADRANT -->
   <div class="section-head">
     03c — Adoption quadrant · Part VI framework
-    <span class="section-badge">Live signals</span>
+    <span class="section-badge">Updated monthly</span>
+  </div>
+
+  <div class="quadrant-datestamp">
+    <span class="quadrant-date-label">Signals last assessed</span>
+    <span class="quadrant-date-value">April 2026</span>
+    <span class="quadrant-date-note">These signals reflect editorial judgment, not a data feed. Updated when material evidence changes — new G20 reports, Ripple disclosures, corridor announcements, or shifts in RLUSD adoption.</span>
   </div>
 
   <div class="quad-axes">
@@ -659,6 +832,112 @@ function updateReflexivity() {
 
   document.getElementById('reflex-ticket-tier').textContent   = tier;
   document.getElementById('reflex-ticket-assess').textContent = assess;
+
+  updateSensitivityTable();
+  updateCorridorPriceTable();
+}
+
+// ═══════════════════════════════════════
+// SENSITIVITY TABLE
+// Q_max = V × (tol/σ)²  — all 9 cells
+// ═══════════════════════════════════════
+const SENS_TIERS = [
+  { id:'5',  tol: 0.0005 },   // 5bp
+  { id:'10', tol: 0.001  },   // 10bp — benchmark
+  { id:'50', tol: 0.005  },   // 50bp
+];
+const SENS_SIGMAS = [
+  { id:'5', sigma: 0.05 },
+  { id:'3', sigma: 0.03 },
+  { id:'2', sigma: 0.02 },
+];
+
+function sensLabel(q) {
+  if (q >= 10e9)  return 'Sovereign';
+  if (q >= 2e9)   return 'Institutional';
+  if (q >= 500e6) return 'Corporate';
+  if (q >= 100e6) return 'SME / remittance';
+  if (q >= 10e6)  return 'Retail / SME';
+  return 'Pre-institutional';
+}
+
+function updateSensitivityTable() {
+  if (!liveVolume) return;
+  for (const t of SENS_TIERS) {
+    for (const s of SENS_SIGMAS) {
+      const q = liveVolume * Math.pow(t.tol / s.sigma, 2);
+      const el = document.getElementById(`s-${t.id}-${s.id}`);
+      if (el) {
+        el.innerHTML = `<div class="sens-value">${fmtUSD(q)}</div><div class="sens-tier">${sensLabel(q)}</div>`;
+      }
+    }
+  }
+}
+
+// ═══════════════════════════════════════
+// CORRIDOR PRICE TABLE
+// Required price = livePrice × (peakTicket / maxTicket_at_10bp_5pct)
+// Which simplifies to: reqPrice = peakTicket × (σ/tol)² / liveVolume × livePrice
+// = peakTicket / maxTicket × livePrice  (since maxTicket = V × (tol/σ)²)
+// ═══════════════════════════════════════
+
+// Peak ticket per corridor = the largest realistic single transaction
+// for that corridor type, based on known flow characteristics
+const CORRIDOR_TICKETS = [
+  { pair:'USD→PHP', peakTicket: 5e6,   note:'Remittance · high frequency, small tickets' },
+  { pair:'USD→MXN', peakTicket: 15e6,  note:'Remittance + SME cross-border' },
+  { pair:'GBP→NGN', peakTicket: 8e6,   note:'Remittance corridor' },
+  { pair:'AED→INR', peakTicket: 10e6,  note:'Remittance · Gulf to South Asia' },
+  { pair:'USD→BRL', peakTicket: 25e6,  note:'SME + corporate flows' },
+  { pair:'EUR→PHP', peakTicket: 6e6,   note:'Remittance corridor' },
+  { pair:'USD→INR', peakTicket: 50e6,  note:'Corporate + institutional flows' },
+  { pair:'JPY→USD', peakTicket: 200e6, note:'Institutional / treasury flows' },
+];
+
+function updateCorridorPriceTable() {
+  if (!livePrice || !liveVolume || !liveSupply) return;
+
+  const sigma = 0.05, tol = 0.001;
+  const maxTicketNow = liveVolume * Math.pow(tol / sigma, 2);
+
+  // Required price = livePrice × (peakTicket / maxTicketNow)
+  // Because maxTicketNow scales linearly with price (via volume proxy),
+  // this gives the price at which the peak ticket becomes supportable.
+  const rows = CORRIDOR_TICKETS.map(c => ({
+    ...c,
+    reqPrice: livePrice * (c.peakTicket / maxTicketNow),
+    multiple: c.peakTicket / maxTicketNow,
+  })).sort((a, b) => a.reqPrice - b.reqPrice);
+
+  const tbody = document.getElementById('corridor-price-tbody');
+  tbody.innerHTML = rows.map(r => {
+    const mult = r.multiple;
+    let statusClass, statusText;
+    if (mult <= 1.0) {
+      statusClass = 'status-supported';
+      statusText  = '✓ Supported now';
+    } else if (mult <= 5.0) {
+      statusClass = 'status-partial';
+      statusText  = `~${mult.toFixed(1)}× needed`;
+    } else {
+      statusClass = 'status-requires';
+      statusText  = `${mult.toFixed(1)}× needed`;
+    }
+    const reqPriceFmt = r.reqPrice >= 1
+      ? '$' + r.reqPrice.toFixed(2)
+      : '$' + r.reqPrice.toFixed(4);
+
+    return `<tr>
+      <td>
+        <div style="font-family:var(--mono);font-size:15px;font-weight:600;color:var(--ink)">${r.pair}</div>
+        <div style="font-family:var(--ui);font-size:12px;color:var(--ink-faint);margin-top:2px">${r.note}</div>
+      </td>
+      <td style="font-family:var(--mono);font-size:15px">${fmtUSD(r.peakTicket)}</td>
+      <td style="font-family:var(--mono);font-size:15px;font-weight:600;color:${mult<=1?'var(--green)':'var(--ink)'}">${reqPriceFmt}</td>
+      <td style="font-family:var(--mono);font-size:15px;color:${mult<=1?'var(--green)':mult<=5?'var(--gold)':'var(--red)'}">${mult<=1?'—':mult.toFixed(1)+'×'}</td>
+      <td style="padding-left:16px"><span class="corridor-price-status ${statusClass}">${statusText}</span></td>
+    </tr>`;
+  }).join('');
 }
 
 const SIGNALS = [

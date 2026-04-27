@@ -550,16 +550,27 @@ a { color: inherit; text-decoration: none; }
     Nostro displacement = estimated annualised ODL volume × (3 days / 365). The 3-day figure represents the average pre-funding horizon for traditional correspondent banking; ODL reduces this to seconds, freeing the daily float. ODL volume basis: Ripple reported >$15B annual ODL in 2024 (~$1.25B/month), a 32% year-over-year increase (CryptoSlate, CoinLaw, Dec 2025). 2025 pace appears higher — DAS Research estimates Q2 2025 ODL at ~$1.3B for the quarter alone — but full-year 2025 figures are not yet publicly confirmed. We use the conservative 2024 confirmed baseline. This model is illustrative — Ripple does not publish official per-corridor ODL breakdowns.
   </div>
 
-  <!-- 03 REFLEXIVITY + SETTLEMENT STACK -->
+  <!-- 03 REFLEXIVITY + PEAK TICKET + SETTLEMENT STACK -->
   <div class="section-head">
-    03 — The settlement stack · where XRP needs to be
-    <span class="section-badge live">Live · price</span>
+    03 — What today's market can and cannot handle
+    <span class="section-badge live">Live · price &amp; volume</span>
+  </div>
+
+  <div class="featured-block">
+    <div>
+      <div class="featured-tier">Maximum single transaction XRP can absorb · now</div>
+      <div class="featured-num" id="reflex-ticket">—</div>
+    </div>
+    <div>
+      <div class="featured-tier" id="reflex-ticket-tier" style="color:var(--accent)">—</div>
+      <div class="featured-assess" id="reflex-ticket-assess">Calculating…</div>
+    </div>
   </div>
 
   <!-- SETTLEMENT STACK TABLE -->
-  <div class="sub-section-head" style="padding-top:0;border-top:none;margin-top:0;margin-bottom:16px">
-    Part IV layers · required XRP price per layer · gap from today
-    <span class="sub-badge">At 10bp tolerance · 5% volatility · 1% turnover · live price &amp; supply</span>
+  <div class="sub-section-head" style="padding-top:16px;margin-top:8px">
+    Part IV settlement stack · required price per layer · gap from today
+    <span class="sub-badge">At 10bp · 5% volatility · 1% turnover · live price &amp; supply</span>
   </div>
 
   <div class="stack-wrap">
@@ -678,32 +689,9 @@ a { color: inherit; text-decoration: none; }
     </div>
   </div>
 
-  <!-- CORRIDOR PRICE TABLE -->
-  <div class="sub-section-head">
-    Price required to serve each active ODL corridor
-    <span class="sub-badge">At 10bp tolerance · 5% volatility · 1% turnover assumption</span>
-  </div>
-
-  <div class="corridor-price-wrap">
-    <table class="data-table" id="corridor-price-table">
-      <thead>
-        <tr>
-          <th style="text-align:left">Corridor</th>
-          <th>Est. peak ticket</th>
-          <th>Required XRP price</th>
-          <th>Multiple from live</th>
-          <th style="text-align:left;padding-left:16px">Status</th>
-        </tr>
-      </thead>
-      <tbody id="corridor-price-tbody">
-        <tr><td colspan="5" class="loading-text" style="padding:16px 12px">Calculating…</td></tr>
-      </tbody>
-    </table>
-  </div>
-
   <div class="method-note">
     <strong>Sensitivity table:</strong> Q_max = V × (tolerance ÷ σ)² where V = live 24h exchange volume from CoinGecko. Daily exchange volume is used as a proxy for executable market depth — a simplifying assumption; true single-ticket depth at any moment is a fraction of daily turnover. These figures are order-of-magnitude indicators. Tolerance tiers: 5bp = sovereign/central bank standard, 10bp = institutional settlement benchmark (Part I), 50bp = remittance/retail outer bound. Volatility columns: 5% = current market, 3% = partial institutional adoption, 2% = deeply embedded settlement infrastructure. The "Mature market" column holds volume fixed — in practice higher price adoption would also produce higher volume, so those cells understate capacity at scale.<br><br>
-    <strong>Corridor price table:</strong> Uses the inverse square-root formula from Part I: Required market cap = peakTicket × (σ ÷ tol)² ÷ turnover ratio. Required price = required market cap ÷ circulating supply. Assumes 1% daily turnover ratio (mid-case hybrid OTC/public execution from Part I). Peak ticket per corridor is the estimated largest realistic single transaction for that corridor type — not daily volume. This formula is independent of current live volume; it answers what XRP market cap the system would need at full institutional execution depth. Sorted by required price ascending. Updates with live supply data every 60 seconds.
+    <strong>Settlement stack table:</strong> Uses the inverse square-root formula from Part I: Required market cap = peakTicket × (σ ÷ tol)² ÷ turnover ratio. Required price = required market cap ÷ circulating supply. Assumes 1% daily turnover ratio (mid-case from Part I). Peak ticket per layer sourced from Part IV narrative. Updates with live price and supply every 60 seconds. Source: <a href="https://xrpvaluation.info/part4/">Part IV</a> · <a href="https://xrpvaluation.info/part5/">Part V</a>.
   </div>
 
   <!-- 03c QUADRANT -->
@@ -916,9 +904,12 @@ function updateNostro() {
 function updateReflexivity() {
   if (!livePrice || !liveMcap || !liveVolume) return;
   const sigma      = 0.05, tol = 0.001;
+  const maxTicket  = liveVolume * Math.pow(tol/sigma, 2);
   const collateral = liveMcap * 0.10;
   const velocity   = liveVolume / liveMcap;
 
+  // Featured peak ticket
+  document.getElementById('reflex-ticket').textContent = fmtUSD(maxTicket);
   document.getElementById('reflex-price').textContent     = fmtPrice(livePrice);
   document.getElementById('reflex-collateral').textContent= fmtUSD(collateral);
   document.getElementById('reflex-vol').textContent       = fmtUSD(liveVolume);
@@ -929,9 +920,18 @@ function updateReflexivity() {
   else if (velocity > 0.01) { velSub.textContent = 'moderate · mixed retail/institutional'; velSub.style.color = 'var(--gold)'; }
   else                      { velSub.textContent = 'low · deep OTC market characteristics'; velSub.style.color = 'var(--green)'; }
 
+  let tier, assess;
+  if      (maxTicket >= 10e9)  { tier='Sovereign tier';        assess='Current market depth supports sovereign-level flows. The constraint is now corridor infrastructure and compliance adoption, not liquidity.'; }
+  else if (maxTicket >= 2e9)   { tier='Institutional tier';    assess='Large bank and institutional treasury flows are within current depth. Sovereign-scale settlement requires meaningful price appreciation first.'; }
+  else if (maxTicket >= 500e6) { tier='Corporate tier';        assess='Corporate treasury flows supported. Large-bank scenarios require deeper OTC infrastructure or higher price.'; }
+  else if (maxTicket >= 100e6) { tier='SME / remittance tier'; assess='Remittance-scale and SME flows supported. Institutional scenarios not yet within current market depth.'; }
+  else                         { tier='Pre-institutional';     assess='Current depth supports only smaller retail flows at institutional slippage bounds. Market is in speculative rather than utility-driven price discovery.'; }
+
+  document.getElementById('reflex-ticket-tier').textContent   = tier;
+  document.getElementById('reflex-ticket-assess').textContent = assess;
+
   updateStackTable();
   updateSensitivityTable();
-  updateCorridorPriceTable();
 }
 
 // ═══════════════════════════════════════
@@ -1075,69 +1075,6 @@ function updateSensitivityTable() {
 // ═══════════════════════════════════════
 
 // Peak ticket per corridor = largest realistic single transaction
-// for that corridor type. Source basis: corridor type characteristics,
-// typical institutional payment sizes for each flow category.
-const CORRIDOR_TICKETS = [
-  { pair:'USD→PHP', peakTicket: 5e6,   note:'Remittance · high frequency, small tickets' },
-  { pair:'USD→MXN', peakTicket: 15e6,  note:'Remittance + SME · $2B/year confirmed via Bitso' },
-  { pair:'GBP→NGN', peakTicket: 8e6,   note:'Remittance corridor' },
-  { pair:'AED→INR', peakTicket: 10e6,  note:'Remittance · Gulf to South Asia' },
-  { pair:'USD→BRL', peakTicket: 25e6,  note:'SME + corporate flows · opened Q1 2025' },
-  { pair:'EUR→PHP', peakTicket: 6e6,   note:'Remittance corridor' },
-  { pair:'USD→INR', peakTicket: 50e6,  note:'Corporate + institutional flows' },
-  { pair:'JPY→USD', peakTicket: 200e6, note:'Institutional / treasury flows · SBI Remit' },
-];
-
-// Assumption: 1.0% daily turnover ratio (daily volume / market cap)
-// This is the mid-case from Part I — hybrid OTC/public execution.
-// A pure OTC institutional market would be ~0.3%; current speculative
-// market is ~1.5-2%. 1% is the most defensible settlement-era assumption.
-const TURNOVER_RATIO = 0.01;
-
-function updateCorridorPriceTable() {
-  if (!livePrice || !liveSupply) return;
-
-  const sigma = 0.05, tol = 0.001;
-
-  // reqMcap = peakTicket × (σ/tol)² / turnoverRatio
-  // reqPrice = reqMcap / liveSupply
-  const rows = CORRIDOR_TICKETS.map(c => {
-    const reqMcap  = c.peakTicket * Math.pow(sigma / tol, 2) / TURNOVER_RATIO;
-    const reqPrice = reqMcap / liveSupply;
-    const multiple = reqPrice / livePrice;
-    return { ...c, reqPrice, multiple };
-  }).sort((a, b) => a.reqPrice - b.reqPrice);
-
-  const tbody = document.getElementById('corridor-price-tbody');
-  tbody.innerHTML = rows.map(r => {
-    let statusClass, statusText;
-    if (r.multiple <= 1.0) {
-      statusClass = 'status-supported';
-      statusText  = '✓ Supported now';
-    } else if (r.multiple <= 10.0) {
-      statusClass = 'status-partial';
-      statusText  = `~${r.multiple.toFixed(1)}× needed`;
-    } else {
-      statusClass = 'status-requires';
-      statusText  = `${Math.round(r.multiple)}× needed`;
-    }
-    const reqPriceFmt = r.reqPrice >= 1
-      ? '$' + r.reqPrice.toFixed(2)
-      : '$' + r.reqPrice.toFixed(4);
-
-    return `<tr>
-      <td>
-        <div style="font-family:var(--mono);font-size:15px;font-weight:600;color:var(--ink)">${r.pair}</div>
-        <div style="font-family:var(--ui);font-size:12px;color:var(--ink-faint);margin-top:2px">${r.note}</div>
-      </td>
-      <td style="font-family:var(--mono);font-size:15px">${fmtUSD(r.peakTicket)}</td>
-      <td style="font-family:var(--mono);font-size:15px;font-weight:600;color:${r.multiple<=1?'var(--green)':'var(--ink)'}">${reqPriceFmt}</td>
-      <td style="font-family:var(--mono);font-size:15px;color:${r.multiple<=1?'var(--green)':r.multiple<=10?'var(--gold)':'var(--red)'}">${r.multiple<=1?'—':r.multiple.toFixed(1)+'×'}</td>
-      <td style="padding-left:16px"><span class="corridor-price-status ${statusClass}">${statusText}</span></td>
-    </tr>`;
-  }).join('');
-}
-
 const SIGNALS = [
   {dot:'mixed', text:'<strong>G20 cross-border targets behind schedule.</strong> FSB Oct 2025: only 35% of retail and 55% of wholesale cross-border payments settle within one hour, against 75% targets. Atomic settlement is developing — but at corridor speed, not system speed.'},
   {dot:'pos',   text:'<strong>71 active ODL corridors, up from ~40 in 2024.</strong> Cross-border atomic settlement is being adopted in production. The architecture is building. The question is scale and pace.'},

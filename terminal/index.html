@@ -170,7 +170,7 @@ a { color: inherit; text-decoration: none; }
 
 /* ── CORRIDOR ROWS ── */
 .corridor-row {
-  display: grid; grid-template-columns: 90px 1fr 90px 50px;
+  display: grid; grid-template-columns: 90px 1fr 80px;
   align-items: center; gap: 16px;
   padding: 12px 0; border-bottom: 1px solid var(--rule);
 }
@@ -454,7 +454,7 @@ a { color: inherit; text-decoration: none; }
   </div>
 
   <div class="method-note">
-    ODL detection methodology: transactions classified as theoretically ODL-relevant when XRP purchased at a known origin exchange is sent across the XRPL and sold at a known destination exchange within ~60 seconds. Classification is estimated — not officially confirmed by Ripple. Methodology adapted from Utility-Scan (2019–2022). Corridor volume proportions: total ~$41M/day based on Ripple's confirmed >$15B annual ODL (2024); APAC ~56% of volume; USD→MXN via Bitso confirmed at ~$2B/year in 2024. Per-corridor breakdowns are estimated proportionally — Ripple does not publish corridor-level data. Data refreshes every 90 seconds.
+    ODL detection methodology: transactions classified as theoretically ODL-relevant when XRP purchased at a known origin exchange is sent across the XRPL and sold at a known destination exchange within ~60 seconds. Classification is estimated — not officially confirmed by Ripple. Methodology adapted from Utility-Scan (2019–2022). Corridor volume proportions: total ~$41M/day based on Ripple's confirmed >$15B annual ODL (2024); APAC ~56% of volume; USD→MXN via Bitso confirmed at ~$2B/year in 2024. Per-corridor breakdowns are estimated proportionally — Ripple does not publish corridor-level data. Small intraday volume variance (±4%) is applied at each refresh to reflect normal fluctuation around the daily average. No 24h change percentage is shown — we have no real-time delta data source and displaying invented figures would be misleading.
   </div>
 
   <!-- 02 NOSTRO -->
@@ -791,22 +791,23 @@ const BASE_CORRIDORS = [
 ];
 
 function renderCorridors() {
+  // Volume applies small intraday variance (±4%) around the base estimate.
+  // No percentage change column — we have no real-time delta data source.
+  // Displaying invented change figures would be misleading.
   const corridors = BASE_CORRIDORS.map(c => ({
     ...c,
     vol: c.base * (1 + (Math.random()-0.5)*0.08),
-    chg: (Math.random()-0.38)*28
   }));
   const total  = corridors.reduce((s,c) => s+c.vol, 0);
   const maxVol = corridors[0].vol;
-  const c = document.getElementById('corridor-container');
-  c.innerHTML = corridors.map(cr => `
+  const container = document.getElementById('corridor-container');
+  container.innerHTML = corridors.map(cr => `
     <div class="corridor-row">
       <span class="corridor-pair">${cr.pair}</span>
       <div class="corridor-bar-wrap"><div class="corridor-bar-fill" style="width:${Math.round(cr.vol/maxVol*100)}%"></div></div>
       <span class="corridor-vol">${fmtUSD(cr.vol)}</span>
-      <span class="corridor-chg ${cr.chg>=0?'chg-pos':'chg-neg'}">${cr.chg>=0?'+':''}${Math.round(cr.chg)}%</span>
     </div>`).join('') +
-    `<div class="corridor-total"><span>Total est. 24h</span><span class="corridor-total-val">${fmtUSD(total)}</span></div>`;
+    `<div class="corridor-total"><span>Total est. 24h ODL</span><span class="corridor-total-val">${fmtUSD(total)}</span></div>`;
 }
 
 function updateNostro() {

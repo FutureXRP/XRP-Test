@@ -760,7 +760,136 @@
     font-weight: 400;
   }
 
+  /* REFLEXIVITY FEATURED NUMBER */
+  .reflex-featured {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    margin-bottom: 1px;
+  }
+  .reflex-featured-left {
+    background: rgba(139,26,26,0.08);
+    padding: 1.5rem 1.75rem;
+    border: 0.5px solid rgba(200,69,58,0.2);
+  }
+  .reflex-featured-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(200,180,138,0.55);
+    margin-bottom: 0.5rem;
+  }
+  .reflex-featured-value {
+    font-family: 'Newsreader', serif;
+    font-size: 52px;
+    font-weight: 300;
+    color: var(--cream);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .reflex-featured-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: rgba(200,180,138,0.6);
+    letter-spacing: 0.06em;
+  }
+  .reflex-featured-right {
+    background: var(--ink-panel);
+    padding: 1.5rem 1.75rem;
+    display: flex;
+    align-items: center;
+  }
+  .reflex-featured-assess {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--cream-muted);
+    line-height: 1.65;
+    border-left: 2px solid var(--crimson-light);
+    padding-left: 1rem;
+  }
+
+  /* CALCULATOR SIGNPOST */
+  .calc-signpost {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: center;
+    border: 0.5px solid var(--border);
+    background: var(--ink-panel);
+    padding: 2rem 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .calc-signpost-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(200,180,138,0.5);
+    margin-bottom: 0.5rem;
+  }
+  .calc-signpost-title {
+    font-family: 'Newsreader', serif;
+    font-size: 24px;
+    font-weight: 300;
+    color: var(--cream);
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .calc-signpost-desc {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--cream-muted);
+    line-height: 1.65;
+    max-width: 480px;
+  }
+  .calc-signpost-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1.25rem;
+    flex-shrink: 0;
+  }
+  .calc-signpost-link {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream);
+    background: var(--crimson-light);
+    padding: 0.65rem 1.25rem;
+    text-decoration: none;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .calc-signpost-link:hover { background: var(--crimson); }
+  .calc-signpost-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: flex-end;
+  }
+  .calc-signpost-feature {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: rgba(200,180,138,0.5);
+    text-align: right;
+  }
+
   @media (max-width: 640px) {
+    .reflex-featured { grid-template-columns: 1fr; }
+    .calc-signpost { grid-template-columns: 1fr; }
+    .calc-signpost-right { align-items: flex-start; }
+    .calc-signpost-features { align-items: flex-start; }
+  }
     .metrics-bar { grid-template-columns: 1fr 1fr; }
     .metric-cell:nth-child(2) { border-right: none; }
     .scenario-controls { grid-template-columns: 1fr; }
@@ -889,6 +1018,17 @@
   <div class="panel">
     <div class="panel-title">The price → collateral → ODL capacity → demand loop — live readings</div>
 
+    <div class="reflex-featured">
+      <div class="reflex-featured-left">
+        <div class="reflex-featured-label">Maximum peak ticket supportable · now</div>
+        <div class="reflex-featured-value" id="reflex-ticket">—</div>
+        <div class="reflex-featured-sub">At 10bp institutional slippage tolerance · <span id="reflex-ticket-tier">—</span></div>
+      </div>
+      <div class="reflex-featured-right">
+        <div class="reflex-featured-assess" id="reflex-ticket-assess">Calculating…</div>
+      </div>
+    </div>
+
     <div class="loop-grid">
       <div class="loop-cell">
         <div class="loop-cell-label">XRP price (live)</div>
@@ -898,26 +1038,26 @@
       <div class="loop-cell">
         <div class="loop-cell-label">Implied collateral capacity</div>
         <div class="loop-cell-value" id="reflex-collateral">—</div>
-        <div class="loop-cell-sub">at 10% collateral ratio · liquid float</div>
-      </div>
-      <div class="loop-cell">
-        <div class="loop-cell-label">Max single ODL ticket supportable</div>
-        <div class="loop-cell-value" id="reflex-ticket">—</div>
-        <div class="loop-cell-sub">at 10bp slippage tolerance · current depth</div>
+        <div class="loop-cell-sub">at 10% haircut · liquid float</div>
       </div>
       <div class="loop-cell">
         <div class="loop-cell-label">Velocity index (vol ÷ mcap)</div>
         <div class="loop-cell-value" id="reflex-velocity">—</div>
         <div class="loop-cell-sub" id="reflex-velocity-sub">daily turnover ratio</div>
       </div>
+      <div class="loop-cell">
+        <div class="loop-cell-label">Live 24h volume</div>
+        <div class="loop-cell-value" id="reflex-vol">—</div>
+        <div class="loop-cell-sub">basis for ticket calc</div>
+      </div>
     </div>
 
     <div class="loop-arrow">
-      ↑ price → ↑ collateral pool → ↑ ODL capacity → ↑ settlement demand → ↑ price · loop tightens or breaks at each node
+      ↑ price → ↑ collateral → ↑ ODL capacity → ↑ settlement demand → ↑ price · loop tightens or breaks at each node
     </div>
 
     <div class="method-note">
-      Collateral capacity = live market cap × 10% (conservative institutional haircut on volatile asset). Max ticket = derived from square-root impact law at 10bp tolerance with live market depth (see Part I). Velocity index = 24h volume ÷ market cap — higher ratios indicate more speculative turnover; lower ratios indicate deeper OTC-style execution. The reflexivity argument was first formalised for XRP as a bridge asset in Part III of this series. This is its first live implementation.
+      Max ticket = Q_max = V × (10bp ÷ σ)² where V = live 24h volume, σ = 5% daily volatility. Collateral capacity = live market cap × 10%. Velocity index = 24h volume ÷ market cap — higher ratios indicate speculative turnover; lower ratios indicate deeper OTC execution. The reflexivity argument was first formalised for XRP as a bridge asset in Part III of this series.
     </div>
   </div>
 
@@ -1027,7 +1167,7 @@
     <div class="peak-assessment" id="quadrant-verdict" style="margin-top:0">Loading signals…</div>
 
     <div class="method-note">
-      Quadrant placement is derived from observable market signals mapped to the two-axis framework in Part VI of the series. The signals are assessed at page load and refresh with live price data every 60 seconds. Axis 1 (cross-border atomic settlement scaling) is assessed from G20 progress reporting, corridor count, and ODL volume trend. Axis 2 (XRP capturing the hub role) is assessed from the ODL adoption rate among RippleNet institutions, RLUSD vs. XRP corridor split, and ETF inflow sustainability. This is an analytical framework, not a prediction. Source: <a href="https://xrpvaluation.info/part6/" style="color:var(--gold-dim);text-decoration:underline;text-underline-offset:3px;">Part VI — The case against, taken seriously</a>.
+      Quadrant placement is derived from observable market signals mapped to the two-axis framework in Part VI of the series. Axis 1 (cross-border atomic settlement scaling) assessed from G20 progress reporting, corridor count, and ODL volume trend. Axis 2 (XRP capturing the hub role) assessed from ODL adoption rate among RippleNet institutions, RLUSD vs. XRP corridor split, and ETF inflow sustainability. This is an analytical framework, not a prediction. Source: <a href="https://xrpvaluation.info/part6/" style="color:var(--gold);text-decoration:underline;text-underline-offset:3px;">Part VI — The case against, taken seriously</a>.
     </div>
   </div>
 
@@ -1037,86 +1177,28 @@
   </div>
 
   <!-- ═══════════════════════════════════════════
-       PANEL 4 — SCENARIO PRICING ENGINE
+       SIGNPOST — CALCULATOR
   ════════════════════════════════════════════ -->
   <div class="section-head">
-    04 — Scenario pricing engine
-    <span class="section-badge badge-live">Live model</span>
+    04 — Go deeper
+    <span class="section-badge badge-model">Tool</span>
   </div>
 
-  <div class="panel">
-    <div class="panel-title">Square-root market impact law — inverted to required price · live market data</div>
-
-    <div class="scenario-controls">
-      <div class="control-group">
-        <label for="s-ticket">Peak ticket size</label>
-        <div class="control-desc">The largest single transaction the bridge must absorb without unacceptable slippage.</div>
-        <div class="slider-row">
-          <input type="range" id="s-ticket" min="0" max="5" step="1" value="2">
-          <span class="slider-val" id="s-ticket-val">$2B</span>
-        </div>
-      </div>
-      <div class="control-group">
-        <label for="s-tolerance">Slippage tolerance</label>
-        <div class="control-desc">Maximum acceptable execution cost. 10bp is the institutional settlement benchmark.</div>
-        <div class="slider-row">
-          <input type="range" id="s-tolerance" min="5" max="50" step="5" value="10">
-          <span class="slider-val" id="s-tolerance-val">10 bp</span>
-        </div>
-      </div>
-      <div class="control-group">
-        <label for="s-sigma">Asset volatility at scale</label>
-        <div class="control-desc">Volatility compresses as liquidity deepens. Today is ~5%; full-system adoption ~1.5%.</div>
-        <div class="slider-row">
-          <input type="range" id="s-sigma" min="10" max="80" step="5" value="30">
-          <span class="slider-val" id="s-sigma-val">3.0%</span>
-        </div>
-      </div>
-      <div class="control-group">
-        <label for="s-turnover">Turnover ratio (vol ÷ mcap)</label>
-        <div class="control-desc">1% = hybrid OTC/public execution. 0.3% = deep institutional market. Higher = more liquid public market.</div>
-        <div class="slider-row">
-          <input type="range" id="s-turnover" min="1" max="20" step="1" value="10">
-          <span class="slider-val" id="s-turnover-val">1.0%</span>
-        </div>
-      </div>
+  <div class="calc-signpost">
+    <div class="calc-signpost-left">
+      <div class="calc-signpost-label">Market impact calculator</div>
+      <div class="calc-signpost-title">Size any transaction. Solve for required price.</div>
+      <div class="calc-signpost-desc">The square-root market impact law from Part I, made fully interactive. Run any transaction size against live market depth, or invert the formula to see exactly what price XRP must reach for each adoption scenario — with your own assumptions, not the defaults above.</div>
     </div>
-
-    <div class="scenario-result">
-      <div class="result-item">
-        <div class="result-item-label">Required daily volume</div>
-        <div class="result-item-value" id="r-vol">—</div>
-        <div class="result-item-sub">to meet tolerance</div>
+    <div class="calc-signpost-right">
+      <a href="https://xrpvaluation.info/calculator/" class="calc-signpost-link">
+        Open calculator →
+      </a>
+      <div class="calc-signpost-features">
+        <div class="calc-signpost-feature">Forward mode — slippage on any order size</div>
+        <div class="calc-signpost-feature">Inverse mode — required price per scenario</div>
+        <div class="calc-signpost-feature">Full sensitivity table · live XRP price</div>
       </div>
-      <div class="result-item">
-        <div class="result-item-label">Required XRP price</div>
-        <div class="result-item-value" id="r-price">—</div>
-        <div class="result-item-sub" id="r-float-note">at circulating supply</div>
-      </div>
-      <div class="result-item">
-        <div class="result-item-label">Multiple from live</div>
-        <div class="result-item-value result-multiple" id="r-multiple">—</div>
-        <div class="result-item-sub" id="r-live-note">live: —</div>
-      </div>
-    </div>
-
-    <div class="panel-title" style="margin-top: 1rem; margin-bottom: 0.75rem;">Part I scenario table — required price at your turnover ratio</div>
-    <table class="scenario-table" id="scenario-table">
-      <thead>
-        <tr>
-          <th>Scenario</th>
-          <th>Peak ticket</th>
-          <th>Req. price</th>
-          <th>Multiple</th>
-        </tr>
-      </thead>
-      <tbody id="scenario-tbody">
-        <tr><td colspan="4" class="loading" style="padding:0.75rem 0.6rem">Calculating…</td></tr>
-      </tbody>
-    </table>
-
-    <div class="method-note">
-      Formula: Required V = Q × (σ ÷ tolerance)² · Required market cap = V ÷ turnover ratio · Required price = market cap ÷ circulating supply. σ compresses by scenario: 5% near-term, 4% corporate, 3% institutional, 2% sovereign, 1.5% full system. Float = live circulating supply from CoinGecko API, refreshed every 60 seconds. This is the inverse of the square-root market impact law validated across millions of institutional trades. Source: Part I of this series. Not financial advice.
     </div>
   </div>
 
@@ -1140,10 +1222,6 @@ let livePrice = null;
 let liveVolume = null;
 let liveMcap = null;
 let liveSupply = null;
-
-// Slider config
-const TICKET_VALUES = [100e6, 500e6, 1e9, 2e9, 5e9, 10e9];
-const TICKET_LABELS = ['$100M', '$500M', '$1B', '$2B', '$5B', '$10B'];
 
 // ═══════════════════════════════════════
 // FORMAT HELPERS
@@ -1199,14 +1277,10 @@ async function fetchPrice() {
     document.getElementById('supply-display').textContent = fmtB(liveSupply);
     document.getElementById('supply-sub').textContent = 'of 100B total issued';
 
-    // Update reflexivity panel
+    // Update reflexivity panel (includes peak ticket)
     updateReflexivity();
-    // Update scenario engine
-    updateScenario();
     // Update nostro
     updateNostro();
-    // Update peak ticket
-    updatePeakTicket();
 
   } catch (e) {
     document.getElementById('price-display').textContent = 'API error';
@@ -1287,28 +1361,44 @@ function updateNostro() {
 }
 
 // ═══════════════════════════════════════
-// REFLEXIVITY MONITOR
+// REFLEXIVITY MONITOR (includes peak ticket)
 // ═══════════════════════════════════════
 function updateReflexivity() {
   if (!livePrice || !liveMcap || !liveVolume) return;
 
   const collateralRatio = 0.10;
   const collateralPool = liveMcap * collateralRatio;
-
-  // Max ticket at 10bp slippage using square-root law
-  // slippage = sigma * sqrt(Q/V) → Q = V * (slippage/sigma)^2
   const sigma = 0.05;
-  const tolerance = 0.001; // 10bp = 0.001
+  const tolerance = 0.001; // 10bp
   const maxTicket = liveVolume * Math.pow(tolerance / sigma, 2);
-
   const velocity = liveVolume / liveMcap;
 
-  document.getElementById('reflex-price').textContent = fmtPrice(livePrice);
-  const priceChgEl = document.getElementById('reflex-price-chg');
-  // Will be set from API response
-
-  document.getElementById('reflex-collateral').textContent = fmtUSD(collateralPool);
+  // Featured peak ticket
   document.getElementById('reflex-ticket').textContent = fmtUSD(maxTicket);
+  document.getElementById('reflex-vol').textContent = fmtUSD(liveVolume);
+
+  let tier, assess;
+  if (maxTicket >= 10e9) {
+    tier = 'Sovereign tier';
+    assess = 'Current market depth supports sovereign-level flows. The constraint is now corridor infrastructure and compliance adoption, not liquidity.';
+  } else if (maxTicket >= 2e9) {
+    tier = 'Institutional tier';
+    assess = 'Large bank and institutional treasury flows are within current depth. Sovereign-scale settlement requires meaningful price appreciation first.';
+  } else if (maxTicket >= 500e6) {
+    tier = 'Corporate tier';
+    assess = 'Corporate treasury flows supported. Large-bank scenarios require deeper OTC infrastructure or higher price.';
+  } else if (maxTicket >= 100e6) {
+    tier = 'SME / remittance tier';
+    assess = 'Remittance-scale and SME flows are supported. Institutional scenarios are not yet within current market depth.';
+  } else {
+    tier = 'Pre-institutional';
+    assess = 'Current depth supports only smaller retail flows at institutional slippage bounds. Market is in speculative rather than utility-driven price discovery.';
+  }
+  document.getElementById('reflex-ticket-tier').textContent = tier;
+  document.getElementById('reflex-ticket-assess').textContent = assess;
+
+  document.getElementById('reflex-price').textContent = fmtPrice(livePrice);
+  document.getElementById('reflex-collateral').textContent = fmtUSD(collateralPool);
 
   const velEl = document.getElementById('reflex-velocity');
   velEl.textContent = fmtPct(velocity, 2);
@@ -1433,74 +1523,47 @@ function updatePeakTicket() {
 // ═══════════════════════════════════════
 // ADOPTION QUADRANT — Part VI framework
 // ═══════════════════════════════════════
-// Signals are derived from known publicly reported data as of April 2026.
-// ODL adoption rate (~40% of 300+ RippleNet institutions), RLUSD growth
-// ($1.56B market cap, primary stablecoin for Ripple rails per Monica Long),
-// G20 progress (behind schedule per FSB Oct 2025), corridor count (~71 active),
-// ETF inflows ($1.24B net positive). These are assessed at load time.
-
 const SIGNALS = [
   {
-    axis: 1,
     dot: 'mixed',
-    text: '<strong>G20 cross-border targets behind schedule.</strong> FSB Oct 2025 report: only 35% of cross-border retail payments and 55% of wholesale settle within one hour, against 75% targets. "Work done so far is not sufficient." Atomic settlement is developing — but at corridor speed, not system speed.'
+    text: '<strong>G20 cross-border targets behind schedule.</strong> FSB Oct 2025: only 35% of retail and 55% of wholesale cross-border payments settle within one hour, against 75% targets. Atomic settlement is developing — but at corridor speed, not system speed.'
   },
   {
-    axis: 1,
     dot: 'pos',
-    text: '<strong>71 active ODL corridors, up from ~40 in 2024.</strong> Cross-border atomic settlement is being adopted in production corridors. The architecture is building. The question is scale and pace.'
+    text: '<strong>71 active ODL corridors, up from ~40 in 2024.</strong> Cross-border atomic settlement is being adopted in production. The architecture is building. The question is scale and pace.'
   },
   {
-    axis: 1,
     dot: 'mixed',
-    text: '<strong>India T+0 pilot: $7,400 total volume, 139 trades.</strong> Institutions priced the liquidity cost of same-day settlement and chose netting. Structural friction in atomic adoption is real and documented.'
+    text: '<strong>India T+0 pilot: $7,400 total volume, 139 trades.</strong> Institutions chose netting efficiency over settlement speed. Structural friction in atomic adoption is real and documented.'
   },
   {
-    axis: 2,
     dot: 'mixed',
     text: '<strong>~40% of 300+ RippleNet institutions use XRP for ODL.</strong> The majority use messaging rails and fiat routing. The 60% not using XRP is the signal that needs watching. Source: secondary reporting, April 2026.'
   },
   {
-    axis: 2,
     dot: 'neg',
-    text: '<strong>RLUSD is the "primary stablecoin" for Ripple rails</strong> (Monica Long, CoinDesk interview). $1.56B market cap, expanding to Optimism, Base, Ink, Unichain via Wormhole. Deutsche Bank and Société Générale settling via RLUSD and fiat, not XRP ODL.'
+    text: '<strong>RLUSD is the "primary stablecoin" for Ripple rails</strong> (Monica Long, CoinDesk). $1.56B market cap, expanding multi-chain. Deutsche Bank and Société Générale settling via RLUSD, not XRP ODL.'
   },
   {
-    axis: 2,
     dot: 'pos',
-    text: '<strong>XRP ETF net inflows $1.24B and holding positive</strong> even through 2026 sell-off. Institutional custody interest is real and sustained. Does not directly reflect utility adoption but signals long-term conviction.'
+    text: '<strong>XRP ETF net inflows $1.24B, holding positive</strong> through 2026 sell-off. Institutional conviction is real and sustained, even if not yet utility-driven on-chain demand.'
   },
   {
-    axis: 2,
     dot: 'pos',
     text: '<strong>ODL volume ~$2.1B/month estimated, up 30%+ YoY.</strong> The XRP-settled corridor base is growing in absolute terms. RLUSD competition narrows the addressable market but does not eliminate it.'
   },
 ];
 
 function updateQuadrant() {
-  // Assessment logic based on signals above
-  // Axis 1: G20 behind schedule + India failure = Partial (developing slowly)
-  // Axis 2: 40% ODL rate + RLUSD as primary stablecoin = Partial (holding non-CLS role)
-  // → Current quadrant: Axis 1 Partial (modal) with Partial Axis 2 overlap
+  document.getElementById('axis1-reading').textContent = 'Developing — below G20 pace';
+  document.getElementById('axis2-reading').textContent = 'Partial — ODL growing, RLUSD competing';
 
-  // The most honest reading: XRP is on the boundary between
-  // "Axis 1 Partial" (modal, 40-55%) and "Axis 1 Yes, Axis 2 Partial" (25-35%)
-  // Signal mix tilts toward modal with upside optionality
-
-  const axis1Reading = 'Developing — below G20 pace';
-  const axis2Reading = 'Partial — ODL growing, RLUSD competing';
-
-  document.getElementById('axis1-reading').textContent = axis1Reading;
-  document.getElementById('axis2-reading').textContent = axis2Reading;
-
-  // Highlight modal quadrant — Axis 1 Partial
   document.getElementById('q-partial').classList.add('active');
   const pin = document.createElement('div');
   pin.className = 'quad-pin';
   pin.textContent = 'Now';
   document.getElementById('q-partial').appendChild(pin);
 
-  // Render signals
   const list = document.getElementById('signal-list');
   list.innerHTML = SIGNALS.map(s => `
     <div class="signal-row">
@@ -1509,32 +1572,9 @@ function updateQuadrant() {
     </div>
   `).join('');
 
-  // Verdict
   document.getElementById('quadrant-verdict').innerHTML =
-    `<strong style="color:var(--cream-dim);font-weight:400;">Current position: Modal quadrant (40–55% probability).</strong> The evidence places XRP in the "DTCC wins domestically, cross-border develops at corridor speed" quadrant from Part VI — the most likely outcome, not the bear case. XRP is not failing; it is growing more slowly than the institutional and sovereign scenarios the series priced. The 25–35% "Axis 1 Yes, Axis 2 Partial" quadrant is the credible upside path: atomic settlement scales in non-CLS cross-border corridors, and XRP holds the hub role there while RLUSD captures dollar-denominated flows. The signals to watch for a quadrant shift: G20 progress accelerating, ODL adoption rate crossing 60% of RippleNet institutions, or a major sovereign settling cross-border flows directly in XRP.`;
+    `<strong style="color:var(--cream-dim);font-weight:400;">Current position: Modal quadrant (40–55% probability).</strong> The evidence places XRP in the "DTCC wins domestically, cross-border develops at corridor speed" quadrant from Part VI — the most likely outcome, not the bear case. XRP is growing more slowly than the institutional and sovereign scenarios the series priced. The 25–35% upside path requires atomic settlement scaling in non-CLS corridors with XRP holding the hub role. Signals to watch: G20 progress accelerating, ODL adoption crossing 60% of RippleNet institutions, or a sovereign settling cross-border flows directly in XRP.`;
 }
-
-
-document.getElementById('s-ticket').addEventListener('input', function () {
-  const idx = parseInt(this.value);
-  document.getElementById('s-ticket-val').textContent = TICKET_LABELS[idx];
-  updateScenario();
-});
-
-document.getElementById('s-tolerance').addEventListener('input', function () {
-  document.getElementById('s-tolerance-val').textContent = this.value + ' bp';
-  updateScenario();
-});
-
-document.getElementById('s-sigma').addEventListener('input', function () {
-  document.getElementById('s-sigma-val').textContent = (parseInt(this.value) / 10).toFixed(1) + '%';
-  updateScenario();
-});
-
-document.getElementById('s-turnover').addEventListener('input', function () {
-  document.getElementById('s-turnover-val').textContent = (parseInt(this.value) / 10).toFixed(1) + '%';
-  updateScenario();
-});
 
 // ═══════════════════════════════════════
 // INIT
@@ -1543,10 +1583,7 @@ fetchPrice();
 renderCorridors();
 updateQuadrant();
 
-// Refresh price every 60 seconds
 setInterval(fetchPrice, 60000);
-
-// Refresh corridor variance every 90 seconds
 setInterval(renderCorridors, 90000);
 </script>
 </body>

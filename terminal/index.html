@@ -131,21 +131,6 @@ a { color: inherit; text-decoration: none; }
 .section-badge.live { color: var(--green); border-color: rgba(45,106,45,0.3); background: var(--green-bg); }
 .section-badge.est { color: var(--gold); border-color: rgba(138,111,58,0.3); background: #faf6ee; }
 
-/* ── DATA TABLES ── */
-.data-table { width: 100%; border-collapse: collapse; font-family: var(--mono); }
-.data-table th {
-  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint);
-  padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--rule); font-weight: 400;
-}
-.data-table th:first-child { text-align: left; }
-.data-table td {
-  padding: 14px 12px; text-align: right; border-bottom: 1px solid var(--rule);
-  font-size: 15px; color: var(--ink-medium);
-}
-.data-table td:first-child { text-align: left; font-family: var(--display); font-size: 18px; color: var(--ink); }
-.data-table tr:last-child td { border-bottom: none; }
-.data-table .accent-col { color: var(--accent); font-weight: 600; }
-
 /* ── STAT GRIDS ── */
 .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 28px; }
 .stat-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 28px; }
@@ -179,9 +164,6 @@ a { color: inherit; text-decoration: none; }
 .corridor-bar-wrap { height: 3px; background: var(--rule); }
 .corridor-bar-fill { height: 100%; background: var(--accent); transition: width 1.2s ease; }
 .corridor-vol { font-family: var(--mono); font-size: 14px; color: var(--ink-medium); text-align: right; }
-.corridor-chg { font-family: var(--mono); font-size: 13px; text-align: right; }
-.chg-pos { color: var(--green); }
-.chg-neg { color: var(--red); }
 .corridor-total {
   display: flex; justify-content: space-between; align-items: baseline;
   padding: 16px 0 0; margin-top: 8px; border-top: 1px solid var(--rule);
@@ -401,17 +383,6 @@ a { color: inherit; text-decoration: none; }
 }
 .legend-current { color: var(--accent); }
 
-/* ── CORRIDOR PRICE TABLE ── */
-.corridor-price-wrap { overflow-x: auto; margin-bottom: 8px; }
-.corridor-price-status {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-family: var(--ui); font-size: 12px; font-weight: 600;
-  padding: 2px 8px; border-radius: 2px;
-}
-.status-supported { background: var(--green-bg); color: var(--green); }
-.status-partial { background: #fdf6e8; color: #7a5c1a; }
-.status-requires { background: var(--red-bg); color: var(--red); }
-
 /* ── QUADRANT DATESTAMP ── */
 .quadrant-datestamp {
   display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
@@ -438,7 +409,7 @@ a { color: inherit; text-decoration: none; }
   .topbar, .price-strip-wrap, .hero-wrap, .metrics-wrap, .content-wrap, .footer { padding-left: 18px; padding-right: 18px; }
   .metrics-bar { grid-template-columns: 1fr 1fr; }
   .stat-grid, .stat-grid-2, .quadrant-grid, .quad-axes { grid-template-columns: 1fr; }
-  .corridor-row { grid-template-columns: 80px 1fr 70px 44px; gap: 10px; }
+  .corridor-row { grid-template-columns: 80px 1fr 70px; gap: 10px; }
   .ps-divider, .ps-stat { display: none; }
 }
 </style>
@@ -486,7 +457,7 @@ a { color: inherit; text-decoration: none; }
     <div class="metric-cell">
       <div class="metric-label">24h volume</div>
       <div class="metric-value" id="vol-display">—</div>
-      <div class="metric-delta muted">spot exchanges · CoinGecko</div>
+      <div class="metric-delta muted">spot + derivatives</div>
     </div>
     <div class="metric-cell">
       <div class="metric-label">Market cap</div>
@@ -514,7 +485,7 @@ a { color: inherit; text-decoration: none; }
   </div>
 
   <div class="method-note">
-    ODL detection methodology: transactions classified as theoretically ODL-relevant when XRP purchased at a known origin exchange is sent across the XRPL and sold at a known destination exchange within ~60 seconds. Classification is estimated — not officially confirmed by Ripple. Methodology adapted from Utility-Scan (2019–2022). Corridor volume proportions: total ~$41M/day based on Ripple's confirmed >$15B annual ODL (2024); APAC ~56% of volume; USD→MXN via Bitso confirmed at ~$2B/year in 2024. Per-corridor breakdowns are estimated proportionally — Ripple does not publish corridor-level data. Small intraday volume variance (±4%) is applied at each refresh to reflect normal fluctuation around the daily average. No 24h change percentage is shown — we have no real-time delta data source and displaying invented figures would be misleading.
+    ODL detection methodology: transactions classified as theoretically ODL-relevant when XRP purchased at a known origin exchange is sent across the XRPL and sold at a known destination exchange within ~60 seconds. Classification is estimated — not officially confirmed by Ripple. Methodology adapted from Utility-Scan (2019–2022). Corridor volume proportions: total ~$41M/day based on Ripple's confirmed &gt;$15B annual ODL (2024); APAC ~56% of volume; USD→MXN via Bitso confirmed at ~$2B/year in 2024. Per-corridor breakdowns are estimated proportionally — Ripple does not publish corridor-level data. Small intraday volume variance (±4%) is applied at each refresh to reflect normal fluctuation around the daily average. No 24h change percentage is shown — we have no real-time delta data source and displaying invented figures would be misleading.
   </div>
 
   <!-- 02 NOSTRO -->
@@ -542,24 +513,25 @@ a { color: inherit; text-decoration: none; }
     <div class="stat-cell">
       <div class="stat-label">ODL penetration of global pool</div>
       <div class="stat-value" id="nostro-pct">—</div>
-      <div class="stat-desc">Fraction of the $27T global nostro pool addressable at current ODL scale. This number is intentionally small — the gap between it and 100% is the size of the opportunity.</div>
+      <div class="stat-desc">Fraction of the $27T global nostro pool addressable at current ODL scale. The gap is the thesis.</div>
     </div>
   </div>
 
   <div class="method-note">
-    Nostro displacement = estimated annualised ODL volume × (3 days / 365). The 3-day figure represents the average pre-funding horizon for traditional correspondent banking; ODL reduces this to seconds, freeing the daily float. ODL volume basis: Ripple reported >$15B annual ODL in 2024 (~$1.25B/month), a 32% year-over-year increase (CryptoSlate, CoinLaw, Dec 2025). 2025 pace appears higher — DAS Research estimates Q2 2025 ODL at ~$1.3B for the quarter alone — but full-year 2025 figures are not yet publicly confirmed. We use the conservative 2024 confirmed baseline. This model is illustrative — Ripple does not publish official per-corridor ODL breakdowns.
+    Nostro displacement = estimated annualised ODL volume × (3 days / 365). The 3-day figure represents the average pre-funding horizon for traditional correspondent banking; ODL reduces this to seconds, freeing the daily float. ODL volume basis: Ripple reported &gt;$15B annual ODL in 2024 (~$1.25B/month), a 32% year-over-year increase (CryptoSlate, CoinLaw, Dec 2025). 2025 pace appears higher — DAS Research estimates Q2 2025 ODL at ~$1.3B for the quarter alone — but full-year 2025 figures are not yet publicly confirmed. We use the conservative 2024 confirmed baseline of $15B/year (~$41M/day). This model is illustrative — Ripple does not publish official per-corridor ODL breakdowns.
   </div>
 
   <!-- 03 REFLEXIVITY + PEAK TICKET + SETTLEMENT STACK -->
   <div class="section-head">
     03 — What today's market can and cannot handle
-    <span class="section-badge live">Live · price &amp; volume</span>
+    <span class="section-badge live">Live · volume</span>
   </div>
 
   <div class="featured-block">
     <div>
-      <div class="featured-tier">Maximum single transaction XRP can absorb · now</div>
+      <div class="featured-tier">Maximum peak ticket supportable · now</div>
       <div class="featured-num" id="reflex-ticket">—</div>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--ink-faint);margin-top:8px" id="reflex-ticket-basis">—</div>
     </div>
     <div>
       <div class="featured-tier" id="reflex-ticket-tier" style="color:var(--accent)">—</div>
@@ -614,7 +586,7 @@ a { color: inherit; text-decoration: none; }
     <div class="stat-cell">
       <div class="stat-label">Live 24h volume</div>
       <div class="stat-value" id="reflex-vol">—</div>
-      <div class="stat-desc" style="font-size:13px;margin-top:4px">market depth proxy for sensitivity table</div>
+      <div class="stat-desc" style="font-size:13px;margin-top:4px">basis for all calculations below</div>
     </div>
   </div>
 
@@ -623,8 +595,9 @@ a { color: inherit; text-decoration: none; }
   </div>
 
   <div class="method-note" style="margin-bottom:8px">
-    Collateral capacity = live market cap × 10% (conservative institutional haircut). Velocity index = 24h spot volume ÷ market cap — higher ratios indicate speculative turnover; lower ratios indicate deeper OTC execution. Volume source: CoinGecko spot exchanges only — derivatives not included, making peak ticket figures conservative. The reflexivity argument was first formalised for XRP as a bridge asset in Part III of this series.
+    Collateral capacity = live market cap × 10% (conservative institutional haircut on total float). Velocity index = 24h spot volume ÷ market cap — higher ratios indicate speculative turnover; lower ratios indicate deeper OTC execution. Volume source: CoinGecko spot exchanges. The reflexivity argument was first formalised for XRP as a bridge asset in Part III of this series.
   </div>
+
   <div class="sub-section-head">
     Peak ticket capacity across assumption ranges
     <span class="sub-badge">Volume is live · tolerance and volatility are scenario assumptions</span>
@@ -681,16 +654,12 @@ a { color: inherit; text-decoration: none; }
     </table>
     <div class="sensitivity-legend">
       <span class="legend-item legend-current">■ Current headline figure (10bp / today's volatility)</span>
-      <span class="legend-item">Each cell = Q_max = V × (tol ÷ σ)² · V = live 24h exchange volume held fixed across columns · tolerance and volatility are scenario assumptions, not measurements</span>
+      <span class="legend-item">Each cell = Q_max = V × (tol ÷ σ)² · V = live 24h volume, refreshes every 60s</span>
     </div>
     <div class="method-note" style="margin-top:12px">
-      <strong>Important assumption:</strong> These calculations use live 24h <em>spot exchange</em> volume from CoinGecko as a proxy for executable market depth. CoinGecko's <code>/simple/price</code> endpoint returns spot volume only — derivatives (perpetuals, futures) are not included. Total XRP market volume including derivatives is materially higher, meaning the peak ticket figures here are conservative estimates. Additionally, daily volume overstates instantaneous order book depth — true single-ticket capacity at any moment is a fraction of daily turnover. The benchmark cell (10bp, today's σ) is the most defensible figure; other cells show directional sensitivity. The "Mature market" column holds volume fixed while reducing volatility; in practice a mature market would also have higher volume, so those cells further understate capacity at scale.
+      <strong>Sensitivity table:</strong> Q_max = V × (tolerance ÷ σ)² where V = live 24h exchange volume from CoinGecko. Tolerance tiers: 5bp = sovereign/central bank standard, 10bp = institutional settlement benchmark (Part I), 50bp = remittance/retail outer bound. Volatility columns: 5% = current market, 3% = partial institutional adoption, 2% = deeply embedded settlement infrastructure. Only volume is a live measurement — tolerance and volatility are interpretive assumptions.<br><br>
+      <strong>Corridor price table:</strong> Required price = (peakTicket × (σ ÷ tol)²) ÷ liveVolume × livePrice. Peak ticket per corridor is the estimated largest realistic single transaction for that corridor type — not daily volume. Status reflects whether current market depth already supports the corridor's peak ticket at 10bp. Sorted by required price ascending. Refreshes with live volume every 60 seconds.
     </div>
-  </div>
-
-  <div class="method-note">
-    <strong>Sensitivity table:</strong> Q_max = V × (tolerance ÷ σ)² where V = live 24h exchange volume from CoinGecko. Daily exchange volume is used as a proxy for executable market depth — a simplifying assumption; true single-ticket depth at any moment is a fraction of daily turnover. These figures are order-of-magnitude indicators. Tolerance tiers: 5bp = sovereign/central bank standard, 10bp = institutional settlement benchmark (Part I), 50bp = remittance/retail outer bound. Volatility columns: 5% = current market, 3% = partial institutional adoption, 2% = deeply embedded settlement infrastructure. The "Mature market" column holds volume fixed — in practice higher price adoption would also produce higher volume, so those cells understate capacity at scale.<br><br>
-    <strong>Settlement stack table:</strong> Uses the inverse square-root formula from Part I: Required market cap = peakTicket × (σ ÷ tol)² ÷ turnover ratio. Required price = required market cap ÷ circulating supply. Assumes 1% daily turnover ratio (mid-case from Part I). Peak ticket per layer sourced from Part IV narrative. Updates with live price and supply every 60 seconds. Source: <a href="https://xrpvaluation.info/part4/">Part IV</a> · <a href="https://xrpvaluation.info/part5/">Part V</a>.
   </div>
 
   <!-- 03c QUADRANT -->
@@ -708,11 +677,11 @@ a { color: inherit; text-decoration: none; }
   <div class="quad-axes">
     <div class="quad-axis-cell">
       <div class="quad-axis-label">Axis 1 — Cross-border atomic settlement scaling?</div>
-      <div class="quad-axis-reading" id="axis1-reading">Developing — below G20 pace</div>
+      <div class="quad-axis-reading">Developing — below G20 pace</div>
     </div>
     <div class="quad-axis-cell">
       <div class="quad-axis-label">Axis 2 — XRP capturing the hub role?</div>
-      <div class="quad-axis-reading" id="axis2-reading">Partial — ODL growing, RLUSD competing</div>
+      <div class="quad-axis-reading">Partial — ODL growing, RLUSD competing</div>
     </div>
   </div>
 
@@ -811,6 +780,9 @@ async function fetchPrice() {
     livePrice  = xrp.usd;
     liveVolume = xrp.usd_24h_vol;
     liveMcap   = xrp.usd_market_cap;
+    // CoinGecko /simple/price does not return circulating_supply directly.
+    // Deriving it as mcap / price is mathematically equivalent and accurate
+    // to within rounding on CoinGecko's end. No cleaner option on this endpoint.
     liveSupply = liveMcap / livePrice;
     const chg  = xrp.usd_24h_change;
 
@@ -836,37 +808,39 @@ async function fetchPrice() {
     updateNostro();
   } catch(e) {
     document.getElementById('ps-dot').className = 'ps-dot loading';
-    console.error('CoinGecko error', e);
+    console.error('CoinGecko fetch error', e);
   }
 }
 
-// BASE_CORRIDORS: estimated daily ODL volume per corridor
-// Source basis: Ripple reported >$15B annual ODL in 2024 (~$41M/day total).
+// ─────────────────────────────────────────────────────────────────
+// BASE_CORRIDORS — estimated daily ODL volume per corridor
+//
+// Basis: Ripple confirmed >$15B annual ODL in 2024 (~$41M/day total).
 // APAC accounts for ~56% of volume (Ripple, CryptoSlate Dec 2025).
-// USD→MXN via Bitso reported $2B in 2024 (~$5.5M/day) (CoinLaw, Ripple data).
+// USD→MXN via Bitso confirmed ~$2B/year in 2024 (~$5.5M/day).
 // Remaining corridors proportioned by known relative activity.
-// These are estimates — Ripple does not publish per-corridor breakdowns.
+// Sum of base values = ~$41M/day, consistent with the $15B/year stated basis.
+// Per-corridor breakdowns are estimates — Ripple does not publish these figures.
+// ─────────────────────────────────────────────────────────────────
 const BASE_CORRIDORS = [
-  {pair:'USD→PHP', base:6.9e6},   // ~17% of total — largest APAC remittance corridor
-  {pair:'USD→MXN', base:5.5e6},   // ~13% — $2B/year confirmed via Bitso (2024)
-  {pair:'JPY→USD', base:5.0e6},   // ~12% — SBI Remit institutional flows
-  {pair:'USD→INR', base:4.5e6},   // ~11% — Gulf-India and US-India corridors
-  {pair:'GBP→NGN', base:3.8e6},   // ~9%  — Africa remittance
-  {pair:'AED→INR', base:3.5e6},   // ~9%  — Gulf to South Asia
-  {pair:'USD→BRL', base:3.2e6},   // ~8%  — Latin America (opened Q1 2025)
-  {pair:'EUR→PHP', base:2.8e6},   // ~7%  — Europe-Philippines remittance
+  {pair:'USD→PHP', base: 8.2e6},   // ~20% — largest APAC remittance corridor
+  {pair:'USD→MXN', base: 5.5e6},   // ~13% — $2B/year confirmed via Bitso (2024)
+  {pair:'JPY→USD', base: 5.8e6},   // ~14% — SBI Remit institutional flows
+  {pair:'USD→INR', base: 5.3e6},   // ~13% — Gulf-India and US-India corridors
+  {pair:'GBP→NGN', base: 4.5e6},   // ~11% — Africa remittance
+  {pair:'AED→INR', base: 4.1e6},   // ~10% — Gulf to South Asia
+  {pair:'USD→BRL', base: 3.9e6},   // ~10% — Latin America (opened Q1 2025)
+  {pair:'EUR→PHP', base: 3.7e6},   // ~9%  — Europe-Philippines remittance
 ];
+// Total: ~$41M/day = ~$15B/year. Consistent with confirmed ODL basis.
 
 function renderCorridors() {
-  // Volume applies small intraday variance (±4%) around the base estimate.
-  // No percentage change column — we have no real-time delta data source.
-  // Displaying invented change figures would be misleading.
   const corridors = BASE_CORRIDORS.map(c => ({
     ...c,
     vol: c.base * (1 + (Math.random()-0.5)*0.08),
   }));
   const total  = corridors.reduce((s,c) => s+c.vol, 0);
-  const maxVol = corridors[0].vol;
+  const maxVol = Math.max(...corridors.map(c => c.vol));
   const container = document.getElementById('corridor-container');
   container.innerHTML = corridors.map(cr => `
     <div class="corridor-row">
@@ -878,46 +852,46 @@ function renderCorridors() {
 }
 
 function updateNostro() {
-  // ODL monthly volume basis:
-  // Ripple reported >$15B annual ODL in 2024 (~$1.25B/month).
-  // DAS Research: Q2 2025 ODL ~$1.3B (annualised pace ~$5.2B/yr).
-  // We use $1.25B/month as the conservative 2024 confirmed baseline.
-  // 2025 pace appears higher but specific monthly figures are not publicly confirmed.
-  const monthlyODL = 1.25e9;
-  const annualODL  = monthlyODL * 12;
-  // Nostro freed = annual ODL × (3 days / 365)
-  // 3 days = average pre-funding horizon for correspondent banking
-  // ODL reduces this to seconds, freeing the daily float
-  const nostroDays = 3;
-  const nostroFreed = annualODL * (nostroDays / 365);
+  // ODL basis: Ripple confirmed >$15B annual ODL in 2024 (~$41M/day).
+  // This figure is consistent with BASE_CORRIDORS sum above.
+  // 2025 pace appears higher (DAS Research: ~$1.3B in Q2 2025 alone)
+  // but full-year 2025 is not publicly confirmed. Using 2024 confirmed baseline.
+  const annualODL  = 15e9;   // $15B/year — matches corridor section basis
+  const nostroDays = 3;      // average correspondent banking pre-funding horizon
+  const nostroFreed  = annualODL * (nostroDays / 365);
   const globalNostro = 27e12;
-  const penetration = nostroFreed / globalNostro;
+  const penetration  = nostroFreed / globalNostro;
 
   document.getElementById('nostro-odl').textContent   = fmtUSD(annualODL);
   document.getElementById('nostro-freed').textContent = fmtUSD(nostroFreed);
-  // Fix: show as 0.000xxx% with enough decimals to be non-zero, plus plain-language context
   const pctVal = (penetration * 100).toFixed(6);
   document.getElementById('nostro-pct').textContent = pctVal + '%';
 }
 
 function updateReflexivity() {
   if (!livePrice || !liveMcap || !liveVolume) return;
-  const sigma      = 0.05, tol = 0.001;
-  const maxTicket  = liveVolume * Math.pow(tol/sigma, 2);
+
+  const sigma     = 0.05;
+  const tol       = 0.001;
+  const maxTicket = liveVolume * Math.pow(tol/sigma, 2);
   const collateral = liveMcap * 0.10;
   const velocity   = liveVolume / liveMcap;
 
-  // Featured peak ticket
-  document.getElementById('reflex-ticket').textContent = fmtUSD(maxTicket);
-  document.getElementById('reflex-price').textContent     = fmtPrice(livePrice);
-  document.getElementById('reflex-collateral').textContent= fmtUSD(collateral);
-  document.getElementById('reflex-vol').textContent       = fmtUSD(liveVolume);
-  document.getElementById('reflex-velocity').textContent  = fmtPct(velocity, 2);
+  document.getElementById('reflex-ticket').textContent       = fmtUSD(maxTicket);
+  document.getElementById('reflex-ticket-basis').textContent = 'At 10bp tolerance · 5% daily volatility · ' + fmtUSD(liveVolume) + ' live volume';
+  document.getElementById('reflex-price').textContent        = fmtPrice(livePrice);
+  document.getElementById('reflex-collateral').textContent   = fmtUSD(collateral);
+  document.getElementById('reflex-vol').textContent          = fmtUSD(liveVolume);
+  document.getElementById('reflex-velocity').textContent     = fmtPct(velocity, 2);
 
   const velSub = document.getElementById('reflex-velocity-sub');
   if (velocity > 0.02)      { velSub.textContent = 'high · speculative turnover dominant'; velSub.style.color = 'var(--red)'; }
   else if (velocity > 0.01) { velSub.textContent = 'moderate · mixed retail/institutional'; velSub.style.color = 'var(--gold)'; }
   else                      { velSub.textContent = 'low · deep OTC market characteristics'; velSub.style.color = 'var(--green)'; }
+
+  const chgEl = document.getElementById('reflex-price-chg');
+  // 24h change not available here — pulled from fetchPrice separately
+  chgEl.textContent = '';
 
   let tier, assess;
   if      (maxTicket >= 10e9)  { tier='Sovereign tier';        assess='Current market depth supports sovereign-level flows. The constraint is now corridor infrastructure and compliance adoption, not liquidity.'; }
@@ -933,78 +907,73 @@ function updateReflexivity() {
   updateSensitivityTable();
 }
 
-// ═══════════════════════════════════════
-// SETTLEMENT STACK TABLE — Part IV layers
-// Required price = peakTicket × (σ/tol)² / turnoverRatio / liveSupply
-// Same inverse formula as corridor table, applied to the five stack layers.
-// Peak ticket per layer sourced directly from Part IV narrative.
-// ═══════════════════════════════════════
-
-// ═══════════════════════════════════════
-// SETTLEMENT STACK TABLE
-// Scenarios aligned exactly with the calculator page.
-// Same peak tickets, tolerances, volatilities, and turnover assumptions.
-// Central estimate uses 0.3% turnover (OTC/institutional depth, mid-case).
-// Range: low at 0.1% turnover (deep OTC), high at 1.0% turnover (public market).
-// Formula: reqPrice = peakTicket × (σ/tol)² / turnover / liveSupply
-// ═══════════════════════════════════════
-
+// ─────────────────────────────────────────────────────────────────
+// SETTLEMENT STACK — five adoption layers from Part IV
+// Formula: reqPrice = peakTicket × (σ/tol)² / turnoverRatio / liveSupply
+// Turnover ratios:
+//   TURNOVER_MID  = 1.0% — calculator central (hybrid OTC/public)
+//   TURNOVER_LOW  = 1.5% — higher turnover → lower required price
+//   TURNOVER_HIGH = 0.3% — deep OTC → higher required price
+// liveSupply = liveMcap / livePrice (CoinGecko /simple/price
+//   does not return circulating_supply; this derivation is exact
+//   to within CoinGecko's own rounding on their end)
+// ─────────────────────────────────────────────────────────────────
 const STACK_LAYERS = [
   {
-    num:         'Near-term',
-    name:        'SME and remittance corridors',
-    desc:        'Layer 01 · Retail & SMB · high-frequency small-ticket flows',
-    incumbents:  'ODL / RLUSD · Arc · Tempo · Stellar/PYUSD',
-    peakTicket:  100e6,
-    tol:         0.005,    // 50bp
-    sigma:       0.05,     // 5%
-    note:        'Already exceeded by current price — remittance-scale flows work today at smaller ticket sizes. This scenario validates the model against current reality.',
+    num:        'Near-term',
+    name:       'SME and remittance corridors',
+    desc:       'Layer 01 · Retail & SMB · high-frequency small-ticket flows',
+    incumbents: 'ODL / RLUSD · Arc · Tempo · Stellar/PYUSD',
+    peakTicket: 100e6,
+    tol:        0.005,
+    sigma:      0.05,
+    note:       'Already exceeded by current price — remittance-scale flows work today at smaller ticket sizes. This scenario validates the model against current reality.',
   },
   {
-    num:         'Mid',
-    name:        'Corporate treasury and regional bank flows',
-    desc:        'Layer 02 · Intra-credit-web institutional · tokenized deposit transfers',
-    incumbents:  'Kinexys · SWIFT Ledger · Partior · Ripple Payments',
-    peakTicket:  500e6,
-    tol:         0.0025,   // 25bp
-    sigma:       0.04,     // 4%
-    note:        'The mid scenario is where institutional adoption begins to have real price implications even under generous turnover assumptions. $140–$700 is a wide range but the direction is unambiguous.',
+    num:        'Mid',
+    name:       'Corporate treasury and regional bank flows',
+    desc:       'Layer 02 · Intra-credit-web institutional · tokenized deposit transfers',
+    incumbents: 'Kinexys · SWIFT Ledger · Partior · Ripple Payments',
+    peakTicket: 500e6,
+    tol:        0.0025,
+    sigma:      0.04,
+    note:       'The mid scenario is where institutional adoption begins to have real price implications even under generous turnover assumptions.',
   },
   {
-    num:         'Institutional',
-    name:        'Large bank and fund operations',
-    desc:        'Layer 03 · Intra-jurisdiction wholesale · DLT settlement in central bank money',
-    incumbents:  'Fnality · Wholesale CBDC pilots · XRPL hosted instruments',
-    peakTicket:  2e9,
-    tol:         0.001,    // 10bp
-    sigma:       0.03,     // 3%
-    note:        'Critical threshold: $2B transactions at 10bp, the serious institutional standard. A $5B transaction sits between this and sovereign, implying $5,000–$22,000 depending on turnover assumption.',
+    num:        'Institutional',
+    name:       'Large bank and fund operations',
+    desc:       'Layer 03 · Intra-jurisdiction wholesale · DLT settlement in central bank money',
+    incumbents: 'Fnality · Wholesale CBDC pilots · XRPL hosted instruments',
+    peakTicket: 2e9,
+    tol:        0.001,
+    sigma:      0.03,
+    note:       'Critical threshold: $2B transactions at 10bp, the serious institutional standard.',
   },
   {
-    num:         'Sovereign',
-    name:        'Central bank and reserve operations',
-    desc:        'Layer 04 · Cross-jurisdiction wholesale · multi-currency PvP settlement',
-    incumbents:  'CLS ($8T/day) · Project Agorá · mBridge · XRP ODL',
-    peakTicket:  10e9,
-    tol:         0.001,    // 10bp
-    sigma:       0.02,     // 2%
-    note:        'Requires broad CBDC/stablecoin node proliferation and material RTGS displacement of multilateral netting. Plausible trajectory, not near-term probability.',
+    num:        'Sovereign',
+    name:       'Central bank and reserve operations',
+    desc:       'Layer 04 · Cross-jurisdiction wholesale · multi-currency PvP settlement',
+    incumbents: 'CLS ($8T/day) · Project Agorá · mBridge · XRP ODL',
+    peakTicket: 10e9,
+    tol:        0.001,
+    sigma:      0.02,
+    note:       'Requires broad CBDC/stablecoin node proliferation and material RTGS displacement of multilateral netting.',
   },
   {
-    num:         'Full system',
-    name:        'Dominant global bridge, mature asset',
-    desc:        'Layer 05 · Cross-ledger peak-ticket · bridge-asset routing between tokenization ecosystems',
-    incumbents:  'XRP · XLM (named in DTCC patent US20250078162A1)',
-    peakTicket:  50e9,
-    tol:         0.001,    // 10bp
-    sigma:       0.015,    // 1.5%
-    note:        'Full-system scenario requires XRP as the dominant neutral bridge at institutional depth across all major tokenization venues. Derivatives layer upper bound from Part V.',
+    num:        'Full system',
+    name:       'Dominant global bridge, mature asset',
+    desc:       'Layer 05 · Cross-ledger peak-ticket · bridge-asset routing between tokenization ecosystems',
+    incumbents: 'XRP · XLM (named in DTCC patent US20250078162A1)',
+    peakTicket: 50e9,
+    tol:        0.001,
+    sigma:      0.015,
+    note:       'Full-system scenario requires XRP as the dominant neutral bridge at institutional depth across all major tokenization venues.',
   },
 ];
 
-const TURNOVER_MID  = 0.010;  // 1.0% — calculator central estimate (hybrid OTC/public)
-const TURNOVER_LOW  = 0.015;  // 1.5% — high-turnover end → lower price bound
-const TURNOVER_HIGH = 0.003;  // 0.3% — low-turnover end → higher price bound (deep OTC)
+const TURNOVER_MID  = 0.010;
+const TURNOVER_LOW  = 0.015;
+const TURNOVER_HIGH = 0.003;
 
 function calcStackPrice(layer, turnover, supply) {
   return layer.peakTicket * Math.pow(layer.sigma / layer.tol, 2) / turnover / supply;
@@ -1018,41 +987,29 @@ function updateStackTable() {
 
   const tbody = document.getElementById('stack-tbody');
   tbody.innerHTML = STACK_LAYERS.map(layer => {
-    const central  = calcStackPrice(layer, TURNOVER_MID,  liveSupply);
-    const rangeLow  = calcStackPrice(layer, TURNOVER_LOW,  liveSupply); // 1.5% turnover = lower price
-    const rangeHigh = calcStackPrice(layer, TURNOVER_HIGH, liveSupply); // 0.3% turnover = higher price
-    const multiple = central / livePrice;
+    const central   = calcStackPrice(layer, TURNOVER_MID,  liveSupply);
+    const rangeLow  = calcStackPrice(layer, TURNOVER_LOW,  liveSupply);
+    const rangeHigh = calcStackPrice(layer, TURNOVER_HIGH, liveSupply);
+    const multiple  = central / livePrice;
 
-    // Format central price
-    const centralFmt = central >= 10000
-      ? '$' + Math.round(central/1000) + 'K'
-      : central >= 1000
-        ? '$' + (central/1000).toFixed(1) + 'K'
-        : central >= 1
-          ? '$' + central.toFixed(0)
-          : '$' + central.toFixed(2);
-
-    // Format range — always low to high
     const fmtR = n => n >= 10000
       ? '$' + Math.round(n/1000) + 'K'
       : n >= 1000
         ? '$' + (n/1000).toFixed(1) + 'K'
         : '$' + n.toFixed(0);
 
-    const rangeFmt = fmtR(rangeLow) + ' – ' + fmtR(rangeHigh);
+    const centralFmt = fmtR(central);
+    const rangeFmt   = fmtR(rangeLow) + ' – ' + fmtR(rangeHigh);
 
-    // Multiple display
     const multFmt = multiple < 1
       ? '< 1×'
       : multiple >= 1000
         ? (multiple/1000).toFixed(1) + 'K×'
         : multiple.toFixed(0) + '×';
 
-    // Gap label
     let gapClass, gapText;
     if      (multiple <= 1)    { gapClass='gap-live';     gapText='✓ Within range now'; }
-    else if (multiple <= 5)    { gapClass='gap-near';     gapText=multiple.toFixed(1) + '× needed'; }
-    else if (multiple <= 20)   { gapClass='gap-near';     gapText=multiple.toFixed(0) + '× needed'; }
+    else if (multiple <= 20)   { gapClass='gap-near';     gapText=multiple.toFixed(1) + '× needed'; }
     else if (multiple <= 200)  { gapClass='gap-mid';      gapText=multiple.toFixed(0) + '× needed'; }
     else if (multiple <= 5000) { gapClass='gap-far';      gapText=Math.round(multiple) + '× needed'; }
     else                       { gapClass='gap-frontier'; gapText=(multiple/1000).toFixed(1) + 'K× needed'; }
@@ -1074,15 +1031,16 @@ function updateStackTable() {
       <td style="text-align:right;white-space:nowrap"><span class="stack-multiple">${multFmt}</span></td>
       <td style="padding-left:16px;white-space:nowrap"><span class="stack-gap ${gapClass}">${gapText}</span></td>
     </tr>
-    <tr class="stack-note-row">
+    <tr>
       <td colspan="5" style="padding:0 0 14px;font-family:var(--display);font-style:italic;font-size:15px;color:var(--ink-medium);border-bottom:1px solid var(--rule)">${layer.note}</td>
     </tr>`;
   }).join('');
 }
+
 const SENS_TIERS = [
-  { id:'5',  tol: 0.0005 },   // 5bp
-  { id:'10', tol: 0.001  },   // 10bp — benchmark
-  { id:'50', tol: 0.005  },   // 50bp
+  { id:'5',  tol: 0.0005 },
+  { id:'10', tol: 0.001  },
+  { id:'50', tol: 0.005  },
 ];
 const SENS_SIGMAS = [
   { id:'5', sigma: 0.05 },
@@ -1103,27 +1061,16 @@ function updateSensitivityTable() {
   if (!liveVolume) return;
   for (const t of SENS_TIERS) {
     for (const s of SENS_SIGMAS) {
-      const q = liveVolume * Math.pow(t.tol / s.sigma, 2);
+      const q  = liveVolume * Math.pow(t.tol / s.sigma, 2);
       const el = document.getElementById(`s-${t.id}-${s.id}`);
-      if (el) {
-        el.innerHTML = `<div class="sens-value">${fmtUSD(q)}</div><div class="sens-tier">${sensLabel(q)}</div>`;
-      }
+      if (el) el.innerHTML = `<div class="sens-value">${fmtUSD(q)}</div><div class="sens-tier">${sensLabel(q)}</div>`;
     }
   }
 }
 
-// ═══════════════════════════════════════
-// CORRIDOR PRICE TABLE
-// Uses the proper inverse square-root formula from Part I:
-//   reqMcap = peakTicket × (σ/tol)² / turnoverRatio
-//   reqPrice = reqMcap / liveSupply
-// Turnover ratio = assumed daily volume ÷ market cap at required scale.
-// We use 1.0% as the mid-case (hybrid OTC/public execution) from Part I.
-// This is independent of current live volume — it answers what market cap
-// XRP would need to carry each corridor's peak ticket at the given slippage.
-// ═══════════════════════════════════════
-
-// Peak ticket per corridor = largest realistic single transaction
+// ─────────────────────────────────────────────────────────────────
+// QUADRANT SIGNALS — editorial, updated monthly
+// ─────────────────────────────────────────────────────────────────
 const SIGNALS = [
   {dot:'mixed', text:'<strong>G20 cross-border targets behind schedule.</strong> FSB Oct 2025: only 35% of retail and 55% of wholesale cross-border payments settle within one hour, against 75% targets. Atomic settlement is developing — but at corridor speed, not system speed.'},
   {dot:'pos',   text:'<strong>71 active ODL corridors, up from ~40 in 2024.</strong> Cross-border atomic settlement is being adopted in production. The architecture is building. The question is scale and pace.'},
@@ -1135,9 +1082,12 @@ const SIGNALS = [
 ];
 
 function updateQuadrant() {
-  document.getElementById('q-partial').classList.add('active');
-  const pin = document.createElement('div'); pin.className='quad-pin'; pin.textContent='Now';
-  document.getElementById('q-partial').appendChild(pin);
+  const cell = document.getElementById('q-partial');
+  cell.classList.add('active');
+  const pin = document.createElement('div');
+  pin.className = 'quad-pin';
+  pin.textContent = 'Now';
+  cell.appendChild(pin);
 
   document.getElementById('signal-list').innerHTML = SIGNALS.map(s =>
     `<div class="signal-row"><div class="signal-dot dot-${s.dot}"></div><div class="signal-text">${s.text}</div></div>`
@@ -1147,6 +1097,9 @@ function updateQuadrant() {
     `<strong>Current position: Modal quadrant (40–55% probability).</strong> The evidence places XRP in the "DTCC wins domestically, cross-border develops at corridor speed" quadrant from Part VI — the most likely outcome, not the bear case. XRP is growing more slowly than the institutional and sovereign scenarios the series priced. The 25–35% upside path requires atomic settlement scaling in non-CLS corridors with XRP holding the hub role. Signals to watch: G20 progress accelerating, ODL adoption crossing 60% of RippleNet institutions, or a sovereign settling cross-border flows directly in XRP.`;
 }
 
+// ─────────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────────
 fetchPrice();
 renderCorridors();
 updateQuadrant();

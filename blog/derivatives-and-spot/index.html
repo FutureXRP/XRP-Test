@@ -3,240 +3,93 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The derivatives market doesn't break the model. It completes it. · XRP Valuation Series</title>
-  <meta name="description" content="A reader challenged whether using spot-only volume understates XRP's capacity. The answer is counterintuitive: spot-only is the correct input for settlement analysis, and a deep derivatives market is a precondition for the thesis — not a competing narrative." />
+  <title>The derivatives market doesn't break the model. It completes it. — The Living Framework</title>
+  <meta name="description" content="A reader challenged whether using spot-only volume understates XRP's settlement capacity. The answer is counterintuitive: spot-only is the correct input for settlement analysis, and a deep derivatives market is a precondition for the thesis." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #fbfaf7;
-      --paper: #ffffff;
-      --paper-soft: #f7f3ea;
-      --ink: #171512;
-      --ink-soft: #3a342e;
-      --ink-medium: #61594f;
-      --ink-faint: #8a8073;
-      --rule: #d8d0c3;
-      --rule-strong: #1a1a1a;
-      --accent: #9b2226;
-      --display: "Newsreader", Georgia, serif;
-      --ui: "IBM Plex Sans", system-ui, sans-serif;
-      --mono: "IBM Plex Mono", ui-monospace, monospace;
-      --text-width: 680px;
-      --page-width: 1120px;
+      --bg: #fbfaf7; --paper: #ffffff; --paper-soft: #f7f3ea; --paper-deep: #f4efe4;
+      --ink: #171512; --ink-soft: #3a342e; --ink-medium: #61594f; --ink-faint: #8a8073;
+      --rule: #d8d0c3; --rule-strong: #1a1a1a; --accent: #9b2226;
+      --display: "Newsreader", Georgia, serif; --body: "Newsreader", Georgia, serif;
+      --ui: "IBM Plex Sans", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --text-width: 680px; --page-width: 1120px;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: var(--display);
-      font-size: 20px;
-      line-height: 1.75;
-      -webkit-font-smoothing: antialiased;
-    }
+    body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 20px; line-height: 1.72; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
     a { color: inherit; text-decoration: none; }
 
-    /* ── Topbar ── */
     .topbar { max-width: var(--page-width); margin: 0 auto; padding: 24px 28px 0; }
-    .topbar-inner {
-      border-top: 2px solid var(--rule-strong);
-      border-bottom: 1px solid var(--rule-strong);
-      padding: 15px 0 13px;
-      display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
-      font-family: var(--ui); font-size: 11px; text-transform: uppercase;
-      letter-spacing: 0.14em; color: var(--ink-medium);
-    }
+    .topbar-inner { border-top: 2px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); padding: 15px 0 13px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-family: var(--ui); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-medium); }
     .topbar-left { font-weight: 600; color: var(--accent); }
-    .topbar-right { display: flex; gap: 20px; align-items: baseline; }
-    .topbar-link { color: var(--ink-medium); transition: color 0.15s; }
-    .topbar-link:hover { color: var(--accent); }
+    .topbar-left a { color: var(--accent); }
+    .topbar-left a:hover { opacity: 0.75; }
+    .topbar-right { letter-spacing: 0.1em; color: var(--ink-faint); }
 
-    /* ── Article header ── */
-    .article-header {
-      max-width: var(--page-width);
-      margin: 0 auto;
-      padding: 48px 28px 0;
-    }
-    .article-header-inner {
-      max-width: var(--text-width);
-    }
-    .article-meta {
-      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-      font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--ink-faint);
-      margin-bottom: 24px;
-    }
-    .article-meta-num { color: var(--accent); font-weight: 600; }
-    .article-meta-tag {
-      border: 1px solid var(--rule);
-      padding: 2px 8px;
-      color: var(--ink-faint);
-      font-size: 10px;
-    }
-    .article-title {
-      font-family: var(--display);
-      font-size: clamp(32px, 5vw, 52px);
-      font-weight: 500;
-      line-height: 1.08;
-      letter-spacing: -0.025em;
-      color: var(--ink);
-      margin-bottom: 20px;
-    }
-    .article-title em { font-style: italic; color: var(--accent); }
-    .article-deck {
-      font-size: 20px;
-      line-height: 1.65;
-      color: var(--ink-soft);
-      margin-bottom: 32px;
-      max-width: var(--text-width);
-    }
-    .article-rule {
-      border: none;
-      border-top: 1px solid var(--rule-strong);
-      margin: 0;
-    }
+    .article-wrap { max-width: var(--page-width); margin: 0 auto; padding: 56px 28px 120px; display: grid; grid-template-columns: 1fr min(var(--text-width), 100%) 1fr; }
+    .article-wrap > * { grid-column: 2; }
 
-    /* ── Article body ── */
-    .article-body {
-      max-width: var(--page-width);
-      margin: 0 auto;
-      padding: 48px 28px 100px;
-      display: grid;
-      grid-template-columns: 1fr;
-    }
-    .article-text {
-      max-width: var(--text-width);
-    }
-    .article-text p {
-      margin-bottom: 1.5em;
-      color: var(--ink-soft);
-    }
-    .article-text p:last-child { margin-bottom: 0; }
-    .article-text h2 {
-      font-family: var(--display);
-      font-size: 26px;
-      font-weight: 500;
-      line-height: 1.2;
-      letter-spacing: -0.015em;
-      color: var(--ink);
-      margin: 2em 0 0.6em;
-      padding-top: 1.5em;
-      border-top: 1px solid var(--rule);
-    }
-    .article-text h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
-    .article-text strong { color: var(--ink); font-weight: 600; }
-    .article-text em { font-style: italic; }
-    .article-text a {
-      color: var(--accent);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      text-decoration-color: rgba(155,34,38,0.35);
-    }
-    .article-text a:hover { text-decoration-color: var(--accent); }
+    .post-header { margin-bottom: 56px; }
+    .post-section { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 24px; }
+    .post-section::before { content: ""; display: inline-block; width: 20px; height: 1px; background: var(--accent); }
+    .post-title { font-family: var(--display); font-size: clamp(36px, 6vw, 62px); line-height: 1.05; font-weight: 500; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 22px; }
+    .post-title em { font-style: italic; color: var(--accent); }
+    .post-deck { font-family: var(--display); font-style: italic; font-size: clamp(19px, 2.5vw, 24px); line-height: 1.45; color: var(--ink-medium); margin-bottom: 32px; }
+    .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 18px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+    .post-meta .meta-tag { color: var(--accent); font-weight: 600; }
+    .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--rule); flex-shrink: 0; }
 
-    /* ── Pull quote ── */
-    .pull-quote {
-      margin: 2em 0;
-      padding: 1.5em 0 1.5em 1.75em;
-      border-left: 3px solid var(--accent);
-      font-size: 22px;
-      line-height: 1.45;
-      font-style: italic;
-      color: var(--ink-soft);
-    }
+    .post-body { padding-top: 48px; }
+    .post-body p { margin-bottom: 28px; font-size: 20px; line-height: 1.72; color: var(--ink-soft); }
+    .post-body p:first-child { font-size: 22px; line-height: 1.65; color: var(--ink); }
+    .post-body h2 { font-family: var(--display); font-size: clamp(24px, 3vw, 32px); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 20px; padding-top: 40px; border-top: 1px solid var(--rule); }
+    .post-body strong { color: var(--ink); font-weight: 600; }
 
-    /* ── Callout box ── */
-    .callout {
-      margin: 2em 0;
-      padding: 20px 24px;
-      background: var(--paper-soft);
-      border: 1px solid var(--rule);
-      border-left: 3px solid var(--accent);
-    }
-    .callout-label {
-      font-family: var(--ui);
-      font-size: 10px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-    .callout p {
-      font-size: 17px !important;
-      line-height: 1.7;
-      color: var(--ink-medium) !important;
-      margin-bottom: 0 !important;
-    }
+    .pull-quote { margin: 44px 0; padding: 28px 32px; border-left: 3px solid var(--accent); background: var(--paper-soft); }
+    .pull-quote p { font-family: var(--display); font-size: clamp(20px, 2.5vw, 26px) !important; font-style: italic; line-height: 1.45; color: var(--ink) !important; margin-bottom: 0 !important; }
 
-    /* ── Three-column argument ── */
-    .argument-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 1px;
-      background: var(--rule);
-      border: 1px solid var(--rule);
-      margin: 2em 0;
-    }
-    .argument-cell {
-      background: var(--paper);
-      padding: 20px 22px;
-    }
-    .argument-num {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--accent);
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-    .argument-head {
-      font-family: var(--display);
-      font-size: 17px;
-      font-weight: 500;
-      color: var(--ink);
-      margin-bottom: 8px;
-      line-height: 1.3;
-    }
-    .argument-body {
-      font-size: 15px;
-      line-height: 1.65;
-      color: var(--ink-medium);
-    }
+    .math-block { margin: 36px 0; padding: 24px 28px; background: var(--ink); border-radius: 4px; }
+    .math-block .math-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 12px; }
+    .math-block .math-line { font-family: var(--mono); font-size: 15px; color: #fff; line-height: 1.9; }
+    .math-block .math-line .var { color: #c9a84c; }
+    .math-block .math-note { margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.1); font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.6; }
 
-    /* ── Nav footer ── */
-    .article-nav {
-      max-width: var(--page-width);
-      margin: 0 auto;
-      padding: 0 28px 40px;
-    }
-    .article-nav-inner {
-      border-top: 1px solid var(--rule);
-      padding-top: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--ink-faint);
-    }
-    .nav-link { color: var(--ink-faint); transition: color 0.15s; }
-    .nav-link:hover { color: var(--accent); }
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 36px 0; }
+    .three-col-cell { background: var(--paper); padding: 20px 22px; }
+    .three-col-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
+    .three-col-head { font-family: var(--display); font-size: 17px; font-weight: 500; color: var(--ink); margin-bottom: 8px; line-height: 1.3; }
+    .three-col-body { font-size: 15px; line-height: 1.65; color: var(--ink-medium); }
 
-    @media (max-width: 900px) {
-      .argument-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 640px) {
-      body { font-size: 18px; }
-      .topbar, .article-header, .article-body, .article-nav { padding-left: 18px; padding-right: 18px; }
-      .article-title { font-size: 28px; }
+    .framework-ref { margin: 40px 0; padding: 22px 24px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
+    .framework-ref-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+    .framework-ref p { font-size: 16px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 10px !important; }
+    .framework-ref p:last-child { margin-bottom: 0 !important; }
+    .framework-ref a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+    .framework-ref a:hover { border-bottom-color: var(--accent); }
+
+    .post-footer { margin-top: 72px; padding-top: 32px; border-top: 2px solid var(--rule-strong); }
+    .post-footer-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 20px; }
+    .post-footer-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .footer-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--rule); background: var(--paper); font-family: var(--ui); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-medium); font-weight: 500; transition: border-color 0.15s, color 0.15s; }
+    .footer-link:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-link.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .footer-link.primary:hover { background: #7f1d1d; border-color: #7f1d1d; }
+    .footer-link::after { content: "→"; font-size: 13px; }
+
+    .disclaimer { margin-top: 40px; padding: 18px 20px; background: var(--paper-soft); border: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-faint); line-height: 1.7; }
+
+    .site-footer { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 40px; }
+    .site-footer-inner { border-top: 1px solid var(--rule); padding-top: 18px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+
+    @media (max-width: 760px) {
+      body { font-size: 19px; }
+      .article-wrap { grid-template-columns: 1fr; padding: 40px 20px 80px; }
+      .article-wrap > * { grid-column: 1; }
+      .three-col { grid-template-columns: 1fr; }
+      .site-footer { padding: 0 20px 32px; }
     }
   </style>
 </head>
@@ -244,119 +97,211 @@
 
 <header class="topbar">
   <div class="topbar-inner">
-    <div class="topbar-left">XRP Valuation Series</div>
-    <div class="topbar-right">
-      <a class="topbar-link" href="https://xrpvaluation.info/">Series</a>
-      <a class="topbar-link" href="https://xrpvaluation.info/calculator/">Calculator</a>
-      <a class="topbar-link" href="https://xrpvaluation.info/terminal/">Terminal</a>
-    </div>
+    <div class="topbar-left"><a href="/">XRP Valuation Series</a> &nbsp;·&nbsp; The Living Framework</div>
+    <div class="topbar-right">Field Note · April 2026</div>
   </div>
 </header>
 
-<div class="article-header">
-  <div class="article-header-inner">
-    <div class="article-meta">
-      <span class="article-meta-num">Field Note No. 2</span>
-      <span>April 27, 2026</span>
-      <span class="article-meta-tag">Methodology</span>
-      <span class="article-meta-tag">Market Structure</span>
+<article class="article-wrap">
+
+  <div class="post-header">
+    <div class="post-section">The Living Framework &nbsp;·&nbsp; No. 2</div>
+    <h1 class="post-title">The derivatives market doesn't break the model.<br><em>It completes it.</em></h1>
+    <p class="post-deck">
+      A reader challenged whether using spot-only volume understates XRP's settlement capacity.
+      The answer is counterintuitive: spot-only is the correct input for settlement analysis,
+      and a deep derivatives market is a precondition for the thesis — not a competing narrative.
+    </p>
+    <div class="post-meta">
+      <span class="meta-tag">The Living Framework</span>
+      <span class="meta-dot"></span>
+      <span>Methodology</span>
+      <span class="meta-dot"></span>
+      <span>Market Structure</span>
+      <span class="meta-dot"></span>
+      <span>April 2026</span>
     </div>
-    <h1 class="article-title">The derivatives market doesn't break the model.<br><em>It completes it.</em></h1>
-    <p class="article-deck">A reader challenged whether using spot-only volume understates XRP's settlement capacity. The answer is counterintuitive: spot-only is the correct input for settlement analysis, and a deep derivatives market is a precondition for the thesis — not a competing narrative.</p>
   </div>
-</div>
-<hr class="article-rule">
 
-<div class="article-body">
-  <div class="article-text">
+  <div class="post-body">
 
-    <h2>The challenge</h2>
+    <p>
+      When we built the Settlement Terminal, we labelled the 24-hour volume figure as
+      "spot + derivatives." That was wrong. The CoinGecko <code style="font-family:var(--mono);font-size:17px;background:var(--paper-soft);padding:1px 5px;border:1px solid var(--rule)">/simple/price</code> endpoint
+      returns spot exchange volume only. Derivatives — perpetuals on Binance, Bybit, OKX, and others —
+      are tracked through a separate endpoint and are not included. We corrected the label immediately.
+    </p>
 
-    <p>When we built the Settlement Terminal, we labelled the 24-hour volume figure as "spot + derivatives." That was wrong. The CoinGecko <code>/simple/price</code> endpoint returns spot exchange volume only. Derivatives — perpetuals on Binance, Bybit, OKX, and others — are tracked through a separate endpoint and are not included. We corrected the label immediately.</p>
+    <p>
+      But the correction raised a deeper question worth addressing properly: if the entire analytical
+      framework uses spot volume as its core input, and if derivatives markets are generating
+      substantial additional volume — often 2–3× spot for XRP on active trading days — does
+      the model systematically understate XRP's settlement capacity? Does the framework need
+      to be rebuilt with total market volume?
+    </p>
 
-    <p>But the correction raised a deeper question worth addressing properly: if the entire analytical framework in this series uses spot volume as its core input, and if derivatives markets are generating substantial additional volume — often 2–3× spot for XRP on active trading days — does the model systematically understate XRP's settlement capacity? Does the framework need to be rebuilt with total market volume?</p>
-
-    <p>The answer is no. And understanding why reveals something important about the relationship between the derivatives market and the settlement thesis — something that the original series touched but did not fully develop.</p>
+    <p>
+      The answer is no. And understanding why reveals something important about the relationship
+      between the derivatives market and the settlement thesis.
+    </p>
 
     <h2>Why spot-only is the correct input</h2>
 
-    <p>The square-root market impact law at the heart of Part I asks a specific question: given a flow of size Q that must be executed in the market, what level of market depth V is required to keep slippage below an acceptable threshold? The formula is:</p>
+    <p>
+      The square-root market impact law at the heart of Part I asks a specific question: given
+      a flow of size Q that must be executed in the market, what level of market depth V is
+      required to keep slippage below an acceptable threshold?
+    </p>
 
-    <div class="callout">
-      <div class="callout-label">Part I · Square-root law</div>
-      <p>Slippage ≈ σ × √(Q ÷ V) &nbsp;→&nbsp; Required V = Q × (σ ÷ tolerance)²</p>
+    <div class="math-block">
+      <div class="math-label">Part I · Square-root law</div>
+      <div class="math-line">Slippage ≈ <span class="var">σ</span> × √(<span class="var">Q</span> ÷ <span class="var">V</span>) &nbsp;→&nbsp; Required V = <span class="var">Q</span> × (<span class="var">σ</span> ÷ tolerance)²</div>
+      <div class="math-note">
+        V = volume accessible to the execution — not total market volume<br />
+        For ODL settlement: V is spot exchange depth, not derivatives turnover
+      </div>
     </div>
 
-    <p>The variable V is not total market volume. It is the volume <em>accessible to the execution</em>. For an ODL settlement flow — a bank routing a cross-border payment via XRP — the execution happens on spot exchanges. Bitstamp, Bitso, SBI VC Trade, and the other exchange partners in Ripple's network are spot venues. The bank buying XRP in the US and the counterpart selling XRP in the Philippines are transacting in the spot market.</p>
+    <p>
+      The variable V is the volume <em>accessible to the execution</em>. For an ODL settlement
+      flow — a bank routing a cross-border payment via XRP — the execution happens on spot
+      exchanges. Bitstamp, Bitso, SBI VC Trade. The bank buying XRP in the US and the
+      counterpart selling in the Philippines are transacting in the spot market.
+    </p>
 
-    <p>XRP perpetual futures on Binance are not accessible to that settlement flow. A financial institution routing a regulated cross-border payment cannot and does not execute through unregulated derivatives venues. The derivatives volume, however large, is speculative positioning, basis trading, and hedging — it sits in a parallel market that the ODL flow never touches.</p>
+    <p>
+      XRP perpetual futures on Binance are not accessible to that settlement flow. A financial
+      institution routing a regulated cross-border payment cannot execute through unregulated
+      derivatives venues. Derivatives volume is speculative positioning, basis trading, and
+      hedging — it sits in a parallel market the ODL flow never touches.
+    </p>
 
-    <p>Using spot-only volume is therefore not a limitation of the model. It is the correct methodological choice. The model answers the right question: what does the <em>accessible</em> market need to look like?</p>
+    <p>
+      Using spot-only volume is not a limitation of the model. It is the correct methodological
+      choice. The model answers the right question: what does the <em>accessible</em> market need to look like?
+    </p>
 
     <div class="pull-quote">
-      "The variable in the square-root law is the volume accessible to the execution — not the total volume that happens to exist somewhere in the market."
+      <p>
+        The variable in the square-root law is the volume accessible to the execution —
+        not the total volume that happens to exist somewhere in the market.
+      </p>
     </div>
 
     <h2>The counterintuitive part: derivatives strengthen the thesis</h2>
 
-    <p>Here is what makes this more interesting than a simple methodological clarification. The existence of a deep, liquid derivatives market does not compete with the settlement thesis. It enables it.</p>
+    <p>
+      The existence of a deep, liquid derivatives market does not compete with the settlement
+      thesis. It enables it.
+    </p>
 
-    <p>Consider what happens when XRP approaches institutional settlement scale. A market maker providing spot liquidity for ODL flows — standing ready to sell XRP to a bank in the US corridor, then replenish their inventory — is running an inventory risk. If XRP price moves against them while they are holding that position, they lose money. The cost of running that risk gets passed on to the ODL user as a wider spread.</p>
+    <p>
+      A market maker providing spot liquidity for ODL flows is running inventory risk. If XRP
+      price moves against them while holding a position, they lose money. The cost of running
+      that risk gets passed on to the ODL user as a wider spread. A deep derivatives market
+      solves this directly: the market maker hedges their ODL inventory in perpetual futures,
+      dramatically reducing the cost of providing spot liquidity. Lower hedging cost means
+      tighter spreads and deeper spot order books — which means lower effective slippage for
+      settlement flows at any given volume level.
+    </p>
 
-    <p>A deep derivatives market solves this problem directly. The market maker can hedge their ODL inventory risk using perpetual futures, dramatically reducing the cost of providing spot liquidity. Lower hedging cost translates directly into tighter spreads and deeper spot order books — which means lower effective slippage for settlement flows at any given volume level.</p>
+    <p>
+      This is the standard mechanism by which institutional spot markets achieve deep liquidity.
+      Equity market makers hedge inventory in listed options. FX dealers hedge in forwards and
+      swaps. A mature XRP spot market supporting institutional settlement would be supported by
+      an active derivatives market in exactly the same way.
+    </p>
 
-    <p>This is not a theoretical observation. It is the standard mechanism by which institutional spot markets achieve deep liquidity. Equity market makers hedge inventory in listed options. FX dealers hedge in forwards and swaps. A mature XRP spot market supporting institutional settlement flows would be supported by an active derivatives market in exactly the same way.</p>
-
-    <div class="argument-grid">
-      <div class="argument-cell">
-        <div class="argument-num">Argument 01</div>
-        <div class="argument-head">Spot-only is the correct input</div>
-        <div class="argument-body">ODL settlement executes on spot venues. Derivatives volume is inaccessible to regulated institutional settlement flows. The model uses the right variable.</div>
+    <div class="three-col">
+      <div class="three-col-cell">
+        <div class="three-col-label">Argument 01</div>
+        <div class="three-col-head">Spot-only is the correct input</div>
+        <div class="three-col-body">ODL settlement executes on spot venues. Derivatives volume is inaccessible to regulated institutional settlement flows. The model uses the right variable.</div>
       </div>
-      <div class="argument-cell">
-        <div class="argument-num">Argument 02</div>
-        <div class="argument-head">Derivatives deepen spot liquidity</div>
-        <div class="argument-body">Market makers providing ODL spot liquidity hedge inventory in derivatives. Deeper derivatives market → lower hedging cost → tighter spreads → deeper effective spot depth for settlement.</div>
+      <div class="three-col-cell">
+        <div class="three-col-label">Argument 02</div>
+        <div class="three-col-head">Derivatives deepen spot liquidity</div>
+        <div class="three-col-body">Market makers providing ODL spot liquidity hedge inventory in derivatives. Deeper derivatives market → lower hedging cost → tighter spreads → deeper effective spot depth for settlement.</div>
       </div>
-      <div class="argument-cell">
-        <div class="argument-num">Argument 03</div>
-        <div class="argument-head">Volatility assumption already incorporates derivatives</div>
-        <div class="argument-body">The 5% daily volatility assumption throughout the series reflects a market where derivatives are live and driving price discovery. Derivatives influence is already embedded in σ.</div>
+      <div class="three-col-cell">
+        <div class="three-col-label">Argument 03</div>
+        <div class="three-col-head">Volatility assumption already incorporates derivatives</div>
+        <div class="three-col-body">The 5% daily volatility assumption reflects a market where derivatives are live and driving price discovery. Derivatives influence is already embedded in σ.</div>
       </div>
     </div>
 
     <h2>The volatility assumption already accounts for it</h2>
 
-    <p>There is a third dimension to this worth naming. Derivatives markets influence price discovery. Funding rates, open interest, and liquidation cascades all feed back into the spot price. When the series uses a 5% daily volatility assumption, that figure reflects the actual observed volatility of XRP in a market where derivatives are active. A world without derivatives would almost certainly produce lower volatility — fewer speculative swings, less leverage-driven price action.</p>
+    <p>
+      Derivatives markets influence price discovery. Funding rates, open interest, and liquidation
+      cascades all feed back into the spot price. When the series uses a 5% daily volatility
+      assumption, that figure reflects the actual observed volatility of XRP in a market where
+      derivatives are active. A world without derivatives would almost certainly produce lower
+      volatility — fewer speculative swings, less leverage-driven price action.
+    </p>
 
-    <p>This means the σ = 5% assumption is, if anything, conservative. It prices in derivatives-driven volatility while the volume input uses only spot. The net effect is that the model's peak ticket figures are doubly conservative: they use spot-only volume (understating accessible depth at scale) and derivatives-influenced volatility (overstating the slippage cost). Both biases run in the same direction — the model is harder to satisfy than the actual market would be at institutional depth.</p>
+    <p>
+      This means the σ = 5% assumption is, if anything, conservative. It prices in
+      derivatives-driven volatility while the volume input uses only spot. Both biases run in
+      the same direction — the model is harder to satisfy than the actual market would be at
+      institutional depth.
+    </p>
 
     <h2>What this means for the framework</h2>
 
-    <p>Nothing in the six-part series needs to be revised. The scenarios, the required prices, the probability weights, and the position sizing framework all remain intact. What this field note adds is precision about why the framework is constructed as it is — and why a critic pointing to derivatives volume as an omission is, on reflection, identifying a source of additional strength rather than a gap.</p>
+    <p>
+      Nothing in the six-part series needs to be revised. The scenarios, the required prices,
+      the probability weights, and the position sizing framework all remain intact. What this
+      field note adds is precision about why the framework is constructed as it is — and why
+      a critic pointing to derivatives volume as an omission is, on reflection, identifying
+      a source of additional strength rather than a gap.
+    </p>
 
-    <p>The deeper implication is worth sitting with. The development of a mature, deep XRP derivatives market is not a narrative that competes with the settlement thesis. It is a necessary condition for it. Institutional-scale ODL settlement requires institutional-grade spot liquidity. Institutional-grade spot liquidity requires market makers who can hedge efficiently. Efficient hedging requires liquid derivatives. The derivatives market and the settlement market are not parallel stories — they are the same story, told from different vantage points.</p>
+    <p>
+      The development of a mature, deep XRP derivatives market is not a narrative that competes
+      with the settlement thesis. It is a necessary condition for it. Institutional-scale ODL
+      settlement requires institutional-grade spot liquidity. Institutional-grade spot liquidity
+      requires market makers who can hedge efficiently. Efficient hedging requires liquid derivatives.
+      The derivatives market and the settlement market are not parallel stories — they are the
+      same story, told from different vantage points.
+    </p>
 
-    <div class="callout">
-      <div class="callout-label">Framework status</div>
-      <p>The analytical framework is unchanged. Spot volume remains the correct input to the square-root law for settlement analysis. The settlement terminal's volume label has been corrected from "spot + derivatives" to "spot exchanges · CoinGecko" to accurately reflect the data source. Peak ticket and sensitivity table figures are conservative estimates — total market depth including derivatives is higher, and a mature derivatives market would make spot execution cheaper at scale, not more expensive.</p>
+    <div class="framework-ref">
+      <div class="framework-ref-label">Framework status</div>
+      <p>
+        The analytical framework is unchanged. Spot volume remains the correct input to the
+        square-root law for settlement analysis. The Settlement Terminal's volume label has been
+        corrected from "spot + derivatives" to "spot exchanges · CoinGecko" to accurately reflect
+        the data source. Peak ticket and sensitivity table figures are conservative estimates —
+        total market depth including derivatives is higher, and a mature derivatives market would
+        make spot execution cheaper at scale, not more expensive.
+      </p>
     </div>
 
-    <p><em>This is not financial advice. Do your own research.</em></p>
-
-  </div>
-</div>
-
-<div class="article-nav">
-  <div class="article-nav-inner">
-    <span>Field Note No. 2 · April 27, 2026</span>
-    <div style="display:flex;gap:20px">
-      <a class="nav-link" href="https://xrpvaluation.info/">← Full series</a>
-      <a class="nav-link" href="https://xrpvaluation.info/terminal/">Settlement terminal</a>
-      <a class="nav-link" href="https://xrpvaluation.info/part1/">Part I</a>
+    <div class="disclaimer">
+      This is not financial advice. The Living Framework extends the analytical work of the
+      XRP Valuation Series — a conditional sizing model, not a price prediction.
+      All scenarios depend on stated assumptions. Do your own research.
     </div>
+
+    <div class="post-footer">
+      <div class="post-footer-label">Continue reading</div>
+      <div class="post-footer-links">
+        <a class="footer-link primary" href="/part1/">Part I — XRP is not being valued. It is being sized.</a>
+        <a class="footer-link" href="/part3/">Part III — When time leaves finance.</a>
+        <a class="footer-link" href="/">All articles</a>
+      </div>
+    </div>
+
   </div>
-</div>
+</article>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>XRP Valuation Series &nbsp;·&nbsp; The Living Framework</div>
+    <div>FutureXRP &nbsp;·&nbsp; @the5blairs</div>
+  </div>
+</footer>
 
 </body>
 </html>

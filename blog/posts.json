@@ -22,5 +22,13 @@
     "tags": ["Protocol Development", "Settlement Architecture"],
     "title": "Batch transactions on the XRPL: what they mean for the settlement thesis.",
     "deck": "The series has not addressed batch transactions on the XRPL. It should. A native protocol feature that bundles multiple atomic payments through XRP changes the liquidity demand picture — and its near-miss with a critical bug tells us something important about where the protocol is in its maturity curve."
+  },
+  {
+    "number": 4,
+    "slug": "supply-velocity",
+    "date": "April 27, 2026",
+    "tags": ["Methodology", "Market Structure"],
+    "title": "Two price drivers the model doesn't capture — and why one matters more than the other.",
+    "deck": "A reader argued the framework misses FASB ASC 350-60 supply depletion and HFT velocity recycling. Both deserve serious engagement. One identifies a genuine gap in the model. The other conflates two distinct kinds of velocity — and the distinction reveals something important about how the market is actually structured."
   }
 ]

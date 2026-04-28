@@ -110,23 +110,6 @@
     .ps-divider { width: 1px; height: 14px; background: var(--rule); flex-shrink: 0; }
     .ps-stat { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }
     .ps-stat span { color: var(--ink-medium); font-weight: 500; }
-    .ps-tool-links {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    .ps-tool-link {
-      font-family: var(--ui); font-size: 11px; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--accent); font-weight: 600;
-      display: flex; align-items: center; gap: 6px; transition: opacity 0.15s;
-    }
-    .ps-tool-link:hover { opacity: 0.72; }
-    .ps-tool-link::after { content: "→"; font-size: 13px; }
-    .ps-tool-link.terminal-strip-link {
-      color: var(--ink-medium);
-      font-weight: 500;
-    }
     .ps-dot { width: 5px; height: 5px; border-radius: 50%; background: #2d6a2d; flex-shrink: 0; animation: blink 2.2s infinite; }
     .ps-dot.loading { background: var(--ink-faint); animation: none; }
     .ps-dot.error   { background: var(--accent); animation: none; }
@@ -437,7 +420,6 @@
       .hero-side { padding: 28px 30px 28px; }
       .card-main { padding: 28px 26px 24px; }
       .card-side { padding: 22px 26px 24px; }
-      .ps-tool-links { display: none; }
     }
     @media (max-width: 640px) {
       body { font-size: 18px; }
@@ -465,7 +447,6 @@
       <div class="topbar-right">
         <a class="topbar-nav-link" href="./calculator/">Calculator</a>
         <a class="topbar-nav-link terminal-link" href="./terminal/">Settlement Terminal ↗</a>
-        <span class="topbar-date">Structural Analysis · April 2026</span>
       </div>
     </div>
   </header>
@@ -480,10 +461,6 @@
       <span class="ps-stat">24h vol &nbsp;<span id="ps-vol">—</span></span>
       <span class="ps-divider"></span>
       <span class="ps-stat">Market cap &nbsp;<span id="ps-mcap">—</span></span>
-      <div class="ps-tool-links">
-        <a class="ps-tool-link" href="./calculator/">Impact calculator</a>
-        <a class="ps-tool-link terminal-strip-link" href="./terminal/">Settlement terminal</a>
-      </div>
     </div>
   </div>
 

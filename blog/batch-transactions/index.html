@@ -3,147 +3,98 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Batch transactions on the XRPL: what they mean for the settlement thesis · XRP Valuation Series</title>
-  <meta name="description" content="The series has not addressed batch transactions on the XRPL. It should. A feature that bundles multiple atomic payments through XRP changes the liquidity demand picture — and its near-miss with a critical bug tells us something important about where the protocol is in its maturity curve." />
+  <title>Batch transactions on the XRPL: what they mean for the settlement thesis — The Living Framework</title>
+  <meta name="description" content="The series has not addressed batch transactions on the XRPL. A native protocol feature that bundles multiple atomic payments through XRP changes the liquidity demand picture — and its near-miss with a critical bug tells us something important about where the protocol is in its maturity curve." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #fbfaf7;
-      --paper: #ffffff;
-      --paper-soft: #f7f3ea;
-      --ink: #171512;
-      --ink-soft: #3a342e;
-      --ink-medium: #61594f;
-      --ink-faint: #8a8073;
-      --rule: #d8d0c3;
-      --rule-strong: #1a1a1a;
-      --accent: #9b2226;
-      --accent-deep: #7f1d1d;
-      --display: "Newsreader", Georgia, serif;
-      --ui: "IBM Plex Sans", system-ui, sans-serif;
-      --mono: "IBM Plex Mono", ui-monospace, monospace;
-      --text-width: 680px;
-      --page-width: 1120px;
+      --bg: #fbfaf7; --paper: #ffffff; --paper-soft: #f7f3ea; --paper-deep: #f4efe4;
+      --ink: #171512; --ink-soft: #3a342e; --ink-medium: #61594f; --ink-faint: #8a8073;
+      --rule: #d8d0c3; --rule-strong: #1a1a1a; --accent: #9b2226;
+      --display: "Newsreader", Georgia, serif; --body: "Newsreader", Georgia, serif;
+      --ui: "IBM Plex Sans", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --text-width: 680px; --page-width: 1120px;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: var(--display);
-      font-size: 20px;
-      line-height: 1.75;
-      -webkit-font-smoothing: antialiased;
-    }
+    body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 20px; line-height: 1.72; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
     a { color: inherit; text-decoration: none; }
 
     .topbar { max-width: var(--page-width); margin: 0 auto; padding: 24px 28px 0; }
-    .topbar-inner {
-      border-top: 2px solid var(--rule-strong);
-      border-bottom: 1px solid var(--rule-strong);
-      padding: 15px 0 13px;
-      display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
-      font-family: var(--ui); font-size: 11px; text-transform: uppercase;
-      letter-spacing: 0.14em; color: var(--ink-medium);
-    }
+    .topbar-inner { border-top: 2px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); padding: 15px 0 13px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-family: var(--ui); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-medium); }
     .topbar-left { font-weight: 600; color: var(--accent); }
-    .topbar-right { display: flex; gap: 20px; }
-    .topbar-link { color: var(--ink-medium); transition: color 0.15s; }
-    .topbar-link:hover { color: var(--accent); }
+    .topbar-left a { color: var(--accent); }
+    .topbar-left a:hover { opacity: 0.75; }
+    .topbar-right { letter-spacing: 0.1em; color: var(--ink-faint); }
 
-    .article-header { max-width: var(--page-width); margin: 0 auto; padding: 48px 28px 0; }
-    .article-header-inner { max-width: var(--text-width); }
-    .article-meta {
-      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-      font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--ink-faint); margin-bottom: 24px;
-    }
-    .article-meta-num { color: var(--accent); font-weight: 600; }
-    .article-meta-tag { border: 1px solid var(--rule); padding: 2px 8px; color: var(--ink-faint); font-size: 10px; }
-    .article-title {
-      font-family: var(--display);
-      font-size: clamp(32px, 5vw, 52px);
-      font-weight: 500; line-height: 1.08;
-      letter-spacing: -0.025em; color: var(--ink); margin-bottom: 20px;
-    }
-    .article-title em { font-style: italic; color: var(--accent); }
-    .article-deck { font-size: 20px; line-height: 1.65; color: var(--ink-soft); margin-bottom: 32px; }
-    .article-rule { border: none; border-top: 1px solid var(--rule-strong); margin: 0; }
+    .article-wrap { max-width: var(--page-width); margin: 0 auto; padding: 56px 28px 120px; display: grid; grid-template-columns: 1fr min(var(--text-width), 100%) 1fr; }
+    .article-wrap > * { grid-column: 2; }
 
-    .article-body { max-width: var(--page-width); margin: 0 auto; padding: 48px 28px 100px; }
-    .article-text { max-width: var(--text-width); }
-    .article-text p { margin-bottom: 1.5em; color: var(--ink-soft); }
-    .article-text p:last-child { margin-bottom: 0; }
-    .article-text h2 {
-      font-family: var(--display); font-size: 26px; font-weight: 500;
-      line-height: 1.2; letter-spacing: -0.015em; color: var(--ink);
-      margin: 2em 0 0.6em; padding-top: 1.5em; border-top: 1px solid var(--rule);
-    }
-    .article-text h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
-    .article-text strong { color: var(--ink); font-weight: 600; }
-    .article-text em { font-style: italic; }
-    .article-text a {
-      color: var(--accent); text-decoration: underline;
-      text-underline-offset: 3px; text-decoration-color: rgba(155,34,38,0.35);
-    }
-    .article-text a:hover { text-decoration-color: var(--accent); }
-    .article-text code {
-      font-family: var(--mono); font-size: 16px;
-      background: var(--paper-soft); padding: 1px 6px; border: 1px solid var(--rule);
-    }
+    .post-header { margin-bottom: 56px; }
+    .post-section { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 24px; }
+    .post-section::before { content: ""; display: inline-block; width: 20px; height: 1px; background: var(--accent); }
+    .post-title { font-family: var(--display); font-size: clamp(36px, 6vw, 62px); line-height: 1.05; font-weight: 500; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 22px; }
+    .post-title em { font-style: italic; color: var(--accent); }
+    .post-deck { font-family: var(--display); font-style: italic; font-size: clamp(19px, 2.5vw, 24px); line-height: 1.45; color: var(--ink-medium); margin-bottom: 32px; }
+    .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 18px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+    .post-meta .meta-tag { color: var(--accent); font-weight: 600; }
+    .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--rule); flex-shrink: 0; }
 
-    .pull-quote {
-      margin: 2em 0; padding: 1.5em 0 1.5em 1.75em;
-      border-left: 3px solid var(--accent);
-      font-size: 22px; line-height: 1.45; font-style: italic; color: var(--ink-soft);
-    }
+    .post-body { padding-top: 48px; }
+    .post-body p { margin-bottom: 28px; font-size: 20px; line-height: 1.72; color: var(--ink-soft); }
+    .post-body p:first-child { font-size: 22px; line-height: 1.65; color: var(--ink); }
+    .post-body h2 { font-family: var(--display); font-size: clamp(24px, 3vw, 32px); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 20px; padding-top: 40px; border-top: 1px solid var(--rule); }
+    .post-body strong { color: var(--ink); font-weight: 600; }
 
-    .callout {
-      margin: 2em 0; padding: 20px 24px;
-      background: var(--paper-soft); border: 1px solid var(--rule); border-left: 3px solid var(--accent);
-    }
-    .callout-label {
-      font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px;
-    }
-    .callout p { font-size: 17px !important; line-height: 1.7; color: var(--ink-medium) !important; margin-bottom: 0 !important; }
+    .pull-quote { margin: 44px 0; padding: 28px 32px; border-left: 3px solid var(--accent); background: var(--paper-soft); }
+    .pull-quote p { font-family: var(--display); font-size: clamp(20px, 2.5vw, 26px) !important; font-style: italic; line-height: 1.45; color: var(--ink) !important; margin-bottom: 0 !important; }
 
-    .callout-warning {
-      margin: 2em 0; padding: 20px 24px;
-      background: #fff8f0; border: 1px solid #e8d0b0; border-left: 3px solid #b87030;
-    }
-    .callout-warning .callout-label { color: #8a5020; }
-    .callout-warning p { color: var(--ink-medium) !important; }
+    .timeline-block { margin: 36px 0; padding: 24px 28px; background: var(--paper-soft); border: 1px solid var(--rule); border-left: 3px solid #b87030; }
+    .timeline-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #8a5020; font-weight: 600; margin-bottom: 16px; }
+    .timeline-entry { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--rule); }
+    .timeline-entry:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .timeline-date { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #8a5020; font-weight: 600; margin-bottom: 6px; }
+    .timeline-text { font-size: 16px; line-height: 1.65; color: var(--ink-medium); }
 
-    .two-col {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 2em 0;
-    }
-    .two-col-cell { background: var(--paper); padding: 20px 22px; }
-    .two-col-label {
-      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 8px;
-    }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 36px 0; }
+    .two-col-cell { background: var(--paper); padding: 22px 24px; }
+    .two-col-cell.bull { background: #f2f8f2; }
+    .two-col-cell.honest { background: #fff9f0; }
+    .two-col-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; margin-bottom: 8px; }
+    .two-col-label.bull { color: #2d6a2d; }
+    .two-col-label.honest { color: #8a5020; }
     .two-col-head { font-family: var(--display); font-size: 17px; font-weight: 500; color: var(--ink); margin-bottom: 8px; line-height: 1.3; }
     .two-col-body { font-size: 15px; line-height: 1.65; color: var(--ink-medium); }
 
-    .article-nav { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 40px; }
-    .article-nav-inner {
-      border-top: 1px solid var(--rule); padding-top: 20px;
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
-      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint);
-    }
-    .nav-link { color: var(--ink-faint); transition: color 0.15s; }
-    .nav-link:hover { color: var(--accent); }
+    .framework-ref { margin: 40px 0; padding: 22px 24px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
+    .framework-ref-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+    .framework-ref p { font-size: 16px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 10px !important; }
+    .framework-ref p:last-child { margin-bottom: 0 !important; }
+    .framework-ref a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+    .framework-ref a:hover { border-bottom-color: var(--accent); }
 
-    @media (max-width: 700px) {
+    .post-footer { margin-top: 72px; padding-top: 32px; border-top: 2px solid var(--rule-strong); }
+    .post-footer-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 20px; }
+    .post-footer-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .footer-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--rule); background: var(--paper); font-family: var(--ui); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-medium); font-weight: 500; transition: border-color 0.15s, color 0.15s; }
+    .footer-link:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-link.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .footer-link.primary:hover { background: #7f1d1d; border-color: #7f1d1d; }
+    .footer-link::after { content: "→"; font-size: 13px; }
+
+    .disclaimer { margin-top: 40px; padding: 18px 20px; background: var(--paper-soft); border: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-faint); line-height: 1.7; }
+
+    .site-footer { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 40px; }
+    .site-footer-inner { border-top: 1px solid var(--rule); padding-top: 18px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+
+    @media (max-width: 760px) {
+      body { font-size: 19px; }
+      .article-wrap { grid-template-columns: 1fr; padding: 40px 20px 80px; }
+      .article-wrap > * { grid-column: 1; }
       .two-col { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 640px) {
-      body { font-size: 18px; }
-      .topbar, .article-header, .article-body, .article-nav { padding-left: 18px; padding-right: 18px; }
+      .site-footer { padding: 0 20px 32px; }
     }
   </style>
 </head>
@@ -151,117 +102,204 @@
 
 <header class="topbar">
   <div class="topbar-inner">
-    <div class="topbar-left">XRP Valuation Series</div>
-    <div class="topbar-right">
-      <a class="topbar-link" href="https://xrpvaluation.info/">Series</a>
-      <a class="topbar-link" href="https://xrpvaluation.info/calculator/">Calculator</a>
-      <a class="topbar-link" href="https://xrpvaluation.info/terminal/">Terminal</a>
-    </div>
+    <div class="topbar-left"><a href="/">XRP Valuation Series</a> &nbsp;·&nbsp; The Living Framework</div>
+    <div class="topbar-right">Field Note · April 2026</div>
   </div>
 </header>
 
-<div class="article-header">
-  <div class="article-header-inner">
-    <div class="article-meta">
-      <span class="article-meta-num">Field Note No. 3</span>
-      <span>April 27, 2026</span>
-      <span class="article-meta-tag">Protocol Development</span>
-      <span class="article-meta-tag">Settlement Architecture</span>
+<article class="article-wrap">
+
+  <div class="post-header">
+    <div class="post-section">The Living Framework &nbsp;·&nbsp; No. 3</div>
+    <h1 class="post-title">Batch transactions on the XRPL:<br><em>what they mean for the settlement thesis.</em></h1>
+    <p class="post-deck">
+      The series has not addressed batch transactions on the XRPL. It should. A native protocol
+      feature that bundles multiple atomic payments through XRP changes the liquidity demand
+      picture — and its near-miss with a critical bug tells us something important about where
+      the protocol is in its maturity curve.
+    </p>
+    <div class="post-meta">
+      <span class="meta-tag">The Living Framework</span>
+      <span class="meta-dot"></span>
+      <span>Protocol Development</span>
+      <span class="meta-dot"></span>
+      <span>Settlement Architecture</span>
+      <span class="meta-dot"></span>
+      <span>April 2026</span>
     </div>
-    <h1 class="article-title">Batch transactions on the XRPL:<br><em>what they mean for the settlement thesis.</em></h1>
-    <p class="article-deck">The series has not addressed batch transactions on the XRPL. It should. A native protocol feature that bundles multiple atomic payments through XRP changes the liquidity demand picture — and its near-miss with a critical bug tells us something important about where the protocol is in its maturity curve.</p>
   </div>
-</div>
-<hr class="article-rule">
 
-<div class="article-body">
-  <div class="article-text">
+  <div class="post-body">
 
-    <h2>A gap in the series</h2>
+    <p>
+      The six parts of this series examined XRP's pricing problem from multiple angles —
+      liquidity mechanics, netting compression, atomic settlement, the settlement stack,
+      the derivatives layer, and the probability framework. What none of them addressed
+      is batch transactions: a protocol-level feature that allows multiple separate payments
+      to be bundled into a single atomic operation on the XRPL, each leg settled in XRP.
+    </p>
 
-    <p>The six parts of this series examined XRP's pricing problem from multiple angles — liquidity mechanics, netting compression, atomic settlement, the settlement stack, the derivatives layer, and the probability framework. What none of them addressed is batch transactions: a protocol-level feature that allows multiple separate payments to be bundled into a single atomic operation on the XRPL, each leg settled in XRP.</p>
-
-    <p>This matters analytically. The series consistently models settlement as a series of discrete sequential transactions, each requiring its own slice of XRP liquidity. Batch transactions break that assumption — and in doing so, they change the relationship between payment volume and XRP demand in ways that cut in favor of the thesis, not against it.</p>
+    <p>
+      This matters analytically. The series consistently models settlement as a series of
+      discrete sequential transactions, each requiring its own slice of XRP liquidity.
+      Batch transactions break that assumption — and in doing so, they change the relationship
+      between payment volume and XRP demand in ways that cut in favor of the thesis, not against it.
+    </p>
 
     <h2>What batch transactions actually are</h2>
 
-    <p>The feature, formally specified as <strong>XLS-56</strong>, allows developers to bundle up to eight individual transactions into a single outer batch. The batch is submitted once, pays a single fee, and executes atomically under one of three modes: <code>ALLORNOTHING</code> (every inner transaction must succeed or none apply), <code>ONLYONE</code> (the first successful transaction applies), or <code>UNTILFAILURE</code> (transactions apply in order until one fails).</p>
+    <p>
+      The feature, formally specified as <strong>XLS-56</strong>, allows developers to bundle
+      up to eight individual transactions into a single outer batch. The batch is submitted
+      once, pays a single fee, and executes atomically under one of three modes:
+      <strong>ALLORNOTHING</strong> (every inner transaction must succeed or none apply),
+      <strong>ONLYONE</strong> (the first successful transaction applies), or
+      <strong>UNTILFAILURE</strong> (transactions apply in order until one fails).
+    </p>
 
-    <p>The institutional use case is not remittance convenience. It is delivery-versus-payment. In a repo transaction, two things must happen simultaneously: a security moves one direction and cash moves the other. In a cross-asset swap, two parties exchange different tokens. In either case, if one leg executes and the other fails, one party is exposed. The traditional solution is an escrow intermediary. The XRPL solution is atomic batching — both legs, or neither, with no counterparty risk and no intermediary.</p>
+    <p>
+      The institutional use case is not remittance convenience. It is delivery-versus-payment.
+      In a repo transaction, two things must happen simultaneously: a security moves one direction
+      and cash moves the other. If one leg executes and the other fails, one party is exposed.
+      The traditional solution is an escrow intermediary. The XRPL solution is atomic batching
+      — both legs, or neither, with no counterparty risk and no intermediary.
+    </p>
 
-    <p>Ripple's own institutional DeFi documentation lists batch transactions as enabling the atomic DvP workflows that are critical in repo markets and cross-asset swaps. This is not a developer convenience feature. It is the on-ledger primitive that makes institutional settlement without a central counterparty technically feasible.</p>
+    <p>
+      Ripple's institutional DeFi documentation lists batch transactions as enabling the atomic
+      DvP workflows critical in repo markets and cross-asset swaps. This is not a developer
+      convenience feature. It is the on-ledger primitive that makes institutional settlement
+      without a central counterparty technically feasible.
+    </p>
 
     <div class="pull-quote">
-      "In a repo transaction, two things must happen simultaneously. The traditional solution is an escrow intermediary. The XRPL solution is atomic batching — both legs, or neither, with no counterparty risk."
+      <p>
+        In a repo transaction, two things must happen simultaneously. The traditional solution
+        is an escrow intermediary. The XRPL solution is atomic batching — both legs, or neither,
+        with no counterparty risk.
+      </p>
     </div>
 
     <h2>Why this changes the liquidity demand picture</h2>
 
-    <p>The series prices XRP on the premise that each payment requires its own discrete XRP liquidity event. A $10M payment requires $10M of XRP liquidity available for execution at acceptable slippage. That is the correct model for a single sequential ODL flow.</p>
+    <p>
+      The series prices XRP on the premise that each payment requires its own discrete XRP
+      liquidity event. Batch transactions introduce a different structure. When an institution
+      submits a batch of ten $1M payments atomically, those payments do not each independently
+      demand $1M of XRP liquidity in sequence. The XRP sourced for one leg can be reused within
+      the same atomic batch for subsequent legs, depending on the execution architecture.
+    </p>
 
-    <p>Batch transactions introduce a different structure. When an institution submits a batch of, say, ten $1M payments atomically, those payments do not each independently demand $1M of XRP liquidity in sequence. The XRP sourced for the first leg can be reused within the same atomic batch for subsequent legs, depending on the execution architecture. The effective XRP liquidity demand is not simply ten times the single-payment demand — it depends on the batch structure, the netting of flows within the batch, and how market makers manage inventory across the atomic execution.</p>
-
-    <p>The precise liquidity arithmetic of batched settlement is an open question this series has not modeled. But the directional implication is clear: batch transactions make it possible for a given amount of XRP liquidity to support more notional settlement volume than the current single-payment framework assumes. This means the series' required-price figures for institutional settlement scenarios may be conservative estimates — a given level of adoption could be achievable at lower XRP prices than the model implies, if that adoption is executed in efficiently structured batches.</p>
-
-    <p>That is a nuanced point. It does not weaken the long-run price thesis — a deeper settlement system ultimately requires deeper liquidity regardless of batch efficiency. But it does mean the <em>near-term</em> scenarios may be more accessible than the model suggests, and that the transition from retail-scale to institutional-scale settlement may happen at lower price levels than the series' scenario table implies.</p>
+    <p>
+      The directional implication is clear: batch transactions make it possible for a given
+      amount of XRP liquidity to support more notional settlement volume than the current
+      single-payment framework assumes. The series' required-price figures for institutional
+      settlement scenarios may be conservative — a given level of adoption could be achievable
+      at lower XRP prices if that adoption is executed in efficiently structured batches.
+    </p>
 
     <h2>The bug that nearly wasn't caught</h2>
 
-    <p>The batch transactions story is not simply about what the feature enables. It is also about what happened on February 19, 2026, when an AI security tool named Apex, built by Cantina, found a critical vulnerability in the XLS-56 implementation before it reached mainnet.</p>
+    <p>
+      The batch transactions story is not simply about what the feature enables. It is also
+      about what happened on February 19, 2026, when an AI security tool named Apex, built
+      by Cantina, found a critical vulnerability in the XLS-56 implementation before it
+      reached mainnet.
+    </p>
 
-    <p>The flaw was in the signature validation logic. Inner transactions in a batch are intentionally unsigned — authorization is delegated to the outer batch's signer list. A loop error in the signer validation function created a path where an attacker could construct a batch containing a transaction from an account that did not yet exist on the ledger. If the signing key matched that nonexistent account, validation was incorrectly marked successful, and the system skipped checks for all remaining signers. The result: an attacker could execute transactions from any victim account on the ledger without possessing the victim's private keys.</p>
+    <p>
+      The flaw was in the signature validation logic. A loop error in the signer validation
+      function created a path where an attacker could construct a batch containing a transaction
+      from an account that did not yet exist on the ledger. If the signing key matched that
+      nonexistent account, validation was incorrectly marked successful, and the system skipped
+      checks for all remaining signers. The result: an attacker could execute transactions from
+      any victim account on the ledger without possessing the victim's private keys.
+    </p>
 
-    <p>Had the amendment activated on mainnet with this flaw intact, the attack surface was universal — every XRP account on the ledger, representing approximately $80 billion in market capitalization at the time of disclosure. No human auditor had caught it. An AI did.</p>
+    <p>
+      Had the amendment activated on mainnet with this flaw intact, the attack surface was
+      universal — every XRP account on the ledger, representing approximately $80 billion in
+      market capitalization at the time of disclosure. No human auditor had caught it. An AI did.
+    </p>
 
-    <div class="callout-warning">
-      <div class="callout-label">Timeline</div>
-      <p><strong>February 19, 2026</strong> — Cantina AI's Apex tool flags the signature validation bypass in the XLS-56 codebase.<br><br>
-      <strong>February 23, 2026</strong> — Emergency release rippled v3.1.1 marks both the Batch amendment and the related fixBatchInnerSigs as unsupported and blocks them from validator voting.<br><br>
-      <strong>February 26, 2026</strong> — XRPL Foundation publicly discloses the vulnerability. No funds were at risk at any point. The amendment had never activated on mainnet.<br><br>
-      <strong>March 2026 onwards</strong> — A corrected replacement, <strong>BatchV1_1</strong>, enters review. RippleX Head of Engineering acknowledges the amendment "progressed further than it should have" and commits to independent security audits for all future consensus-critical changes.</p>
+    <div class="timeline-block">
+      <div class="timeline-label">Timeline</div>
+      <div class="timeline-entry">
+        <div class="timeline-date">February 19, 2026</div>
+        <div class="timeline-text">Cantina AI's Apex tool flags the signature validation bypass in the XLS-56 codebase.</div>
+      </div>
+      <div class="timeline-entry">
+        <div class="timeline-date">February 23, 2026</div>
+        <div class="timeline-text">Emergency release rippled v3.1.1 marks both the Batch amendment and the related fixBatchInnerSigs as unsupported and blocks them from validator voting.</div>
+      </div>
+      <div class="timeline-entry">
+        <div class="timeline-date">February 26, 2026</div>
+        <div class="timeline-text">XRPL Foundation publicly discloses the vulnerability. No funds were at risk at any point — the amendment had never activated on mainnet.</div>
+      </div>
+      <div class="timeline-entry">
+        <div class="timeline-date">March 2026 onwards</div>
+        <div class="timeline-text">A corrected replacement, <strong>BatchV1_1</strong>, enters review. RippleX Head of Engineering acknowledges the amendment "progressed further than it should have" and commits to independent security audits for all future consensus-critical changes.</div>
+      </div>
     </div>
-
-    <p>The XRPL's amendment governance process functioned correctly as a last line of defense — the amendment required 80% validator supermajority sustained for two weeks to activate, and it never reached that threshold before the flaw was found. But the acknowledgment from Ripple's own engineering leadership that the amendment reached the voting stage without adequate early review is a frank admission that the protocol's security process has room to mature.</p>
 
     <h2>What this means for the framework</h2>
 
-    <p>Two things are true simultaneously, and the series should hold both.</p>
+    <p>
+      Two things are true simultaneously, and the series should hold both.
+    </p>
 
     <div class="two-col">
-      <div class="two-col-cell">
-        <div class="two-col-label">Bullish implication</div>
+      <div class="two-col-cell bull">
+        <div class="two-col-label bull">Bullish implication</div>
         <div class="two-col-head">Batch DvP is the missing primitive for institutional settlement</div>
-        <div class="two-col-body">Atomic delivery-versus-payment without a central counterparty is not a marginal improvement to the XRPL. It is a structural prerequisite for institutional adoption in repo, cross-asset swaps, and tokenized collateral markets. Once BatchV1_1 activates safely, it materially strengthens the institutional use case that Part IV of this series maps as the medium-term settlement stack.</div>
+        <div class="two-col-body">Atomic delivery-versus-payment without a central counterparty is a structural prerequisite for institutional adoption in repo, cross-asset swaps, and tokenized collateral markets. Once BatchV1_1 activates safely, it materially strengthens the institutional use case that Part IV maps as the medium-term settlement stack.</div>
       </div>
-      <div class="two-col-cell">
-        <div class="two-col-label">Honest qualification</div>
+      <div class="two-col-cell honest">
+        <div class="two-col-label honest">Honest qualification</div>
         <div class="two-col-head">The protocol is still maturing, and that matters for timeline</div>
-        <div class="two-col-body">The original Batch amendment reaching the validator voting stage with a critical signature bypass is not a trivial episode. It reflects a protocol in active development where consensus-critical features can carry undetected flaws through internal review. That is not unusual for complex blockchain infrastructure at this stage — but it is relevant to the probability weights in Part VI, where the timeline to institutional-grade deployment is a key variable.</div>
+        <div class="two-col-body">The original Batch amendment reaching the validator voting stage with a critical signature bypass reflects a protocol in active development where consensus-critical features can carry undetected flaws through internal review. Relevant to the probability weights in Part VI, where timeline to institutional-grade deployment is a key variable.</div>
       </div>
     </div>
 
-    <p>On the liquidity model specifically: the series' required-price scenario table remains valid as a framework for understanding what XRP market cap the system requires at different levels of adoption. But the single-payment assumption embedded in that model likely overstates the XRP liquidity demand for a given notional settlement volume once batched atomic settlement becomes standard practice. This is an open modeling question that warrants further work — it is not a flaw in the series' core argument, but it is a dimension the series did not address.</p>
-
-    <div class="callout">
-      <div class="callout-label">Framework status</div>
-      <p>The settlement thesis is unchanged. Batch transactions (XLS-56 / BatchV1_1) are a protocol development that strengthens the institutional use case analyzed in Part IV. The original XLS-56 was never activated on mainnet; BatchV1_1 is the corrected successor and is currently under review. Once it activates, the series should revisit the single-payment liquidity assumption in the scenario model — the effective XRP demand per unit of batched settlement volume may be lower than the current framework implies. The February 2026 security episode is noted as evidence that the XRPL is in an active development phase where institutional-grade reliability is approaching but not yet fully established.</p>
+    <div class="framework-ref">
+      <div class="framework-ref-label">Framework status</div>
+      <p>
+        The settlement thesis is unchanged. Batch transactions (XLS-56 / BatchV1_1) are a
+        protocol development that strengthens the institutional use case analyzed in Part IV.
+        The original XLS-56 was never activated on mainnet; BatchV1_1 is the corrected successor
+        and is currently under review. Once it activates, the series should revisit the
+        single-payment liquidity assumption in the scenario model — effective XRP demand per
+        unit of batched settlement volume may be lower than the current framework implies.
+        The February 2026 security episode is noted as evidence that the XRPL is in an active
+        development phase where institutional-grade reliability is approaching but not yet
+        fully established.
+      </p>
     </div>
 
-    <p><em>This is not financial advice. Do your own research.</em></p>
-
-  </div>
-</div>
-
-<div class="article-nav">
-  <div class="article-nav-inner">
-    <span>Field Note No. 3 · April 27, 2026</span>
-    <div style="display:flex;gap:20px">
-      <a class="nav-link" href="https://xrpvaluation.info/">← Full series</a>
-      <a class="nav-link" href="https://xrpvaluation.info/part4/">Part IV</a>
-      <a class="nav-link" href="https://xrpvaluation.info/terminal/">Terminal</a>
+    <div class="disclaimer">
+      This is not financial advice. The Living Framework extends the analytical work of the
+      XRP Valuation Series — a conditional sizing model, not a price prediction.
+      All scenarios depend on stated assumptions. Do your own research.
     </div>
+
+    <div class="post-footer">
+      <div class="post-footer-label">Continue reading</div>
+      <div class="post-footer-links">
+        <a class="footer-link primary" href="/part4/">Part IV — The settlement stack of 2030.</a>
+        <a class="footer-link" href="/part6/">Part VI — The case against, taken seriously.</a>
+        <a class="footer-link" href="/">All articles</a>
+      </div>
+    </div>
+
   </div>
-</div>
+</article>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>XRP Valuation Series &nbsp;·&nbsp; The Living Framework</div>
+    <div>FutureXRP &nbsp;·&nbsp; @the5blairs</div>
+  </div>
+</footer>
 
 </body>
 </html>

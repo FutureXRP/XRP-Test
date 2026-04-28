@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Two price drivers the model doesn't capture — and why one matters more than the other · XRP Valuation Series</title>
+  <meta name="description" content="A reader argued the framework misses FASB ASC 350-60 supply depletion and HFT velocity recycling. Both arguments deserve serious engagement. One is a genuine gap. The other conflates two different kinds of velocity." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --paper: #ffffff;
+      --paper-soft: #f7f3ea;
+      --ink: #171512;
+      --ink-soft: #3a342e;
+      --ink-medium: #61594f;
+      --ink-faint: #8a8073;
+      --rule: #d8d0c3;
+      --rule-strong: #1a1a1a;
+      --accent: #9b2226;
+      --accent-deep: #7f1d1d;
+      --display: "Newsreader", Georgia, serif;
+      --ui: "IBM Plex Sans", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --text-width: 680px;
+      --page-width: 1120px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 20px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .topbar { max-width: var(--page-width); margin: 0 auto; padding: 24px 28px 0; }
+    .topbar-inner {
+      border-top: 2px solid var(--rule-strong);
+      border-bottom: 1px solid var(--rule-strong);
+      padding: 15px 0 13px;
+      display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+      font-family: var(--ui); font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.14em; color: var(--ink-medium);
+    }
+    .topbar-left { font-weight: 600; color: var(--accent); }
+    .topbar-right { display: flex; gap: 20px; }
+    .topbar-link { color: var(--ink-medium); transition: color 0.15s; }
+    .topbar-link:hover { color: var(--accent); }
+
+    .article-header { max-width: var(--page-width); margin: 0 auto; padding: 48px 28px 0; }
+    .article-header-inner { max-width: var(--text-width); }
+    .article-meta {
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--ink-faint); margin-bottom: 24px;
+    }
+    .article-meta-num { color: var(--accent); font-weight: 600; }
+    .article-meta-tag { border: 1px solid var(--rule); padding: 2px 8px; color: var(--ink-faint); font-size: 10px; }
+    .article-title {
+      font-family: var(--display);
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 500; line-height: 1.08;
+      letter-spacing: -0.025em; color: var(--ink); margin-bottom: 20px;
+    }
+    .article-title em { font-style: italic; color: var(--accent); }
+    .article-deck { font-size: 20px; line-height: 1.65; color: var(--ink-soft); margin-bottom: 32px; }
+    .article-rule { border: none; border-top: 1px solid var(--rule-strong); margin: 0; }
+
+    .article-body { max-width: var(--page-width); margin: 0 auto; padding: 48px 28px 100px; }
+    .article-text { max-width: var(--text-width); }
+    .article-text p { margin-bottom: 1.5em; color: var(--ink-soft); }
+    .article-text p:last-child { margin-bottom: 0; }
+    .article-text h2 {
+      font-family: var(--display); font-size: 26px; font-weight: 500;
+      line-height: 1.2; letter-spacing: -0.015em; color: var(--ink);
+      margin: 2.25em 0 0.6em; padding-top: 1.5em; border-top: 1px solid var(--rule);
+    }
+    .article-text h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+    .article-text h3 {
+      font-family: var(--display); font-size: 21px; font-weight: 500;
+      line-height: 1.25; color: var(--ink); margin: 1.5em 0 0.4em;
+    }
+    .article-text strong { color: var(--ink); font-weight: 600; }
+    .article-text em { font-style: italic; }
+    .article-text a {
+      color: var(--accent); text-decoration: underline;
+      text-underline-offset: 3px; text-decoration-color: rgba(155,34,38,0.35);
+    }
+    .article-text a:hover { text-decoration-color: var(--accent); }
+    .article-text code {
+      font-family: var(--mono); font-size: 16px;
+      background: var(--paper-soft); padding: 1px 6px; border: 1px solid var(--rule);
+    }
+
+    .pull-quote {
+      margin: 2em 0; padding: 1.5em 0 1.5em 1.75em;
+      border-left: 3px solid var(--accent);
+      font-size: 22px; line-height: 1.45; font-style: italic; color: var(--ink-soft);
+    }
+
+    .callout {
+      margin: 2em 0; padding: 20px 24px;
+      background: var(--paper-soft); border: 1px solid var(--rule); border-left: 3px solid var(--accent);
+    }
+    .callout-label {
+      font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px;
+    }
+    .callout p { font-size: 17px !important; line-height: 1.7; color: var(--ink-medium) !important; margin-bottom: 0.75em !important; }
+    .callout p:last-child { margin-bottom: 0 !important; }
+
+    .verdict-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 2em 0;
+    }
+    .verdict-cell { background: var(--paper); padding: 22px 24px; }
+    .verdict-cell.accept { background: #f2f8f2; }
+    .verdict-cell.qualify { background: #fff9f0; }
+    .verdict-label {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+      text-transform: uppercase; font-weight: 600; margin-bottom: 8px;
+    }
+    .verdict-label.accept { color: #2d6a2d; }
+    .verdict-label.qualify { color: #8a5020; }
+    .verdict-head { font-family: var(--display); font-size: 17px; font-weight: 500; color: var(--ink); margin-bottom: 8px; line-height: 1.3; }
+    .verdict-body { font-size: 15px; line-height: 1.65; color: var(--ink-medium); }
+
+    .formula-box {
+      margin: 1.5em 0; padding: 18px 22px;
+      background: var(--paper); border: 1px solid var(--rule);
+      font-family: var(--mono); font-size: 16px; color: var(--ink-medium);
+      line-height: 1.8;
+    }
+    .formula-box .formula-label {
+      font-family: var(--ui); font-size: 10px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--ink-faint); margin-bottom: 8px; display: block;
+    }
+
+    .article-nav { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 40px; }
+    .article-nav-inner {
+      border-top: 1px solid var(--rule); padding-top: 20px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint);
+    }
+    .nav-link { color: var(--ink-faint); transition: color 0.15s; }
+    .nav-link:hover { color: var(--accent); }
+
+    @media (max-width: 700px) {
+      .verdict-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      body { font-size: 18px; }
+      .topbar, .article-header, .article-body, .article-nav { padding-left: 18px; padding-right: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left">XRP Valuation Series</div>
+    <div class="topbar-right">
+      <a class="topbar-link" href="https://xrpvaluation.info/">Series</a>
+      <a class="topbar-link" href="https://xrpvaluation.info/calculator/">Calculator</a>
+      <a class="topbar-link" href="https://xrpvaluation.info/terminal/">Terminal</a>
+    </div>
+  </div>
+</header>
+
+<div class="article-header">
+  <div class="article-header-inner">
+    <div class="article-meta">
+      <span class="article-meta-num">Field Note No. 4</span>
+      <span>April 27, 2026</span>
+      <span class="article-meta-tag">Methodology</span>
+      <span class="article-meta-tag">Market Structure</span>
+    </div>
+    <h1 class="article-title">Two price drivers the model doesn't capture —<br><em>and why one matters more than the other.</em></h1>
+    <p class="article-deck">A reader argued the framework misses FASB ASC 350-60 supply depletion and HFT velocity recycling as price drivers. Both arguments deserve serious engagement. One identifies a genuine gap. The other conflates two distinct kinds of velocity — and understanding the difference reveals something important about how the market is actually structured.</p>
+  </div>
+</div>
+<hr class="article-rule">
+
+<div class="article-body">
+  <div class="article-text">
+
+    <h2>The challenge, precisely stated</h2>
+
+    <p>The feedback arrived in two parts. First: FASB ASC 350-60, now mandatory for all US GAAP entities as of January 2025, incentivizes corporate XRP holding by replacing the old impairment-only accounting model with fair value mark-to-market. As corporations accumulate XRP on their balance sheets, the effective circulating float shrinks dynamically — call this S_eff — even if nominal circulating supply is unchanged. A smaller S_eff at constant demand requires a higher price. The series never models this. Second: HFT firms and AI agents on institutional venues like LMAX turn XRP at extreme velocity, effectively multiplying demand density beyond what single-ticket sizing captures. The series models one payment requiring one slice of XRP liquidity. If that XRP recycles through many transactions per second, the required price per unit of notional volume is lower than the model implies.</p>
+
+    <p>These are structurally different arguments and they deserve different verdicts.</p>
+
+    <h2>Argument 1: FASB ASC 350-60 and effective supply compression</h2>
+
+    <h3>The accounting change is real and the series should have addressed it</h3>
+
+    <p>Under the accounting rules that governed corporate crypto holdings before 2025, holding XRP was asymmetric and painful. A company that bought XRP at $2.00 and watched it fall to $1.00 had to write it down by $1.00 per token — permanently, with no ability to reverse the loss even if the price recovered. But if XRP rose from $2.00 to $3.00, the gain was invisible until the position was sold. The result: holding XRP on a corporate balance sheet meant you captured all the downside in your reported income and none of the upside until liquidation. The accounting itself discouraged holding.</p>
+
+    <p>FASB ASC 350-60, effective January 1, 2025 for calendar-year entities, eliminates this asymmetry entirely. XRP — which explicitly qualifies as a fungible, cryptographically secured intangible asset under the standard — must now be marked to fair value at every reporting date, with gains and losses flowing through net income. A company that holds XRP and watches it appreciate records that gain immediately, in the same period it occurs, without a sale event.</p>
+
+    <p>The behavioral implication is clear. Corporate treasury teams can now hold XRP with the same accounting treatment they apply to equities or other mark-to-market assets. The friction that previously made XRP an awkward balance sheet entry — the permanent impairment risk with no symmetric upside recognition — is gone. And the data shows this friction was real: corporate XRP treasury commitments have grown from approximately $200 million in early 2025 to over $2 billion by January 2026, spanning eight public companies including Trident Digital ($500M target), Webus International ($300M), and VivoPower ($100M executed). Evernorth has incorporated as a publicly traded XRP treasury company trading under XRPN on NASDAQ. ETF custodians hold over 700 million XRP. Exchange balances are declining as holdings migrate into custody.</p>
+
+    <p>The user's S_eff argument is structurally sound. The series uses circulating supply — approximately 61.7 billion XRP — in the denominator of the required-price formula. But circulating supply is not the same as the float actually available for settlement execution. Ripple's escrow holds approximately 34 billion XRP on a scheduled release program. ETF custodians hold and lock their allocation. Corporate treasuries with multi-year holding horizons lock their allocation. As these pools grow, the float available for ODL market makers to source and sell shrinks. A smaller executable float at constant settlement demand requires a higher price to clear — exactly as the user argues.</p>
+
+    <div class="formula-box">
+      <span class="formula-label">The effective supply adjustment</span>
+      Required price = peakTicket × (σ ÷ tol)² ÷ turnover ÷ <strong>S_eff</strong><br><br>
+      Where S_eff = S_circulating − S_escrow_locked − S_ETF_custody − S_corporate_treasury − S_lending_vaults<br><br>
+      The series uses S_circulating throughout. S_eff is meaningfully smaller and shrinking.
+    </div>
+
+    <h3>Where the argument needs to be qualified</h3>
+
+    <p>The mechanism is real. The current magnitude is modest. At roughly $2 billion in committed corporate treasuries against an $87 billion market cap, and ETF custody of approximately $1.5 billion, the locked-up supply represents around 4% of market cap — meaningful but not yet large enough to materially shift the required-price calculations in the scenario table. The S_eff compression is a direction, not yet a magnitude.</p>
+
+    <p>More importantly, not all locked supply compresses S_eff for settlement purposes in the same way. XRP held by an ETF custodian that never interacts with ODL corridors genuinely reduces the executable float. XRP deployed by Evernorth into the XRPL lending protocol actually adds to ODL-accessible liquidity — it is in the ecosystem, earning yield, available to be borrowed and deployed. The S_eff adjustment requires distinguishing between XRP that is truly removed from circulation and XRP that is deployed in ecosystem roles that keep it productive.</p>
+
+    <p>The series should acknowledge this dynamic explicitly. It is a real and growing driver. It is not modeled. And as corporate treasury accumulation scales — which ASC 350-60 actively encourages — it will become increasingly material to the required-price calculation.</p>
+
+    <h2>Argument 2: HFT velocity recycling</h2>
+
+    <h3>The conflation that needs to be unpacked</h3>
+
+    <p>The user's second argument is more technically sophisticated and requires more careful disaggregation. The claim is that HFT firms and AI agents on institutional venues like LMAX turn XRP at extreme velocity, multiplying demand density beyond single-ticket sizing.</p>
+
+    <p>There are two distinct phenomena inside this argument. They have opposite implications for the series' framework, and the user's formulation runs them together.</p>
+
+    <p><strong>Phenomenon one: ODL settlement recycling.</strong> This is the version of the argument that is analytically valid. When XRP is used as a bridge asset in an ODL settlement flow — purchased in the source currency, transmitted across the XRPL in 3–5 seconds, sold in the destination currency — the entire cycle completes in seconds. In principle, the same XRP can then be immediately purchased again to settle the next payment in the same corridor. At institutional settlement volumes, this recycling means a given stock of XRP can support a flow of settlement notional that exceeds the stock at any given moment. The Financial Planning Association's analysis of XRP describes this as a "liquidity multiplier effect, similar to how fractional reserve banking amplifies deposit creation." This is the correct version of the velocity argument and it genuinely does mean the series' single-ticket, single-slice-of-liquidity model understates settlement capacity per unit of XRP.</p>
+
+    <p><strong>Phenomenon two: HFT trading velocity.</strong> This is the version the user invokes with LMAX, and it is a different thing entirely. LMAX Digital processes high-speed institutional trading of XRP at sub-90-microsecond latency with 100,000+ messages per second. An HFT firm on LMAX might open and close a XRP position 10,000 times per day. That generates substantial trading volume. But it does not generate settlement demand in the ODL sense. Each round-trip trade is a speculative or arbitrage position — the firm buys and immediately sells, generating volume without any underlying payment flow that the XRP is bridging. The square-root law in Part I applies to settlement execution, not to trading volume. HFT trading activity adds to the V in the formula — which actually makes the peak ticket higher, not lower, by deepening available spot depth — but it does not represent the kind of recycling that multiplies settlement capacity.</p>
+
+    <p>There is a further complication. Ripple's $150 million investment in LMAX specifically integrates <em>RLUSD</em> — not XRP — as the core collateral asset across LMAX's institutional platform. RLUSD is the bridge and collateral instrument in that architecture. XRP trades on LMAX, but the institutional infrastructure Ripple is building with LMAX runs on RLUSD rails. The velocity story on LMAX is largely a RLUSD velocity story, not an XRP velocity story.</p>
+
+    <div class="pull-quote">
+      "HFT trading velocity adds to the V in the formula — deepening available spot depth. But it does not represent the kind of recycling that multiplies settlement capacity. These are different mechanisms with different implications."
+    </div>
+
+    <h3>The settlement recycling argument: valid but bounded</h3>
+
+    <p>The genuine velocity argument — ODL settlement recycling — does represent a dimension the series has not fully modeled. The single-ticket framework asks: what XRP depth is required to execute a single peak-ticket payment at acceptable slippage? It does not ask: how many such payments can cycle through a given depth of XRP liquidity per unit of time?</p>
+
+    <p>The answer to the second question is not unlimited. Settlement recycling is constrained by the 3–5 second XRPL settlement finality window. A given unit of XRP can participate in at most roughly 15,000–20,000 settlement cycles per day at full ledger throughput — far fewer in practice given the time required to source, transmit, and liquidate across ODL corridor pairs. This is meaningfully different from the millisecond recycling velocity of HFT trading, but it is also meaningfully different from the static single-ticket model the series assumes. The true settlement capacity per unit of XRP liquidity sits somewhere between those two extremes, and the series should acknowledge it has not precisely located that point.</p>
+
+    <h2>Verdict on both arguments</h2>
+
+    <div class="verdict-grid">
+      <div class="verdict-cell accept">
+        <div class="verdict-label accept">Accepted · genuine gap</div>
+        <div class="verdict-head">FASB ASC 350-60 and S_eff compression</div>
+        <div class="verdict-body">The accounting change is real, live since January 2025, and actively incentivizing corporate XRP accumulation. The series uses S_circulating in its denominator — S_eff is smaller and shrinking. The magnitude is currently modest (~4% of market cap in committed treasuries and ETF custody) but the direction is clear and accelerating. This is a price driver the series did not model and should acknowledge.</div>
+      </div>
+      <div class="verdict-cell qualify">
+        <div class="verdict-label qualify">Partially accepted · conflation noted</div>
+        <div class="verdict-head">HFT velocity recycling</div>
+        <div class="verdict-body">There are two velocity phenomena in this argument. ODL settlement recycling — genuine, valid, and understated in the series' single-ticket model. HFT trading velocity — adds to V (deepening spot depth), not to settlement multiplicity. The LMAX deal specifically integrates RLUSD as collateral, not XRP ODL flows. Accepting the settlement recycling point while declining the HFT trading velocity point as a distinct price driver.</div>
+      </div>
+    </div>
+
+    <h2>What this means for the framework</h2>
+
+    <p>The series' required-price scenario table is built on two simplifying assumptions that these arguments correctly identify as conservative: it uses circulating supply rather than effective float, and it models one discrete payment per liquidity event rather than settlement recycling across the XRPL's 3–5 second finality window. Both simplifications cause the model to overstate the required XRP price for a given level of settlement adoption.</p>
+
+    <p>That is actually the right direction to err. A framework that is harder to satisfy than reality turns out to be is preferable to one that is easier. The scenarios still represent genuine milestones. The required prices are still the right order of magnitude. But a more complete model would incorporate a dynamically shrinking S_eff as corporate treasury accumulation scales under ASC 350-60, and a settlement velocity multiplier that reflects the XRPL's throughput capacity for ODL recycling.</p>
+
+    <p>Both refinements are open modeling questions. Both are noted here as genuine gaps. Neither breaks the core argument of the series. Together they suggest that the institutional scenarios may be achievable at lower XRP prices than the scenario table currently implies — not because the math is wrong, but because two of its inputs are more conservative than the actual market structure warrants.</p>
+
+    <div class="callout">
+      <div class="callout-label">Framework status</div>
+      <p><strong>FASB ASC 350-60:</strong> Acknowledged as a genuine, unmodeled price driver. Corporate treasury accumulation is compressing S_eff below S_circulating. Currently modest in magnitude; accelerating in direction. The series' denominator should be understood as an upper bound on available float, not a precise measurement of executable supply.</p>
+      <p><strong>HFT velocity:</strong> ODL settlement recycling is a valid and understated dimension of the series' single-ticket model. HFT trading velocity on institutional venues is a different phenomenon — it adds to market depth (V), which benefits settlement capacity, but is not itself a settlement multiplier. The LMAX integration is RLUSD-centric, not XRP-ODL-centric. Both effects are noted; only the settlement recycling point is accepted as a gap in the settlement-capacity model.</p>
+    </div>
+
+    <p><em>This is not financial advice. Do your own research.</em></p>
+
+  </div>
+</div>
+
+<div class="article-nav">
+  <div class="article-nav-inner">
+    <span>Field Note No. 4 · April 27, 2026</span>
+    <div style="display:flex;gap:20px">
+      <a class="nav-link" href="https://xrpvaluation.info/">← Full series</a>
+      <a class="nav-link" href="https://xrpvaluation.info/part1/">Part I</a>
+      <a class="nav-link" href="https://xrpvaluation.info/terminal/">Terminal</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

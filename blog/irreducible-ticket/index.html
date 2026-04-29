@@ -411,26 +411,28 @@
     </p>
 
     <div class="math-block">
-      <div class="math-label">Illustrative calculation &nbsp;·&nbsp; $2B atomic DvP at 10bp slippage</div>
-      <div class="math-row">Transaction size (V) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span class="val">$2,000,000,000</span></div>
-      <div class="math-row">Slippage tolerance (σ) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span class="val">0.10%</span> (10bp institutional standard)</div>
-      <div class="math-row">Market impact coefficient (η)&nbsp;= <span class="val">0.1</span> (conservative; Part I range 0.05–0.2)</div>
-      <div class="math-row">Required daily volume &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= V / σ / η</div>
-      <div class="math-row">Required daily volume &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= $2B / 0.001 / 0.1 = <span class="val">$20 trillion / year</span></div>
-      <div class="math-row" style="margin-top:12px;">At 1% daily vol/mcap turnover assumption:</div>
-      <div class="math-row">Required market cap &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= $20T / 365 / 0.01 ≈ <span class="val">$5.5 trillion</span></div>
-      <div class="math-row">At 100B XRP supply:</div>
-      <div class="math-row">Required price per XRP &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;≈ <span class="result">$55 per XRP</span> for this single corridor at this volume</div>
-      <div class="math-row" style="margin-top:12px; font-size:12px; color: var(--ink-faint);">Note: this assumes repeated daily execution at this corridor size — a recurring settlement flow, not a one-off event. The model prices the liquidity depth required to sustain that flow, not a single isolated transaction.</div>
+      <div class="math-label">Illustrative calculation &nbsp;·&nbsp; $2B atomic DvP at 10bp slippage &nbsp;·&nbsp; Part I institutional scenario</div>
+      <div class="math-row">Formula (Part I) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: Impact (%) = σ × √(Q ÷ V) &nbsp;→&nbsp; inverted: V = Q × (σ ÷ tolerance)²</div>
+      <div class="math-row" style="margin-top: 8px;">Transaction size (Q) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span class="val">$2,000,000,000</span></div>
+      <div class="math-row">Slippage tolerance &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span class="val">10bp (0.001)</span> — institutional standard; fixed by mandate for many flows</div>
+      <div class="math-row">Volatility at this scale (σ) &nbsp;= <span class="val">3%</span> — natural compression from today's 5% as liquidity deepens</div>
+      <div class="math-row" style="margin-top: 8px;">Required daily volume (V) &nbsp;&nbsp;&nbsp;= $2B × (0.03 ÷ 0.001)² = $2B × 900 = <span class="val">$1.8 trillion/day</span></div>
+      <div class="math-row" style="margin-top: 8px;">At 1.0% daily vol/mcap (central turnover estimate):</div>
+      <div class="math-row">Required market cap &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= $1.8T ÷ 0.01 = <span class="val">$180 trillion</span></div>
+      <div class="math-row">At 61B XRP circulating supply:</div>
+      <div class="math-row">Required price per XRP &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;≈ <span class="result">$2,951 per XRP</span></div>
+      <div class="math-row" style="margin-top: 12px; font-size: 12px; color: var(--ink-faint);">This is the institutional scenario central estimate from Part I — a recurring daily corridor at $2B peak ticket, not a one-off event. The model prices the liquidity depth required to sustain that flow. At 0.3% turnover (high-scarcity): ~$9,840. At 1.5% (high-efficiency): ~$1,967. The range reflects execution architecture assumptions, not uncertainty about the formula.</div>
     </div>
 
     <p>
       That figure is not a price prediction. It is the answer to a specific question: what
-      does the math require if XRP settles a single $2B atomic transaction at 10bp slippage
-      as a recurring daily corridor event? The answer lands squarely in the institutional
-      scenario range from <a href="https://xrpvaluation.info/part1/">Part I</a>. The
-      irreducible ticket list above confirms that $2B is not a hypothetical. It is the
-      lower end of several categories that exist in current institutional practice.
+      does the math require if XRP settles a recurring $2B atomic DvP at 10bp slippage as
+      a live institutional corridor? The answer — $2,951 at central estimate — matches the
+      institutional scenario in <a href="https://xrpvaluation.info/part1/">Part I</a> exactly,
+      because it is the same calculation. The irreducible ticket list above confirms that $2B
+      is not a hypothetical input. It is the lower end of several transaction categories that
+      exist in current institutional practice. The math and the real-world floor size meet
+      at the same number.
     </p>
 
     <h2>The adoption question and the math question are different</h2>
@@ -499,10 +501,12 @@
     <div class="disclaimer">
       <strong>On the irreducible ticket calculations.</strong> The illustrative calculation
       applies the square-root market impact methodology from <a href="https://xrpvaluation.info/part1/">Part I</a>
-      using a conservative market impact coefficient (η = 0.1) and the 1% daily vol/mcap
-      turnover assumption from the central scenario. Different inputs produce a wide range —
-      see Part I's sensitivity table. The calculation is illustrative of the framework's
-      logic, not a price target.<br/><br/>
+      exactly: V = Q × (σ ÷ tolerance)², where Q = $2B peak ticket, σ = 3% (volatility at
+      institutional scale after natural compression), tolerance = 10bp. Required daily volume
+      = $1.8T. At 1.0% daily vol/mcap central turnover estimate and 61B circulating supply,
+      implied price = $2,951 — the institutional scenario central estimate from Part I. The
+      full sensitivity range ($1,967 at 1.5% turnover; $9,840 at 0.3% turnover) is documented
+      in Part I's scenario table.<br/><br/>
       <strong>On the transaction floor sizes.</strong> The floor sizes in the irreducible
       ticket table are based on documented norms in each transaction category drawn from
       BIS working papers, FSB settlement studies, and publicly disclosed institutional

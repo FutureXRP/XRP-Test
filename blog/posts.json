@@ -46,5 +46,13 @@
     "tags": ["Settlement Architecture", "Framework Extension"],
     "title": "The transaction that cannot <em>be made smaller.</em>",
     "deck": "Prisma and transaction-splitting change how ODL executes. They do not change what institutional settlement requires. There is a class of cross-border transactions that cannot be netted, layered, or split below a threshold — and that threshold is where the framework's price logic lives."
+  },
+  {
+    "number": 7,
+    "slug": "modern-objections",
+    "date": "April 29, 2026",
+    "tags": ["Objections", "Market Structure"],
+    "title": "The workaround <em>that isn't.</em>",
+    "deck": "AMMs, PayFi, ETF hoarding, and CBDC closed loops. Four objections from the current competitive landscape that target the framework's mechanical assumptions — not its adoption conditions. Each is answered on its own terms. One partial concession is made."
   }
 ]

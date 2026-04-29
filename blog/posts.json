@@ -54,5 +54,13 @@
     "tags": ["Objections", "Market Structure"],
     "title": "The workaround <em>that isn't.</em>",
     "deck": "AMMs, PayFi, ETF hoarding, and CBDC closed loops. Four objections from the current competitive landscape that target the framework's mechanical assumptions — not its adoption conditions. Each is answered on its own terms. One partial concession is made."
+  },
+  {
+    "number": 8,
+    "slug": "dynamic-assembly",
+    "date": "April 29, 2026",
+    "tags": ["Liquidity Mechanics", "Framework Extension"],
+    "title": "The network finds the liquidity. <em>Until it can't.</em>",
+    "deck": "XRPL's pathfinding and dynamic liquidity assembly change the picture at smaller ticket sizes. A serious practitioner pushed on whether the static depth assumption overstates the requirement. He's right — up to a point. This note finds that point."
   }
 ]

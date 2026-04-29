@@ -172,6 +172,11 @@
     </div>
   </div>
 
+  <div class="update-notice">
+    <div class="update-label">Updated &nbsp;·&nbsp; April 29, 2026</div>
+    <p>This note has been revised to sharpen the distinction between legal atomicity and execution mechanics — a precision gap identified in a rigorous challenge from a financial market infrastructure specialist. The original language conflated the indivisibility of a settlement <em>obligation</em> with the indivisibility of its <em>execution</em>. Those are different claims and the note owed the distinction. The addition appears in the "Minimum irreducible ticket" section immediately below the definition paragraph. The capital sizing argument is unchanged. The framing is now more precise.</p>
+  </div>
+
   <div class="editor-note">
     <div class="editor-note-label">What this note adds</div>
     <p>
@@ -302,6 +307,41 @@
       Ten categories follow, with documented floor sizes and the specific reason each does not
       occur in practice below its threshold without violating one of the four constraints above.
     </p>
+
+    <div class="caveat-block">
+      <div class="caveat-label">Precision note &nbsp;·&nbsp; Obligation vs. execution</div>
+      <p>
+        A rigorous challenge from a financial market infrastructure specialist identified a
+        precision gap the original note owed: <strong>legal atomicity and execution atomicity
+        are different things</strong>, and the original language conflated them.
+      </p>
+      <p>
+        A $500M repo obligation is indivisible at the legal instrument level — both legs must
+        settle or neither does. How that obligation executes in practice is a separate question.
+        CLS achieves ~96% multilateral netting. Clearing houses pre-fund margin. Sovereign debt
+        settles through primary dealer accounts pre-funded before the auction. TWAP and smart
+        order routing distribute large FX flows across venues and time windows. These are real
+        execution mechanisms and the note does not dispute them.
+      </p>
+      <p>
+        What the note argues — and what survives this challenge — is a capital sizing claim,
+        not an execution architecture prescription: <strong>for XRP to serve as the bridge in
+        these settlement flows, the aggregate XRP capital required to support the gross
+        obligation, however distributed across venues, time windows, and execution strategies,
+        must exist in the system at a price that supports the slippage tolerance.</strong>
+        Distributed execution relocates the capital requirement. It does not eliminate it.
+        CLS pre-funds. Clearing houses hold margin. Nostro accounts park capital. In every
+        case, the capital exists somewhere. The thesis is that if XRP is the bridge, the
+        capital must exist in XRP liquidity depth. The peak ticket model sizes that
+        requirement. It is not a description of how any single order hits a live order book.
+      </p>
+      <p>
+        The irreducible ticket table below therefore describes transactions that are
+        indivisible at the <em>obligation</em> level — not transactions that must execute
+        as a single market order. That distinction is the correct framing and this note
+        now states it explicitly.
+      </p>
+    </div>
 
     <div class="table-wrap">
       <table>

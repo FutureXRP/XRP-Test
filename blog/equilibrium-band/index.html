@@ -96,6 +96,11 @@
     .framework-ref a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
     .framework-ref a:hover { border-bottom-color: var(--accent); }
 
+    .update-notice { margin: 0 0 48px; padding: 18px 22px; background: var(--paper-soft); border: 1px solid var(--rule); border-left: 3px solid #b87030; }
+    .update-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8a5020; font-weight: 600; margin-bottom: 8px; }
+    .update-notice p { font-family: var(--ui); font-size: 14px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 0 !important; }
+    .update-notice a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+
     .watch-block { margin: 36px 0; }
     .watch-entry { padding: 20px 0; border-bottom: 1px solid var(--rule); }
     .watch-entry:first-child { border-top: 1px solid var(--rule); }
@@ -159,6 +164,11 @@
       <span class="meta-dot"></span>
       <span>April 2026</span>
     </div>
+  </div>
+
+  <div class="update-notice">
+    <div class="update-label">Updated &nbsp;·&nbsp; April 29, 2026</div>
+    <p>This note has been revised since first publication to explicitly connect the equilibrium band to the discontinuous repricing mechanism described in <a href="/part6/">Part VI</a>. The original version implied the relationship; it did not state it. The addition appears at the end of the "What to watch" section. No other content has been changed.</p>
   </div>
 
   <div class="post-body">
@@ -444,6 +454,33 @@
       </div>
     </div>
 
+    <p>
+      One further point about how these signals operate — and it matters for how the band
+      should be used in practice. The inputs described above do not move the band gradually.
+      They move it in steps. The equilibrium band is what rational price looks like
+      <em>between</em> threshold events — the stable state where corridor volume is growing
+      but no single confirmation has shifted the probability picture. Then a threshold event
+      arrives: a confirmed sovereign allocation, a non-dollar corridor processing institutional
+      ticket sizes at scale, the ODL adoption rate crossing a meaningful inflection inside
+      RippleNet. At that point π does not drift upward. It reprices across every market
+      participant simultaneously. P_a may also shift if the confirmation makes a higher
+      adoption tier newly credible. The band recalculates at a new center instantly — and
+      price either follows or overshoots and corrects back.
+    </p>
+
+    <p>
+      This is the mechanism <a href="/part6/">Part VI</a> described as discontinuous repricing.
+      The equilibrium band and the discontinuous repricing argument are not separate ideas.
+      The band describes the intervals. The discontinuity describes the jumps between them.
+      Together they form a complete picture: price is rational at the band's center until
+      a threshold event makes the current band obsolete, at which point the rational price
+      is the new band's center — and the market moves to find it. For an investor, the
+      practical implication is precise: a rally driven by sentiment alone, with no threshold
+      event in evidence, is a premium floating above a floor that isn't rising to meet it.
+      A rally accompanied by a genuine threshold confirmation is the band repricing — and
+      the new floor is real.
+    </p>
+
     <div class="framework-ref">
       <div class="framework-ref-label">Framework status</div>
       <p>
@@ -453,8 +490,9 @@
         (P* = P_u + P_a × π) organizes existing outputs — it does not introduce new math.
         The two failure modes (overpricing destroys adoption probability; underpricing erodes
         the utility floor) are structural observations the series left implicit. The band
-        itself will shift as corridor milestones are reached; the inputs and the formula
-        remain the same.
+        itself will shift as corridor milestones are reached — in steps, not gradually —
+        and the mechanism by which it shifts is the discontinuous repricing described in
+        Part VI. The inputs and the formula remain the same.
       </p>
     </div>
 

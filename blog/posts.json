@@ -38,5 +38,13 @@
     "tags": ["Framework Extension", "Liquidity Mechanics"],
     "title": "The price that doesn't collapse <em>on itself.</em>",
     "deck": "There is a calculable equilibrium band at every stage of adoption — wide enough that liquidity providers are rational to hold inventory, narrow enough that the asset isn't priced so far ahead of utility that a delay becomes a collapse. The series never formalized it. This note does."
+  },
+  {
+    "number": 6,
+    "slug": "irreducible-ticket",
+    "date": "April 29, 2026",
+    "tags": ["Settlement Architecture", "Framework Extension"],
+    "title": "The transaction that cannot <em>be made smaller.</em>",
+    "deck": "Prisma and transaction-splitting change how ODL executes. They do not change what institutional settlement requires. There is a class of cross-border transactions that cannot be netted, layered, or split below a threshold — and that threshold is where the framework's price logic lives."
   }
 ]

@@ -30,5 +30,13 @@
     "tags": ["Methodology", "Market Structure"],
     "title": "Two price drivers the model doesn't capture — and why one matters more than the other.",
     "deck": "A reader argued the framework misses FASB ASC 350-60 supply depletion and HFT velocity recycling. Both deserve serious engagement. One identifies a genuine gap in the model. The other conflates two distinct kinds of velocity — and the distinction reveals something important about how the market is actually structured."
+  },
+  {
+    "number": 5,
+    "slug": "equilibrium-band",
+    "date": "April 28, 2026",
+    "tags": ["Framework Extension", "Liquidity Mechanics"],
+    "title": "The price that doesn't collapse <em>on itself.</em>",
+    "deck": "There is a calculable equilibrium band at every stage of adoption — wide enough that liquidity providers are rational to hold inventory, narrow enough that the asset isn't priced so far ahead of utility that a delay becomes a collapse. The series never formalized it. This note does."
   }
 ]

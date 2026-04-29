@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The transaction that cannot be made smaller. — The Living Framework</title>
+  <meta name="description" content="Prisma and transaction-splitting change how ODL executes. They do not change what institutional settlement requires. There is a class of cross-border transactions that cannot be netted, layered, or split below a threshold — and that threshold is where the framework's price logic lives." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #fbfaf7; --paper: #ffffff; --paper-soft: #f7f3ea; --paper-deep: #f4efe4;
+      --ink: #171512; --ink-soft: #3a342e; --ink-medium: #61594f; --ink-faint: #8a8073;
+      --rule: #d8d0c3; --rule-strong: #1a1a1a; --accent: #9b2226;
+      --display: "Newsreader", Georgia, serif; --body: "Newsreader", Georgia, serif;
+      --ui: "IBM Plex Sans", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --text-width: 680px; --page-width: 1120px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 20px; line-height: 1.72; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    a { color: inherit; text-decoration: none; }
+
+    .topbar { max-width: var(--page-width); margin: 0 auto; padding: 24px 28px 0; }
+    .topbar-inner { border-top: 2px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); padding: 15px 0 13px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-family: var(--ui); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-medium); }
+    .topbar-left { font-weight: 600; color: var(--accent); }
+    .topbar-left a { color: var(--accent); }
+    .topbar-left a:hover { opacity: 0.75; }
+    .topbar-right { letter-spacing: 0.1em; color: var(--ink-faint); }
+
+    .article-wrap { max-width: var(--page-width); margin: 0 auto; padding: 56px 28px 120px; display: grid; grid-template-columns: 1fr min(var(--text-width), 100%) 1fr; }
+    .article-wrap > * { grid-column: 2; }
+
+    .post-header { margin-bottom: 56px; }
+    .post-section { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 24px; }
+    .post-section::before { content: ""; display: inline-block; width: 20px; height: 1px; background: var(--accent); }
+    .post-title { font-family: var(--display); font-size: clamp(36px, 6vw, 62px); line-height: 1.05; font-weight: 500; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 22px; }
+    .post-title em { font-style: italic; color: var(--accent); }
+    .post-deck { font-family: var(--display); font-style: italic; font-size: clamp(19px, 2.5vw, 24px); line-height: 1.45; color: var(--ink-medium); margin-bottom: 32px; }
+    .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 18px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+    .post-meta .meta-tag { color: var(--accent); font-weight: 600; }
+    .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--rule); flex-shrink: 0; }
+
+    .post-body { padding-top: 48px; }
+    .post-body p { margin-bottom: 28px; font-size: 20px; line-height: 1.72; color: var(--ink-soft); }
+    .post-body p:first-child { font-size: 22px; line-height: 1.65; color: var(--ink); }
+    .post-body h2 { font-family: var(--display); font-size: clamp(24px, 3vw, 32px); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 20px; padding-top: 40px; border-top: 1px solid var(--rule); }
+    .post-body strong { color: var(--ink); font-weight: 600; }
+    .post-body a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+    .post-body a:hover { border-bottom-color: var(--accent); }
+    .post-body em { font-style: italic; }
+
+    .pull-quote { margin: 44px 0; padding: 28px 32px; border-left: 3px solid var(--accent); background: var(--paper-soft); }
+    .pull-quote p { font-family: var(--display); font-size: clamp(20px, 2.5vw, 26px) !important; font-style: italic; line-height: 1.45; color: var(--ink) !important; margin-bottom: 0 !important; }
+
+    /* Editor note */
+    .editor-note { margin: 0 0 48px; padding: 22px 24px; background: var(--paper-soft); border: 1px solid var(--rule); border-left: 3px solid var(--accent); }
+    .editor-note-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+    .editor-note p { font-size: 16px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 10px !important; }
+    .editor-note p:last-child { margin-bottom: 0 !important; }
+    .editor-note a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+
+    /* Caveat block — amber, not crimson */
+    .caveat-block { margin: 36px 0; padding: 22px 24px; background: #fff9f0; border: 1px solid #e8d8c0; border-left: 3px solid #b87030; }
+    .caveat-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #8a5020; font-weight: 600; margin-bottom: 10px; }
+    .caveat-block p { font-size: 16px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 8px !important; }
+    .caveat-block p:last-child { margin-bottom: 0 !important; }
+    .caveat-block a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+
+    /* Irreducible ticket table */
+    .table-wrap { overflow-x: auto; margin: 36px 0; border: 1px solid var(--rule); }
+    table { width: 100%; border-collapse: collapse; font-family: var(--ui); font-size: 13px; }
+    thead tr { border-bottom: 2px solid var(--rule-strong); background: var(--paper-soft); }
+    thead th { text-align: left; padding: 11px 14px; font-weight: 600; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); }
+    tbody tr { border-bottom: 1px solid var(--rule); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:nth-child(even) { background: var(--paper-soft); }
+    tbody td { padding: 12px 14px; color: var(--ink-soft); vertical-align: top; line-height: 1.55; }
+    tbody td.td-num { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); width: 28px; }
+    tbody td.td-label { font-weight: 600; color: var(--ink); font-family: var(--ui); width: 200px; }
+    tbody td.td-floor { font-family: var(--mono); font-size: 12px; color: var(--ink); white-space: nowrap; }
+    tbody td.td-reason { font-size: 12px; color: var(--ink-medium); line-height: 1.6; }
+
+    /* Math block */
+    .math-block { margin: 36px 0; padding: 28px 32px; background: var(--paper-soft); border: 1px solid var(--rule); border-left: 3px solid var(--accent); }
+    .math-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 16px; }
+    .math-row { font-family: var(--mono); font-size: 14px; line-height: 2; color: var(--ink-medium); }
+    .math-row span.val { color: var(--ink); font-weight: 600; }
+    .math-row span.result { color: var(--accent); font-weight: 600; font-size: 16px; }
+
+    /* Two col */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 36px 0; }
+    .two-col-cell { background: var(--paper); padding: 22px 24px; }
+    .two-col-cell.col-a { background: #f5f8ff; }
+    .two-col-cell.col-b { background: #fff9f0; }
+    .two-col-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; margin-bottom: 8px; }
+    .two-col-label.col-a { color: #2a4a8a; }
+    .two-col-label.col-b { color: #8a5020; }
+    .two-col-head { font-family: var(--display); font-size: 17px; font-weight: 500; color: var(--ink); margin-bottom: 8px; line-height: 1.3; }
+    .two-col-body { font-size: 15px; line-height: 1.65; color: var(--ink-medium); }
+
+    /* Watch block */
+    .watch-block { margin: 36px 0; }
+    .watch-entry { padding: 20px 0; border-bottom: 1px solid var(--rule); }
+    .watch-entry:first-child { border-top: 1px solid var(--rule); }
+    .watch-signal { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 6px; }
+    .watch-text { font-size: 16px; line-height: 1.65; color: var(--ink-medium); }
+    .watch-text strong { color: var(--ink); }
+    .watch-text a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+
+    /* Framework ref */
+    .framework-ref { margin: 40px 0; padding: 22px 24px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
+    .framework-ref-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+    .framework-ref p { font-size: 16px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 10px !important; }
+    .framework-ref p:last-child { margin-bottom: 0 !important; }
+    .framework-ref a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+
+    .post-footer { margin-top: 72px; padding-top: 32px; border-top: 2px solid var(--rule-strong); }
+    .post-footer-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 20px; }
+    .post-footer-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .footer-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--rule); background: var(--paper); font-family: var(--ui); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-medium); font-weight: 500; transition: border-color 0.15s, color 0.15s; }
+    .footer-link:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-link.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .footer-link.primary:hover { background: #7f1d1d; border-color: #7f1d1d; }
+    .footer-link::after { content: "→"; font-size: 13px; }
+
+    .disclaimer { margin-top: 40px; padding: 18px 20px; background: var(--paper-soft); border: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-faint); line-height: 1.7; }
+    .disclaimer strong { color: var(--ink-medium); font-weight: 600; }
+    .disclaimer a { color: var(--accent); }
+
+    .site-footer { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 40px; }
+    .site-footer-inner { border-top: 1px solid var(--rule); padding-top: 18px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+
+    @media (max-width: 760px) {
+      body { font-size: 19px; }
+      .article-wrap { grid-template-columns: 1fr; padding: 40px 20px 80px; }
+      .article-wrap > * { grid-column: 1; }
+      .two-col { grid-template-columns: 1fr; }
+      .site-footer { padding: 0 20px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left"><a href="/">XRP Valuation Series</a> &nbsp;·&nbsp; The Living Framework</div>
+    <div class="topbar-right">Field Note · April 2026</div>
+  </div>
+</header>
+
+<article class="article-wrap">
+
+  <div class="post-header">
+    <div class="post-section">The Living Framework &nbsp;·&nbsp; No. 6</div>
+    <h1 class="post-title">The transaction that cannot<br><em>be made smaller.</em></h1>
+    <p class="post-deck">
+      Prisma and transaction-splitting change how ODL executes. They do not change what
+      institutional settlement requires. There is a class of cross-border transactions that
+      cannot be netted, layered, or split below a threshold — and that threshold is where
+      the framework's price logic lives.
+    </p>
+    <div class="post-meta">
+      <span class="meta-tag">The Living Framework</span>
+      <span class="meta-dot"></span>
+      <span>Framework Extension</span>
+      <span class="meta-dot"></span>
+      <span>Settlement Architecture</span>
+      <span class="meta-dot"></span>
+      <span>April 2026</span>
+    </div>
+  </div>
+
+  <div class="editor-note">
+    <div class="editor-note-label">What this note adds</div>
+    <p>
+      This note contains two distinct contributions. The first is an honest disclosure: the
+      current utility floor (P_u) in <a href="/field-notes/equilibrium-band/">Field Note No. 5</a>
+      describes a projected state of ODL operation, not today's — because ODL currently bypasses
+      exchange order books entirely. That caveat should be stated, not implied. The second is
+      an empirical strengthening of the framework: there exists a well-defined class of
+      institutional cross-border transactions that cannot be split, layered, or netted below
+      a minimum threshold — and that threshold is precisely where the series' price scenarios
+      are anchored. The note names ten such transaction categories, documents their floor sizes,
+      and applies the <a href="https://xrpvaluation.info/part1/">Part I</a> math directly to the
+      irreducible ticket to show what XRP price is required to carry it.
+    </p>
+  </div>
+
+  <div class="post-body">
+
+    <p>
+      David Schwartz confirmed what the series had not addressed: ODL currently does not use
+      decentralized exchanges. Prisma — Ripple's proprietary liquidity aggregation API — can
+      route through multiple DEXs and split large transactions into smaller ones distributed
+      over time. The community received this as bullish. It is. But the conversation it opened
+      exposes something the framework left implicit that needs to be stated explicitly.
+    </p>
+
+    <p>
+      The question is not whether Prisma changes how liquidity is accessed. It does. The
+      question is whether transaction-splitting changes what the framework's price scenarios
+      require. The answer is no — and the reason why is the most important analytical point
+      this note makes.
+    </p>
+
+    <h2>The gap the Prisma conversation exposed</h2>
+
+    <p>
+      <a href="https://xrpvaluation.info/part1/">Part I</a> derives required prices from the
+      square-root market impact law applied to exchange order book depth. The calculation
+      assumes ODL executes through exchange liquidity — centralized order books where the
+      depth at any given price level is the binding constraint on slippage. That assumption
+      is currently incorrect as a description of what ODL is actually doing.
+    </p>
+
+    <div class="caveat-block">
+      <div class="caveat-label">Current state disclosure &nbsp;·&nbsp; P_u</div>
+      <p>
+        ODL does not currently route through exchange order books or DEXs. Ripple's Prisma
+        API — which would enable DEX aggregation and multi-exchange routing — has not yet
+        been integrated into production ODL. David Schwartz identified robust stablecoins
+        in major currencies as the prerequisite for practical Prisma integration. RLUSD's
+        growth toward institutional scale materially improves that condition, but integration
+        has not been confirmed as of April 2026.
+      </p>
+      <p>
+        This means the utility floor (P_u) in <a href="/field-notes/equilibrium-band/">Field Note No. 5</a>
+        describes a <em>projected</em> state — the floor that will be operative when Prisma
+        activates and ODL routes through exchange depth. It is not a description of today's
+        ODL mechanics. Readers should treat P_u as a forward-looking model input, not a
+        live observable. The framework becomes descriptive when Prisma goes live. Until then,
+        this caveat applies.
+      </p>
+    </div>
+
+    <p>
+      This is a timing caveat, not a framework failure. The math is correct for the state
+      of ODL it describes. That state is approaching — the conditions Schwartz named as
+      prerequisites are materially closer than they were in 2023. But intellectual honesty
+      requires stating the gap between what the model describes and what ODL is currently doing.
+    </p>
+
+    <h2>Why the liquidity still has to be somewhere</h2>
+
+    <p>
+      The strongest version of the Prisma objection runs like this: if ODL can split a $2B
+      transaction into ten thousand $200,000 transactions distributed over time, then the
+      market impact of any individual transaction approaches zero regardless of XRP price —
+      and the framework's price logic collapses.
+    </p>
+
+    <p>
+      The objection fails at the first step. Splitting a transaction does not reduce aggregate
+      liquidity demand. It redistributes peak demand across time. The total XRP float required
+      to support a given settlement volume at a given price is invariant to routing architecture.
+      Whether a $2B settlement executes as a single transaction or ten thousand sub-transactions,
+      the liquidity to absorb $2B of XRP sell pressure must exist in the market at the relevant
+      price level across the execution window. You cannot split your way to a lower required
+      market cap. You can only smooth the peak.
+    </p>
+
+    <div class="pull-quote">
+      <p>
+        No matter where the liquidity sits — ODL proprietary rails, Prisma DEX aggregation,
+        OTC bilateral, public exchange — it still has to be somewhere. Whether sourced via
+        OTC desks, internalization, or public markets, the liquidity must still be warehoused
+        and priced somewhere in the system. You cannot move high-value transactions with
+        little to no liquidity depth and expect no slippage.
+      </p>
+    </div>
+
+    <p>
+      Furthermore, transaction-splitting creates a precision that deserves stating carefully.
+      Splitting can preserve atomicity at the sub-transaction level — each individual leg
+      of a split execution can be atomic in isolation. What it breaks is atomicity at the
+      economic transaction level: the aggregate settlement obligation no longer resolves
+      simultaneously, and a settlement window opens during which one party carries exposure.
+      For the transaction categories where economic-level atomicity is a structural
+      requirement — not a preference — splitting is not available as a tool regardless of
+      how cleanly each sub-transaction executes.
+    </p>
+
+    <h2>The minimum irreducible ticket</h2>
+
+    <p>
+      There exists a class of cross-border transactions where further splitting, layering,
+      or netting cannot occur without violating one of four core constraints: the legal
+      instrument is defined at the aggregate level and is indivisible; atomic simultaneity
+      of both settlement legs is a structural requirement, not a preference; splitting
+      introduces price risk that defeats the commercial purpose of the transaction; or
+      sub-transaction granularity distorts regulatory reporting that is point-in-time at
+      the aggregate level. The question is not whether execution can be staged — in some
+      cases it can be. The question is whether staging can occur without breaking one of
+      these constraints. In the categories below, it does not occur in practice without
+      violating at least one of them.
+    </p>
+
+    <p>
+      These are not exotic edge cases. They are the core of institutional cross-border finance.
+      Ten categories follow, with documented floor sizes and the specific reason each does not
+      occur in practice below its threshold without violating one of the four constraints above.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Transaction type</th>
+            <th>Floor size</th>
+            <th>Reason irreducible</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-num">01</td>
+            <td class="td-label">Bilateral FX spot settlement between central banks</td>
+            <td class="td-floor">$50B – $500B</td>
+            <td class="td-reason">Legal instrument is a single sovereign obligation under a standing swap line agreement. While operational execution may involve intermediaries, the economic exposure being settled is defined at a single notional and price condition. Indivisible at the instrument level.</td>
+          </tr>
+          <tr>
+            <td class="td-num">02</td>
+            <td class="td-label">Sovereign debt issuance settlement</td>
+            <td class="td-floor">$500M – $2B per dealer</td>
+            <td class="td-reason">Primary dealer allocation settles as a single atomic DvP. The bond moves when the cash moves, simultaneously, under the issuance agreement. Splitting reintroduces counterparty exposure the structure eliminates.</td>
+          </tr>
+          <tr>
+            <td class="td-num">03</td>
+            <td class="td-label">Cross-border repo collateral settlement</td>
+            <td class="td-floor">$500M – $5B</td>
+            <td class="td-reason">Institutional repo requires atomic DvP at full notional. Splitting the settlement reintroduces the counterparty exposure that repo is specifically structured to eliminate.</td>
+          </tr>
+          <tr>
+            <td class="td-num">04</td>
+            <td class="td-label">Sovereign wealth fund portfolio rebalancing</td>
+            <td class="td-floor">$1B – $10B</td>
+            <td class="td-reason">The FX leg of a strategic reallocation is a single commercial decision at a single point-in-time price. Splitting over time introduces currency risk that defeats the rebalancing purpose.</td>
+          </tr>
+          <tr>
+            <td class="td-num">05</td>
+            <td class="td-label">Central bank FX intervention</td>
+            <td class="td-floor">$5B – $50B</td>
+            <td class="td-reason">Intervention is deliberately large and immediately executed. The market impact is the mechanism — a split intervention signals nothing and achieves nothing. Indivisible by design.</td>
+          </tr>
+          <tr>
+            <td class="td-num">06</td>
+            <td class="td-label">Tokenized RWA settlement at institutional scale</td>
+            <td class="td-floor">$500M – $5B</td>
+            <td class="td-reason">The underlying asset is indivisible. You cannot take delivery of 40% of a tokenized infrastructure asset or private credit tranche. DvP executes at full agreed consideration.</td>
+          </tr>
+          <tr>
+            <td class="td-num">07</td>
+            <td class="td-label">Multilateral development bank disbursement</td>
+            <td class="td-floor">$500M – $5B per tranche</td>
+            <td class="td-reason">Disbursement triggers legal conditions — policy benchmarks, reporting requirements, drawdown schedules — defined at the tranche level. Sub-tranche splitting violates the legal agreement.</td>
+          </tr>
+          <tr>
+            <td class="td-num">08</td>
+            <td class="td-label">Correspondent banking nostro repatriation at quarter-end</td>
+            <td class="td-floor">$1B – $20B</td>
+            <td class="td-reason">Executed as a single sweep to manage Basel III balance sheet ratios at regulatory reporting close. Layering over multiple days changes the point-in-time regulatory calculation.</td>
+          </tr>
+          <tr>
+            <td class="td-num">09</td>
+            <td class="td-label">Cross-border M&A settlement</td>
+            <td class="td-floor">$1B – $50B</td>
+            <td class="td-reason">The acquisition agreement specifies a single closing date, a single price, and simultaneous transfer of ownership and consideration. Splitting is legally impossible under the terms of the agreement.</td>
+          </tr>
+          <tr>
+            <td class="td-num">10</td>
+            <td class="td-label">CBDC cross-border settlement between monetary authorities</td>
+            <td class="td-floor">$10B – $500B</td>
+            <td class="td-reason">Central bank obligations settle gross and final. While execution may involve operational staging between monetary authorities, the economic exposure is defined at a single sovereign instrument level. A CBDC exchange under a cross-border interoperability framework cannot be split without breaking the legal character of the instrument.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      The floor sizes above are conservative estimates based on documented transaction
+      norms in each category. The upper bounds in several categories — particularly central
+      bank FX intervention and CBDC settlement — extend well beyond $500B for major monetary
+      authorities. These are not projections. They are descriptions of transaction categories
+      that exist today, in current institutional practice, at these sizes.
+    </p>
+
+    <div class="pull-quote">
+      <p>
+        The system is not constrained by total flow. It is constrained by the largest
+        transaction it cannot break.
+      </p>
+    </div>
+
+    <h2>What the irreducible ticket requires from XRP</h2>
+
+    <p>
+      The closing question the Prisma discussion produced is the right one: if XRP is going
+      to be used for institutional settlement with large single peak-ticket transactions of
+      billions of dollars at slippage tolerances under 10 basis points, what price and
+      liquidity depth does XRP need to carry that transaction? For certain transaction classes,
+      10bp is not a flexible parameter — it is a constraint defined by mandate, benchmark
+      tracking error limits, or fiduciary requirements. The slippage tolerance is as fixed
+      as the transaction size.
+    </p>
+
+    <p>
+      <a href="https://xrpvaluation.info/part1/">Part I</a> provides the calculable answer.
+      Applying the square-root market impact law to a representative irreducible ticket:
+    </p>
+
+    <div class="math-block">
+      <div class="math-label">Illustrative calculation &nbsp;·&nbsp; $2B atomic DvP at 10bp slippage</div>
+      <div class="math-row">Transaction size (V) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span class="val">$2,000,000,000</span></div>
+      <div class="math-row">Slippage tolerance (σ) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span class="val">0.10%</span> (10bp institutional standard)</div>
+      <div class="math-row">Market impact coefficient (η)&nbsp;= <span class="val">0.1</span> (conservative; Part I range 0.05–0.2)</div>
+      <div class="math-row">Required daily volume &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= V / σ / η</div>
+      <div class="math-row">Required daily volume &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= $2B / 0.001 / 0.1 = <span class="val">$20 trillion / year</span></div>
+      <div class="math-row" style="margin-top:12px;">At 1% daily vol/mcap turnover assumption:</div>
+      <div class="math-row">Required market cap &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= $20T / 365 / 0.01 ≈ <span class="val">$5.5 trillion</span></div>
+      <div class="math-row">At 100B XRP supply:</div>
+      <div class="math-row">Required price per XRP &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;≈ <span class="result">$55 per XRP</span> for this single corridor at this volume</div>
+      <div class="math-row" style="margin-top:12px; font-size:12px; color: var(--ink-faint);">Note: this assumes repeated daily execution at this corridor size — a recurring settlement flow, not a one-off event. The model prices the liquidity depth required to sustain that flow, not a single isolated transaction.</div>
+    </div>
+
+    <p>
+      That figure is not a price prediction. It is the answer to a specific question: what
+      does the math require if XRP settles a single $2B atomic transaction at 10bp slippage
+      as a recurring daily corridor event? The answer lands squarely in the institutional
+      scenario range from <a href="https://xrpvaluation.info/part1/">Part I</a>. The
+      irreducible ticket list above confirms that $2B is not a hypothetical. It is the
+      lower end of several categories that exist in current institutional practice.
+    </p>
+
+    <h2>The adoption question and the math question are different</h2>
+
+    <p>
+      Two objections are frequently conflated when the Prisma or transaction-splitting
+      argument is raised. They deserve to be separated cleanly.
+    </p>
+
+    <div class="two-col">
+      <div class="two-col-cell col-a">
+        <div class="two-col-label col-a">The adoption question</div>
+        <div class="two-col-head">Will XRP actually be used for these transactions?</div>
+        <div class="two-col-body">This is what <a href="https://xrpvaluation.info/part6/" style="color:var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3);">Part VI</a> addresses. The probability framework exists precisely because adoption is uncertain. The modal scenario assigns 40–55% probability to slow or partial development. The irreducible ticket list does not change those probabilities. It establishes that if adoption occurs at this level, the transaction categories that would drive it are real, well-documented, and exist in current institutional practice.</div>
+      </div>
+      <div class="two-col-cell col-b">
+        <div class="two-col-label col-b">The math question</div>
+        <div class="two-col-head">Is the framework's pricing logic correct if XRP is used for them?</div>
+        <div class="two-col-body">This is what <a href="https://xrpvaluation.info/part1/" style="color:var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3);">Part I</a> addresses. The answer is yes — the square-root law applies, the slippage constraint is real, and the required price is calculable. Transaction-splitting does not change this. Routing architecture does not change this. The liquidity has to exist somewhere at the price that supports the slippage tolerance.</div>
+      </div>
+    </div>
+
+    <p>
+      Conflating the two produces either false confidence — treating the math as evidence of
+      adoption — or false dismissal — treating adoption uncertainty as evidence the math is
+      wrong. Neither follows. The framework is explicit about what it is: a conditional model.
+      The conditions are uncertain. The math, conditional on those conditions, is not.
+    </p>
+
+    <h2>What to watch</h2>
+
+    <div class="watch-block">
+      <div class="watch-entry">
+        <div class="watch-signal">Signal 01 &nbsp;·&nbsp; Prisma activation</div>
+        <div class="watch-text"><strong>DEX routing going live inside ODL.</strong> This is the moment P_u in <a href="/field-notes/equilibrium-band/">Field Note No. 5</a> transitions from projected to descriptive. The prerequisite David Schwartz named — robust stablecoins in major currencies — is materially closer with RLUSD approaching institutional scale. Watch for any Ripple disclosure of DEX or AMM integration within production ODL infrastructure. That confirmation changes the utility floor from a forward estimate to a live observable.</div>
+      </div>
+      <div class="watch-entry">
+        <div class="watch-signal">Signal 02 &nbsp;·&nbsp; First confirmed institutional-scale atomic DvP</div>
+        <div class="watch-text"><strong>Any publicly confirmed atomic DvP settlement on XRPL at ticket sizes above $100M.</strong> This is the first empirical data point on irreducible ticket execution at institutional scale. It does not need to be in the $2B range to matter — a confirmed $100M+ atomic DvP in a non-dollar cross-border corridor is a threshold event for the adoption probability in <a href="https://xrpvaluation.info/part6/">Part VI</a>. The band reprices.</div>
+      </div>
+      <div class="watch-entry">
+        <div class="watch-signal">Signal 03 &nbsp;·&nbsp; Sovereign-tier settlement disclosure</div>
+        <div class="watch-text"><strong>BIS Project Agorá, mBridge successor, or any CBDC cross-border pilot disclosing single settlement figures.</strong> The ten categories above include transaction types that are currently theoretical for XRPL — particularly CBDC settlement between monetary authorities. A disclosed pilot figure in that category would be the first live data point anchoring the upper end of the irreducible ticket range to real institutional practice on the ledger.</div>
+      </div>
+    </div>
+
+    <div class="framework-ref">
+      <div class="framework-ref-label">Framework status</div>
+      <p>
+        The settlement thesis is unchanged. This note adds two things to the framework's
+        published state. First, a timing caveat on P_u: the utility floor in
+        <a href="/field-notes/equilibrium-band/">Field Note No. 5</a> describes a projected
+        state of ODL operation contingent on Prisma activation, not today's mechanics. Second,
+        an empirical grounding for the irreducible ticket assumption the framework implicitly
+        depends on: ten categories of institutional cross-border transactions exist in current
+        practice at floor sizes of $500M to $500B that cannot be split, layered, or netted
+        below their threshold without violating the legal, commercial, or regulatory constraints
+        that define them. The <a href="https://xrpvaluation.info/part1/">Part I</a> math applied
+        to a representative irreducible ticket confirms the required price lands in the
+        institutional scenario range. Whether XRP will be used for these transactions is an
+        adoption question addressed in <a href="https://xrpvaluation.info/part6/">Part VI</a>.
+        Whether the math holds if it is used for them is not in dispute.
+      </p>
+    </div>
+
+    <div class="disclaimer">
+      <strong>On the irreducible ticket calculations.</strong> The illustrative calculation
+      applies the square-root market impact methodology from <a href="https://xrpvaluation.info/part1/">Part I</a>
+      using a conservative market impact coefficient (η = 0.1) and the 1% daily vol/mcap
+      turnover assumption from the central scenario. Different inputs produce a wide range —
+      see Part I's sensitivity table. The calculation is illustrative of the framework's
+      logic, not a price target.<br/><br/>
+      <strong>On the transaction floor sizes.</strong> The floor sizes in the irreducible
+      ticket table are based on documented norms in each transaction category drawn from
+      BIS working papers, FSB settlement studies, and publicly disclosed institutional
+      transaction data. They represent conservative estimates of typical single-transaction
+      sizes in current institutional practice. They are not projections of future XRP
+      transaction sizes.<br/><br/>
+      <strong>On the Prisma disclosure.</strong> David Schwartz's confirmation that ODL does
+      not currently use DEXs, and his description of Prisma's capabilities, comes from an
+      X Space conversation reported in September 2023. No subsequent public confirmation of
+      Prisma integration into production ODL has been identified as of April 2026. This note
+      treats that status as unchanged pending primary disclosure from Ripple.<br/><br/>
+      The modeling is still in its infancy. Objections and falsifiers are welcomed.
+      Adjustments will be made accordingly. This is not financial advice. Do your own research.
+    </div>
+
+    <div class="post-footer">
+      <div class="post-footer-label">Continue reading</div>
+      <div class="post-footer-links">
+        <a class="footer-link primary" href="https://xrpvaluation.info/part1/">Part I — XRP is not being valued. It is being sized.</a>
+        <a class="footer-link" href="https://xrpvaluation.info/part6/">Part VI — The case against, taken seriously.</a>
+        <a class="footer-link" href="/">All articles</a>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>XRP Valuation Series &nbsp;·&nbsp; The Living Framework</div>
+    <div>FutureXRP &nbsp;·&nbsp; @the5blairs</div>
+  </div>
+</footer>
+
+</body>
+</html>

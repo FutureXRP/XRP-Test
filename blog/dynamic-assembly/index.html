@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The network finds the liquidity. Until it can't. — The Living Framework</title>
+  <meta name="description" content="XRPL's pathfinding and dynamic liquidity assembly change the picture at smaller ticket sizes. A serious practitioner pushed on whether the static depth assumption overstates the requirement. He's right — up to a point. This note finds that point." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #fbfaf7; --paper: #ffffff; --paper-soft: #f7f3ea; --paper-deep: #f4efe4;
+      --ink: #171512; --ink-soft: #3a342e; --ink-medium: #61594f; --ink-faint: #8a8073;
+      --rule: #d8d0c3; --rule-strong: #1a1a1a; --accent: #9b2226;
+      --display: "Newsreader", Georgia, serif; --body: "Newsreader", Georgia, serif;
+      --ui: "IBM Plex Sans", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --text-width: 680px; --page-width: 1120px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 20px; line-height: 1.72; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    a { color: inherit; text-decoration: none; }
+
+    .topbar { max-width: var(--page-width); margin: 0 auto; padding: 24px 28px 0; }
+    .topbar-inner { border-top: 2px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); padding: 15px 0 13px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-family: var(--ui); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-medium); }
+    .topbar-left { font-weight: 600; color: var(--accent); }
+    .topbar-left a { color: var(--accent); }
+    .topbar-left a:hover { opacity: 0.75; }
+    .topbar-right { letter-spacing: 0.1em; color: var(--ink-faint); }
+
+    .article-wrap { max-width: var(--page-width); margin: 0 auto; padding: 56px 28px 120px; display: grid; grid-template-columns: 1fr min(var(--text-width), 100%) 1fr; }
+    .article-wrap > * { grid-column: 2; }
+
+    .post-header { margin-bottom: 56px; }
+    .post-section { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 24px; }
+    .post-section::before { content: ""; display: inline-block; width: 20px; height: 1px; background: var(--accent); }
+    .post-title { font-family: var(--display); font-size: clamp(36px, 6vw, 62px); line-height: 1.05; font-weight: 500; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 22px; }
+    .post-title em { font-style: italic; color: var(--accent); }
+    .post-deck { font-family: var(--display); font-style: italic; font-size: clamp(19px, 2.5vw, 24px); line-height: 1.45; color: var(--ink-medium); margin-bottom: 32px; }
+    .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 18px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+    .post-meta .meta-tag { color: var(--accent); font-weight: 600; }
+    .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--rule); flex-shrink: 0; }
+
+    .post-body { padding-top: 48px; }
+    .post-body p { margin-bottom: 28px; font-size: 20px; line-height: 1.72; color: var(--ink-soft); }
+    .post-body p:first-child { font-size: 22px; line-height: 1.65; color: var(--ink); }
+    .post-body h2 { font-family: var(--display); font-size: clamp(24px, 3vw, 32px); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 20px; padding-top: 40px; border-top: 1px solid var(--rule); }
+    .post-body strong { color: var(--ink); font-weight: 600; }
+    .post-body a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+    .post-body a:hover { border-bottom-color: var(--accent); }
+    .post-body em { font-style: italic; }
+
+    .pull-quote { margin: 44px 0; padding: 28px 32px; border-left: 3px solid var(--accent); background: var(--paper-soft); }
+    .pull-quote p { font-family: var(--display); font-size: clamp(20px, 2.5vw, 26px) !important; font-style: italic; line-height: 1.45; color: var(--ink) !important; margin-bottom: 0 !important; }
+
+    /* Credit block - for the practitioner attribution */
+    .credit-block { margin: 0 0 48px; padding: 18px 22px; background: var(--paper-soft); border: 1px solid var(--rule); border-left: 3px solid var(--ink-faint); }
+    .credit-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 8px; }
+    .credit-block p { font-family: var(--ui); font-size: 14px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 0 !important; font-style: italic; }
+
+    /* Threshold table */
+    .table-wrap { overflow-x: auto; margin: 36px 0; border: 1px solid var(--rule); }
+    table { width: 100%; border-collapse: collapse; font-family: var(--ui); font-size: 13px; }
+    thead tr { border-bottom: 2px solid var(--rule-strong); background: var(--paper-soft); }
+    thead th { text-align: left; padding: 11px 14px; font-weight: 600; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); }
+    tbody tr { border-bottom: 1px solid var(--rule); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr.dynamic { background: #f5f8f5; }
+    tbody tr.transition { background: var(--paper-soft); }
+    tbody tr.static { background: #fff5f5; }
+    tbody td { padding: 12px 14px; vertical-align: top; line-height: 1.55; }
+    tbody td.td-label { font-weight: 600; color: var(--ink); font-family: var(--ui); }
+    tbody td.td-mono { font-family: var(--mono); font-size: 12px; color: var(--ink); white-space: nowrap; }
+    tbody td.td-regime { font-family: var(--mono); font-size: 11px; font-weight: 600; white-space: nowrap; }
+    tbody td.td-regime.r-dynamic { color: #2a5a2a; }
+    tbody td.td-regime.r-transition { color: #8a5020; }
+    tbody td.td-regime.r-static { color: #9b2226; }
+    tbody td.td-note { font-size: 12px; color: var(--ink-medium); line-height: 1.6; }
+
+    /* Math block */
+    .math-block { margin: 36px 0; padding: 28px 32px; background: var(--paper-soft); border: 1px solid var(--rule); border-left: 3px solid var(--accent); }
+    .math-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 16px; }
+    .math-row { font-family: var(--mono); font-size: 13px; line-height: 2; color: var(--ink-medium); }
+    .math-row span.val { color: var(--ink); font-weight: 600; }
+    .math-row span.result { color: var(--accent); font-weight: 600; font-size: 15px; }
+
+    /* Watch block */
+    .watch-block { margin: 36px 0; }
+    .watch-entry { padding: 20px 0; border-bottom: 1px solid var(--rule); }
+    .watch-entry:first-child { border-top: 1px solid var(--rule); }
+    .watch-signal { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 6px; }
+    .watch-text { font-size: 16px; line-height: 1.65; color: var(--ink-medium); }
+    .watch-text strong { color: var(--ink); }
+    .watch-text a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+
+    /* Framework ref */
+    .framework-ref { margin: 40px 0; padding: 22px 24px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
+    .framework-ref-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+    .framework-ref p { font-size: 16px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 10px !important; }
+    .framework-ref p:last-child { margin-bottom: 0 !important; }
+    .framework-ref a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+
+    .post-footer { margin-top: 72px; padding-top: 32px; border-top: 2px solid var(--rule-strong); }
+    .post-footer-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 20px; }
+    .post-footer-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .footer-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--rule); background: var(--paper); font-family: var(--ui); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-medium); font-weight: 500; transition: border-color 0.15s, color 0.15s; }
+    .footer-link:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-link.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .footer-link.primary:hover { background: #7f1d1d; border-color: #7f1d1d; }
+    .footer-link::after { content: "→"; font-size: 13px; }
+
+    .disclaimer { margin-top: 40px; padding: 18px 20px; background: var(--paper-soft); border: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-faint); line-height: 1.7; }
+    .disclaimer strong { color: var(--ink-medium); font-weight: 600; }
+    .disclaimer a { color: var(--accent); }
+
+    .site-footer { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 40px; }
+    .site-footer-inner { border-top: 1px solid var(--rule); padding-top: 18px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+
+    @media (max-width: 760px) {
+      body { font-size: 19px; }
+      .article-wrap { grid-template-columns: 1fr; padding: 40px 20px 80px; }
+      .article-wrap > * { grid-column: 1; }
+      .site-footer { padding: 0 20px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left"><a href="/">XRP Valuation Series</a> &nbsp;·&nbsp; The Living Framework</div>
+    <div class="topbar-right">Field Note · April 29, 2026</div>
+  </div>
+</header>
+
+<article class="article-wrap">
+
+  <div class="post-header">
+    <div class="post-section">The Living Framework &nbsp;·&nbsp; No. 8</div>
+    <h1 class="post-title">The network finds<br>the liquidity. <em>Until it can't.</em></h1>
+    <p class="post-deck">
+      XRPL's pathfinding and dynamic liquidity assembly change the picture at smaller
+      ticket sizes. A serious practitioner pushed on whether the static depth assumption
+      overstates the requirement. He's right — up to a point. This note finds that point.
+    </p>
+    <div class="post-meta">
+      <span class="meta-tag">The Living Framework</span>
+      <span class="meta-dot"></span>
+      <span>Liquidity Mechanics</span>
+      <span class="meta-dot"></span>
+      <span>Framework Extension</span>
+      <span class="meta-dot"></span>
+      <span>April 29, 2026</span>
+    </div>
+  </div>
+
+  <div class="credit-block">
+    <div class="credit-label">Origin of this note</div>
+    <p>"You're anchoring to 'liquidity must exist at execution' for large tickets. That's fair. But XRPL isn't a single pool. It's fragmented paths, routing, and conditional liquidity showing up just in time. If liquidity can be sourced dynamically across paths, your required static depth assumption might be overstated. The question isn't just how big the pool is. It's how efficiently the network can find and assemble liquidity at execution." — @mrcauliman, April 29, 2026</p>
+  </div>
+
+  <div class="post-body">
+
+    <p>
+      That is the right question. And it deserves a precise answer rather than a
+      defensive one. The short version: the static depth assumption is overstated
+      at smaller ticket sizes — the series should acknowledge that directly. At
+      larger ticket sizes, specifically the irreducible ticket floor documented in
+      <a href="https://xrpvaluation.info/blog/irreducible-ticket/">Field Note No. 6</a>,
+      the dynamic assembly argument encounters a ceiling that the series can now
+      define precisely.
+    </p>
+
+    <p>
+      This note draws that line. Not to defend the model from the challenge — but
+      because locating the line is more useful than either asserting the static
+      assumption universally or conceding it entirely.
+    </p>
+
+    <h2>What dynamic liquidity assembly actually does</h2>
+
+    <p>
+      XRPL's pathfinding engine does not route transactions to a single order book.
+      It identifies the cheapest available execution path across the network's entire
+      liquidity landscape — DEX order books, AMM pools, auto-bridged pairs, and LP
+      inventory positions — simultaneously. A transaction that would move the market
+      by 47bp against a single thin order book may be executable at 8bp when the
+      engine finds and aggregates depth across twelve fragmented pools that individually
+      couldn't absorb it.
+    </p>
+
+    <p>
+      This is a genuine capability and the series has not credited it fully. The
+      static depth model — which prices required market cap against a single-pool
+      execution assumption — overstates the capital requirement at ticket sizes where
+      fragmented pool aggregation is effective. The concession is real. The question
+      is where it stops being real.
+    </p>
+
+    <div class="pull-quote">
+      <p>
+        Dynamic assembly doesn't eliminate the aggregate capital requirement.
+        It distributes the market impact across more of the available liquidity.
+        The question is how much liquidity is available to distribute across —
+        and whether that scales with ticket size.
+      </p>
+    </div>
+
+    <h2>Where dynamic assembly helps — and where it hits a ceiling</h2>
+
+    <p>
+      The efficiency gain from dynamic path assembly is a function of two variables:
+      the total depth available across all paths, and the degree to which that depth
+      is fragmented rather than concentrated. When depth is fragmented across many
+      small pools, pathfinding provides significant improvement over single-pool
+      execution. When depth is concentrated — because the total available liquidity
+      is small relative to transaction size — there are no efficient paths to find.
+      The engine routes optimally across what exists. It cannot route to liquidity
+      that does not exist.
+    </p>
+
+    <p>
+      This produces a three-regime picture across the framework's scenario tiers that
+      the series has not mapped explicitly until now.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Scenario tier</th>
+            <th>Ticket size range</th>
+            <th>Regime</th>
+            <th>What dynamic assembly does</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="dynamic">
+            <td class="td-label">Near-term corridor</td>
+            <td class="td-mono">$1M – $50M</td>
+            <td class="td-regime r-dynamic">Dynamic assembly wins</td>
+            <td class="td-note">Fragmented XRPL pools, JIT LP inventory, and pathfinding provide meaningful improvement over single-pool execution. Static depth assumption overstates the requirement at this tier. Current peak ODL tickets are estimated below $1M, placing today's network at the boundary of the dynamic assembly regime — the <a href="https://xrpvaluation.info/terminal/">settlement terminal</a> shows a live ceiling of ~$875K at current spot volume and volatility. The framework's $16–$180 near-term range may already be conservative as a result.</td>
+          </tr>
+          <tr class="transition">
+            <td class="td-label">Transition zone</td>
+            <td class="td-mono">$50M – $500M</td>
+            <td class="td-regime r-transition">Mixed — empirically unresolved</td>
+            <td class="td-note">Dynamic assembly provides partial improvement but total available depth becomes increasingly binding. No confirmed on-ledger execution data exists in this range. This is where the framework's assumptions are least empirically anchored — the series acknowledges this gap directly.</td>
+          </tr>
+          <tr class="static">
+            <td class="td-label">Irreducible ticket floor</td>
+            <td class="td-mono">$500M – $500B</td>
+            <td class="td-regime r-static">Static depth is the binding constraint</td>
+            <td class="td-note">At these sizes, the sum of impacts across all available paths approaches the single-path impact. There is no fragmentation efficiency gain when transaction size exceeds total available depth across all pools combined. BIS Project Mariana establishes linear scaling in this regime — more liquidity required, not less, than the square-root law implies.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      The transition zone — $50M to $500M — is where the series is most honest about
+      what it doesn't know. No confirmed XRPL execution data exists in this range at
+      institutional slippage tolerance. The framework's assumptions in this zone are
+      calibrated from BIS pilot data, LP spread math from
+      <a href="https://xrpvaluation.info/blog/jit-sourcing/">Field Note No. 1</a>,
+      and the AMM scaling findings from
+      <a href="https://xrpvaluation.info/blog/modern-objections/">Field Note No. 7</a>.
+      They are informed estimates, not empirically anchored observations.
+      The series names this gap explicitly and watches for the data that would close it.
+    </p>
+
+    <h2>Why the ceiling exists</h2>
+
+    <p>
+      The intuition behind the ceiling is straightforward. Dynamic liquidity assembly
+      improves execution by finding depth the single-pool model doesn't see. But the
+      total depth available across all paths is bounded by the total XRP capital deployed
+      in the network's liquidity infrastructure — LP inventory, AMM pool deposits,
+      order book resting orders. That total is a direct function of XRP's market cap
+      and the economic incentives to deploy capital into settlement infrastructure.
+    </p>
+
+    <p>
+      At small ticket sizes, a transaction represents a small fraction of total
+      available depth. Pathfinding is effective because there is more depth than
+      the transaction needs, distributed across many pools. At large ticket sizes,
+      the transaction approaches — or exceeds — a meaningful fraction of total
+      available depth across all paths simultaneously. At that point, the engine
+      is not finding hidden liquidity. It is routing optimally across everything
+      that exists, and everything that exists is not enough.
+    </p>
+
+    <div class="math-block">
+      <div class="math-label">The ceiling — when dynamic assembly stops helping</div>
+      <div class="math-row">Let V = required daily volume across all paths &nbsp;&nbsp; Q = transaction size &nbsp;&nbsp; σ = volatility &nbsp;&nbsp; τ = slippage tolerance</div>
+      <div class="math-row" style="margin-top: 8px;">Ceiling derivation from Part I square-root law (Impact = σ × √(Q/V), set Impact = τ):</div>
+      <div class="math-row">Dynamic assembly effective when: &nbsp;<span class="val">Q &lt;&lt; V × (τ / σ)²</span></div>
+      <div class="math-row">Static depth becomes binding when: &nbsp;<span class="val">Q approaches V × (τ / σ)²</span></div>
+      <div class="math-row" style="margin-top: 12px;">At current state (σ = 5%, τ = 10bp, V = live 24h spot volume ~$2.19B per <a href="https://xrpvaluation.info/terminal/" style="color:var(--accent);">terminal</a>):</div>
+      <div class="math-row">Ceiling Q = $2.19B × (0.001 / 0.05)² = $2.19B × 0.0004 = <span class="val">~$875K</span></div>
+      <div class="math-row" style="margin-top: 12px;">At institutional scenario (σ = 3%, τ = 10bp, V = $1.8T/day at $180T mcap × 1% turnover):</div>
+      <div class="math-row">Ceiling Q = $1.8T × (0.001 / 0.03)² = $1.8T × 0.0011 = <span class="val">~$2B</span></div>
+      <div class="math-row" style="margin-top: 12px; font-size: 12px; color: var(--ink-faint);">Note on V inputs: the current ceiling uses live 24h CoinGecko spot volume (~$2.19B) — the same source as the terminal — which reflects actual observed market depth. XRP is currently trading at ~2.7% daily vol/mcap, above the model's 1% central estimate, producing a higher live ceiling than a pure model calculation would imply. The institutional scenario uses V = market cap × 1% turnover (the Part I central estimate) because no live data exists at that scale. The ceiling scales from ~$875K today to ~$2B at institutional — a 2,300× increase driven by market cap growth. Today's ODL peak tickets (&lt;$1M) sit at the boundary of the current ceiling, confirming the network is approaching the limit of the dynamic assembly regime at current depth.</div>
+    </div>
+
+    <p>
+      This is the framework's most important response to the dynamic assembly
+      challenge: the ceiling is not fixed. It scales with market cap. A deeper,
+      more liquid network has a higher ceiling — which means dynamic assembly
+      remains effective at progressively larger ticket sizes as the system matures.
+      But the ceiling always exists, and at the irreducible ticket floor — $500M
+      to $500B — the required market cap to push the ceiling above the transaction
+      size is the institutional and sovereign scenario range the series has always
+      described. Dynamic assembly doesn't eliminate the required price. It changes
+      where the static depth assumption begins to bite.
+    </p>
+
+    <h2>What the series concedes and what it holds</h2>
+
+    <p>
+      <strong>The concession is real and should be stated plainly.</strong> The static
+      depth model overstates the capital requirement at the near-term corridor tier.
+      XRPL's pathfinding, AMM pools, and JIT LP inventory provide genuine execution
+      efficiency that the single-pool model does not capture. The near-term scenario
+      prices in the series — $16 at the lowest tier — may be conservative. A more
+      sophisticated execution model might show that dynamic assembly keeps slippage
+      within tolerance at lower prices than the static assumption implies for the
+      sub-$50M ticket range.
+    </p>
+
+    <p>
+      <strong>The framework's core claim holds at the irreducible ticket floor.</strong>
+      For the $500M–$500B transaction categories documented in Field Note No. 6,
+      dynamic assembly encounters the ceiling described above. The aggregate market
+      impact across all available paths approaches the single-path impact when
+      transaction size is a meaningful fraction of total system depth. At those
+      sizes, the framework's required price is not an overstatement of a
+      single-pool execution. It is a statement about total system depth — how
+      much XRP capital must exist in aggregate, across all paths and pools, to
+      absorb the transaction within tolerance. That claim survives dynamic assembly
+      entirely.
+    </p>
+
+    <div class="pull-quote">
+      <p>
+        The ceiling scales with market cap. Dynamic assembly remains effective
+        at progressively larger tickets as the system matures. But the ceiling
+        always exists — and at the irreducible ticket floor, the price required
+        to push the ceiling above the transaction size is the institutional
+        scenario the series has always described.
+      </p>
+    </div>
+
+    <h2>What to watch</h2>
+
+    <div class="watch-block">
+      <div class="watch-entry">
+        <div class="watch-signal">Signal 01 &nbsp;·&nbsp; The transition zone</div>
+        <div class="watch-text"><strong>Any confirmed multi-path execution on XRPL at $100M+ ticket size with cumulative slippage documented below 10bp.</strong> This is the single most important data point for resolving the transition zone. It would be the first empirical evidence that dynamic assembly is effective above the current ODL corridor range. It does not need to be in the $500M range to matter — a confirmed $100M+ execution with documented slippage would narrow the uncertainty meaningfully. The series has named this signal in <a href="https://xrpvaluation.info/blog/irreducible-ticket/">Field Note No. 6</a> and watches for it actively.</div>
+      </div>
+      <div class="watch-entry">
+        <div class="watch-signal">Signal 02 &nbsp;·&nbsp; AMM pool depth on XRPL</div>
+        <div class="watch-text"><strong>Total value locked in XRPL AMM pools relative to ODL corridor volume.</strong> If AMM TVL grows faster than corridor volume, the ceiling for dynamic assembly is rising relative to current ticket sizes — the network is becoming more efficient before it needs to be. If corridor volume grows faster than AMM TVL, the transition zone is compressing and static depth becomes the binding constraint sooner than the model implies.</div>
+      </div>
+      <div class="watch-entry">
+        <div class="watch-signal">Signal 03 &nbsp;·&nbsp; Prisma production data</div>
+        <div class="watch-text"><strong>Any disclosed execution data from Prisma's multi-path routing in production ODL.</strong> Prisma is the specific technology that would push the near-term corridor ceiling upward. Execution quality data — average slippage, path count, pool utilization — would allow the series to calibrate the transition zone boundary empirically rather than inferring it from BIS pilot data and theoretical models. This is the data point that would most directly anchor the framework's variables to real on-ledger behavior over time.</div>
+      </div>
+    </div>
+
+    <div class="framework-ref">
+      <div class="framework-ref-label">Framework status</div>
+      <p>
+        The settlement thesis is unchanged. This note adds a three-regime map of
+        where dynamic liquidity assembly is effective, where it is empirically
+        unresolved, and where static depth is the binding constraint. The near-term
+        scenario's static depth assumption is acknowledged as conservative —
+        dynamic assembly provides genuine improvement at sub-$50M ticket sizes.
+        The institutional and sovereign scenarios are unchanged — at the irreducible
+        ticket floor, aggregate market impact across all paths approaches single-path
+        impact, and the required price is a statement about total system depth, not
+        single-pool execution. The transition zone ($50M–$500M) remains the
+        framework's least empirically anchored region and the series watches for
+        the data that would resolve it. The ceiling — the ticket size at which
+        dynamic assembly stops helping — scales with market cap, which is precisely
+        the framework's core claim about why price must rise with adoption.
+      </p>
+      <p>
+        Cross-references: <a href="https://xrpvaluation.info/blog/jit-sourcing/">Field Note No. 1</a>
+        (JIT sourcing and LP inventory mechanics) ·
+        <a href="https://xrpvaluation.info/blog/irreducible-ticket/">Field Note No. 6</a>
+        (irreducible ticket at the obligation level) ·
+        <a href="https://xrpvaluation.info/blog/modern-objections/">Field Note No. 7</a>
+        (AMM linear scaling at large transaction sizes).
+      </p>
+    </div>
+
+    <div class="disclaimer">
+      <strong>On the ceiling calculation.</strong> The ceiling formula Q = V × (τ/σ)²
+      is derived by inverting the square-root impact law (Impact = σ × √(Q/V), solving
+      for Q when Impact = τ). The current ceiling uses live 24h CoinGecko spot volume
+      (~$2.19B) as V — the same source as the <a href="https://xrpvaluation.info/terminal/">settlement terminal</a>
+      — producing a ceiling of ~$875K at σ=5%, τ=10bp. The institutional scenario uses
+      V = $180T × 1% turnover = $1.8T/day (the Part I central estimate), producing a
+      ceiling of ~$2B at σ=3%, τ=10bp. The two V inputs differ because live spot volume
+      is available for the current state and not for the institutional scenario, which
+      has no real-world data equivalent. XRP currently trades at ~2.7% daily vol/mcap —
+      above the model's 1% central estimate — meaning the live ceiling is higher than a
+      pure model calculation would imply. All figures are illustrative thresholds,
+      not precise boundaries.<br/><br/>
+      <strong>On the transition zone.</strong> The $50M–$500M range is an informed
+      estimate based on current XRPL AMM pool depths, LP inventory data from public
+      XRPL metrics, and the BIS Project Mariana findings on multi-path AMM execution.
+      No confirmed institutional-scale execution data exists on XRPL in this range.
+      The boundary is approximate and the series updates it as evidence becomes available.<br/><br/>
+      <strong>Attribution.</strong> The dynamic liquidity assembly challenge that prompted
+      this note was raised by @mrcauliman on April 29, 2026. The series credits serious
+      technical challenges that advance the framework's precision. This modeling is still
+      in its infancy. Objections and falsifiers are welcomed. Adjustments will be made
+      accordingly. This is not financial advice. Do your own research.
+    </div>
+
+    <div class="post-footer">
+      <div class="post-footer-label">Continue reading</div>
+      <div class="post-footer-links">
+        <a class="footer-link primary" href="https://xrpvaluation.info/part1/">Part I — XRP is not being valued. It is being sized.</a>
+        <a class="footer-link" href="https://xrpvaluation.info/blog/jit-sourcing/">Field Note No. 1 — JIT sourcing.</a>
+        <a class="footer-link" href="https://xrpvaluation.info/blog/irreducible-ticket/">Field Note No. 6 — The irreducible ticket.</a>
+        <a class="footer-link" href="/">All articles</a>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>XRP Valuation Series &nbsp;·&nbsp; The Living Framework</div>
+    <div>FutureXRP &nbsp;·&nbsp; @the5blairs</div>
+  </div>
+</footer>
+
+</body>
+</html>

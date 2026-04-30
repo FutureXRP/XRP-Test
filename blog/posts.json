@@ -62,5 +62,13 @@
     "tags": ["Liquidity Mechanics", "Framework Extension"],
     "title": "The network finds the liquidity. <em>Until it can't.</em>",
     "deck": "XRPL's pathfinding and dynamic liquidity assembly change the picture at smaller ticket sizes. A serious practitioner pushed on whether the static depth assumption overstates the requirement. He's right — up to a point. This note finds that point."
+  },
+  {
+    "number": 9,
+    "slug": "constrained-architecture",
+    "date": "April 30, 2026",
+    "tags": ["Legal Architecture", "Institutional Stack"],
+    "title": "This is not Ripple's <em>preferred arrangement.</em>",
+    "deck": "The sharpest empirical objection to this framework is that XRP is largely invisible in Ripple's own institutional stack. The objection is accurate. What it misreads is why — and what the legal record shows Ripple has been trying to do about it from the moment it legally could."
   }
 ]

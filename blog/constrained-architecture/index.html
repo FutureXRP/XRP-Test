@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>This is not Ripple's preferred arrangement. — The Living Framework</title>
+  <meta name="description" content="The sharpest empirical objection to this framework is that XRP is largely invisible in Ripple's own institutional stack. The objection is accurate. What it misreads is why — and what the legal record shows Ripple has been trying to do about it." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #fbfaf7; --paper: #ffffff; --paper-soft: #f7f3ea; --paper-deep: #f4efe4;
+      --ink: #171512; --ink-soft: #3a342e; --ink-medium: #61594f; --ink-faint: #8a8073;
+      --rule: #d8d0c3; --rule-strong: #1a1a1a; --accent: #9b2226;
+      --display: "Newsreader", Georgia, serif; --body: "Newsreader", Georgia, serif;
+      --ui: "IBM Plex Sans", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --text-width: 680px; --page-width: 1120px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 20px; line-height: 1.72; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    a { color: inherit; text-decoration: none; }
+
+    .topbar { max-width: var(--page-width); margin: 0 auto; padding: 24px 28px 0; }
+    .topbar-inner { border-top: 2px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); padding: 15px 0 13px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-family: var(--ui); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-medium); }
+    .topbar-left { font-weight: 600; color: var(--accent); }
+    .topbar-left a { color: var(--accent); }
+    .topbar-left a:hover { opacity: 0.75; }
+    .topbar-right { letter-spacing: 0.1em; color: var(--ink-faint); }
+
+    .article-wrap { max-width: var(--page-width); margin: 0 auto; padding: 56px 28px 120px; display: grid; grid-template-columns: 1fr min(var(--text-width), 100%) 1fr; }
+    .article-wrap > * { grid-column: 2; }
+
+    .post-header { margin-bottom: 56px; }
+    .post-section { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 24px; }
+    .post-section::before { content: ""; display: inline-block; width: 20px; height: 1px; background: var(--accent); }
+    .post-title { font-family: var(--display); font-size: clamp(36px, 6vw, 62px); line-height: 1.05; font-weight: 500; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 22px; }
+    .post-title em { font-style: italic; color: var(--accent); }
+    .post-deck { font-family: var(--display); font-style: italic; font-size: clamp(19px, 2.5vw, 24px); line-height: 1.45; color: var(--ink-medium); margin-bottom: 32px; }
+    .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 18px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+    .post-meta .meta-tag { color: var(--accent); font-weight: 600; }
+    .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--rule); flex-shrink: 0; }
+
+    .post-body { padding-top: 48px; }
+    .post-body p { margin-bottom: 28px; font-size: 20px; line-height: 1.72; color: var(--ink-soft); }
+    .post-body p:first-child { font-size: 22px; line-height: 1.65; color: var(--ink); }
+    .post-body h2 { font-family: var(--display); font-size: clamp(24px, 3vw, 32px); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 20px; padding-top: 40px; border-top: 1px solid var(--rule); }
+    .post-body strong { color: var(--ink); font-weight: 600; }
+    .post-body a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+    .post-body a:hover { border-bottom-color: var(--accent); }
+    .post-body em { font-style: italic; }
+
+    .pull-quote { margin: 44px 0; padding: 28px 32px; border-left: 3px solid var(--accent); background: var(--paper-soft); }
+    .pull-quote p { font-family: var(--display); font-size: clamp(20px, 2.5vw, 26px) !important; font-style: italic; line-height: 1.45; color: var(--ink) !important; margin-bottom: 0 !important; }
+
+    /* Legal record block — primary source citations */
+    .legal-block { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .legal-block-head { background: var(--ink); padding: 14px 20px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+    .legal-entry { padding: 20px 22px; border-top: 1px solid var(--rule); background: var(--paper); }
+    .legal-entry:first-of-type { border-top: none; }
+    .legal-entry:nth-child(even) { background: var(--paper-soft); }
+    .legal-date { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 6px; }
+    .legal-title { font-family: var(--ui); font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 6px; line-height: 1.3; }
+    .legal-body { font-family: var(--ui); font-size: 14px; color: var(--ink-medium); line-height: 1.65; }
+    .legal-body em { font-style: italic; color: var(--ink); }
+
+    /* Stack comparison — before/after */
+    .stack-compare { margin: 36px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+    .stack-col { background: var(--paper); }
+    .stack-col-head { padding: 14px 20px; border-bottom: 1px solid var(--rule); }
+    .stack-col-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; margin-bottom: 4px; }
+    .stack-col-label.constrained { color: #8a5020; }
+    .stack-col-label.native { color: #2a5a2a; }
+    .stack-col-title { font-family: var(--display); font-size: 17px; font-weight: 500; color: var(--ink); line-height: 1.3; }
+    .stack-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); }
+    .stack-cell { background: var(--paper); padding: 14px 18px; }
+    .stack-cell.constrained-cell { background: #fff9f5; }
+    .stack-cell.native-cell { background: #f5fbf5; }
+    .stack-function { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 5px; }
+    .stack-value { font-family: var(--ui); font-size: 13px; color: var(--ink-medium); line-height: 1.5; }
+    .stack-value.dim { color: var(--ink-faint); font-style: italic; }
+    .stack-value.bright { color: var(--ink); font-weight: 500; }
+
+    /* Stat row */
+    .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 36px 0; }
+    .stat-cell { background: var(--paper); padding: 20px 20px 18px; }
+    .stat-num { font-family: var(--display); font-size: 2rem; font-weight: 400; color: var(--ink); line-height: 1.1; margin-bottom: 6px; }
+    .stat-num.accent { color: var(--accent); }
+    .stat-label { font-family: var(--ui); font-size: 12px; line-height: 1.5; color: var(--ink-medium); }
+
+    /* Track table — six parallel actions */
+    .track-block { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .track-head { display: grid; grid-template-columns: 40px 1.5fr 1fr 1fr; background: var(--ink); padding: 12px 20px; gap: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .track-row { display: grid; grid-template-columns: 40px 1.5fr 1fr 1fr; padding: 16px 20px; gap: 12px; border-top: 1px solid var(--rule); background: var(--paper); align-items: start; }
+    .track-row:nth-child(even) { background: var(--paper-soft); }
+    .track-num { font-family: var(--display); font-size: 22px; font-weight: 300; color: var(--rule-strong); line-height: 1; padding-top: 2px; }
+    .track-name { font-family: var(--ui); font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.4; margin-bottom: 4px; }
+    .track-desc { font-family: var(--ui); font-size: 13px; color: var(--ink-medium); line-height: 1.55; }
+    .track-replaces { font-family: var(--mono); font-size: 12px; color: #8a5020; line-height: 1.5; }
+    .track-status { font-family: var(--mono); font-size: 11px; line-height: 1.55; }
+    .track-status.active { color: #2a5a2a; font-weight: 600; }
+    .track-status.pending { color: #8a5020; font-weight: 600; }
+    .track-status.contingent { color: var(--ink-faint); }
+    .track-note { margin-top: 3px; font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }
+    .table-note { padding: 12px 20px; background: var(--paper-deep); border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.6; }
+
+    /* Watch block */
+    .watch-block { margin: 36px 0; }
+    .watch-entry { padding: 20px 0; border-bottom: 1px solid var(--rule); }
+    .watch-entry:first-child { border-top: 1px solid var(--rule); }
+    .watch-signal { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 6px; }
+    .watch-text { font-size: 16px; line-height: 1.65; color: var(--ink-medium); }
+    .watch-text strong { color: var(--ink); }
+    .watch-text a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+
+    .framework-ref { margin: 40px 0; padding: 22px 24px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
+    .framework-ref-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+    .framework-ref p { font-size: 16px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 10px !important; }
+    .framework-ref p:last-child { margin-bottom: 0 !important; }
+    .framework-ref a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+    .framework-ref a:hover { border-bottom-color: var(--accent); }
+
+    .post-footer { margin-top: 72px; padding-top: 32px; border-top: 2px solid var(--rule-strong); }
+    .post-footer-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 20px; }
+    .post-footer-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .footer-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--rule); background: var(--paper); font-family: var(--ui); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-medium); font-weight: 500; transition: border-color 0.15s, color 0.15s; }
+    .footer-link:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-link.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .footer-link.primary:hover { background: #7f1d1d; border-color: #7f1d1d; }
+    .footer-link::after { content: "→"; font-size: 13px; }
+
+    .disclaimer { margin-top: 40px; padding: 18px 20px; background: var(--paper-soft); border: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-faint); line-height: 1.7; }
+    .disclaimer strong { color: var(--ink-medium); font-weight: 600; }
+    .disclaimer a { color: var(--accent); }
+
+    .site-footer { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 40px; }
+    .site-footer-inner { border-top: 1px solid var(--rule); padding-top: 18px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+
+    @media (max-width: 760px) {
+      body { font-size: 19px; }
+      .article-wrap { grid-template-columns: 1fr; padding: 40px 20px 80px; }
+      .article-wrap > * { grid-column: 1; }
+      .stack-compare { grid-template-columns: 1fr; }
+      .stack-row { grid-template-columns: 1fr; }
+      .track-head { grid-template-columns: 40px 1fr 1fr; }
+      .track-row { grid-template-columns: 40px 1fr 1fr; }
+      .track-head > *:nth-child(3), .track-row > *:nth-child(3) { display: none; }
+      .stat-row { grid-template-columns: repeat(2, 1fr); }
+      .site-footer { padding: 0 20px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left"><a href="/">XRP Valuation Series</a> &nbsp;·&nbsp; The Living Framework</div>
+    <div class="topbar-right">Field Note · April 30, 2026</div>
+  </div>
+</header>
+
+<article class="article-wrap">
+
+  <div class="post-header">
+    <div class="post-section">The Living Framework &nbsp;·&nbsp; No. 09</div>
+    <h1 class="post-title">This is not Ripple's<br><em>preferred arrangement.</em></h1>
+    <p class="post-deck">
+      The sharpest empirical objection to this framework is that XRP is largely invisible
+      in Ripple's own institutional stack. The objection is accurate. What it misreads
+      is why — and what the legal record shows Ripple has been trying to do about it
+      from the moment it legally could.
+    </p>
+    <div class="post-meta">
+      <span class="meta-tag">The Living Framework</span>
+      <span class="meta-dot"></span>
+      <span>Legal Architecture</span>
+      <span class="meta-dot"></span>
+      <span>Institutional Stack</span>
+      <span class="meta-dot"></span>
+      <span>April 30, 2026</span>
+    </div>
+  </div>
+
+  <div class="post-body">
+
+    <p>
+      A sharp critic recently shared a detailed analysis of Ripple's current institutional
+      architecture — a layer-by-layer breakdown showing that XRP is largely invisible to
+      institutional end users of Ripple's stack. Ripple Payments routes through RLUSD.
+      Hidden Road clears through traditional FX rails. BNY Mellon handles post-trade
+      recordkeeping. DTCC settles depositary receipts. XRP appears in the diagram as
+      infrastructure backstop, spam-prevention fee, and DR collateral reserve — present,
+      but abstracted several layers below what any institutional counterparty actually sees
+      or touches.
+    </p>
+
+    <p>
+      The analysis is accurate. The architecture it describes is real. And if that
+      architecture were Ripple's strategic destination — the end state they chose to build
+      toward — it would be a serious problem for the thesis this series has advanced.
+      But the legal record shows something different. The abstracted architecture is not
+      Ripple's preferred arrangement. It is the residue of a court order that Ripple
+      actively tried to remove the moment the regulatory environment permitted, was blocked
+      by the judge, and has been systematically dismantling through every available channel
+      ever since.
+    </p>
+
+    <p>
+      That distinction matters enormously. An architecture built by choice is durable.
+      An architecture built around a constraint dissolves when the constraint does.
+      This note documents precisely which constraint created the current stack, what
+      Ripple did to remove it, why they failed, and what they are doing instead. The
+      legal record is unambiguous — and it converts the sharpest empirical objection
+      to this framework into direct confirmation of the thesis.
+    </p>
+
+    <h2>The constraint that built the stack</h2>
+
+    <p>
+      In July 2023, Judge Analisa Torres of the Southern District of New York issued
+      a split ruling in SEC v. Ripple. She found that XRP sold to retail investors
+      on public exchanges was not a security. She found that XRP sold directly to
+      institutional investors by Ripple was. As a consequence of the institutional
+      sales finding, she imposed a permanent injunction prohibiting Ripple from making
+      unregistered direct institutional sales of XRP in the United States, and levied
+      a $125 million civil penalty.
+    </p>
+
+    <p>
+      Read that again carefully. <strong>A permanent injunction barring Ripple from
+      selling XRP directly to institutional investors.</strong> Every abstraction
+      layer in the institutional stack the critic described — the DR wrapper, the
+      RLUSD routing, the BNY Mellon clearing dependency, Ripple paying client fees
+      because clients couldn't hold XRP directly — flows from that single court order.
+      No company builds its preferred payment infrastructure this way. This is what
+      you build when the asset at the center of your network is legally off-limits
+      for your most important customers.
+    </p>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="stat-num accent">Jul 2023</div>
+        <div class="stat-label">Judge Torres imposes permanent injunction barring Ripple from direct institutional XRP sales in the US</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num accent">May 2025</div>
+        <div class="stat-label">Ripple and the SEC jointly ask Torres to dissolve the injunction — she refuses</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num accent">Aug 2025</div>
+        <div class="stat-cell">
+        <div class="stat-label">Both parties drop appeals; case closes — injunction technically remains, SEC signals non-enforcement</div>
+      </div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num accent">Apr 2026</div>
+        <div class="stat-label">Six parallel regulatory tracks actively dismantling the constrained architecture</div>
+      </div>
+    </div>
+
+    <h2>What Ripple did the moment it could</h2>
+
+    <p>
+      Under the Trump administration, the SEC reversed course on crypto enforcement.
+      The new SEC leadership reached an agreement with Ripple: reduce the civil penalty
+      to $50 million, return $75 million held in escrow to Ripple, and — critically —
+      dissolve the permanent injunction against institutional XRP sales. Both parties
+      went back to Judge Torres together and asked her to implement the agreement.
+    </p>
+
+    <p>
+      Torres refused. In a June 2025 order, she found that the parties had no authority
+      to jointly agree not to be bound by her court's final judgment. She quoted her own
+      prior findings — that Ripple's institutional sales misconduct had been reckless and
+      likely to continue — and noted that none of the underlying facts had changed. The
+      injunction stayed.
+    </p>
+
+    <div class="legal-block">
+      <div class="legal-block-head">The legal record — primary sources</div>
+      <div class="legal-entry">
+        <div class="legal-date">July 13, 2023</div>
+        <div class="legal-title">Torres issues permanent injunction</div>
+        <div class="legal-body">Court finds Ripple's direct institutional XRP sales violated Section 5 of the Securities Act. Permanent injunction issued barring future unregistered institutional sales. $125M civil penalty imposed. The injunction is the origin of every abstraction layer in Ripple's subsequent institutional stack design.</div>
+      </div>
+      <div class="legal-entry">
+        <div class="legal-date">May 2025</div>
+        <div class="legal-title">Ripple and the SEC jointly ask Torres to dissolve the injunction</div>
+        <div class="legal-body">Under new SEC leadership, both parties reach a settlement agreement calling for the injunction to be vacated and the penalty reduced to $50M. They file a joint motion asking Torres to implement it. This is not Ripple acting alone — <em>the SEC itself agreed the injunction should be dissolved.</em> Torres denies the motion, writing that the parties "do not have the authority to agree not to be bound by a court's final judgment."</div>
+      </div>
+      <div class="legal-entry">
+        <div class="legal-date">June 26, 2025</div>
+        <div class="legal-title">Torres suggests the only path forward</div>
+        <div class="legal-body">Torres offers the parties two options: appeal the injunction through the Second Circuit, or withdraw their pending appeals and close the case — accepting the injunction on paper while the SEC signals non-enforcement going forward. The SEC's own statement acknowledges it had intended to completely eliminate the injunction, calling the outcome a concession forced by the judge's refusal to cooperate with the settlement.</div>
+      </div>
+      <div class="legal-entry">
+        <div class="legal-date">August 2025</div>
+        <div class="legal-title">Both parties drop appeals — case closes</div>
+        <div class="legal-body">Ripple CEO Brad Garlinghouse announces Ripple will drop its cross-appeal. The SEC drops its appeal. The case closes with the injunction technically intact but the SEC having publicly committed to non-enforcement. Ripple receives a Bad Actor waiver from the SEC allowing it to continue capital-raising under Regulation D despite the injunction remaining on paper — a practical restoration of institutional capital access through a different channel than the one the injunction blocked.</div>
+      </div>
+      <div class="legal-entry">
+        <div class="legal-date">March 2026</div>
+        <div class="legal-title">SEC and CFTC jointly classify XRP as a digital commodity</div>
+        <div class="legal-body">Administrative guidance — not statute — formally classifies XRP as a commodity, placing it outside SEC securities jurisdiction for secondary market transactions. The injunction applies to primary institutional sales by Ripple specifically; the commodity classification addresses the broader institutional holding question. The CLARITY Act, if passed, would make this permanent federal law and render the injunction's remaining paper existence genuinely irrelevant.</div>
+      </div>
+    </div>
+
+    <p>
+      The record is unambiguous. Ripple tried to remove the injunction the moment
+      the political and regulatory environment permitted. The new SEC agreed it should
+      be removed. A federal judge blocked the attempt. Ripple then accepted the outcome
+      and immediately began executing every available alternative path to achieve the
+      same result through different channels.
+    </p>
+
+    <div class="pull-quote">
+      <p>
+        Ripple and the SEC jointly asked the court to dissolve the injunction. The judge
+        said no. The constrained architecture is not a strategic vision. It is the residue
+        of a judicial order that both parties tried to remove.
+      </p>
+    </div>
+
+    <h2>The constrained stack vs. the native stack</h2>
+
+    <p>
+      Mapping what each layer of the current architecture does versus what it would
+      do in a native XRP settlement architecture makes the constraint visible in
+      structural terms. The current stack is not a different product vision. It is
+      the same product vision with each function outsourced to a third party because
+      Ripple cannot perform it directly with XRP under the current legal structure.
+    </p>
+
+    <div class="stack-compare">
+      <div class="stack-col">
+        <div class="stack-col-head">
+          <div class="stack-col-label constrained">Current · Constrained Architecture</div>
+          <div class="stack-col-title">Built around the injunction</div>
+        </div>
+      </div>
+      <div class="stack-col">
+        <div class="stack-col-head">
+          <div class="stack-col-label native">Target · Native Settlement Architecture</div>
+          <div class="stack-col-title">Becomes possible as constraints dissolve</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stack-row">
+      <div class="stack-cell constrained-cell">
+        <div class="stack-function">Institutional XRP exposure</div>
+        <div class="stack-value">XRP Depositary Receipts via RDC — securities wrapper cleared through DTCC, booked by BNY Mellon. XRP held in Standard Custody. Institutions hold a security, not the asset.</div>
+      </div>
+      <div class="stack-cell native-cell">
+        <div class="stack-function">Institutional XRP exposure</div>
+        <div class="stack-value bright">Direct XRP custody at Ripple National Trust Bank under OCC federal supervision. Institutions hold native XRP. DR wrapper unnecessary.</div>
+      </div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-cell constrained-cell">
+        <div class="stack-function">Cross-currency settlement</div>
+        <div class="stack-value">RLUSD routed through Ethereum or XRPL-EVM. Dollar-corridor flows handled by stablecoin. Non-dollar cross-currency flows routed through Liquidity Hub — "may use XRP for low-liquidity bridges."</div>
+      </div>
+      <div class="stack-cell native-cell">
+        <div class="stack-function">Cross-currency settlement</div>
+        <div class="stack-value bright">Liquidity Hub routes through XRP by default for genuine cross-currency corridors. RLUSD handles dollar-denominated flows. Native XRP handles CNY/BRL, AED/IDR, and non-dollar cross-bloc settlement where no stablecoin is structurally neutral.</div>
+      </div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-cell constrained-cell">
+        <div class="stack-function">Post-trade settlement</div>
+        <div class="stack-value">BNY Mellon clears. DTCC settles DRs as securities. T+1 rail anchors the stack. XRPL used for fee burn and optional audit logging only.</div>
+      </div>
+      <div class="stack-cell native-cell">
+        <div class="stack-function">Post-trade settlement</div>
+        <div class="stack-value bright">XRPL provides atomic settlement finality. Ripple National Trust Bank provides federally supervised custody. BNY Mellon and DTCC reduced to regulatory recordkeeping. T+0 becomes achievable once XRPL achieves ATS exemption or infrastructure registration.</div>
+      </div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-cell constrained-cell">
+        <div class="stack-function">Client fee payment</div>
+        <div class="stack-value">Ripple pays XRPL spam fees on behalf of institutional clients. Clients do not need to hold or touch XRP — Ripple absorbs the friction because clients couldn't hold XRP without regulatory exposure.</div>
+      </div>
+      <div class="stack-cell native-cell">
+        <div class="stack-function">Client fee payment</div>
+        <div class="stack-value bright">Institutions hold XRP directly for fee payment and settlement. The friction absorption role dissolves because the regulatory exposure requiring it no longer exists.</div>
+      </div>
+    </div>
+    <div class="stack-row">
+      <div class="stack-cell constrained-cell">
+        <div class="stack-function">Fed reserve access</div>
+        <div class="stack-value dim">No direct Fed access. RLUSD reserves held at commercial banks. Correspondent banking dependencies remain throughout the payment chain.</div>
+      </div>
+      <div class="stack-cell native-cell">
+        <div class="stack-function">Fed reserve access</div>
+        <div class="stack-value bright">Ripple National Trust Bank holds RLUSD reserves directly at the Federal Reserve via master account. No correspondent bank intermediaries. Direct Fedwire and FedACH access via PACE Act framework.</div>
+      </div>
+    </div>
+
+    <h2>Six tracks running simultaneously</h2>
+
+    <p>
+      The reorchestration is not theoretical. Ripple is executing it in parallel across
+      six distinct regulatory and operational tracks, each of which directly replaces
+      one of the external dependencies the constrained architecture created. Every
+      acquisition Ripple has made, every regulatory application filed, every charter
+      sought — taken together they describe a company systematically internalizing
+      the functions that external parties currently perform, one by one, as the
+      regulatory environment permits.
+    </p>
+
+    <div class="track-block">
+      <div class="track-head">
+        <span></span>
+        <span>Track &amp; action</span>
+        <span>Dependency replaced</span>
+        <span>Status</span>
+      </div>
+      <div class="track-row">
+        <div class="track-num">01</div>
+        <div>
+          <div class="track-name">OCC National Trust Bank Charter</div>
+          <div class="track-desc">Ripple National Trust Bank provides federally supervised XRP custody directly. Eliminates the Standard Custody &amp; Trust wrapper and the third-party custody layer backstopping DR collateral.</div>
+        </div>
+        <div class="track-replaces">Standard Custody &amp; Trust · DR collateral structure · BNY Mellon custody dependency</div>
+        <div>
+          <div class="track-status active">Conditional approval Dec 2025</div>
+          <div class="track-note">OCC final rule live Apr 1, 2026. Pre-opening conditions being satisfied.</div>
+        </div>
+      </div>
+      <div class="track-row">
+        <div class="track-num">02</div>
+        <div>
+          <div class="track-name">Federal Reserve Master Account</div>
+          <div class="track-desc">Direct access to Fedwire and FedACH eliminates correspondent banking dependencies throughout the settlement chain. RLUSD reserves held at the Fed, not at commercial banks. No workarounds.</div>
+        </div>
+        <div class="track-replaces">BNY Mellon clearing · Correspondent banking · Commercial bank reserve exposure</div>
+        <div>
+          <div class="track-status pending">Application filed 2025</div>
+          <div class="track-note">Tier 3 review queue. PACE Act would compress to statutory 360-day clock.</div>
+        </div>
+      </div>
+      <div class="track-row">
+        <div class="track-num">03</div>
+        <div>
+          <div class="track-name">CLARITY Act — statutory commodity classification</div>
+          <div class="track-desc">Makes XRP's March 2026 commodity classification permanent federal law. Renders the injunction's remaining paper existence irrelevant to any future regulator. Unlocks pension fund and insurance company direct participation.</div>
+        </div>
+        <div class="track-replaces">Injunction's residual risk · Pension fund exclusion · Compliance friction for statutory-clarity-required institutions</div>
+        <div>
+          <div class="track-status pending">Senate markup window Apr–May 2026</div>
+          <div class="track-note">House passed 294–134. Polymarket 63–66% probability 2026 passage.</div>
+        </div>
+      </div>
+      <div class="track-row">
+        <div class="track-num">04</div>
+        <div>
+          <div class="track-name">Hidden Road acquisition</div>
+          <div class="track-desc">Prime brokerage and FX clearing capability brought in-house. Ripple no longer routes institutional FX flows through external prime brokers. Market-making infrastructure internalised.</div>
+        </div>
+        <div class="track-replaces">External prime brokerage dependency · Third-party FX clearing · Uncontrolled market-making infrastructure</div>
+        <div>
+          <div class="track-status active">Acquisition complete 2025</div>
+          <div class="track-note">Operational. Integrating into Ripple Payments and Liquidity Hub stack.</div>
+        </div>
+      </div>
+      <div class="track-row">
+        <div class="track-num">05</div>
+        <div>
+          <div class="track-name">XRPL ATS exemption or infrastructure registration</div>
+          <div class="track-desc">Once XRPL achieves ATS exemption or SEC registration as settlement infrastructure, the DTCC settlement dependency for post-trade finality dissolves. XRPL atomic settlement replaces T+1 TradFi rails as the authoritative record of finality.</div>
+        </div>
+        <div class="track-replaces">DTCC settlement · BNY Mellon recordkeeping · T+1 rail anchor · DR securities structure</div>
+        <div>
+          <div class="track-status contingent">Contingent on CLARITY Act</div>
+          <div class="track-note">Requires statutory framework defining XRPL's regulatory status first.</div>
+        </div>
+      </div>
+      <div class="track-row">
+        <div class="track-num">06</div>
+        <div>
+          <div class="track-name">DR redemption normalisation</div>
+          <div class="track-desc">Once Tracks 01–05 complete, institutions migrate from DR exposure to direct native XRP custody. The 1:1 XRP collateral backing DRs releases into actively deployable float — the supply compression event Part III describes as the mechanism of discontinuous repricing.</div>
+        </div>
+        <div class="track-replaces">DR wrapper · DTCC securities settlement · Effective float suppression from collateral lockup</div>
+        <div>
+          <div class="track-status contingent">Follows Tracks 01–04</div>
+          <div class="track-note">Not a separate action — the natural consequence of constraints dissolving.</div>
+        </div>
+      </div>
+      <div class="table-note">
+        Status: Active = already operational or approved in preliminary form · Pending = filed, awaiting decision · Contingent = requires prior track completion · Each track independently reduces a specific external dependency from the constrained architecture. Together they describe a complete reorchestration of the institutional stack around native XRP settlement.
+      </div>
+    </div>
+
+    <p>
+      The six tracks are not a roadmap Ripple published. They are the pattern that
+      emerges from reading Ripple's actual actions — acquisitions, charter applications,
+      regulatory filings — against the list of external dependencies the constrained
+      architecture created. Each action eliminates exactly one dependency. The
+      correspondence is not coincidental.
+    </p>
+
+    <h2>What this means for the discontinuous repricing argument</h2>
+
+    <p>
+      <a href="/part3/">Part III</a> of the series argued that XRP's adoption path
+      would not produce gradual price appreciation. It would produce discontinuous jumps
+      at threshold events — moments when a critical condition is simultaneously satisfied
+      across enough institutional participants that the probability-weighted price
+      recalculates for everyone at once.
+    </p>
+
+    <p>
+      The critic's document describing the constrained architecture identifies exactly
+      one of those threshold events by name: <em>XRP DR Collateral Dislocation</em> —
+      "XRP above $15 without demand, DR issuance halts." The document frames this as
+      a risk to the thesis. It is in fact a precise description of the threshold. Below
+      it, the constrained architecture is the operative structure. DRs are the
+      institutional vehicle because institutions cannot hold native XRP directly
+      without the DR's regulatory wrapper. Above it — when the tracks described in
+      this note are sufficiently complete that institutions can hold native XRP
+      compliantly — the DR structure becomes unnecessary overhead. Cheaper, faster
+      native settlement outcompetes the wrapper on every dimension. Institutions migrate.
+      The 1:1 XRP collateral backing each DR is released. Effective float compresses.
+      The repricing is not caused by the migration — it is what the migration reflects.
+    </p>
+
+    <p>
+      The critic's document is therefore not evidence against the thesis. It is
+      a precise empirical description of what the thesis predicts should exist
+      on the left side of the threshold: a constrained, abstracted, legally forced
+      architecture that cannot be the permanent destination because the entity that
+      built it tried to dissolve its own constraint as soon as it legally could.
+    </p>
+
+    <div class="pull-quote">
+      <p>
+        The constrained architecture is what the thesis predicts should exist before
+        the threshold. The six parallel tracks are the observable evidence that
+        Ripple knows exactly what comes after it.
+      </p>
+    </div>
+
+    <h2>What to watch</h2>
+
+    <div class="watch-block">
+      <div class="watch-entry">
+        <div class="watch-signal">Signal 01 &nbsp;·&nbsp; CLARITY Act markup</div>
+        <div class="watch-text"><strong>Senate Banking Committee scheduling before Memorial Day 2026.</strong> This is the master gate for the reorchestration sequence. Tracks 05 and 06 are directly contingent on it. Without statutory commodity classification, the ATS exemption pathway is legally ambiguous and pension fund participation remains blocked. <a href="https://xrpvaluation.info/part6/">Part VI's</a> probability framework should be updated immediately if the markup is scheduled — or if the window closes without scheduling.</div>
+      </div>
+      <div class="watch-entry">
+        <div class="watch-signal">Signal 02 &nbsp;·&nbsp; Ripple National Trust Bank full activation</div>
+        <div class="watch-text"><strong>OCC pre-opening conditions satisfied and bank operationally live.</strong> This is the single most consequential near-term structural event for the institutional stack. When Ripple is its own federally regulated custodian, the DR structure loses its primary compliance rationale. Watch for OCC public announcements removing the "conditional" qualification from the charter approval — that is the trigger for Track 06 to begin.</div>
+      </div>
+      <div class="watch-entry">
+        <div class="watch-signal">Signal 03 &nbsp;·&nbsp; Fed master account decision</div>
+        <div class="watch-text"><strong>Federal Reserve approval or denial of Ripple's Tier 3 master account application.</strong> Approval would be the first instance of a crypto-native firm achieving direct Federal Reserve settlement access — a structural event with no historical precedent in digital assets. The PACE Act, if passed alongside the CLARITY Act, compresses the review timeline to a statutory 360-day clock and provides an automatic grant if the OCC misses the window.</div>
+      </div>
+      <div class="watch-entry">
+        <div class="watch-signal">Signal 04 &nbsp;·&nbsp; DR issuance volume and redemption rate</div>
+        <div class="watch-text"><strong>The ratio of new DR issuance to redemption requests.</strong> Rising redemption relative to issuance signals that institutions are beginning to prefer native XRP custody over the DR wrapper — the early leading indicator of Track 06 beginning even before it is formally initiated. This is observable through RDC and Standard Custody disclosures and on-chain XRP movements between custody addresses.</div>
+      </div>
+    </div>
+
+    <div class="framework-ref">
+      <div class="framework-ref-label">Framework status</div>
+      <p>
+        The settlement thesis is unchanged and strengthened. This note converts the
+        sharpest empirical objection the series has received — that XRP is largely
+        invisible in Ripple's own institutional stack — into direct confirmation of
+        the thesis by grounding the explanation in the primary legal record. The
+        constrained architecture is documented fact. Its cause — the Torres injunction —
+        is documented fact. Ripple's attempt to dissolve the constraint the moment
+        the regulatory environment permitted is documented fact. The six parallel
+        tracks dismantling the architecture are documented in public filings, acquisition
+        records, and regulatory applications. None of this requires conditional assumptions
+        about the future. It requires only reading the record of what has already happened.
+      </p>
+      <p>
+        The connection to <a href="/part3/">Part III's</a> discontinuous repricing argument
+        is direct: the constrained architecture describes the interval before the threshold.
+        The six tracks describe Ripple's systematic preparation for what comes after it.
+        The equilibrium band in <a href="/blog/equilibrium-band/">Field Note No. 5</a>
+        describes what rational price looks like in the interval. The threshold crossing —
+        when enough tracks complete simultaneously — is when the band reprices and the
+        discontinuity occurs.
+      </p>
+      <p>
+        <a href="/part3/">Part III — discontinuous repricing →</a>
+        &nbsp;&nbsp;
+        <a href="/blog/equilibrium-band/">Field Note No. 5 — the equilibrium band →</a>
+        &nbsp;&nbsp;
+        <a href="/part6/">Part VI — the probability framework →</a>
+      </p>
+    </div>
+
+    <div class="disclaimer">
+      <strong>On the legal record.</strong> All factual claims about the SEC v. Ripple
+      litigation draw from primary sources: Judge Torres' July 2023 summary judgment
+      order, her June 2025 order denying the joint motion, the parties' August 2025
+      stipulation of dismissal filed in the Second Circuit, and the SEC's own public
+      statement acknowledging its intent to dissolve the injunction. These are public
+      court documents. No interpretation of legal strategy or intent is attributed to
+      Ripple beyond what the documentary record directly supports.<br /><br />
+      <strong>On the six tracks.</strong> The track descriptions are derived from
+      publicly reported regulatory filings (OCC conditional charter approval December
+      2025, Fed master account application filed through Standard Custody subsidiary),
+      acquisition announcements (Hidden Road, Rail, GTreasury), and legislative status
+      (CLARITY Act House passage July 2025, Senate Banking Committee timeline as of
+      April 2026). The characterization of each track as "replacing" a specific
+      dependency is the framework's analytical interpretation of publicly documented
+      actions — not a statement of Ripple's internal communications or intentions.<br /><br />
+      <strong>On the DR collateral dislocation threshold.</strong> The $15 figure cited
+      in the "thresholds and breakpoints" analysis that prompted this note is from
+      secondary analysis of Ripple's institutional stack, not from Ripple's own
+      disclosures. The framework uses it illustratively as an example of a threshold
+      event, not as a precise or authoritative figure.<br /><br />
+      This is not financial advice. The Living Framework extends the analytical work
+      of the XRP Valuation Series — a conditional sizing model, not a price prediction.
+      Do your own research.
+    </div>
+
+    <div class="post-footer">
+      <div class="post-footer-label">Continue reading</div>
+      <div class="post-footer-links">
+        <a class="footer-link primary" href="/part3/">Part III — Discontinuous repricing and the atomic settlement threshold.</a>
+        <a class="footer-link" href="/blog/equilibrium-band/">Field Note No. 5 — The equilibrium band.</a>
+        <a class="footer-link" href="/part6/">Part VI — The case against, taken seriously.</a>
+        <a class="footer-link" href="/">All articles</a>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>XRP Valuation Series &nbsp;·&nbsp; The Living Framework</div>
+    <div>FutureXRP &nbsp;·&nbsp; @the5blairs</div>
+  </div>
+</footer>
+
+</body>
+</html>

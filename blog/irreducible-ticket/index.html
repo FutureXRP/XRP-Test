@@ -54,6 +54,13 @@
     .pull-quote { margin: 44px 0; padding: 28px 32px; border-left: 3px solid var(--accent); background: var(--paper-soft); }
     .pull-quote p { font-family: var(--display); font-size: clamp(20px, 2.5vw, 26px) !important; font-style: italic; line-height: 1.45; color: var(--ink) !important; margin-bottom: 0 !important; }
 
+    /* Update notice */
+    .update-notice { margin: 0 0 32px; padding: 18px 22px; background: var(--paper-deep); border: 1px solid var(--rule); border-left: 3px solid var(--ink-faint); }
+    .update-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 10px; }
+    .update-notice p { font-size: 15px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 8px !important; }
+    .update-notice p:last-child { margin-bottom: 0 !important; }
+    .update-notice a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+
     /* Editor note */
     .editor-note { margin: 0 0 48px; padding: 22px 24px; background: var(--paper-soft); border: 1px solid var(--rule); border-left: 3px solid var(--accent); }
     .editor-note-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
@@ -81,6 +88,22 @@
     tbody td.td-label { font-weight: 600; color: var(--ink); font-family: var(--ui); width: 200px; }
     tbody td.td-floor { font-family: var(--mono); font-size: 12px; color: var(--ink); white-space: nowrap; }
     tbody td.td-reason { font-size: 12px; color: var(--ink-medium); line-height: 1.6; }
+
+    /* Sensitivity table */
+    .sensitivity-table { overflow-x: auto; margin: 36px 0; border: 1px solid var(--rule); }
+    .sensitivity-table table { width: 100%; border-collapse: collapse; font-family: var(--ui); font-size: 13px; }
+    .sensitivity-table thead tr { border-bottom: 2px solid var(--rule-strong); background: var(--ink); }
+    .sensitivity-table thead th { text-align: left; padding: 11px 14px; font-weight: 400; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+    .sensitivity-table tbody tr { border-bottom: 1px solid var(--rule); }
+    .sensitivity-table tbody tr:last-child { border-bottom: none; }
+    .sensitivity-table tbody tr:nth-child(even) { background: var(--paper-soft); }
+    .sensitivity-table tbody td { padding: 12px 14px; color: var(--ink-soft); vertical-align: top; line-height: 1.55; }
+    .sensitivity-table tbody td.td-assumption { font-weight: 600; color: var(--ink); font-family: var(--ui); }
+    .sensitivity-table tbody td.td-q { font-family: var(--mono); font-size: 12px; color: var(--ink-medium); }
+    .sensitivity-table tbody td.td-price { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); }
+    .sensitivity-table tbody td.td-price.muted { color: var(--ink-medium); }
+    .sensitivity-table tbody td.td-note { font-size: 12px; color: var(--ink-faint); font-style: italic; }
+    .sensitivity-table .table-note { padding: 12px 14px; background: var(--paper-deep); border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.6; }
 
     /* Math block */
     .math-block { margin: 36px 0; padding: 28px 32px; background: var(--paper-soft); border: 1px solid var(--rule); border-left: 3px solid var(--accent); }
@@ -173,8 +196,11 @@
   </div>
 
   <div class="update-notice">
-    <div class="update-label">Updated &nbsp;·&nbsp; April 29, 2026</div>
-    <p>This note has been revised to sharpen the distinction between legal atomicity and execution mechanics — a precision gap identified in a rigorous challenge made about the framework. The original language conflated the indivisibility of a settlement <em>obligation</em> with the indivisibility of its <em>execution</em>. Those are different claims and the note owed the distinction. The addition appears in the "Minimum irreducible ticket" section immediately below the definition paragraph. The capital sizing argument is unchanged. The framing is now more precise.</p>
+    <div class="update-label">Updated &nbsp;·&nbsp; May 2, 2026 &nbsp;·&nbsp; Second revision</div>
+    <p>This note has been revised a second time following an extended critical exchange with Grok (xAI) on the irreducible ticket assumption. The exchange produced two outcomes that strengthen the framework's honesty without weakening its core argument.</p>
+    <p>First, a concession: there is no documented evidence of <em>routine</em> post-netting single gross tickets above $5 billion that must settle as single irreducible atomic transactions in current live markets. The note previously implied otherwise through its transaction floor size table. That implication was imprecise and is now corrected. The irreducible ticket table describes obligations that are indivisible at the <em>legal instrument level</em> — not single market orders that must execute in one shot.</p>
+    <p>Second, a reframe that is both more accurate and more defensible: the framework's Q input in the square-root law is best understood as <strong>aggregate demand within a non-extendable settlement window</strong>, not a single gross ticket. The 2022 UK LDI crisis is the empirical anchor — £70 billion in legally mandated variation margin and collateral calls over 13 days that fragmentation, netting, and existing liquidity channels could not absorb without Bank of England intervention at £65 billion. That is the irreducible obligation in the wild. A Q-sensitivity table has been added showing how required price varies under different fragmentation assumptions. The conditional thesis is unchanged. The input assumptions are now stated with greater precision.</p>
+    <p><em>First revision (April 29, 2026): sharpened the distinction between legal atomicity and execution atomicity — a precision gap identified by a financial market infrastructure specialist.</em></p>
   </div>
 
   <div class="editor-note">
@@ -433,6 +459,105 @@
       </p>
     </div>
 
+    <h2>The empirical anchor — aggregate demand under stress</h2>
+
+    <p>
+      A rigorous critical exchange raised a precise objection: none of the institutional
+      sources document routine post-netting single gross tickets above $5 billion that must
+      settle as a single atomic transaction in current live markets. That objection is correct
+      and the framework concedes it cleanly. What the sources do establish — and what
+      constitutes the stronger and more defensible version of the irreducible ticket argument
+      — is the existence of <strong>aggregate demand concentrated within non-extendable
+      settlement windows</strong> that fragmentation, netting, and existing liquidity channels
+      cannot absorb without systemic failure or external backstop.
+    </p>
+
+    <p>
+      The 2022 UK LDI crisis is the clearest documented case. The September 2022 gilt market
+      disruption generated an estimated £70 billion in legally mandated variation margin and
+      collateral calls across UK defined benefit pension schemes within days. Individual pooled
+      LDI funds faced margin calls of up to £100 million per fund per day under extreme time
+      pressure. These obligations were not discretionary and could not be deferred without
+      triggering position liquidation. The aggregate demand could not be absorbed by
+      fragmentation, netting within CCPs, or existing liquidity channels — the Bank of England
+      was required to authorize emergency gilt purchases of up to £65 billion to prevent
+      systemic failure. Sources: IMF Country Report 2023/253; Bank of England Financial
+      Stability Report December 2022; Chicago Fed Letter 2023/480; Central Bank of Ireland
+      Financial Stability Note on Irish-resident LDI funds.
+    </p>
+
+    <p>
+      This is the irreducible obligation in the wild. Not a single blockchain transaction —
+      but legally mandated, time-constrained, non-deferrable aggregate demand that the system
+      could not handle without a central bank acting as bridge asset of last resort. In a world
+      where XRP is the pre-funded neutral bridge asset standing behind these obligations, the
+      square-root law sizes exactly this requirement. The question the framework is asking is:
+      what depth does that bridge need to be so the central bank never has to step in?
+    </p>
+
+    <h2>Q-sensitivity under fragmentation assumptions</h2>
+
+    <p>
+      The concession on single gross tickets produces an obligation: show how the price
+      scenarios change under different fragmentation assumptions. If the $2B institutional
+      Q is fragmented to $1B effective tickets through splitting and routing, the required
+      price falls. If fragmented further to $400M, it falls more. The table below holds
+      the Part I adoption scenario volumes constant and varies effective Q.
+    </p>
+
+    <div class="sensitivity-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Fragmentation assumption</th>
+            <th>Effective Q per ticket</th>
+            <th>Required price (σ=3%, tol=10bp, 1% turnover)</th>
+            <th>Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-assumption">100% gross — no fragmentation</td>
+            <td class="td-q">$2.0B</td>
+            <td class="td-price">~$2,913</td>
+            <td class="td-note">Original Part I institutional scenario. Requires aggregate obligation to hit market at full size. Stress events and legally mandated margin calls approach this regime.</td>
+          </tr>
+          <tr>
+            <td class="td-assumption">50% fragmented</td>
+            <td class="td-q">$1.0B</td>
+            <td class="td-price">~$1,456</td>
+            <td class="td-note">Consistent with algo-sliced execution across venues. Represents partial fragmentation where execution efficiency is high but aggregate window is non-extendable.</td>
+          </tr>
+          <tr>
+            <td class="td-assumption">20% fragmented</td>
+            <td class="td-q">$400M</td>
+            <td class="td-price muted">~$583</td>
+            <td class="td-note">Aggressive fragmentation assumption. Requires both high execution efficiency and extendable settlement windows. May not be available for legally mandated same-day obligations.</td>
+          </tr>
+          <tr>
+            <td class="td-assumption">50% fragmented + 2× velocity</td>
+            <td class="td-q">$1.0B</td>
+            <td class="td-price muted">~$728</td>
+            <td class="td-note">Higher turnover from recycling and batching compresses required price further. Represents a maturing ODL market with deep routing infrastructure.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="table-note">
+        Formula: Price = Q × (σ ÷ tolerance)² ÷ (turnover × supply) · σ = 3% · tolerance = 10bp · turnover = 1% base (2% in velocity scenario) · supply = 61B XRP · Figures illustrative, not forecasts. Source methodology: Grok (xAI) Q-sensitivity analysis, May 2026, conducted as part of a structured critical exchange with the framework.
+      </div>
+    </div>
+
+    <p>
+      The honest read of this table: the framework's highest price scenarios — $2,913 and
+      above — survive under the assumption that aggregate obligations within non-extendable
+      windows hit the market with limited fragmentation. That assumption is most defensible
+      for stress events and legally mandated same-day margin calls, as documented by the
+      LDI crisis. Under aggressive fragmentation assumptions with extended settlement windows,
+      the required price compresses materially. The conditional thesis is unchanged. The input
+      assumptions now have explicit sensitivity ranges attached rather than implicit
+      single-point estimates.
+    </p>
+
     <h2>What the irreducible ticket requires from XRP</h2>
 
     <p>
@@ -461,18 +586,17 @@
       <div class="math-row">Required market cap &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= $1.8T ÷ 0.01 = <span class="val">$180 trillion</span></div>
       <div class="math-row">At 61B XRP circulating supply:</div>
       <div class="math-row">Required price per XRP &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;≈ <span class="result">$2,951 per XRP</span></div>
-      <div class="math-row" style="margin-top: 12px; font-size: 12px; color: var(--ink-faint);">This is the institutional scenario central estimate from Part I — a recurring daily corridor at $2B peak ticket, not a one-off event. The model prices the liquidity depth required to sustain that flow. At 0.3% turnover (high-scarcity): ~$9,840. At 1.5% (high-efficiency): ~$1,967. The range reflects execution architecture assumptions, not uncertainty about the formula.</div>
+      <div class="math-row" style="margin-top: 12px; font-size: 12px; color: var(--ink-faint);">This is the institutional scenario central estimate from Part I — a recurring daily corridor at $2B peak ticket, no fragmentation assumed. Under 50% fragmentation: ~$1,456. Under 20% fragmentation: ~$583. See Q-sensitivity table above. At 0.3% turnover (high-scarcity): ~$9,840. At 1.5% (high-efficiency): ~$1,967.</div>
     </div>
 
     <p>
       That figure is not a price prediction. It is the answer to a specific question: what
       does the math require if XRP settles a recurring $2B atomic DvP at 10bp slippage as
-      a live institutional corridor? The answer — $2,951 at central estimate — matches the
-      institutional scenario in <a href="https://xrpvaluation.info/part1/">Part I</a> exactly,
-      because it is the same calculation. The irreducible ticket list above confirms that $2B
-      is not a hypothetical input. It is the lower end of several transaction categories that
-      exist in current institutional practice. The math and the real-world floor size meet
-      at the same number.
+      a live institutional corridor with no fragmentation? The answer — $2,951 at central
+      estimate — matches the institutional scenario in <a href="https://xrpvaluation.info/part1/">Part I</a>
+      exactly, because it is the same calculation. The Q-sensitivity table above documents
+      how that figure changes under fragmentation assumptions. The math is not in dispute.
+      The input assumptions now have explicit ranges.
     </p>
 
     <h2>The adoption question and the math question are different</h2>
@@ -491,7 +615,7 @@
       <div class="two-col-cell col-b">
         <div class="two-col-label col-b">The math question</div>
         <div class="two-col-head">Is the framework's pricing logic correct if XRP is used for them?</div>
-        <div class="two-col-body">This is what <a href="https://xrpvaluation.info/part1/" style="color:var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3);">Part I</a> addresses. The answer is yes — the square-root law applies, the slippage constraint is real, and the required price is calculable. Transaction-splitting does not change this. Routing architecture does not change this. The liquidity has to exist somewhere at the price that supports the slippage tolerance.</div>
+        <div class="two-col-body">This is what <a href="https://xrpvaluation.info/part1/" style="color:var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3);">Part I</a> addresses. The answer is yes — the square-root law applies, the slippage constraint is real, and the required price is calculable. Transaction-splitting does not change this. Routing architecture does not change this. The liquidity has to exist somewhere at the price that supports the slippage tolerance. The Q-sensitivity table above shows how required price varies by fragmentation assumption.</div>
       </div>
     </div>
 
@@ -522,42 +646,27 @@
     <div class="framework-ref">
       <div class="framework-ref-label">Framework status</div>
       <p>
-        The settlement thesis is unchanged. This note adds two things to the framework's
+        The settlement thesis is unchanged. This note adds three things to the framework's
         published state. First, a timing caveat on P_u: the utility floor in
         <a href="/field-notes/equilibrium-band/">Field Note No. 5</a> describes a projected
         state of ODL operation contingent on Prisma activation, not today's mechanics. Second,
-        an empirical grounding for the irreducible ticket assumption the framework implicitly
-        depends on: ten categories of institutional cross-border transactions exist in current
-        practice at floor sizes of $500M to $500B that cannot be split, layered, or netted
-        below their threshold without violating the legal, commercial, or regulatory constraints
-        that define them. The <a href="https://xrpvaluation.info/part1/">Part I</a> math applied
-        to a representative irreducible ticket confirms the required price lands in the
-        institutional scenario range. Whether XRP will be used for these transactions is an
-        adoption question addressed in <a href="https://xrpvaluation.info/part6/">Part VI</a>.
+        an empirical grounding for the irreducible ticket assumption via the LDI crisis —
+        £70 billion in aggregate non-deferrable margin and collateral calls over 13 days
+        that fragmentation and netting could not absorb without Bank of England intervention.
+        Third, a Q-sensitivity table showing how required price varies from ~$583 to ~$2,913
+        under fragmentation assumptions ranging from aggressive to none. The highest price
+        scenarios are most defensible for stress events and legally mandated same-day
+        obligations where fragmentation is structurally limited. Whether XRP will be used
+        for these transactions is addressed in <a href="https://xrpvaluation.info/part6/">Part VI</a>.
         Whether the math holds if it is used for them is not in dispute.
       </p>
     </div>
 
     <div class="disclaimer">
-      <strong>On the irreducible ticket calculations.</strong> The illustrative calculation
-      applies the square-root market impact methodology from <a href="https://xrpvaluation.info/part1/">Part I</a>
-      exactly: V = Q × (σ ÷ tolerance)², where Q = $2B peak ticket, σ = 3% (volatility at
-      institutional scale after natural compression), tolerance = 10bp. Required daily volume
-      = $1.8T. At 1.0% daily vol/mcap central turnover estimate and 61B circulating supply,
-      implied price = $2,951 — the institutional scenario central estimate from Part I. The
-      full sensitivity range ($1,967 at 1.5% turnover; $9,840 at 0.3% turnover) is documented
-      in Part I's scenario table.<br/><br/>
-      <strong>On the transaction floor sizes.</strong> The floor sizes in the irreducible
-      ticket table are based on documented norms in each transaction category drawn from
-      BIS working papers, FSB settlement studies, and publicly disclosed institutional
-      transaction data. They represent conservative estimates of typical single-transaction
-      sizes in current institutional practice. They are not projections of future XRP
-      transaction sizes.<br/><br/>
-      <strong>On the Prisma disclosure.</strong> David Schwartz's confirmation that ODL does
-      not currently use DEXs, and his description of Prisma's capabilities, comes from an
-      X Space conversation reported in September 2023. No subsequent public confirmation of
-      Prisma integration into production ODL has been identified as of April 2026. This note
-      treats that status as unchanged pending primary disclosure from Ripple.<br/><br/>
+      <strong>On the Q-sensitivity table.</strong> The sensitivity calculations hold the Part I adoption scenario constant and vary effective Q under different fragmentation assumptions. Formula: Price = Q × (σ ÷ tolerance)² ÷ (turnover × supply). σ = 3%, tolerance = 10bp, turnover = 1% base, supply = 61B XRP. The table was produced as part of a structured critical exchange with Grok (xAI) in May 2026. Results are illustrative scenario math, not forecasts.<br/><br/>
+      <strong>On the LDI crisis sourcing.</strong> The £70 billion aggregate margin and collateral call figure comes from IMF Country Report 2023/253. The Bank of England's £65 billion emergency gilt purchase authorization is documented in the Bank of England Financial Stability Report December 2022. Individual fund-level margin call figures of up to £100 million per day are from Risk.net, September 2022. The Chicago Fed Letter 2023/480 provides the structural analysis of the LDI mechanism.<br/><br/>
+      <strong>On the irreducible ticket calculations.</strong> The illustrative calculation applies the square-root market impact methodology from <a href="https://xrpvaluation.info/part1/">Part I</a> exactly: V = Q × (σ ÷ tolerance)², where Q = $2B peak ticket, σ = 3%, tolerance = 10bp. Required daily volume = $1.8T. At 1.0% daily vol/mcap and 61B circulating supply, implied price = $2,951. Under fragmentation: see sensitivity table above.<br/><br/>
+      <strong>On the Prisma disclosure.</strong> David Schwartz's confirmation that ODL does not currently use DEXs comes from an X Space conversation reported in September 2023. No subsequent public confirmation of Prisma integration into production ODL has been identified as of May 2026.<br/><br/>
       The modeling is still in its infancy. Objections and falsifiers are welcomed.
       Adjustments will be made accordingly. This is not financial advice. Do your own research.
     </div>

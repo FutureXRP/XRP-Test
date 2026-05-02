@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Field Note 10: The Pathfinding Threshold — XRP Valuation Series</title>
+  <meta name="description" content="At what adoption threshold does XRPL's dynamic pathfinding stop compensating for insufficient static depth? A framework for the most important unanswered question in the valuation model." />
+  <meta property="og:title" content="Field Note 10: The Pathfinding Threshold" />
+  <meta property="og:description" content="ISO Ledger asked the right question. Here is a framework for thinking about the answer." />
+  <meta property="og:type" content="article" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --paper: #ffffff;
+      --paper-soft: #f7f3ea;
+      --paper-deep: #f4efe4;
+      --ink: #171512;
+      --ink-soft: #3a342e;
+      --ink-medium: #61594f;
+      --ink-faint: #8a8073;
+      --rule: #d8d0c3;
+      --rule-strong: #1a1a1a;
+      --accent: #9b2226;
+      --display: "Newsreader", Georgia, serif;
+      --body: "Newsreader", Georgia, serif;
+      --ui: "IBM Plex Sans", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --text-width: 680px;
+      --page-width: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 20px; line-height: 1.72; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── TOPBAR ── */
+    .topbar { max-width: var(--page-width); margin: 0 auto; padding: 24px 28px 0; }
+    .topbar-inner { border-top: 2px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); padding: 15px 0 13px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-family: var(--ui); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-medium); }
+    .topbar-left { font-weight: 600; color: var(--accent); }
+    .topbar-left a { color: var(--accent); }
+    .topbar-left a:hover { opacity: 0.75; }
+    .topbar-right { letter-spacing: 0.1em; color: var(--ink-faint); }
+
+    /* ── LAYOUT ── */
+    .article-wrap { max-width: var(--page-width); margin: 0 auto; padding: 56px 28px 120px; display: grid; grid-template-columns: 1fr min(var(--text-width), 100%) 1fr; }
+    .article-wrap > * { grid-column: 2; }
+
+    /* ── POST HEADER ── */
+    .post-header { margin-bottom: 56px; }
+    .post-section { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 24px; }
+    .post-section::before { content: ""; display: inline-block; width: 20px; height: 1px; background: var(--accent); }
+
+    h1.post-title { font-family: var(--display); font-size: clamp(36px, 6vw, 62px); line-height: 1.05; font-weight: 500; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 22px; }
+    h1.post-title em { font-style: italic; color: var(--accent); }
+
+    .post-deck { font-family: var(--display); font-style: italic; font-size: clamp(19px, 2.5vw, 24px); line-height: 1.45; color: var(--ink-medium); margin-bottom: 32px; }
+
+    .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 18px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+    .post-meta .meta-tag { color: var(--accent); font-weight: 600; }
+    .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--rule); flex-shrink: 0; }
+
+    /* ── POST BODY ── */
+    .post-body { padding-top: 48px; }
+    .post-body p { margin-bottom: 28px; font-size: 20px; line-height: 1.72; color: var(--ink-soft); }
+    .post-body p:first-child { font-size: 22px; line-height: 1.65; color: var(--ink); }
+    .post-body h2 { font-family: var(--display); font-size: clamp(24px, 3vw, 32px); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 20px; padding-top: 40px; border-top: 1px solid var(--rule); }
+
+    /* ── PULL QUOTE ── */
+    .pull-quote { margin: 44px 0; padding: 28px 32px; border-left: 3px solid var(--accent); background: var(--paper-soft); }
+    .pull-quote p { font-family: var(--display); font-size: clamp(20px, 2.5vw, 26px) !important; font-style: italic; line-height: 1.45; color: var(--ink) !important; margin-bottom: 0 !important; }
+
+    /* ── MATH BLOCKS ── */
+    .math-block { margin: 36px 0; padding: 24px 28px; background: var(--ink); border-radius: 4px; }
+    .math-block .math-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 12px; }
+    .math-block .math-line { font-family: var(--mono); font-size: 15px; color: #fff; line-height: 1.9; }
+    .math-block .math-line .var { color: #c9a84c; }
+    .math-block .math-note { margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.1); font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.6; }
+
+    /* ── REGIME DIAGRAM ── */
+    .regime-diagram { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .regime-diagram-head { background: var(--ink); padding: 12px 20px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .regime-grid { display: grid; grid-template-columns: 1fr 52px 1fr; }
+    .regime-box { padding: 20px 22px; background: var(--paper); }
+    .regime-box + .regime-box { border-left: 1px solid var(--rule); }
+    .regime-divider { display: flex; align-items: center; justify-content: center; background: var(--paper-soft); border-left: 1px solid var(--rule); border-right: 1px solid var(--rule); }
+    .regime-divider span { font-family: var(--mono); font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); writing-mode: vertical-rl; transform: rotate(180deg); }
+    .regime-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 8px; }
+    .regime-label.a { color: #2d6a2d; }
+    .regime-label.b { color: var(--accent); }
+    .regime-name { font-family: var(--ui); font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+    .regime-desc { font-family: var(--ui); font-size: 13px; font-weight: 400; color: var(--ink-medium); line-height: 1.55; }
+
+    /* ── VARIABLE TABLE ── */
+    .var-table { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .var-table-head { display: grid; grid-template-columns: 1.4fr 1.8fr 1.4fr; background: var(--ink); padding: 12px 20px; gap: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .var-table-row { display: grid; grid-template-columns: 1.4fr 1.8fr 1.4fr; padding: 14px 20px; gap: 12px; border-top: 1px solid var(--rule); background: var(--paper); align-items: start; }
+    .var-table-row:nth-child(even) { background: var(--paper-soft); }
+    .var-name { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--accent); line-height: 1.4; }
+    .var-desc { font-family: var(--ui); font-size: 13px; color: var(--ink-medium); line-height: 1.5; }
+    .var-dir { font-family: var(--ui); font-size: 13px; color: var(--ink-medium); line-height: 1.5; }
+
+    /* ── SIGNAL TABLE ── */
+    .signal-table { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .signal-table-head { display: grid; grid-template-columns: 1.2fr 1.8fr 1fr; background: var(--ink); padding: 12px 20px; gap: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .signal-table-row { display: grid; grid-template-columns: 1.2fr 1.8fr 1fr; padding: 14px 20px; gap: 12px; border-top: 1px solid var(--rule); background: var(--paper); align-items: start; }
+    .signal-table-row:nth-child(even) { background: var(--paper-soft); }
+    .signal-name { font-family: var(--ui); font-size: 14px; font-weight: 500; color: var(--ink); line-height: 1.4; }
+    .signal-what { font-family: var(--ui); font-size: 13px; color: var(--ink-medium); line-height: 1.5; }
+    .signal-source { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.5; }
+    .table-note { padding: 12px 20px; background: var(--paper-deep); border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.6; }
+
+    /* ── FRAMEWORK REF ── */
+    .framework-ref { margin: 40px 0; padding: 22px 24px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
+    .framework-ref-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+    .framework-ref p { font-size: 16px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 10px !important; }
+    .framework-ref p:last-child { margin-bottom: 0 !important; }
+    .framework-ref a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+    .framework-ref a:hover { border-bottom-color: var(--accent); }
+
+    /* ── POST FOOTER ── */
+    .post-footer { margin-top: 72px; padding-top: 32px; border-top: 2px solid var(--rule-strong); }
+    .post-footer-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 20px; }
+    .post-footer-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .footer-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--rule); background: var(--paper); font-family: var(--ui); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-medium); font-weight: 500; transition: border-color 0.15s, color 0.15s; }
+    .footer-link:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-link.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .footer-link.primary:hover { background: #7f1d1d; border-color: #7f1d1d; }
+    .footer-link::after { content: "→"; font-size: 13px; }
+
+    /* ── DISCLAIMER ── */
+    .disclaimer { margin-top: 40px; padding: 18px 20px; background: var(--paper-soft); border: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-faint); line-height: 1.7; }
+
+    /* ── SITE FOOTER ── */
+    .site-footer { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 40px; }
+    .site-footer-inner { border-top: 1px solid var(--rule); padding-top: 18px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 760px) {
+      body { font-size: 19px; }
+      .article-wrap { grid-template-columns: 1fr; padding: 40px 20px 80px; }
+      .article-wrap > * { grid-column: 1; }
+      .regime-grid { grid-template-columns: 1fr; }
+      .regime-divider { writing-mode: initial; height: 36px; }
+      .regime-divider span { writing-mode: initial; transform: none; }
+      .regime-box + .regime-box { border-left: none; border-top: 1px solid var(--rule); }
+      .var-table-head, .var-table-row { grid-template-columns: 1fr 1fr; }
+      .var-table-head > *:nth-child(3), .var-table-row > *:nth-child(3) { display: none; }
+      .signal-table-head, .signal-table-row { grid-template-columns: 1fr 1fr; }
+      .signal-table-head > *:nth-child(3), .signal-table-row > *:nth-child(3) { display: none; }
+      .site-footer { padding: 0 20px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left"><a href="/">XRP Valuation Series</a> &nbsp;·&nbsp; The Living Framework</div>
+    <div class="topbar-right">Field Note · May 2026</div>
+  </div>
+</header>
+
+<article class="article-wrap">
+
+  <div class="post-header">
+    <div class="post-section">The Living Framework &nbsp;·&nbsp; No. 10</div>
+    <h1 class="post-title">The <em>pathfinding threshold</em> — a framework for the most important unanswered question</h1>
+    <p class="post-deck">
+      ISO Ledger audited the full series and closed with one open question: at what specific adoption
+      threshold does XRPL's dynamic liquidity assembly stop compensating for insufficient static depth?
+      They called it the most important number in the framework. Here is a framework for thinking about the answer.
+    </p>
+    <div class="post-meta">
+      <span class="meta-tag">The Living Framework</span>
+      <span class="meta-dot"></span>
+      <span>Liquidity Mechanics</span>
+      <span class="meta-dot"></span>
+      <span>Pathfinding</span>
+      <span class="meta-dot"></span>
+      <span>May 2, 2026</span>
+    </div>
+  </div>
+
+  <div class="post-body">
+
+    <p>
+      "At what specific adoption threshold does the dynamic liquidity assembly of XRPL pathfinding
+      stop compensating for insufficient static depth? That's the number that separates Layer 4
+      from Layer 5 in practical terms and we don't see it quantified anywhere in the series.
+      If that number exists — it's the most important number in the framework."
+      — <em>ISO Ledger, Audit: XRP Valuation Series, May 2026</em>
+    </p>
+
+    <p>
+      ISO Ledger read the full series and all nine prior field notes before writing that. They confirmed
+      the square root market impact law application, the BIS and IMF sourcing on atomic settlement,
+      the netting argument, and the Layer 5 derivatives claim. Then they closed with this.
+    </p>
+
+    <p>
+      They are right that we didn't quantify the threshold. They are also right that it is the most
+      important number in the framework. This field note attempts something more modest than a number:
+      a rigorous framework for understanding what that threshold is a function of, what empirical
+      signals would indicate we are approaching it, and why the absence of a precise figure is
+      not a gap in the argument but a property of the system.
+    </p>
+
+    <div class="framework-ref">
+      <div class="framework-ref-label">Audit Credit</div>
+      <p>
+        This field note was prompted by the independent audit published by
+        <a href="https://isoledger.substack.com/p/audit-xrp-valuation-series" target="_blank" rel="noopener">ISO Ledger</a>
+        in May 2026. Their review confirmed the framework's core methodology and sourcing while surfacing this
+        as the single unresolved quantitative question. We credit them for the question and engage it here in full.
+      </p>
+    </div>
+
+    <h2>What pathfinding actually does</h2>
+
+    <p>
+      XRPL's pathfinding engine does not route a payment through a single order book. It assembles
+      liquidity dynamically across multiple paths simultaneously — combining order book offers and
+      AMM pools in real time to construct the most efficient composite route for a given payment.
+      Auto-bridging extends this further: when no direct trading pair has sufficient depth, XRP is
+      used as an intermediary to connect otherwise fragmented liquidity across any two assets on
+      the ledger. A transaction too large for any single path can be completed across many
+      shallower paths, each leg filled at the best available rate at execution time.
+    </p>
+
+    <p>
+      This is a genuine structural advantage. It is also why ISO Ledger correctly noted that the
+      static depth assumption in the framework's Layers 1–4 is more conservative than what XRPL's
+      architecture would actually require at early adoption stages. The pathfinding engine buys
+      real headroom. The question is how much, and where that headroom runs out.
+    </p>
+
+    <h2>The two regimes</h2>
+
+    <p>
+      Every XRPL settlement transaction operates in one of two liquidity regimes. The threshold
+      between them — the ticket size at which dynamic assembly stops being sufficient — is what
+      ISO Ledger is asking for.
+    </p>
+
+    <div class="regime-diagram">
+      <div class="regime-diagram-head">Liquidity Regime Map — XRPL Settlement Capacity</div>
+      <div class="regime-grid">
+        <div class="regime-box">
+          <div class="regime-label a">● Regime A</div>
+          <div class="regime-name">Pathfinding-Sufficient</div>
+          <div class="regime-desc">Dynamic assembly across paths compensates for shallow individual order books. Aggregate slippage across assembled paths stays within institutional tolerance. Ticket can be routed, split across legs, completed atomically.</div>
+        </div>
+        <div class="regime-divider"><span>Threshold</span></div>
+        <div class="regime-box">
+          <div class="regime-label b">● Regime B</div>
+          <div class="regime-name">Static-Depth-Required</div>
+          <div class="regime-desc">Ticket size exceeds aggregate assemblable liquidity. No combination of paths can fill the transaction within institutional slippage tolerance. Static depth at the required price point must be present independently.</div>
+        </div>
+      </div>
+    </div>
+
+    <p>
+      The series placed Layer 5 — large irreducible derivatives settlements — firmly in Regime B
+      from the outset. ISO Ledger confirmed this. The open question is whether parts of Layers 1–4
+      are also in Regime B at current adoption stages, or whether pathfinding keeps them in
+      Regime A until adoption deepens substantially. ISO Ledger's audit suggests the answer is
+      Regime A for most of Layers 1–4 at early stages — a partial concession the framework
+      should acknowledge more explicitly.
+    </p>
+
+    <h2>The governing variables</h2>
+
+    <p>
+      The threshold is not a fixed number. It is a function of at least four variables, each of
+      which shifts with adoption stage. Understanding what governs the threshold is more useful
+      than pretending we can calculate it from data that does not yet exist.
+    </p>
+
+    <div class="var-table">
+      <div class="var-table-head">
+        <span>Variable</span>
+        <span>What It Measures</span>
+        <span>Direction with Adoption</span>
+      </div>
+      <div class="var-table-row">
+        <div class="var-name">A — Aggregate Assembled Liquidity</div>
+        <div class="var-desc">Total depth available across all viable paths the pathfinding engine can combine for a given currency pair at a given moment</div>
+        <div class="var-dir">Increases as ODL volume grows and more market makers deploy inventory</div>
+      </div>
+      <div class="var-table-row">
+        <div class="var-name">S — Institutional Slippage Tolerance</div>
+        <div class="var-desc">Maximum acceptable price deviation for a settlement transaction; a function of gross margin, regulatory constraints, and the cost of the rail being replaced</div>
+        <div class="var-dir">Tightens as institutional use cases scale; large banks tolerate fewer basis points than remittance corridors</div>
+      </div>
+      <div class="var-table-row">
+        <div class="var-name">T — Ticket Irreducibility</div>
+        <div class="var-desc">Whether the transaction can be split across time or must settle atomically in a single ledger close</div>
+        <div class="var-dir">Fixed by instrument type. Derivatives settlement is irreducible by definition. FX can often be worked over time.</div>
+      </div>
+      <div class="var-table-row">
+        <div class="var-name">C — Path Correlation Under Stress</div>
+        <div class="var-desc">The degree to which multiple paths move together when a large order is placed, reducing effective assembled depth below the sum of individual path depths</div>
+        <div class="var-dir">Worsens at low adoption; improves materially as provider diversity increases</div>
+      </div>
+      <div class="table-note">
+        The threshold rises as A increases and provider diversity reduces C, and falls as S tightens.
+        T is not variable: it is set by the instrument. This is why derivatives are structurally in Regime B
+        regardless of adoption stage.
+      </div>
+    </div>
+
+    <h2>Where the square root law applies</h2>
+
+    <p>
+      The series applied the square root market impact law to derive a required price floor for XRP
+      given the ticket sizes institutional settlement demands. That application is correct. But the law
+      has a structural property that bears directly on the pathfinding threshold question.
+    </p>
+
+    <p>
+      The empirical literature — confirmed across equities, futures, and crypto markets — identifies
+      a crossover: below a certain order size relative to available liquidity, market impact is
+      approximately linear. Above that size, it follows the square root law, where impact scales
+      with the square root of order size relative to daily volume. The crossover point is itself
+      a function of liquidity depth.
+    </p>
+
+    <div class="math-block">
+      <div class="math-label">Square Root Impact — Crossover Region</div>
+      <div class="math-line">Impact ≈ <span class="var">κ</span> · <span class="var">σ</span> · √( <span class="var">Q</span> / <span class="var">V</span> )</div>
+      <div class="math-note">
+        κ = market-specific constant (~0.5 empirically across asset classes) · σ = daily volatility<br/>
+        Q = order size · V = daily volume<br/><br/>
+        Crossover from linear to square-root regime occurs at approximately Q ~ V · (σ/κ)²<br/>
+        Below crossover: pathfinding assembles and executes in Regime A<br/>
+        Above crossover: aggregate impact across assembled paths approaches institutional tolerance — Regime B boundary
+      </div>
+    </div>
+
+    <p>
+      What this means for the pathfinding threshold: as daily ODL volume V grows with adoption,
+      the crossover point shifts upward. Transactions that today would push into the square-root
+      regime — triggering material slippage across assembled paths — would remain in the linear
+      regime at higher adoption stages. The pathfinding threshold is not static. It rises with adoption.
+    </p>
+
+    <div class="pull-quote">
+      <p>
+        The threshold that separates Layer 4 from Layer 5 in practical terms is not a fixed ticket
+        size. It is a moving boundary that shifts upward as ODL adoption deepens. Layer 5's
+        irreducibility is structural — not a function of where that boundary sits.
+      </p>
+    </div>
+
+    <h2>The correlation problem</h2>
+
+    <p>
+      When a large institutional transaction hits the XRPL, the pathfinding engine assembles
+      multiple paths. But if the same set of market makers underlies most of those paths — because
+      adoption is early and provider diversity is low — the "multiple paths" do not represent truly
+      independent liquidity pools. The first legs of the assembled paths move price. The later legs
+      execute into a market that has already shifted.
+    </p>
+
+    <p>
+      This is the XRPL-specific analog of a known problem in equity market microstructure:
+      the latent liquidity assumption. The square root law's universality is grounded in the
+      observation that liquidity is V-shaped — abundant away from current price but thin near it,
+      with much of the available depth latent rather than visible in the order book. On XRPL,
+      pathfinding can access this latent depth dynamically. But under correlation, accessing it
+      on one path reveals it on adjacent paths, compressing the effective assemblable depth.
+    </p>
+
+    <p>
+      At higher adoption stages, with more independent liquidity providers deploying inventory
+      across more paths, correlation decreases. The paths become genuinely independent, and the
+      aggregate assembled depth approaches the theoretical sum of individual path depths.
+      This is another reason the threshold rises with adoption — and another reason the downward
+      reflexivity loop noted by ISO Ledger is most dangerous at low adoption stages, not high ones.
+    </p>
+
+    <h2>Empirical signals of threshold approach</h2>
+
+    <p>
+      We cannot calculate the threshold from first principles with data that doesn't yet exist.
+      But we can identify observable signals that would indicate the market is approaching it
+      in real time — the leading indicators worth tracking as institutional ODL adoption deepens.
+    </p>
+
+    <div class="signal-table">
+      <div class="signal-table-head">
+        <span>Signal</span>
+        <span>What It Indicates</span>
+        <span>Source</span>
+      </div>
+      <div class="signal-table-row">
+        <div class="signal-name">ODL transaction size distribution</div>
+        <div class="signal-what">As the 95th percentile of ODL transaction size approaches the square-root crossover point for current volume, Regime B pressure is building on Layers 3–4</div>
+        <div class="signal-source">Ripple ODL disclosures; on-chain analytics</div>
+      </div>
+      <div class="signal-table-row">
+        <div class="signal-name">Bid-ask spread compression on major XRPL pairs</div>
+        <div class="signal-what">Tightening spreads indicate more independent market maker competition, reducing path correlation — threshold moves up</div>
+        <div class="signal-source">XRPL DEX order book data</div>
+      </div>
+      <div class="signal-table-row">
+        <div class="signal-name">Active ODL market makers per corridor</div>
+        <div class="signal-what">Diversity directly reduces path correlation; below ~5 independent providers per corridor, correlation risk is material</div>
+        <div class="signal-source">Ripple partner disclosures; corridor analytics</div>
+      </div>
+      <div class="signal-table-row">
+        <div class="signal-name">Failed pathfinding at institutional ticket sizes</div>
+        <div class="signal-what">Confirmed execution failures or sustained slippage above tolerance at large ticket sizes are direct evidence of Regime B entry — the clearest signal available</div>
+        <div class="signal-source">Would require institutional ODL participants to disclose; not yet public</div>
+      </div>
+      <div class="signal-table-row">
+        <div class="signal-name">XLS-66d activation and AMM depth metrics</div>
+        <div class="signal-what">Concentrated liquidity mechanics added by XLS-66d would materially increase aggregate assembled liquidity — activation followed by deep pool formation shifts the threshold upward</div>
+        <div class="signal-source">XRPL Standards repository; on-chain AMM data post-activation</div>
+      </div>
+      <div class="table-note">
+        These signals do not calculate the threshold. They indicate directionally whether the threshold
+        is rising faster or slower than institutional transaction demand — the meaningful operational question.
+      </div>
+    </div>
+
+    <h2>Why the absence of a precise number is not a gap</h2>
+
+    <p>
+      ISO Ledger asked whether the threshold number exists. The honest answer is: it exists in principle,
+      as a function of the four variables above. It does not exist in practice as a single calculable
+      figure, because the necessary inputs — live institutional order flow data, actual ODL transaction
+      size distributions at scale, real path correlation coefficients across active market makers —
+      are not yet public and in some cases do not yet exist.
+    </p>
+
+    <p>
+      This is not a weakness in the framework. It is a property of the system being modeled.
+      The framework does not require a precise threshold to establish the price logic. It requires
+      only that Layer 5 transactions are structurally in Regime B regardless of where the threshold
+      sits, and that the threshold rises with adoption such that Layers 1–4 remain in Regime A
+      across the adoption scenarios where the price argument is most consequential.
+    </p>
+
+    <p>
+      Both conditions hold. ISO Ledger confirmed the first. The crossover analysis above establishes
+      the second. The precise threshold is the empirical work that comes after institutional ODL
+      adoption reaches a scale where the data exists to calculate it. That is future market
+      microstructure research, not a gap in the current valuation argument.
+    </p>
+
+    <div class="pull-quote">
+      <p>
+        When ODL transaction sizes approach the crossover point for current volume, when market maker
+        diversity thins, when execution quality data becomes public — the threshold will be calculable.
+        Until then, the framework knows where the boundary is, what governs it, and why it matters.
+        That is as far as honest modeling can take us.
+      </p>
+    </div>
+
+    <div class="framework-ref">
+      <div class="framework-ref-label">From the XRP Valuation Series</div>
+      <p>
+        The series prices XRP as a bridge asset to be sized, not an equity to be valued.
+        Part I establishes the square-root market impact law and the slippage constraint.
+        Part III explains why atomic settlement forces discontinuous repricing.
+        Part VI prices the probability that adoption conditions are met at all —
+        and names the falsification criteria that would break the thesis.
+      </p>
+      <p>
+        <a href="/part1/">Start with Part I →</a>
+        &nbsp;&nbsp;
+        <a href="/part6/">Read Part VI — the probability framework →</a>
+      </p>
+    </div>
+
+    <div class="disclaimer">
+      This is not financial advice. The Living Framework extends the analytical work of the XRP Valuation Series —
+      a conditional sizing model, not a price prediction. All scenarios depend on stated assumptions.
+      Do your own research.
+    </div>
+
+    <div class="post-footer">
+      <div class="post-footer-label">Continue reading</div>
+      <div class="post-footer-links">
+        <a class="footer-link primary" href="/part1/">Part I — XRP is not being valued. It is being sized.</a>
+        <a class="footer-link" href="/part6/">Part VI — The case against, taken seriously.</a>
+        <a class="footer-link" href="/">All articles</a>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>XRP Valuation Series &nbsp;·&nbsp; The Living Framework</div>
+    <div>FutureXRP &nbsp;·&nbsp; @the5blairs</div>
+  </div>
+</footer>
+
+</body>
+</html>

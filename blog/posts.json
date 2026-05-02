@@ -70,5 +70,13 @@
     "tags": ["Legal Architecture", "Institutional Stack"],
     "title": "This is not Ripple's <em>preferred arrangement.</em>",
     "deck": "The sharpest empirical objection to this framework is that XRP is largely invisible in Ripple's own institutional stack. The objection is accurate. What it misreads is why — and what the legal record shows Ripple has been trying to do about it from the moment it legally could."
+  },
+  {
+    "number": 10,
+    "slug": "pathfinding-threshold",
+    "date": "May 2, 2026",
+    "tags": ["Liquidity Mechanics", "Pathfinding"],
+    "title": "The <em>pathfinding threshold</em> — a framework for the most important unanswered question.",
+    "deck": "ISO Ledger audited the full series and closed with one open question: at what specific adoption threshold does XRPL's dynamic liquidity assembly stop compensating for insufficient static depth? They called it the most important number in the framework. Here is a framework for thinking about the answer."
   }
 ]

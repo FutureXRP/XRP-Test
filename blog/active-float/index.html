@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Field Note 11: A Live Look at the System, and Where We Go From Here — XRP Valuation Series</title>
+  <meta name="description" content="The series has modeled what the system requires. This note looks at what the system actually is — right now, with real on-chain data. The gap between those two things is where the price story lives." />
+  <meta property="og:title" content="Field Note 11: A Live Look at the System, and Where We Go From Here" />
+  <meta property="og:description" content="Only 5–8 billion XRP is doing productive settlement work today. Here is what that means, and what changes as price appreciates." />
+  <meta property="og:type" content="article" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --paper: #ffffff;
+      --paper-soft: #f7f3ea;
+      --paper-deep: #f4efe4;
+      --ink: #171512;
+      --ink-soft: #3a342e;
+      --ink-medium: #61594f;
+      --ink-faint: #8a8073;
+      --rule: #d8d0c3;
+      --rule-strong: #1a1a1a;
+      --accent: #9b2226;
+      --display: "Newsreader", Georgia, serif;
+      --body: "Newsreader", Georgia, serif;
+      --ui: "IBM Plex Sans", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --text-width: 680px;
+      --page-width: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 20px; line-height: 1.72; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── TOPBAR ── */
+    .topbar { max-width: var(--page-width); margin: 0 auto; padding: 24px 28px 0; }
+    .topbar-inner { border-top: 2px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); padding: 15px 0 13px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-family: var(--ui); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-medium); }
+    .topbar-left { font-weight: 600; color: var(--accent); }
+    .topbar-left a { color: var(--accent); }
+    .topbar-left a:hover { opacity: 0.75; }
+    .topbar-right { letter-spacing: 0.1em; color: var(--ink-faint); }
+
+    /* ── LAYOUT ── */
+    .article-wrap { max-width: var(--page-width); margin: 0 auto; padding: 56px 28px 120px; display: grid; grid-template-columns: 1fr min(var(--text-width), 100%) 1fr; }
+    .article-wrap > * { grid-column: 2; }
+
+    /* ── POST HEADER ── */
+    .post-header { margin-bottom: 56px; }
+    .post-section { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 24px; }
+    .post-section::before { content: ""; display: inline-block; width: 20px; height: 1px; background: var(--accent); }
+
+    h1.post-title { font-family: var(--display); font-size: clamp(36px, 6vw, 62px); line-height: 1.05; font-weight: 500; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 22px; }
+    h1.post-title em { font-style: italic; color: var(--accent); }
+
+    .post-deck { font-family: var(--display); font-style: italic; font-size: clamp(19px, 2.5vw, 24px); line-height: 1.45; color: var(--ink-medium); margin-bottom: 32px; }
+
+    .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 18px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+    .post-meta .meta-tag { color: var(--accent); font-weight: 600; }
+    .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--rule); flex-shrink: 0; }
+
+    /* ── POST BODY ── */
+    .post-body { padding-top: 48px; }
+    .post-body p { margin-bottom: 28px; font-size: 20px; line-height: 1.72; color: var(--ink-soft); }
+    .post-body p:first-child { font-size: 22px; line-height: 1.65; color: var(--ink); }
+    .post-body h2 { font-family: var(--display); font-size: clamp(24px, 3vw, 32px); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 20px; padding-top: 40px; border-top: 1px solid var(--rule); }
+
+    /* ── PULL QUOTE ── */
+    .pull-quote { margin: 44px 0; padding: 28px 32px; border-left: 3px solid var(--accent); background: var(--paper-soft); }
+    .pull-quote p { font-family: var(--display); font-size: clamp(20px, 2.5vw, 26px) !important; font-style: italic; line-height: 1.45; color: var(--ink) !important; margin-bottom: 0 !important; }
+
+    /* ── MATH BLOCKS ── */
+    .math-block { margin: 36px 0; padding: 24px 28px; background: var(--ink); border-radius: 4px; }
+    .math-block .math-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 12px; }
+    .math-block .math-line { font-family: var(--mono); font-size: 15px; color: #fff; line-height: 1.9; }
+    .math-block .math-line .var { color: #c9a84c; }
+    .math-block .math-line .result { color: #e8a87c; font-weight: 600; }
+    .math-block .math-note { margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.1); font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.6; }
+
+    /* ── SUPPLY TABLE ── */
+    .supply-table { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .supply-table-head { display: grid; grid-template-columns: 1.8fr 0.8fr 0.8fr 1.6fr; background: var(--ink); padding: 12px 20px; gap: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .supply-table-row { display: grid; grid-template-columns: 1.8fr 0.8fr 0.8fr 1.6fr; padding: 14px 20px; gap: 12px; border-top: 1px solid var(--rule); background: var(--paper); align-items: start; }
+    .supply-table-row:nth-child(even) { background: var(--paper-soft); }
+    .supply-table-row.productive { background: #f0f5f0; border-left: 3px solid #2d6a2d; }
+    .supply-table-row.partial { background: #f5f3e8; border-left: 3px solid #8a7020; }
+    .supply-table-row.dormant { background: var(--paper); }
+    .s-category { font-family: var(--ui); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+    .s-amount { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--ink); }
+    .s-status { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .s-status.yes { color: #2d6a2d; }
+    .s-status.partial { color: #8a7020; }
+    .s-status.no { color: var(--ink-faint); }
+    .s-note { font-family: var(--ui); font-size: 12px; color: var(--ink-medium); line-height: 1.5; }
+    .supply-table-total { display: grid; grid-template-columns: 1.8fr 0.8fr 0.8fr 1.6fr; padding: 14px 20px; gap: 12px; border-top: 2px solid var(--rule-strong); background: var(--paper-deep); align-items: start; }
+    .supply-table-total .s-category { font-weight: 700; color: var(--ink); }
+    .supply-table-total .s-amount { color: var(--accent); font-size: 13px; }
+    .table-note { padding: 12px 20px; background: var(--paper-deep); border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.6; }
+
+    /* ── ACTIVATION TABLE ── */
+    .activation-table { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .activation-table-head { display: grid; grid-template-columns: 0.8fr 1fr 1fr 1.2fr; background: var(--ink); padding: 12px 20px; gap: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .activation-table-row { display: grid; grid-template-columns: 0.8fr 1fr 1fr 1.2fr; padding: 16px 20px; gap: 12px; border-top: 1px solid var(--rule); background: var(--paper); align-items: start; }
+    .activation-table-row:nth-child(even) { background: var(--paper-soft); }
+    .a-price { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); }
+    .a-trigger { font-family: var(--ui); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+    .a-supply { font-family: var(--mono); font-size: 12px; color: var(--ink-medium); }
+    .a-capacity { font-family: var(--ui); font-size: 12px; color: var(--ink-medium); line-height: 1.5; }
+
+    /* ── CAPACITY BLOCK ── */
+    .capacity-block { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .capacity-block-head { background: var(--ink); padding: 12px 20px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .capacity-row { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 14px 20px; gap: 12px; border-top: 1px solid var(--rule); background: var(--paper); align-items: center; }
+    .capacity-row:nth-child(even) { background: var(--paper-soft); }
+    .capacity-row.current { background: #fff5f5; border-left: 3px solid var(--accent); }
+    .capacity-row.target { background: #f0f5f0; border-left: 3px solid #2d6a2d; }
+    .c-label { font-family: var(--ui); font-size: 13px; font-weight: 600; color: var(--ink); }
+    .c-float { font-family: var(--mono); font-size: 12px; color: var(--ink-medium); }
+    .c-capacity { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--ink); }
+
+    /* ── FRAMEWORK REF ── */
+    .framework-ref { margin: 40px 0; padding: 22px 24px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
+    .framework-ref-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+    .framework-ref p { font-size: 16px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 10px !important; }
+    .framework-ref p:last-child { margin-bottom: 0 !important; }
+    .framework-ref a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+    .framework-ref a:hover { border-bottom-color: var(--accent); }
+
+    /* ── POST FOOTER ── */
+    .post-footer { margin-top: 72px; padding-top: 32px; border-top: 2px solid var(--rule-strong); }
+    .post-footer-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 20px; }
+    .post-footer-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .footer-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--rule); background: var(--paper); font-family: var(--ui); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-medium); font-weight: 500; transition: border-color 0.15s, color 0.15s; }
+    .footer-link:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-link.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .footer-link.primary:hover { background: #7f1d1d; border-color: #7f1d1d; }
+    .footer-link::after { content: "→"; font-size: 13px; }
+
+    /* ── DISCLAIMER ── */
+    .disclaimer { margin-top: 40px; padding: 18px 20px; background: var(--paper-soft); border: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-faint); line-height: 1.7; }
+
+    /* ── SITE FOOTER ── */
+    .site-footer { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 40px; }
+    .site-footer-inner { border-top: 1px solid var(--rule); padding-top: 18px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 760px) {
+      body { font-size: 19px; }
+      .article-wrap { grid-template-columns: 1fr; padding: 40px 20px 80px; }
+      .article-wrap > * { grid-column: 1; }
+      .supply-table-head, .supply-table-row, .supply-table-total { grid-template-columns: 1.4fr 0.7fr 0.7fr; }
+      .supply-table-head > *:nth-child(4), .supply-table-row > *:nth-child(4), .supply-table-total > *:nth-child(4) { display: none; }
+      .activation-table-head, .activation-table-row { grid-template-columns: 0.7fr 1fr 1fr; }
+      .activation-table-head > *:nth-child(4), .activation-table-row > *:nth-child(4) { display: none; }
+      .capacity-row { grid-template-columns: 1fr 1fr; }
+      .capacity-row > *:nth-child(3) { display: none; }
+      .site-footer { padding: 0 20px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left"><a href="/">XRP Valuation Series</a> &nbsp;·&nbsp; The Living Framework</div>
+    <div class="topbar-right">Field Note · May 2, 2026</div>
+  </div>
+</header>
+
+<article class="article-wrap">
+
+  <div class="post-header">
+    <div class="post-section">The Living Framework &nbsp;·&nbsp; No. 11</div>
+    <h1 class="post-title">A live look at the system, and <em>where we go from here.</em></h1>
+    <p class="post-deck">
+      The series has modeled what the system requires. This note looks at what the system
+      actually is — right now, with real on-chain data. The gap between those two things
+      is where the price story lives.
+    </p>
+    <div class="post-meta">
+      <span class="meta-tag">The Living Framework</span>
+      <span class="meta-dot"></span>
+      <span>Supply Mechanics</span>
+      <span class="meta-dot"></span>
+      <span>Active Float</span>
+      <span class="meta-dot"></span>
+      <span>May 2, 2026</span>
+    </div>
+  </div>
+
+  <div class="post-body">
+
+    <p>
+      Every price scenario in this series has been calculated against circulating supply —
+      approximately 61.7 billion XRP. That number is the right place to start. It is not
+      the right place to stop. Circulating supply means one specific thing: XRP not currently
+      locked in Ripple's programmatic escrow. It does not mean XRP available to do
+      productive settlement work. The difference between those two definitions is the
+      most important supply-side fact the series hasn't yet examined directly.
+    </p>
+
+    <p>
+      Where earlier notes defined the size of the required pipe, this note defines how much
+      of the pipe exists today. Productive float — defined precisely as XRP actively available
+      for immediate settlement execution within institutional slippage constraints — is the
+      relevant denominator for sizing real settlement capacity. It is not circulating supply.
+    </p>
+
+    <p>
+      This note uses confirmed on-chain data to map where every meaningful category of XRP
+      actually sits today, identifies the fraction that is genuinely doing productive work
+      as settlement infrastructure, and then models what happens to that fraction — and to
+      settlement capacity — as price appreciates through a series of economic activation
+      thresholds. The picture that emerges is both more sobering and more structurally
+      bullish than the full circulating supply framing suggests.
+    </p>
+
+    <h2>Where the XRP actually is</h2>
+
+    <p>
+      One hundred billion XRP were created at genesis. Not a single additional token can
+      ever be minted. The question is not how many exist. The question is what each category
+      is doing right now — and whether it is contributing to the settlement pipe the framework
+      is sizing.
+    </p>
+
+    <div class="supply-table">
+      <div class="supply-table-head">
+        <span>Category</span>
+        <span>Amount</span>
+        <span>Productive?</span>
+        <span>What it actually means</span>
+      </div>
+
+      <div class="supply-table-row dormant">
+        <div class="s-category">Ripple Escrow</div>
+        <div class="s-amount">~34B</div>
+        <div class="s-status no">No</div>
+        <div class="s-note">Cryptographically locked. Releases 1B per month, ~700M re-locked. Not circulating, not productive. Exhausted by early 2030s at current pace.</div>
+      </div>
+
+      <div class="supply-table-row partial">
+        <div class="s-category">Ripple Operational Treasury</div>
+        <div class="s-amount">~6B</div>
+        <div class="s-status partial">Partial</div>
+        <div class="s-note">Ripple's liquid buffer for ODL, RLUSD seeding, and institutional sales. Partially deployed but not freely circulating. The only large category with direct settlement function today.</div>
+      </div>
+
+      <div class="supply-table-row dormant">
+        <div class="s-category">Exchange Custody — User Deposits</div>
+        <div class="s-amount">~12–15B</div>
+        <div class="s-status no">No</div>
+        <div class="s-note">Held on behalf of users at Binance (~4.5B), Coinbase (~2.3B), Kraken (~1B), and regional exchanges. Not Ripple's, not the exchange's — customer assets waiting to be traded or withdrawn. Not productive.</div>
+      </div>
+
+      <div class="supply-table-row productive">
+        <div class="s-category">Exchange Hot Wallets — Live Trading Float</div>
+        <div class="s-amount">~1.66B</div>
+        <div class="s-status yes">Yes</div>
+        <div class="s-note">The actual liquid sell-side float on exchange order books right now. Down from 3.76B in October 2025 — a 57% decline in five months. This is the pipe's immediate visible depth.</div>
+      </div>
+
+      <div class="supply-table-row dormant">
+        <div class="s-category">ETF Custody</div>
+        <div class="s-amount">~780M</div>
+        <div class="s-status no">No</div>
+        <div class="s-note">Locked in regulated institutional vaults since late 2025 ETF launches. Growing as institutional inflows continue. Removes supply from circulation without adding to settlement capacity.</div>
+      </div>
+
+      <div class="supply-table-row dormant">
+        <div class="s-category">Whale Cold Storage</div>
+        <div class="s-amount">~35–38B</div>
+        <div class="s-status no">No</div>
+        <div class="s-note">Wallets holding 10M+ XRP now represent 62% of circulating supply. Approximately 60% of all circulating XRP is held at a cost basis above current price — dormant, underwater, and not productive.</div>
+      </div>
+
+      <div class="supply-table-row partial">
+        <div class="s-category">DeFi and Staking Pools</div>
+        <div class="s-amount">~12B</div>
+        <div class="s-status partial">Partial</div>
+        <div class="s-note">Locked into institutional staking and DeFi liquidity pools over the last 24 months. AMM pools within this category do contribute to settlement liquidity. Staking governance locks do not.</div>
+      </div>
+
+      <div class="supply-table-row dormant">
+        <div class="s-category">Retail Wallets — Bottom 96%</div>
+        <div class="s-amount">~3.12B</div>
+        <div class="s-status no">No</div>
+        <div class="s-note">Spread across ~7.5 million wallets. Threshold to enter top 4% is ~10,045 XRP. At $1.38 that is $13,900 — not enough to make productive LP deployment economically rational for most holders.</div>
+      </div>
+
+      <div class="supply-table-row dormant">
+        <div class="s-category">Founder and Early Investor Wallets</div>
+        <div class="s-amount">~6–8B</div>
+        <div class="s-status no">No</div>
+        <div class="s-note">Chris Larsen (~3.4–4.2B), other identified founders, and early institutional partners. Long-duration holds. Not deployed productively at current price levels.</div>
+      </div>
+
+      <div class="supply-table-total">
+        <div class="s-category">Productive Working Float — Total</div>
+        <div class="s-amount">5–8B XRP</div>
+        <div class="s-status yes" style="font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#2d6a2d;font-weight:600;">Active</div>
+        <div class="s-note" style="font-family:var(--ui);font-size:12px;color:var(--ink-medium);">Exchange hot wallets + active AMM pools + Ripple ODL deployment + market maker inventory. Approximately 8–13% of circulating supply. Everything else is dormant.</div>
+      </div>
+
+      <div class="table-note">
+        Sources: Glassnode exchange reserve data; rich-list.info wallet distribution; Cryptopolitan ownership analysis; BYDFi circulating supply report April 2026; XRP Rich List 2026 institutional analysis.
+        All figures approximate. Active float is a derived estimate from confirmed category data, not a directly observable on-chain metric.
+      </div>
+    </div>
+
+    <p>
+      The productive working float is approximately 5–8 billion XRP. That is the pipe
+      as it exists today. Not 61.7 billion. Not 100 billion. Five to eight billion XRP
+      consistently available for settlement execution — everything else is either locked,
+      dormant, or waiting for conditions that haven't arrived yet.
+    </p>
+
+    <div class="pull-quote">
+      <p>
+        Circulating supply means not in escrow. It does not mean available to widen the pipe.
+        The difference between those two definitions is approximately 54 billion XRP.
+      </p>
+    </div>
+
+    <h2>What the current pipe can actually carry</h2>
+
+    <p>
+      At $1.38 per XRP and 6 billion productive working float, the effective market cap
+      doing settlement work is approximately $8.3 billion. Applying the framework's
+      standard turnover assumption of 1% daily, the settlement throughput capacity of
+      that working float within institutional slippage tolerance is calculable directly.
+    </p>
+
+    <div class="math-block">
+      <div class="math-label">Current System Capacity — Productive Float at $1.38 · Framework Conservative 1% Daily Turnover Assumption</div>
+      <div class="math-line">Productive working float &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span class="var">6B XRP</span></div>
+      <div class="math-line">Price &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span class="var">$1.38</span></div>
+      <div class="math-line">Effective settlement market cap &nbsp;= 6B × $1.38 = <span class="var">$8.28B</span></div>
+      <div class="math-line">At 1% daily turnover of working float:</div>
+      <div class="math-line">Daily settlement capacity &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= $8.28B × 0.01 = <span class="result">~$82M/day</span></div>
+      <div class="math-note">
+        This is the pipe's current throughput within institutional slippage tolerance.<br/>
+        Layer 1 of the framework requires ~$49B/day. Layer 2 requires ~$301B/day.<br/>
+        The gap between $82M and $49B is not a failure of the thesis. It is the thesis.
+      </div>
+    </div>
+
+    <p>
+      Eighty-two million dollars per day. That is what the system can handle today at
+      institutional slippage tolerances. Actual turnover may exceed this during periods
+      of high activity — but 1% provides a conservative baseline for institutional-grade
+      execution planning and is consistent with the framework's prior scenario math.
+      It is not nothing — ODL corridors are operating, settlements are clearing, the
+      infrastructure is real. But it is also not Layer 1. It is pre-ignition. The pipe
+      exists. It is not yet wide enough to carry institutional flow at scale.
+    </p>
+
+    <p>
+      This explains something the framework previously couldn't account for cleanly: why
+      ODL volume has grown without proportional price appreciation. The productive working
+      float has been absorbing early corridor growth at current prices. It has headroom —
+      but that headroom has a ceiling. The ceiling is approximately $82M per day at current
+      price and current productive float. Layer 1 adoption breaches that ceiling. When it
+      does, price must move — not as a speculative event, but as a mechanical requirement
+      of the slippage constraint.
+    </p>
+
+    <h2>The activation curve — where dormant supply becomes productive</h2>
+
+    <p>
+      The productive working float is not fixed. It is a function of price. As price rises
+      through a series of economic thresholds, dormant supply activates into productive use.
+      Retail holders deploy into AMM pools. Whale cold storage becomes lending collateral.
+      Institutional LP economics shift. Exchange custody reactivates. Each threshold adds
+      meaningfully to the productive float, which deepens settlement capacity, which supports
+      higher price, which activates the next tier.
+    </p>
+
+    <p>
+      Four activation tiers are identifiable from the supply data and current XRPL
+      infrastructure. The thresholds are not arbitrary — they reflect specific economic
+      conditions at which productive deployment becomes rational for each holder category.
+    </p>
+
+    <div class="activation-table">
+      <div class="activation-table-head">
+        <span>Price Range</span>
+        <span>What Activates</span>
+        <span>Supply Added to Float</span>
+        <span>Settlement Capacity Impact</span>
+      </div>
+
+      <div class="activation-table-row">
+        <div class="a-price">$10 – $20</div>
+        <div class="a-trigger">Retail AMM Activation</div>
+        <div class="a-supply">~1–2B XRP</div>
+        <div class="a-capacity">The top-4% threshold is ~10,045 XRP. At $10 that position is worth $100,000 — the point at which deploying into XRPL AMM pools at 4–8% APY ($4,000–$8,000/year) becomes genuinely compelling versus pure speculation holding. At $20 the same position yields $8,000–$16,000/year. Below $10 the friction of active LP management doesn't justify the return for most retail holders. This tier activates the bottom of the productive float for the first time.</div>
+      </div>
+
+      <div class="activation-table-row">
+        <div class="a-price">$20 – $50</div>
+        <div class="a-trigger">Whale Collateral Activation</div>
+        <div class="a-supply">~3–5B XRP</div>
+        <div class="a-capacity">Wallets holding 10M+ XRP — 62% of circulating supply — gain meaningful collateral value at this tier. At $20 a 10M XRP wallet is worth $200M. XLS-66d lending protocols on XRPL make that collateral productive without requiring a sale. The holder earns yield on a position they intend to hold long-term. This tier adds the largest single category of dormant supply to productive use without requiring whale-tier selling — a critical distinction for price stability.</div>
+      </div>
+
+      <div class="activation-table-row">
+        <div class="a-price">$50 – $200</div>
+        <div class="a-trigger">Institutional LP Economics Shift</div>
+        <div class="a-supply">~2–4B XRP</div>
+        <div class="a-capacity">Professional market maker inventory deployment becomes sufficiently profitable at this tier. At $100, deploying $100M of XRP inventory means holding 1 million XRP. The spread income on institutional-scale ODL tickets at that inventory size justifies dedicated capital allocation. This is where the productive float starts growing faster than price — each dollar of price appreciation activates more than one dollar of additional settlement capacity as professional liquidity providers scale inventory.</div>
+      </div>
+
+      <div class="activation-table-row">
+        <div class="a-price">$200+</div>
+        <div class="a-trigger">Exchange Custody Reactivation</div>
+        <div class="a-supply">~5–8B XRP</div>
+        <div class="a-capacity">The 12–15B XRP sitting in exchange custody representing user deposits becomes increasingly attractive to deploy productively rather than hold dormant. At higher prices users migrate from exchange custody into self-managed AMM positions and lending protocols. Exchange hot wallet depth increases as active trading resumes at scale. This tier is the largest single supply pool and its activation represents the biggest single jump in productive float — potentially doubling the working float from prior tiers.</div>
+      </div>
+
+      <div class="table-note">
+        Activation thresholds reflect economic rationality conditions for each holder category, not technical requirements.
+        These thresholds are derived estimates based on economic incentives and on-chain behavior patterns observed to date.
+        Supply additions are approximate ranges based on category size and estimated deployment fraction at each tier.
+        Tiers are not mutually exclusive — higher price tiers include lower tier activation cumulatively.
+      </div>
+    </div>
+
+    <h2>What the system looks like at each threshold</h2>
+
+    <p>
+      Running the settlement capacity calculation across the activation curve shows the
+      system's capacity at each price tier — and where it crosses the framework's
+      adoption scenario thresholds.
+    </p>
+
+    <div class="capacity-block">
+      <div class="capacity-block-head">Settlement Capacity by Price Tier — Productive Float × 1% Daily Turnover (Conservative Framework Assumption)</div>
+
+      <div class="capacity-row current">
+        <div class="c-label">Today — $1.38</div>
+        <div class="c-float">~6B productive float</div>
+        <div class="c-capacity">~$82M/day</div>
+      </div>
+
+      <div class="capacity-row">
+        <div class="c-label">Retail activates — $10</div>
+        <div class="c-float">~7–8B productive float</div>
+        <div class="c-capacity">~$700M–$800M/day</div>
+      </div>
+
+      <div class="capacity-row">
+        <div class="c-label">Retail activates — $20</div>
+        <div class="c-float">~8–9B productive float</div>
+        <div class="c-capacity">~$1.6B–$1.8B/day</div>
+      </div>
+
+      <div class="capacity-row">
+        <div class="c-label">Whale collateral — $50</div>
+        <div class="c-float">~11–13B productive float</div>
+        <div class="c-capacity">~$5.5B–$6.5B/day</div>
+      </div>
+
+      <div class="capacity-row">
+        <div class="c-label">Institutional LP — $100</div>
+        <div class="c-float">~13–16B productive float</div>
+        <div class="c-capacity">~$13B–$16B/day</div>
+      </div>
+
+      <div class="capacity-row">
+        <div class="c-label">Institutional LP — $200</div>
+        <div class="c-float">~15–19B productive float</div>
+        <div class="c-capacity">~$30B–$38B/day</div>
+      </div>
+
+      <div class="capacity-row target">
+        <div class="c-label">Layer 1 threshold — ~$240</div>
+        <div class="c-float">~16–20B productive float</div>
+        <div class="c-capacity">~$49B/day ← Layer 1</div>
+      </div>
+
+      <div class="capacity-row">
+        <div class="c-label">Exchange custody — $300+</div>
+        <div class="c-float">~20–27B productive float</div>
+        <div class="c-capacity">~$60B–$80B/day</div>
+      </div>
+
+      <div class="table-note">
+        Capacity = productive float × price × 1% daily turnover. Productive float grows at each tier as dormant supply activates.
+        Layer 1 framework scenario requires ~$49B/day. Layer 2 requires ~$301B/day. These are not price targets — they are
+        the capacity thresholds at which each adoption layer becomes mechanically supportable.
+      </div>
+    </div>
+
+    <h2>The self-correcting mechanism</h2>
+
+    <p>
+      The activation curve reveals something the framework's original price scenarios
+      couldn't capture: the system is self-calibrating. Price rise activates dormant
+      supply. Activated supply deepens productive float. Deeper productive float expands
+      settlement capacity. Greater settlement capacity supports higher price. Higher price
+      activates the next tier of dormant supply. The cycle compounds.
+    </p>
+
+    <p>
+      This is structurally important because it means the required price to support any
+      given settlement volume is lower than a static supply analysis implies — the system
+      doesn't need to reach $2,951 with today's productive float of 6B XRP. It reaches
+      that price through a sequence of activation events that progressively deepen the
+      float as price rises. The journey and the destination are the same process.
+    </p>
+
+    <div class="pull-quote">
+      <p>
+        The pipe doesn't need to be built before the water flows.
+        The water flowing is what builds the pipe.
+      </p>
+    </div>
+
+    <p>
+      There is also a natural governor in this mechanism. As productive float grows with
+      price, the marginal price required for the next unit of settlement capacity falls.
+      The system doesn't require exponentially higher prices to achieve exponentially
+      higher settlement capacity — the activation of dormant supply does part of the work
+      that price would otherwise have to do alone. This is why the series' upper price
+      scenarios represent ceilings conditional on adoption, not mechanical requirements
+      of the supply structure. The supply structure is more favorable than the full
+      circulating supply framing implied.
+    </p>
+
+    <div class="pull-quote">
+      <p>
+        Price doesn't unlock value. Price unlocks participation.
+      </p>
+    </div>
+
+    <h2>What to watch</h2>
+
+    <p>
+      The activation curve gives the framework a new set of observable signals — not
+      adoption signals from Ripple's partnerships or regulatory developments, but
+      supply signals from on-chain data that indicate which tier the system is entering.
+    </p>
+
+    <p>
+      The first signal is the retail AMM activation threshold. Watch XRPL AMM pool
+      total value locked. When TVL begins growing faster than price appreciation —
+      meaning the pool depth is increasing in XRP terms, not just dollar terms —
+      retail holders have begun deploying rather than holding. That is the $10-$20
+      activation tier beginning to fire.
+    </p>
+
+    <p>
+      The second signal is whale collateral utilization. Watch XLS-66d lending
+      protocol volume and outstanding loan balances on XRPL. When large wallets
+      begin borrowing against XRP positions rather than selling them, the $20-$50
+      tier is activating. This is detectable on-chain and is the most important
+      single signal for productive float expansion without sell pressure.
+    </p>
+
+    <p>
+      The third signal is exchange hot wallet depth recovery. Exchange reserves
+      are currently at five-year lows — 1.66B XRP. If that number begins rising
+      while price is also rising, it means new supply is entering the productive
+      float from the cold storage and custody categories. That is the later
+      activation tiers beginning. If exchange reserves rise while price falls,
+      that is distribution — a different and bearish signal entirely.
+    </p>
+
+    <p>
+      The fourth signal is the capacity ceiling breach. When ODL daily volume in
+      a single corridor begins approaching $80M per day on a sustained basis,
+      the current productive float's settlement capacity is approaching its limit.
+      That is the moment the square root law's price requirement reasserts itself
+      — not as a future projection, but as a present mechanical constraint.
+      Watch for it. It is the ignition point the framework has always been describing.
+    </p>
+
+    <p>
+      The system is not waiting for price to rise. It is waiting for the current
+      price to run out of capacity.
+    </p>
+
+    <div class="framework-ref">
+      <div class="framework-ref-label">From the XRP Valuation Series</div>
+      <p>
+        The square root market impact law and slippage constraint established in
+        <a href="/part1/">Part I</a> govern what price the productive working float must
+        be at to support any given settlement flow. The equilibrium band in
+        <a href="/blog/equilibrium-band/">Field Note 5</a> describes the range within
+        which LP economics make inventory deployment rational — that band now has a
+        supply activation dimension the original note did not model. The Q-sensitivity
+        table in <a href="/blog/irreducible-ticket/">Field Note 6</a> shows how required
+        price varies by fragmentation assumption — the productive float analysis shows
+        that the effective Q is also a function of which supply tiers have activated.
+        All of it is the same system viewed from different angles.
+      </p>
+      <p>
+        <a href="/part1/">Start with Part I →</a>
+        &nbsp;&nbsp;
+        <a href="/part6/">Part VI — The probability framework →</a>
+      </p>
+    </div>
+
+    <div class="disclaimer">
+      All supply category figures are derived from confirmed on-chain data sources including Glassnode exchange reserve data,
+      rich-list.info wallet distribution, Cryptopolitan and BYDFi ownership analysis, and the XRP Rich List 2026 institutional
+      analysis. The productive working float of 5–8B XRP is a derived estimate from confirmed category data, not a directly
+      observable single on-chain metric. Settlement capacity calculations apply the framework's standard 1% daily turnover
+      assumption to the productive float at each price tier. Activation thresholds reflect economic rationality conditions
+      for each holder category and are approximations, not precise trigger points. This is not financial advice.
+      Do your own research.
+    </div>
+
+    <div class="post-footer">
+      <div class="post-footer-label">Continue reading</div>
+      <div class="post-footer-links">
+        <a class="footer-link primary" href="/part1/">Part I — XRP is not being valued. It is being sized.</a>
+        <a class="footer-link" href="/blog/irreducible-ticket/">Field Note 6 — The irreducible ticket.</a>
+        <a class="footer-link" href="/">All articles</a>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>XRP Valuation Series &nbsp;·&nbsp; The Living Framework</div>
+    <div>FutureXRP &nbsp;·&nbsp; @the5blairs</div>
+  </div>
+</footer>
+
+</body>
+</html>

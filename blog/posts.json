@@ -78,5 +78,13 @@
     "tags": ["Liquidity Mechanics", "Pathfinding"],
     "title": "The <em>pathfinding threshold</em> — a framework for the most important unanswered question.",
     "deck": "ISO Ledger audited the full series and closed with one open question: at what specific adoption threshold does XRPL's dynamic liquidity assembly stop compensating for insufficient static depth? They called it the most important number in the framework. Here is a framework for thinking about the answer."
+  },
+  {
+    "number": 11,
+    "slug": "active-float",
+    "date": "May 2, 2026",
+    "tags": ["Supply Mechanics", "Active Float"],
+    "title": "A live look at the system, and <em>where we go from here.</em>",
+    "deck": "The series has modeled what the system requires. This note looks at what the system actually is — right now, with real on-chain data. Only 5–8 billion XRP is consistently available for settlement execution today. Here is what that means, and what changes as price appreciates through a series of economic activation thresholds."
   }
 ]

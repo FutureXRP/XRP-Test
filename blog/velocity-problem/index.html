@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Field Note 12: The Velocity Problem — XRP Valuation Series</title>
+  <meta name="description" content="XRP's productive float turns over 68 times annually — a number that sounds bullish until you understand what it actually means. This field note models what happens to that velocity when institutional capital enters, and why the answer determines the price more than almost any other variable." />
+  <meta property="og:title" content="Field Note 12: The Velocity Problem" />
+  <meta property="og:description" content="68x annual velocity sounds like strength. It isn't. Here is what happens when institutional capital changes that number — and what it means for required price." />
+  <meta property="og:type" content="article" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --paper: #ffffff;
+      --paper-soft: #f7f3ea;
+      --paper-deep: #f4efe4;
+      --ink: #171512;
+      --ink-soft: #3a342e;
+      --ink-medium: #61594f;
+      --ink-faint: #8a8073;
+      --rule: #d8d0c3;
+      --rule-strong: #1a1a1a;
+      --accent: #9b2226;
+      --display: "Newsreader", Georgia, serif;
+      --body: "Newsreader", Georgia, serif;
+      --ui: "IBM Plex Sans", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --text-width: 680px;
+      --page-width: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 20px; line-height: 1.72; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    a { color: inherit; text-decoration: none; }
+
+    .topbar { max-width: var(--page-width); margin: 0 auto; padding: 24px 28px 0; }
+    .topbar-inner { border-top: 2px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); padding: 15px 0 13px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-family: var(--ui); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-medium); }
+    .topbar-left { font-weight: 600; color: var(--accent); }
+    .topbar-left a { color: var(--accent); }
+    .topbar-left a:hover { opacity: 0.75; }
+    .topbar-right { letter-spacing: 0.1em; color: var(--ink-faint); }
+
+    .article-wrap { max-width: var(--page-width); margin: 0 auto; padding: 56px 28px 120px; display: grid; grid-template-columns: 1fr min(var(--text-width), 100%) 1fr; }
+    .article-wrap > * { grid-column: 2; }
+
+    .post-header { margin-bottom: 56px; }
+    .post-section { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 24px; }
+    .post-section::before { content: ""; display: inline-block; width: 20px; height: 1px; background: var(--accent); }
+
+    h1.post-title { font-family: var(--display); font-size: clamp(36px, 6vw, 62px); line-height: 1.05; font-weight: 500; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 22px; }
+    h1.post-title em { font-style: italic; color: var(--accent); }
+
+    .post-deck { font-family: var(--display); font-style: italic; font-size: clamp(19px, 2.5vw, 24px); line-height: 1.45; color: var(--ink-medium); margin-bottom: 32px; }
+
+    .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 18px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+    .post-meta .meta-tag { color: var(--accent); font-weight: 600; }
+    .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--rule); flex-shrink: 0; }
+
+    .post-body { padding-top: 48px; }
+    .post-body p { margin-bottom: 28px; font-size: 20px; line-height: 1.72; color: var(--ink-soft); }
+    .post-body p:first-child { font-size: 22px; line-height: 1.65; color: var(--ink); }
+    .post-body h2 { font-family: var(--display); font-size: clamp(24px, 3vw, 32px); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 20px; padding-top: 40px; border-top: 1px solid var(--rule); }
+
+    .pull-quote { margin: 44px 0; padding: 28px 32px; border-left: 3px solid var(--accent); background: var(--paper-soft); }
+    .pull-quote p { font-family: var(--display); font-size: clamp(20px, 2.5vw, 26px) !important; font-style: italic; line-height: 1.45; color: var(--ink) !important; margin-bottom: 0 !important; }
+
+    /* Stat block — the hook number */
+    .stat-block { margin: 40px 0; padding: 32px 36px; background: var(--ink); display: flex; align-items: center; gap: 36px; }
+    .stat-number { font-family: var(--mono); font-size: clamp(52px, 8vw, 80px); font-weight: 600; color: #fff; line-height: 1; white-space: nowrap; }
+    .stat-number span { font-size: clamp(24px, 4vw, 36px); color: var(--accent); }
+    .stat-divider { width: 1px; height: 72px; background: rgba(255,255,255,0.15); flex-shrink: 0; }
+    .stat-context { font-family: var(--mono); font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+    .stat-context strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+    /* Comparison table */
+    .compare-table { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .compare-table-head { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.2fr; background: var(--ink); padding: 12px 20px; gap: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .compare-table-row { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.2fr; padding: 14px 20px; gap: 12px; border-top: 1px solid var(--rule); background: var(--paper); align-items: center; }
+    .compare-table-row:nth-child(even) { background: var(--paper-soft); }
+    .compare-table-row.highlight { background: #fff5f5; border-left: 3px solid var(--accent); }
+    .c-label { font-family: var(--ui); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+    .c-daily { font-family: var(--mono); font-size: 12px; color: var(--ink-medium); }
+    .c-annual { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--ink); }
+    .c-annual.accent { color: var(--accent); }
+    .c-note { font-family: var(--ui); font-size: 12px; color: var(--ink-faint); font-style: italic; line-height: 1.4; }
+    .compare-table .table-note { padding: 12px 20px; background: var(--paper-deep); border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.6; }
+
+    /* Scenario cards */
+    .scenario-grid { margin: 36px 0; display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); overflow: hidden; }
+    .scenario-card { background: var(--paper); padding: 24px 28px; }
+    .scenario-card.most-likely { background: var(--paper-soft); }
+    .scenario-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; }
+    .scenario-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; }
+    .scenario-label.compression { color: var(--accent); }
+    .scenario-label.stable { color: #2d6a2d; }
+    .scenario-label.acceleration { color: #8a7020; }
+    .scenario-badge { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; }
+    .scenario-badge.likely { background: var(--accent); color: #fff; }
+    .scenario-badge.baseline { background: #2d6a2d; color: #fff; }
+    .scenario-badge.unlikely { background: var(--paper-deep); color: var(--ink-faint); }
+    .scenario-name { font-family: var(--display); font-size: 20px; font-weight: 500; color: var(--ink); margin-bottom: 8px; line-height: 1.2; }
+    .scenario-velocity { font-family: var(--mono); font-size: 13px; color: var(--ink-medium); margin-bottom: 12px; }
+    .scenario-body { font-family: var(--ui); font-size: 14px; color: var(--ink-medium); line-height: 1.65; margin-bottom: 16px; }
+    .scenario-price { font-family: var(--mono); font-size: 12px; padding: 10px 14px; background: var(--paper-deep); border-left: 2px solid var(--rule); color: var(--ink-medium); line-height: 1.6; }
+    .scenario-price strong { color: var(--ink); font-weight: 600; }
+
+    /* Sensitivity table */
+    .sensitivity-table { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .sensitivity-table-head { display: grid; grid-template-columns: 1.4fr 0.9fr 0.9fr 1.2fr 1fr; background: var(--ink); padding: 12px 20px; gap: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .sensitivity-table-row { display: grid; grid-template-columns: 1.4fr 0.9fr 0.9fr 1.2fr 1fr; padding: 14px 20px; gap: 12px; border-top: 1px solid var(--rule); background: var(--paper); align-items: center; }
+    .sensitivity-table-row:nth-child(even) { background: var(--paper-soft); }
+    .sensitivity-table-row.baseline-row { background: #f0f5f0; border-left: 3px solid #2d6a2d; }
+    .sensitivity-table-row.compression-row { background: #fff5f5; border-left: 3px solid var(--accent); }
+    .s-scenario { font-family: var(--ui); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+    .s-daily { font-family: var(--mono); font-size: 12px; color: var(--ink-medium); }
+    .s-annual { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--ink); }
+    .s-price { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); }
+    .s-price.muted { color: var(--ink-medium); }
+    .s-price.green { color: #2d6a2d; }
+    .s-direction { font-family: var(--ui); font-size: 12px; color: var(--ink-faint); font-style: italic; }
+    .sensitivity-table .table-note { padding: 12px 20px; background: var(--paper-deep); border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.6; }
+
+    /* Signal block */
+    .signal-block { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .signal-head { background: var(--ink); padding: 12px 20px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .signal-entry { padding: 18px 20px; border-top: 1px solid var(--rule); background: var(--paper); }
+    .signal-entry:nth-child(even) { background: var(--paper-soft); }
+    .signal-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+    .signal-text { font-family: var(--ui); font-size: 14px; color: var(--ink-medium); line-height: 1.6; }
+    .signal-text strong { color: var(--ink); font-weight: 600; }
+
+    .math-block { margin: 36px 0; padding: 24px 28px; background: var(--ink); border-radius: 4px; }
+    .math-block .math-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 12px; }
+    .math-block .math-line { font-family: var(--mono); font-size: 15px; color: #fff; line-height: 1.9; }
+    .math-block .math-line .var { color: #c9a84c; }
+    .math-block .math-line .result { color: #e8a87c; font-weight: 600; }
+    .math-block .math-note { margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.1); font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.6; }
+
+    .framework-ref { margin: 40px 0; padding: 22px 24px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
+    .framework-ref-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+    .framework-ref p { font-size: 16px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 10px !important; }
+    .framework-ref p:last-child { margin-bottom: 0 !important; }
+    .framework-ref a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+    .framework-ref a:hover { border-bottom-color: var(--accent); }
+
+    .post-footer { margin-top: 72px; padding-top: 32px; border-top: 2px solid var(--rule-strong); }
+    .post-footer-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 20px; }
+    .post-footer-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .footer-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--rule); background: var(--paper); font-family: var(--ui); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-medium); font-weight: 500; transition: border-color 0.15s, color 0.15s; }
+    .footer-link:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-link.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .footer-link.primary:hover { background: #7f1d1d; border-color: #7f1d1d; }
+    .footer-link::after { content: "→"; font-size: 13px; }
+
+    .disclaimer { margin-top: 40px; padding: 18px 20px; background: var(--paper-soft); border: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-faint); line-height: 1.7; }
+
+    .site-footer { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 40px; }
+    .site-footer-inner { border-top: 1px solid var(--rule); padding-top: 18px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+
+    @media (max-width: 760px) {
+      body { font-size: 19px; }
+      .article-wrap { grid-template-columns: 1fr; padding: 40px 20px 80px; }
+      .article-wrap > * { grid-column: 1; }
+      .stat-block { flex-direction: column; gap: 20px; }
+      .stat-divider { width: 60px; height: 1px; }
+      .compare-table-head, .compare-table-row { grid-template-columns: 1.4fr 0.8fr 0.8fr; }
+      .compare-table-head > *:nth-child(4), .compare-table-row > *:nth-child(4) { display: none; }
+      .sensitivity-table-head, .sensitivity-table-row { grid-template-columns: 1.2fr 0.8fr 1fr; }
+      .sensitivity-table-head > *:nth-child(2), .sensitivity-table-row > *:nth-child(2),
+      .sensitivity-table-head > *:nth-child(5), .sensitivity-table-row > *:nth-child(5) { display: none; }
+      .site-footer { padding: 0 20px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left"><a href="/">XRP Valuation Series</a> &nbsp;·&nbsp; The Living Framework</div>
+    <div class="topbar-right">Field Note · May 4, 2026</div>
+  </div>
+</header>
+
+<article class="article-wrap">
+
+  <div class="post-header">
+    <div class="post-section">The Living Framework &nbsp;·&nbsp; No. 12</div>
+    <h1 class="post-title">The <em>velocity problem</em> — what happens to the number that matters most when institutional capital arrives</h1>
+    <p class="post-deck">
+      XRP's productive working float turns over 68 times annually. That number sounds like
+      strength. It isn't. It is the most important unmodeled variable in the framework —
+      and what happens to it when institutional capital enters determines the price more
+      than almost anything else.
+    </p>
+    <div class="post-meta">
+      <span class="meta-tag">The Living Framework</span>
+      <span class="meta-dot"></span>
+      <span>Velocity Dynamics</span>
+      <span class="meta-dot"></span>
+      <span>Institutional Transition</span>
+      <span class="meta-dot"></span>
+      <span>May 4, 2026</span>
+    </div>
+  </div>
+
+  <div class="post-body">
+
+    <p>
+      Start with the number that should stop you cold.
+    </p>
+
+    <div class="stat-block">
+      <div class="stat-number">68<span>×</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat-context">
+        <strong>XRP productive float annual velocity — confirmed from live data, May 2026 snapshot</strong><br/>
+        Daily trading volume: $1.55B · Productive float: $8.28B · Daily turnover: 18.7%<br/>
+        18.7% × 365 = 68.3× annual velocity<br/><br/>
+        For reference: US Treasuries turn 3–5× annually.<br/>
+        Institutional FX desks running hard: 5–10× annually.<br/>
+        XRP's productive float: 68×.
+      </div>
+    </div>
+
+    <p>
+      The community reads 68x annual velocity as a sign of healthy activity.
+      It is not. It is a sign that a very thin productive float — approximately
+      5-8 billion XRP out of 100 billion total supply — is being worked
+      near its absolute capacity by today's modest ODL volumes and retail
+      speculation. The pipe is not idle. It is full. And that distinction
+      changes everything about how to read the price scenarios that follow.
+    </p>
+
+    <p>
+      In simple terms: the faster XRP turns over, the less price is required
+      to support any given settlement volume. The slower it turns, the more
+      price is required. Velocity doesn't change the system's requirements.
+      It changes how expensive it is to meet them. The same system can clear
+      the same value at $12 or $270. The difference is how fast the capital
+      is allowed to move.
+    </p>
+
+    <p>
+      Field Note 11 established the productive float and its confirmed capacity
+      ceiling of approximately $82 million per day in settlement throughput at
+      current price. This note addresses the question Field Note 11 could not:
+      what happens to velocity — and therefore to required price — when
+      institutional capital enters the productive float and replaces or supplements
+      the retail speculation that currently drives it?
+    </p>
+
+    <p>
+      The answer is the most important unmodeled variable in the series. It is also
+      the variable with the most leverage on every price scenario in the framework.
+      Velocity compression from 68x annual to 20x annual triples required prices
+      across all adoption scenarios. Velocity acceleration to 182x annual cuts them
+      by two thirds. The same adoption conditions — the same ODL corridor volumes,
+      the same institutional mandate, the same DTCC integration — produce radically
+      different required prices depending entirely on what velocity does.
+    </p>
+
+    <h2>What 68× actually means</h2>
+
+    <p>
+      The velocity ratio — daily trading volume divided by productive float market cap —
+      is calculable from two confirmed inputs. It is not a model assumption. It is an
+      observable fact about the current state of the system. To understand what it means,
+      it needs to be placed in context.
+    </p>
+
+    <div class="compare-table">
+      <div class="compare-table-head">
+        <span>Asset / Market</span>
+        <span>Daily Turnover</span>
+        <span>Annual Velocity</span>
+        <span>What drives it</span>
+      </div>
+      <div class="compare-table-row">
+        <div class="c-label">US Treasuries</div>
+        <div class="c-daily">0.8–1.4%/day</div>
+        <div class="c-annual">3–5×</div>
+        <div class="c-note">Deepest liquid market on earth. Large stable holder base.</div>
+      </div>
+      <div class="compare-table-row">
+        <div class="c-label">Institutional FX — working capital</div>
+        <div class="c-daily">1.4–2.7%/day</div>
+        <div class="c-annual">5–10×</div>
+        <div class="c-note">Professional market makers. Risk-managed. Position limits apply.</div>
+      </div>
+      <div class="compare-table-row">
+        <div class="c-label">Spot equity markets</div>
+        <div class="c-daily">0.5–1.0%/day</div>
+        <div class="c-annual">2–4×</div>
+        <div class="c-note">Mixed retail and institutional. Long-duration holders dominate supply.</div>
+      </div>
+      <div class="compare-table-row">
+        <div class="c-label">High-frequency crypto (speculative)</div>
+        <div class="c-daily">10–30%/day</div>
+        <div class="c-annual">40–100×</div>
+        <div class="c-note">Retail-dominated. Thin float. Speculation drives most volume.</div>
+      </div>
+      <div class="compare-table-row highlight">
+        <div class="c-label">XRP productive float — confirmed today</div>
+        <div class="c-daily">18.7%/day</div>
+        <div class="c-annual accent">68×</div>
+        <div class="c-note">Retail speculation + early ODL. Thin 5–8B XRP working float against $1.55B daily volume.</div>
+      </div>
+      <div class="table-note">
+        Daily turnover = daily volume ÷ productive float market cap · XRP figure confirmed from live data May 4, 2026 snapshot
+        · Institutional FX figure refers specifically to working capital turnover for market-making desks, not overall FX market velocity — sourced from BIS Triennial Survey and market structure literature · Other figures from market structure literature
+      </div>
+    </div>
+
+    <p>
+      The XRP productive float sits between high-frequency crypto speculation and
+      institutional FX markets in its velocity profile — but for entirely the wrong
+      reason. High-frequency crypto turnover is driven by deep, active markets with
+      many participants. XRP's 68x turnover is driven by a thin float being worked
+      extremely hard by a relatively small amount of daily volume. The numerator
+      ($1.55B daily volume) is not large. The denominator ($8.28B productive float)
+      is simply very small.
+    </p>
+
+    <div class="pull-quote">
+      <p>
+        High turnover on a thin float is not evidence of healthy institutional velocity.
+        It is evidence that the pipe is already near its capacity ceiling
+        at today's modest settlement volumes.
+      </p>
+    </div>
+
+    <p>
+      This reframes a common bullish argument. The XRP community often points to
+      high trading volume relative to market cap as evidence of active use and
+      healthy demand. Against total circulating supply of 61.7 billion XRP,
+      the daily turnover ratio is approximately 1.81% — unremarkable. Against the
+      5-8 billion XRP productive float doing actual settlement work, the same
+      volume produces 18.7% daily turnover. The difference between those two
+      numbers is approximately 54 billion XRP sitting dormant. The high velocity
+      is a function of supply concentration in productive use, not of extraordinary
+      demand.
+    </p>
+
+    <h2>The mechanics of the velocity formula</h2>
+
+    <p>
+      Velocity enters the price calculation through a relationship that is worth
+      stating precisely. The square root law, established in Part I, requires a
+      minimum daily volume V to keep slippage within institutional tolerance for
+      any given transaction size Q. That required volume V translates to a required
+      productive float market cap through the observed daily turnover ratio.
+      And that market cap divided by the number of XRP in the productive float
+      gives the required price.
+    </p>
+
+    <div class="math-block">
+      <div class="math-label">Velocity — Price Relationship</div>
+      <div class="math-line">Required volume: <span class="var">V</span> = Q × (σ ÷ tolerance)²</div>
+      <div class="math-line">Required float cap: <span class="var">FloatCap</span> = V ÷ daily_turnover</div>
+      <div class="math-line">Required price: <span class="var">P</span> = FloatCap ÷ productive_float_XRP</div>
+      <div class="math-note">
+        At Q = $500M · σ = 2.7% · tolerance = 25bp · productive float = 8B XRP<br/>
+        V = $500M × (0.027/0.0025)² = $500M × 116.6 = $58.3B/day required volume<br/><br/>
+        At 68× annual (18.7%/day): FloatCap = $58.3B ÷ 0.187 = $311.8B → P = $311.8B ÷ 8B = ~$39<br/>
+        At 20× annual (5.5%/day): FloatCap = $58.3B ÷ 0.055 = $1.06T → P = $1.06T ÷ 8B = ~$133<br/>
+        At 10× annual (2.7%/day): FloatCap = $58.3B ÷ 0.027 = $2.16T → P = $2.16T ÷ 8B = ~$270<br/><br/>
+        Note: productive float grows with price through the activation tiers established in Field Note 11.
+        A larger productive float at higher price levels partially offsets velocity compression effects —
+        the full required price under compression is lower than the constant-float calculation implies.
+      </div>
+    </div>
+
+    <p>
+      The same $500 million institutional ticket. The same slippage constraint. The same
+      productive float size. Three velocity assumptions produce required prices of $39,
+      $133, and $270. Velocity is not a secondary variable. For the same adoption conditions,
+      it is the primary driver of where required price lands within the range.
+    </p>
+
+    <h2>The three scenarios</h2>
+
+    <p>
+      When institutional capital enters the productive float, it encounters a system
+      currently driven almost entirely by retail speculation. The transition between
+      those two regimes is where velocity is determined. Three distinct scenarios
+      emerge from the mechanics — each with different drivers, different implications,
+      and different likelihoods.
+    </p>
+
+    <div class="scenario-grid">
+
+      <div class="scenario-card most-likely">
+        <div class="scenario-header">
+          <div class="scenario-label compression">● Scenario A</div>
+          <div class="scenario-badge likely">Most likely</div>
+        </div>
+        <div class="scenario-name">Velocity compression</div>
+        <div class="scenario-velocity">Turnover falls from 18.7%/day toward 5–8%/day &nbsp;·&nbsp; 20–30× annual</div>
+        <div class="scenario-body">
+          Institutional capital is disciplined. Professional market makers at banks and
+          prime brokers operate under strict intraday position limits, regulatory capital
+          constraints, and risk management frameworks that prevent aggressive recycling
+          of working capital. A bank's treasury desk does not cycle its entire XRP inventory
+          at maximum speed regardless of throughput opportunity. Traditional institutional
+          FX market makers — the closest analog to what XRP LP capital would look like at
+          institutional scale — turn working capital at 5-10x annually. That is the benchmark
+          established by decades of professional market making in the world's most liquid markets.
+          <br/><br/>
+          As institutional capital replaces or supplements the retail speculation currently
+          driving the productive float, the denominator (productive float market cap) grows
+          through price appreciation and supply activation, while the numerator (daily volume)
+          grows more slowly — constrained by institutional discipline rather than retail
+          speculation. Velocity falls. Required prices rise.
+        </div>
+        <div class="scenario-price">
+          <strong>Price implication:</strong> Required prices across all adoption scenarios rise 2–4× relative to the 68× baseline.
+          A $500M institutional ticket requiring ~$39 at 68× annual velocity requires ~$133 at 20× annual and ~$270 at 10× annual.
+          The series' upper price scenarios become more defensible, not less, as institutional adoption deepens.
+        </div>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-header">
+          <div class="scenario-label stable">● Scenario B</div>
+          <div class="scenario-badge baseline">Baseline</div>
+        </div>
+        <div class="scenario-name">Velocity stable</div>
+        <div class="scenario-velocity">Turnover remains approximately 18.7%/day &nbsp;·&nbsp; ~68× annual</div>
+        <div class="scenario-body">
+          Supply activation and institutional volume grow proportionally. As price rises,
+          dormant supply activates into productive use — retail deploys into AMM pools,
+          whale cold storage becomes lending collateral, institutional LPs enter. The
+          productive float denominator grows at roughly the same rate as institutional
+          settlement volume grows the numerator. Turnover stays approximately stable.
+          <br/><br/>
+          This is the assumption embedded in the series' prior price calculations and in
+          the X article published today. It is the baseline — not because it is most likely,
+          but because it is the assumption that requires the least prediction about how
+          institutional behavior differs from retail behavior. If velocity stays at 68× annual,
+          the published price scenarios hold as stated.
+        </div>
+        <div class="scenario-price">
+          <strong>Price implication:</strong> The published price scenarios from the X article
+          and Field Note 11 hold. Zone 1 ceiling ~$33. Zone 2 entry ~$62–$83. These are the
+          baseline numbers. All other scenarios produce higher or lower prices relative to this.
+        </div>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-header">
+          <div class="scenario-label acceleration">● Scenario C</div>
+          <div class="scenario-badge unlikely">Least likely</div>
+        </div>
+        <div class="scenario-name">Velocity acceleration</div>
+        <div class="scenario-velocity">Turnover rises from 18.7%/day toward 50%/day &nbsp;·&nbsp; ~182× annual</div>
+        <div class="scenario-body">
+          Dedicated institutional LP capital enters and cycles faster than the current
+          retail speculation mix. Professional liquidity providers with sophisticated
+          routing technology — Prisma going live in production, AMM depth deepening,
+          more independent market makers per corridor — enable the same productive float
+          to service dramatically more settlement volume per unit of time. Each dollar of
+          LP capital recycles faster because the infrastructure to deploy and recycle it
+          improves simultaneously with adoption.
+          <br/><br/>
+          This scenario is least likely because it requires institutional capital to behave
+          contrary to how institutional FX capital has behaved in every mature market studied.
+          Professional market makers do not maximize velocity at the expense of risk management.
+          The scenario is not impossible — it describes a world where Prisma is live, deeply
+          integrated, and dramatically more efficient than current ODL execution. But it
+          requires multiple favorable conditions to materialize simultaneously.
+        </div>
+        <div class="scenario-price">
+          <strong>Price implication:</strong> Required prices across all adoption scenarios fall
+          significantly relative to the 68× baseline. Zone 1 ceiling falls from ~$33 to ~$12.
+          Zone 2 entry falls from ~$62 to ~$23. The adoption threshold becomes easier to cross
+          at lower price but the investment case for holding compresses proportionally.
+        </div>
+      </div>
+
+    </div>
+
+    <h2>The sensitivity table</h2>
+
+    <p>
+      The table below holds all adoption scenario inputs constant — the same $500M peak
+      ticket, the same 2.7% confirmed daily volatility, the same 25bp institutional
+      slippage tolerance, the same 8 billion XRP productive float — and varies only the
+      velocity assumption. The price range that results from velocity uncertainty alone,
+      with no other variable changed, spans from $12 to $270 for the same institutional
+      settlement scenario.
+    </p>
+
+    <div class="sensitivity-table">
+      <div class="sensitivity-table-head">
+        <span>Velocity scenario</span>
+        <span>Daily turnover</span>
+        <span>Annual velocity</span>
+        <span>Required price ($500M ticket)</span>
+        <span>vs. Baseline</span>
+      </div>
+
+      <div class="sensitivity-table-row compression-row">
+        <div class="s-scenario">Traditional institutional FX</div>
+        <div class="s-daily">1.4–2.7%/day</div>
+        <div class="s-annual">5–10×</div>
+        <div class="s-price">~$230–$270</div>
+        <div class="s-direction">↑ 6–7× higher</div>
+      </div>
+      <div class="sensitivity-table-row compression-row">
+        <div class="s-scenario">Compression — 20× annual</div>
+        <div class="s-daily">5.5%/day</div>
+        <div class="s-annual">20×</div>
+        <div class="s-price">~$133</div>
+        <div class="s-direction">↑ 3.4× higher</div>
+      </div>
+      <div class="sensitivity-table-row compression-row">
+        <div class="s-scenario">Moderate compression — 30× annual</div>
+        <div class="s-daily">8.2%/day</div>
+        <div class="s-annual">30×</div>
+        <div class="s-price">~$89</div>
+        <div class="s-direction">↑ 2.3× higher</div>
+      </div>
+      <div class="sensitivity-table-row baseline-row">
+        <div class="s-scenario">Stable — today's confirmed rate</div>
+        <div class="s-daily">18.7%/day</div>
+        <div class="s-annual">68×</div>
+        <div class="s-price green">~$39</div>
+        <div class="s-direction">Baseline</div>
+      </div>
+      <div class="sensitivity-table-row">
+        <div class="s-scenario">Acceleration — 100× annual</div>
+        <div class="s-daily">27.4%/day</div>
+        <div class="s-annual">100×</div>
+        <div class="s-price muted">~$27</div>
+        <div class="s-direction">↓ 1.4× lower</div>
+      </div>
+      <div class="sensitivity-table-row">
+        <div class="s-scenario">Acceleration — 182× annual</div>
+        <div class="s-daily">50%/day</div>
+        <div class="s-annual">182×</div>
+        <div class="s-price muted">~$12</div>
+        <div class="s-direction">↓ 3.3× lower</div>
+      </div>
+      <div class="table-note">
+        All rows: Q = $500M peak ticket · σ = 2.7% daily volatility (confirmed Binance RV-30D) · tolerance = 25bp · productive float = 8B XRP
+        · Formula: P = [Q × (σ/tolerance)²] ÷ (daily_turnover × productive_float_XRP)
+        · Assumes productive float size stays constant at 8B XRP — in practice productive float grows with price, which partially offsets velocity compression effects
+      </div>
+    </div>
+
+    <h2>The Prisma interaction</h2>
+
+    <p>
+      Velocity and Prisma are the two largest uncertainties in the framework. They interact
+      directly — and they push in the same direction.
+    </p>
+
+    <p>
+      Prisma, if live in production, increases effective velocity by enabling more efficient
+      routing and better utilization of existing productive float depth. Each unit of LP
+      capital can service more settlement volume per day when pathfinding is more efficient.
+      Higher Prisma effectiveness → higher velocity → lower required price for the same
+      settlement volume.
+    </p>
+
+    <p>
+      Institutional discipline, if velocity compresses toward traditional FX market norms,
+      reduces effective velocity regardless of how capable Prisma is. An institutional LP
+      with hard position limits will not cycle capital at 182x annual even if the technology
+      enables it. Lower institutional velocity → lower effective turnover → higher required
+      price for the same settlement volume.
+    </p>
+
+    <p>
+      The interaction: if Prisma goes live and institutional discipline compresses velocity,
+      the two effects partially cancel — the technology pushes velocity up, the risk management
+      pushes it down. If Prisma goes live and institutional velocity accelerates, both effects
+      compound in the same direction, requiring the lowest prices. If Prisma stays pre-production
+      and institutional velocity compresses, both effects compound in the opposite direction,
+      requiring the highest prices.
+    </p>
+
+    <div class="pull-quote">
+      <p>
+        The most important price question in the framework is not whether XRP is adopted.
+        It is what velocity does when it is. The same adoption conditions produce a $12
+        price requirement or a $270 price requirement depending entirely on that answer.
+      </p>
+    </div>
+
+    <h2>The DTCC specific application</h2>
+
+    <p>
+      The velocity question becomes most concrete in the context of DTCC integration —
+      the most significant near-term institutional development for the framework.
+    </p>
+
+    <p>
+      Ripple Prime holds confirmed NSCC membership as of March 2, 2026. DTCC's tokenization
+      service launches in October 2026 on Canton Network — a permissioned, closed blockchain
+      that cannot bridge cross-currency, cross-chain obligations between counterparties without
+      pre-existing bilateral relationships. The cross-border FX mismatch created by T+1 securities
+      settlement against T+2 FX settlement creates a confirmed daily bridging need estimated at
+      $2-5 billion per day from DTCC-connected flows alone.
+    </p>
+
+    <p>
+      The LP capital that would service those flows through Ripple Prime's NSCC channel is
+      institutional capital — bank treasury desks, prime brokers, regulated liquidity providers.
+      These entities operate under exactly the institutional discipline that Scenario A describes.
+      They do not run 68x annual velocity. They run 5-10x annual velocity. They have counterparty
+      exposure limits, intraday position limits, and regulatory capital constraints that prevent
+      aggressive recycling regardless of settlement speed.
+    </p>
+
+    <p>
+      This means the DTCC integration scenario — if it materializes — is also the scenario
+      most likely to produce velocity compression. Institutional capital entering through
+      the most regulated, most disciplined channel in the system would push velocity toward
+      the low end of the range, not the high end. Required prices for the DTCC use case
+      under institutional velocity assumptions are therefore not the $62-$83 Zone 2 entry
+      from the X article's baseline — they are the $210-$280 velocity-compression range
+      from the updated Zone 2 table.
+    </p>
+
+    <h2>What to watch — the velocity signal</h2>
+
+    <p>
+      Velocity is an observable. It does not need to be predicted — it can be tracked
+      in real time from on-chain data. The signal is the ratio of daily ODL volume to
+      productive float market cap, measured over a rolling 30-day window.
+    </p>
+
+    <div class="signal-block">
+      <div class="signal-head">Observable Velocity Signals</div>
+
+      <div class="signal-entry">
+        <div class="signal-label">Signal 01 &nbsp;·&nbsp; The velocity ratio</div>
+        <div class="signal-text">
+          <strong>Daily ODL volume ÷ productive float market cap, 30-day rolling average.</strong>
+          If this ratio falls as institutional adoption grows — meaning productive float is deepening
+          faster than volume — velocity is compressing toward institutional norms. Scenario A is
+          materializing and prices in the upper range of each zone are operative. If the ratio stays
+          stable or rises, Scenario B or C holds and baseline estimates apply.
+          This ratio is calculable from on-chain data today and has not been widely tracked.
+          It should be the primary velocity monitoring metric for the framework going forward.
+        </div>
+      </div>
+
+      <div class="signal-entry">
+        <div class="signal-label">Signal 02 &nbsp;·&nbsp; Ripple Prime routing volume</div>
+        <div class="signal-text">
+          <strong>Any confirmed disclosure of production routing volume through Ripple Prime's NSCC channel.</strong>
+          This is the first empirical data point on institutional LP behavior within the DTCC ecosystem.
+          If disclosed volume implies turnover rates below 20x annual against the capital deployed,
+          Scenario A is confirmed. If turnover rates are above 50x annual, Scenario C is occurring
+          within at least one institutional LP's operations.
+        </div>
+      </div>
+
+      <div class="signal-entry">
+        <div class="signal-label">Signal 03 &nbsp;·&nbsp; Prisma production confirmation</div>
+        <div class="signal-text">
+          <strong>Any Ripple disclosure confirming Prisma DEX/AMM routing is live in production ODL.</strong>
+          Prisma production confirmation shifts the velocity probability distribution toward
+          Scenario C — higher technology-enabled velocity — but does not guarantee it if
+          institutional position limits bind. The signal value is in determining whether
+          technology or discipline is the binding constraint on velocity.
+        </div>
+      </div>
+
+      <div class="signal-entry">
+        <div class="signal-label">Signal 04 &nbsp;·&nbsp; Bid-ask spread compression on XRPL DEX</div>
+        <div class="signal-text">
+          <strong>Tightening spreads on major XRPL pairs indicate more independent market maker competition.</strong>
+          More independent market makers reduce path correlation and enable higher effective
+          velocity per unit of productive float. Spread compression is the market structure
+          signal that Scenario C conditions are building — more participants, better routing,
+          higher capital efficiency. Watch for sustained spread compression on USD/XRP and
+          major ODL corridor pairs as adoption deepens.
+        </div>
+      </div>
+    </div>
+
+    <div class="framework-ref">
+      <div class="framework-ref-label">Series context</div>
+      <p>
+        This field note addresses the gap between Field Note 11 — which established the productive
+        float and its confirmed $82M/day capacity ceiling — and the series' upper price scenarios
+        established in <a href="/part1/">Part I</a>. The velocity framework formally models
+        the transmission mechanism between those two data points for the first time.
+        Field Note 10 established the pathfinding threshold as the boundary between
+        Regime A and Regime B liquidity — velocity compression makes that threshold
+        harder to reach, requiring higher prices before the institutional pipe is wide enough.
+        The irreducible ticket argument in <a href="/blog/irreducible-ticket/">Field Note 6</a>
+        — where DvP atomic settlement cannot be split — is the use case most exposed to
+        velocity compression risk, because the capital servicing those flows is the most
+        institutionally disciplined.
+      </p>
+      <p>
+        <a href="/part1/">Part I — The square root law →</a>
+        &nbsp;&nbsp;
+        <a href="/blog/active-float/">Field Note 11 — The productive float →</a>
+        &nbsp;&nbsp;
+        <a href="/blog/pathfinding-threshold/">Field Note 10 — The pathfinding threshold →</a>
+      </p>
+    </div>
+
+    <div class="disclaimer">
+      This is not financial advice. The Living Framework extends the analytical work of the XRP Valuation Series —
+      a conditional sizing model, not a price prediction. All scenarios depend on stated assumptions.
+      Velocity figures are derived from confirmed on-chain data (Glassnode, live trading volume May 4, 2026).
+      Institutional FX velocity benchmarks from BIS Triennial Survey and market structure literature.
+      Sensitivity table calculations apply the square root law from Part I with confirmed volatility inputs.
+      Do your own research.
+    </div>
+
+    <div class="post-footer">
+      <div class="post-footer-label">Continue reading</div>
+      <div class="post-footer-links">
+        <a class="footer-link primary" href="/blog/active-float/">Field Note 11 — The productive float.</a>
+        <a class="footer-link" href="/blog/irreducible-ticket/">Field Note 6 — The irreducible ticket.</a>
+        <a class="footer-link" href="/">All articles</a>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>XRP Valuation Series &nbsp;·&nbsp; The Living Framework</div>
+    <div>FutureXRP &nbsp;·&nbsp; @the5blairs</div>
+  </div>
+</footer>
+
+</body>
+</html>

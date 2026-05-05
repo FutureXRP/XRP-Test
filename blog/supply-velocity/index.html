@@ -222,6 +222,12 @@
         <strong>XRP productive float annual velocity — confirmed from live data, May 2026 snapshot</strong><br/>
         Daily trading volume: $1.55B · Productive float: $8.28B · Daily turnover: 18.7%<br/>
         18.7% × 365 = 68.3× annual velocity<br/><br/>
+        Note: this 18.7% figure represents total productive float turnover including all
+        trading activity — retail speculation, arbitrage, ODL, and exchange flow.
+        Field Note 11's $82M/day institutional settlement capacity is a separate and smaller
+        figure: the subset of that volume that constitutes clean institutional settlement
+        within 25bp slippage tolerance under the framework's 1% conservative planning
+        assumption. The two figures are consistent — they measure different things.<br/><br/>
         For reference: US Treasuries turn 3–5× annually.<br/>
         Institutional FX desks running hard: 5–10× annually.<br/>
         XRP's productive float: 68×.
@@ -715,9 +721,18 @@
         <div class="s-direction">↓ 3.3× lower</div>
       </div>
       <div class="table-note">
-        All rows: Q = $500M peak ticket · σ = 2.7% daily volatility (confirmed Binance RV-30D) · tolerance = 25bp · productive float = 8B XRP
+        All rows: Q = $500M peak ticket · σ = 2.7% daily volatility (confirmed Binance RV-30D current) · tolerance = 25bp · productive float = 8B XRP
         · Formula: P = [Q × (σ/tolerance)²] ÷ (daily_turnover × productive_float_XRP)
-        · Assumes productive float size stays constant at 8B XRP — in practice productive float grows with price, which partially offsets velocity compression effects
+        · Assumes productive float size stays constant at 8B XRP — in practice productive float grows with price, which partially offsets velocity compression effects<br/><br/>
+        Volatility note: Field Note 6's Q-sensitivity table uses σ = 3% — the framework's institutional maturity assumption
+        for the adoption state being modeled, not today's confirmed figure. Both are correct for their stated contexts.
+        2.7% is confirmed current. 3% is the forward-looking institutional scenario assumption from Part I.<br/><br/>
+        Layer 1 cross-reference: Field Note 11's capacity table shows the Layer 1 threshold at ~$240 using the 1% conservative
+        planning turnover assumption against the productive float. This table's baseline row shows ~$39 for a $500M ticket
+        at 68× confirmed actual turnover. These are not contradictory — they use different turnover assumptions for different
+        purposes. 1% is the institutional planning baseline. 18.7% is confirmed actual total trading turnover including all activity.
+        The gap between $39 and $240 is the velocity sensitivity range — the same adoption condition produces different required
+        prices depending on which turnover assumption governs institutional LP behavior.
       </div>
     </div>
 

@@ -86,5 +86,13 @@
     "tags": ["Supply Mechanics", "Active Float"],
     "title": "A live look at the system, and <em>where we go from here.</em>",
     "deck": "The series has modeled what the system requires. This note looks at what the system actually is — right now, with real on-chain data. Only 5–8 billion XRP is consistently available for settlement execution today. Here is what that means, and what changes as price appreciates through a series of economic activation thresholds."
+  },
+  {
+    "number": 12,
+    "slug": "velocity-problem",
+    "date": "May 4, 2026",
+    "tags": ["Velocity Dynamics", "Institutional Transition"],
+    "title": "The <em>velocity problem</em> — what happens to the number that matters most when institutional capital arrives.",
+    "deck": "XRP's productive working float turns over 68 times annually. That number sounds like strength. It isn't. It is the most important unmodeled variable in the framework — and what happens to it when institutional capital enters determines the required price more than almost anything else."
   }
 ]

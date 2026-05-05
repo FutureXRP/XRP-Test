@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Observatory No. 2: The Success That Could Become the Ceiling — XRP Valuation Series</title>
+  <meta name="description" content="The framework has modeled the ascent with precision. It has not modeled what happens at the destination. Full tokenization contains an internal paradox that every serious holder needs to understand." />
+  <meta property="og:title" content="The Observatory No. 2: The Success That Could Become the Ceiling" />
+  <meta property="og:description" content="The most dangerous moment for XRP holders may not be regulatory failure. It may be complete success." />
+  <meta property="og:type" content="article" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --paper: #ffffff;
+      --paper-soft: #f7f3ea;
+      --paper-deep: #f4efe4;
+      --ink: #171512;
+      --ink-soft: #3a342e;
+      --ink-medium: #61594f;
+      --ink-faint: #8a8073;
+      --rule: #d8d0c3;
+      --rule-strong: #1a1a1a;
+      --accent: #7a5c20;
+      --display: "Newsreader", Georgia, serif;
+      --body: "Newsreader", Georgia, serif;
+      --ui: "IBM Plex Sans", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --text-width: 680px;
+      --page-width: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 20px; line-height: 1.72; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    a { color: inherit; text-decoration: none; }
+
+    .topbar { max-width: var(--page-width); margin: 0 auto; padding: 24px 28px 0; }
+    .topbar-inner { border-top: 2px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); padding: 15px 0 13px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-family: var(--ui); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-medium); }
+    .topbar-left { font-weight: 600; color: var(--accent); }
+    .topbar-left a { color: var(--accent); }
+    .topbar-left a:hover { opacity: 0.75; }
+    .topbar-right { letter-spacing: 0.1em; color: var(--ink-faint); }
+
+    .article-wrap { max-width: var(--page-width); margin: 0 auto; padding: 56px 28px 120px; display: grid; grid-template-columns: 1fr min(var(--text-width), 100%) 1fr; }
+    .article-wrap > * { grid-column: 2; }
+
+    .post-header { margin-bottom: 56px; }
+    .post-section { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 24px; }
+    .post-section::before { content: ""; display: inline-block; width: 20px; height: 1px; background: var(--accent); }
+
+    h1.post-title { font-family: var(--display); font-size: clamp(36px, 6vw, 62px); line-height: 1.05; font-weight: 500; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 22px; }
+    h1.post-title em { font-style: italic; color: var(--accent); }
+
+    .post-deck { font-family: var(--display); font-style: italic; font-size: clamp(19px, 2.5vw, 24px); line-height: 1.45; color: var(--ink-medium); margin-bottom: 32px; }
+
+    .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 18px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+    .post-meta .meta-tag { color: var(--accent); font-weight: 600; }
+    .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--rule); flex-shrink: 0; }
+
+    .post-body { padding-top: 48px; }
+    .post-body p { margin-bottom: 28px; font-size: 20px; line-height: 1.72; color: var(--ink-soft); }
+    .post-body p:first-child { font-size: 22px; line-height: 1.65; color: var(--ink); }
+    .post-body h2 { font-family: var(--display); font-size: clamp(24px, 3vw, 32px); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 20px; padding-top: 40px; border-top: 1px solid var(--rule); }
+
+    .pull-quote { margin: 44px 0; padding: 28px 32px; border-left: 3px solid var(--accent); background: var(--paper-soft); }
+    .pull-quote p { font-family: var(--display); font-size: clamp(20px, 2.5vw, 26px) !important; font-style: italic; line-height: 1.45; color: var(--ink) !important; margin-bottom: 0 !important; }
+
+    .math-block { margin: 36px 0; padding: 24px 28px; background: var(--ink); border-radius: 4px; }
+    .math-block .math-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 12px; }
+    .math-block .math-line { font-family: var(--mono); font-size: 15px; color: #fff; line-height: 1.9; }
+    .math-block .math-line .var { color: #c9a84c; }
+    .math-block .math-note { margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.1); font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.6; }
+
+    /* ── PHASE TABLE ── */
+    .phase-table { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .phase-table-head { display: grid; grid-template-columns: 1fr 1.4fr 1.4fr 1.2fr; background: var(--ink); padding: 12px 20px; gap: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .phase-table-row { display: grid; grid-template-columns: 1fr 1.4fr 1.4fr 1.2fr; padding: 14px 20px; gap: 12px; border-top: 1px solid var(--rule); background: var(--paper); align-items: start; }
+    .phase-table-row:nth-child(even) { background: var(--paper-soft); }
+    .phase-table-row.highlight { background: #f0ebe0; border-left: 3px solid var(--accent); }
+    .phase-name { font-family: var(--ui); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+    .phase-cell { font-family: var(--ui); font-size: 13px; color: var(--ink-medium); line-height: 1.5; }
+    .phase-cell.accent { font-family: var(--mono); font-size: 12px; color: var(--accent); font-weight: 600; }
+    .table-note { padding: 12px 20px; background: var(--paper-deep); border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.6; }
+
+    /* ── OUTCOME TABLE ── */
+    .outcome-table { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .outcome-table-head { display: grid; grid-template-columns: 1.2fr 1.8fr 1fr; background: var(--ink); padding: 12px 20px; gap: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .outcome-table-row { display: grid; grid-template-columns: 1.2fr 1.8fr 1fr; padding: 14px 20px; gap: 12px; border-top: 1px solid var(--rule); background: var(--paper); align-items: start; }
+    .outcome-table-row:nth-child(even) { background: var(--paper-soft); }
+    .outcome-name { font-family: var(--ui); font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+    .outcome-desc { font-family: var(--ui); font-size: 13px; color: var(--ink-medium); line-height: 1.5; }
+    .outcome-verdict { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.5; }
+    .outcome-verdict.bull { color: #2d6a2d; font-weight: 600; }
+    .outcome-verdict.bear { color: var(--accent); font-weight: 600; }
+    .outcome-verdict.neutral { color: #7a6a20; font-weight: 600; }
+
+    .framework-ref { margin: 40px 0; padding: 22px 24px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
+    .framework-ref-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+    .framework-ref p { font-size: 16px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 10px !important; }
+    .framework-ref p:last-child { margin-bottom: 0 !important; }
+    .framework-ref a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+    .framework-ref a:hover { border-bottom-color: var(--accent); }
+
+    .post-footer { margin-top: 72px; padding-top: 32px; border-top: 2px solid var(--rule-strong); }
+    .post-footer-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 20px; }
+    .post-footer-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .footer-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--rule); background: var(--paper); font-family: var(--ui); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-medium); font-weight: 500; transition: border-color 0.15s, color 0.15s; }
+    .footer-link:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-link.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .footer-link.primary:hover { background: #7f1d1d; border-color: #7f1d1d; }
+    .footer-link::after { content: "→"; font-size: 13px; }
+
+    .disclaimer { margin-top: 40px; padding: 18px 20px; background: var(--paper-soft); border: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-faint); line-height: 1.7; }
+
+    .site-footer { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 40px; }
+    .site-footer-inner { border-top: 1px solid var(--rule); padding-top: 18px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+
+    @media (max-width: 760px) {
+      body { font-size: 19px; }
+      .article-wrap { grid-template-columns: 1fr; padding: 40px 20px 80px; }
+      .article-wrap > * { grid-column: 1; }
+      .phase-table-head, .phase-table-row { grid-template-columns: 1fr 1fr; }
+      .phase-table-head > *:nth-child(3), .phase-table-row > *:nth-child(3),
+      .phase-table-head > *:nth-child(4), .phase-table-row > *:nth-child(4) { display: none; }
+      .outcome-table-head, .outcome-table-row { grid-template-columns: 1fr 1fr; }
+      .outcome-table-head > *:nth-child(3), .outcome-table-row > *:nth-child(3) { display: none; }
+      .site-footer { padding: 0 20px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left"><a href="/">XRP Valuation Series</a> &nbsp;·&nbsp; The Living Framework</div>
+    <div class="topbar-right">The Observatory · May 2, 2026</div>
+  </div>
+</header>
+
+<article class="article-wrap">
+
+  <div class="post-header">
+    <div class="post-section">The Observatory &nbsp;·&nbsp; No. 2</div>
+    <h1 class="post-title">The success that could become <em>the ceiling.</em></h1>
+    <p class="post-deck">
+      The framework has modeled the ascent with precision. It has not modeled the destination.
+      Full tokenization — the internet of value, the stated goal of everything this series has argued for —
+      contains an internal paradox that every serious holder needs to understand before the thesis peaks.
+    </p>
+    <div class="post-meta">
+      <span class="meta-tag">The Observatory</span>
+      <span class="meta-dot"></span>
+      <span>Terminal State</span>
+      <span class="meta-dot"></span>
+      <span>Reserve Asset Dynamics</span>
+      <span class="meta-dot"></span>
+      <span>May 2, 2026</span>
+    </div>
+  </div>
+
+  <div class="post-body">
+
+    <p>
+      The XRP Valuation Series was built around a single mechanical constraint: the pipe has to be
+      wide enough to carry institutional settlement flows without unacceptable slippage. Price is
+      what widens the pipe. The higher the settlement volume that needs to pass through, the higher
+      the price required to make passage possible. This logic is sound, well-sourced, and survives
+      every serious challenge the framework has faced.
+    </p>
+
+    <p>
+      But the framework has a temporal boundary it has never stated explicitly. The price logic
+      holds during the transition — the period when legacy fiat rails coexist with blockchain
+      settlement infrastructure, when ODL transactions still carry fiat legs that settle on
+      banking timescales, when velocity is constrained not by the protocol but by the slowest
+      leg in each transaction. During that transition, the square root law governs. Price must rise.
+    </p>
+
+    <p>
+      The question this field note addresses is what happens after. If the internet of value thesis
+      is correct — if CBDCs, RLUSD, tokenized deposits, and programmable money eventually eliminate
+      fiat legs entirely — the velocity constraint dissolves. And when it does, the mechanical
+      foundation of the price argument changes in ways the series has not previously examined.
+    </p>
+
+    <h2>The paradox, stated plainly</h2>
+
+    <p>
+      The bandwidth of the XRPL as an engineering system is not in question. Field Note 10 established
+      the two-regime framework. The ledger can process 1,500 transactions per second, cycling its
+      available float up to 25,412 times per day at theoretical maximum velocity. At $1.38 and
+      6 billion operational XRP, this represents a daily settlement capacity approaching
+      $210 trillion — roughly 42 times global SWIFT daily flow.
+    </p>
+
+    <p>
+      The reason this capacity is theoretical today is the fiat leg constraint. Every ODL transaction
+      has two legs running on legacy banking rails — one in, one out — that settle in minutes to days.
+      The liquidity provider's capital is locked until those legs clear. The same XRP cannot cycle
+      25,412 times per day when the capital behind each cycle takes hours to free up. The ledger's
+      speed is irrelevant to the binding constraint, which is always the slowest leg.
+    </p>
+
+    <div class="pull-quote">
+      <p>
+        The bandwidth calculator describes the world after the bootstrap.
+        The square root law describes the cost of the bootstrap itself.
+        Both are true. They apply to different eras.
+      </p>
+    </div>
+
+    <p>
+      In a fully tokenized world, the fiat leg disappears. Value in equals value out, both
+      denominated in tokenized instruments that settle at protocol speed. At that point,
+      velocity approaches the engineering limit. And in MV=PQ terms — where M is money supply,
+      V is velocity, P is price, and Q is settlement volume — if V increases by orders of magnitude
+      while Q grows proportionally, P must fall to maintain the identity. The math is
+      unambiguous: a system that handles the same settlement volume at 1,000 times the velocity
+      requires 1,000 times less price per unit of money supply to do it.
+    </p>
+
+    <p>
+      The series has argued, correctly, that the internet of value is the destination.
+      What it has not argued is what the internet of value does to the required price
+      once it arrives.
+    </p>
+
+    <p>
+      This does not invalidate the price logic of the XRP Valuation Series. It defines
+      the phase in which that logic is strongest — and the conditions under which it
+      transitions to something else. The pipe still has to be wide enough. The square
+      root law still governs today. What this field note adds is the honest acknowledgment
+      that the framework has a temporal shape, and that shape matters as much as the
+      price scenarios that live inside it.
+    </p>
+
+    <h2>The three eras and where the thesis lives</h2>
+
+    <p>
+      The adoption curve is not uniform. It has three distinct phases with different binding
+      constraints, different price mechanics, and different implications for holders.
+      Understanding which era you are in is the most important judgment a serious participant
+      can make.
+    </p>
+
+    <div class="phase-table">
+      <div class="phase-table-head">
+        <span>Era</span>
+        <span>Binding Constraint</span>
+        <span>Right Model</span>
+        <span>Price Direction</span>
+      </div>
+      <div class="phase-table-row">
+        <div class="phase-name">Today — Hybrid Fiat/Crypto</div>
+        <div class="phase-cell">Fiat settlement velocity, liquidity depth. ODL fiat legs settle on banking timescales. Square root law governs slippage.</div>
+        <div class="phase-cell">Square root market impact law. Price must rise to widen the pipe.</div>
+        <div class="phase-cell accent">↑ Ascending</div>
+      </div>
+      <div class="phase-table-row highlight">
+        <div class="phase-name">Transition — Partial Tokenization</div>
+        <div class="phase-cell">Shrinking fiat legs, growing on-chain depth, rising institutional velocity. Both models partially apply.</div>
+        <div class="phase-cell">Both models apply in proportion to how much of the float has tokenized. Peak price zone lives here.</div>
+        <div class="phase-cell accent">▲ Peak Zone</div>
+      </div>
+      <div class="phase-table-row">
+        <div class="phase-name">Destination — Full Tokenization</div>
+        <div class="phase-cell">Protocol throughput only. Fiat legs eliminated. Velocity approaches engineering limit.</div>
+        <div class="phase-cell">Bandwidth calculator becomes operational. Settlement velocity constraint dissolves.</div>
+        <div class="phase-cell accent">↓ Pressure</div>
+      </div>
+      <div class="table-note">
+        Highlighted row is the peak zone — where the price argument is strongest. The thesis peaks before full tokenization, not after it.
+        The peak zone is not a ceiling on magnitude. It is a ceiling on the mechanism driving that magnitude.
+        The price scenarios inside it can still be extremely high. What changes after is what sustains them.
+        Timing the transition between eras is the critical judgment the framework cannot make from first principles.
+      </div>
+    </div>
+
+    <p>
+      The highlighted row is where the framework's highest price scenarios live. It is also
+      the narrowest window. Once fiat legs begin disappearing at scale — once RLUSD, CBDCs,
+      and tokenized bank deposits handle both sides of settlement flows natively — the velocity
+      constraint that makes high price necessary begins to relax. The thesis does not collapse.
+      But its mechanical foundation shifts, and what supports the price thereafter must come
+      from somewhere other than settlement necessity.
+    </p>
+
+    <h2>What the gold transition teaches us</h2>
+
+    <p>
+      Gold's history is the closest analog the framework has for thinking through this transition.
+      When the Bretton Woods system collapsed in August 1971 and Nixon suspended dollar
+      convertibility to gold, gold stopped functioning as an active settlement medium.
+      Its velocity as a transaction asset fell to approximately zero. By the bandwidth
+      calculator's logic, a reserve asset with zero velocity should have zero required price.
+    </p>
+
+    <p>
+      Instead, gold went from $35 per ounce in 1971 to over $800 by 1980 — a 22x increase
+      that occurred precisely as its settlement function was being eliminated. The use case
+      transformed rather than disappeared. Central banks, sovereign wealth funds, and
+      institutional treasuries discovered they needed gold not because they were cycling it
+      through transactions but because they needed a neutral asset nobody controlled — one
+      whose value was independent of any sovereign's creditworthiness.
+    </p>
+
+    <p>
+      The mechanism that drove gold's price after Bretton Woods was not velocity. It was
+      precautionary demand — the systemic requirement to hold reserves in an asset that
+      could not be debased, frozen, or redirected by a counterparty. That demand was
+      independent of settlement frequency. It was, if anything, inversely correlated with it.
+      The less gold moved, the more valuable it became as a store.
+    </p>
+
+    <p>
+      XRP at full tokenization faces the same transition opportunity. The question is whether
+      the institutional familiarity, network effects, and systemic importance built during the
+      settlement era are sufficient to anchor reserve asset demand independently.
+    </p>
+
+    <h2>The six counterforces to the ceiling</h2>
+
+    <p>
+      The tokenization paradox is real. It is not, however, automatically decisive. Six structural
+      forces operate against the price ceiling at full tokenization. Whether they are sufficient
+      determines whether the transition era becomes a permanent plateau or a peak followed by compression.
+    </p>
+
+    <div class="outcome-table">
+      <div class="outcome-table-head">
+        <span>Counterforce</span>
+        <span>Mechanism</span>
+        <span>Strength</span>
+      </div>
+      <div class="outcome-table-row">
+        <div class="outcome-name">Store of Value Transition</div>
+        <div class="outcome-desc">Institutional familiarity and reserve asset status built during the settlement era persist independently of settlement velocity. Precautionary holding demand by systemically dependent institutions creates price support unrelated to transaction frequency. Gold's post-1971 trajectory is the historical template.</div>
+        <div class="outcome-verdict bull">Strong</div>
+      </div>
+      <div class="outcome-table-row">
+        <div class="outcome-name">Fixed Supply Scarcity Dynamics</div>
+        <div class="outcome-desc">At full tokenization, settlement may only require 5-10 billion XRP cycling at high velocity. The remaining 50+ billion in circulation does not disappear — it sits as savings, collateral, and reserve holdings. The settlement float shrinks while total supply stays fixed, concentrating scarcity pressure into non-settlement demand.</div>
+        <div class="outcome-verdict bull">Strong</div>
+      </div>
+      <div class="outcome-table-row">
+        <div class="outcome-name">New Use Cases at Full Tokenization</div>
+        <div class="outcome-desc">Full tokenization enables financial primitives that don't exist today: XRP as margin collateral for tokenized derivatives, DeFi protocol liquidity depth, programmable money requiring neutral bridge collateral, and atomic cross-chain settlement across multiple tokenized asset classes. XRPL's RWA tokenization — already at $500M and projected at $3-6B by late 2026 — is early evidence of this demand forming independently of ODL velocity. Each new use case creates demand structurally independent of settlement velocity.</div>
+        <div class="outcome-verdict bull">Moderate-Strong</div>
+      </div>
+      <div class="outcome-table-row">
+        <div class="outcome-name">Velocity Never Reaches Theoretical Maximum</div>
+        <div class="outcome-desc">Even in a fully tokenized world, regulatory finality windows, cross-jurisdictional legal settlement requirements, and compliance mandates create friction below the protocol's engineering limit. CBDCs will have their own confirmation delays. MiCA and equivalent frameworks may impose settlement holds. A partially constrained velocity keeps the square root law partially operative indefinitely — the ceiling may never fully arrive.</div>
+        <div class="outcome-verdict neutral">Moderate</div>
+      </div>
+      <div class="outcome-table-row">
+        <div class="outcome-name">Reflexivity Strengthens with Systemic Importance</div>
+        <div class="outcome-desc">The collateral reflexivity loop from Part III does not dissolve at full tokenization — it strengthens. A fully tokenized financial system is more dependent on the neutral bridge asset at its center, not less. The deeper the tokenization, the more catastrophic a liquidity failure in the bridge asset becomes, which means the more institutions are incentivized to hold excess depth as systemic insurance. Systemic importance creates price support independent of transaction velocity.</div>
+        <div class="outcome-verdict bull">Strong</div>
+      </div>
+      <div class="outcome-table-row">
+        <div class="outcome-name">The Triffin Analog — Precautionary Reserve Demand</div>
+        <div class="outcome-desc">The US dollar's reserve status increased demand for dollars far beyond what pure transaction velocity required. Countries held dollar reserves not because they were transacting in dollars at that moment but because they might need to. XRP as a neutral global settlement asset faces the same dynamic: precautionary demand from institutions that need to know liquidity is available when they need it creates persistent holding pressure independent of current volume or velocity.</div>
+        <div class="outcome-verdict bull">Strong — but unproven</div>
+      </div>
+      <div class="table-note">
+        All six counterforces must fail simultaneously to produce price collapse at full tokenization.
+        Each individually is uncertain. Together they represent substantial structural resistance to the ceiling scenario.
+      </div>
+    </div>
+
+    <h2>A rough quantification of the peak zone</h2>
+
+    <p>
+      The framework resists false precision. But the peak zone can be described in terms of
+      the adoption conditions that must be simultaneously true for the price argument to be
+      at its strongest — and the signal that indicates the transition era is ending.
+    </p>
+
+    <div class="math-block">
+      <div class="math-label">Peak Zone — Approximate Conditions</div>
+      <div class="math-line">ODL daily flow: <span class="var">$500B – $2T/day</span> &nbsp;·&nbsp; Fiat leg share: <span class="var">&gt; 30%</span></div>
+      <div class="math-line">Institutional velocity: <span class="var">50–500x/year</span> &nbsp;·&nbsp; Tokenized float: <span class="var">&lt; 40% of circulation</span></div>
+      <div class="math-note">
+        Below $500B/day: square root law still requires lower prices than framework's upper scenarios<br/>
+        Above $2T/day with fiat legs below 30%: velocity constraint begins relaxing — transition era ending<br/>
+        Tokenized float above 40%: both-legs-on-chain flow materially increases velocity — ceiling pressure begins<br/>
+        This is not a precise threshold. It is the zone where the price argument is simultaneously supported
+        by settlement necessity AND not yet eroded by tokenization efficiency. The thesis is strongest here.
+      </div>
+    </div>
+
+    <p>
+      Observable signals that the peak zone is approaching from below: institutional ODL corridors
+      reaching $100B+ monthly volume, RLUSD and competing tokenized stablecoins handling an
+      increasing share of both legs, and XLS-66 lending protocols enabling XRP to function as
+      collateral in on-chain credit markets. These are the signals the series has always named
+      as adoption confirmations. They are also the signals that define the transition era's
+      beginning.
+    </p>
+
+    <p>
+      Observable signals that the peak zone is ending from above: fiat leg share of ODL
+      transactions falling below one third, CBDC corridors going live at scale with
+      both-legs-on-chain settlement, and XRP daily velocity — actual observed turnover
+      divided by circulating supply — exceeding 50x per year on a sustained basis.
+      None of these conditions currently exist. They are years away at minimum.
+      But serious holders should know what to watch for.
+    </p>
+
+    <h2>What this means for the thesis</h2>
+
+    <p>
+      The framework is a conditional sizing model. It has always been explicit that
+      the price scenarios depend on stated adoption conditions being met. This field note
+      adds one more dimension of conditionality: the price scenarios also depend on
+      <em>when</em> those conditions are met — specifically, whether the reserve asset
+      transition happens in parallel with or after the settlement adoption transition.
+    </p>
+
+    <p>
+      If institutional adoption scales, the Clarity Act passes, and ODL volumes reach
+      the framework's upper scenarios — but full tokenization of both settlement legs
+      arrives before XRP establishes reserve asset status — the price peak may be
+      lower and earlier than the framework's terminal scenarios suggest.
+    </p>
+
+    <p>
+      If institutional adoption scales and XRP simultaneously establishes itself as
+      the neutral reserve asset that post-fiat global finance requires — the gold analog —
+      then the tokenization paradox resolves in favor of the holder. The internet of value
+      arriving does not compress the price. It transforms the demand from settlement
+      necessity to reserve necessity, and the price finds a new floor independent of
+      velocity entirely.
+    </p>
+
+    <div class="pull-quote">
+      <p>
+        The most dangerous moment for XRP holders may not be regulatory failure.
+        It may be complete success, arriving before reserve asset status is established.
+        The thesis has a peak zone. Knowing where it is matters as much as knowing
+        the price scenarios that live inside it.
+      </p>
+    </div>
+
+    <p>
+      This field note does not change the framework's price logic. The pipe still has to
+      be wide enough. The square root law still governs the transition era. The adoption
+      conditions that produce the upper price scenarios are still the right conditions
+      to watch. What this note adds is the honest acknowledgment that the thesis has
+      a temporal shape — an ascent, a peak zone, and a destination where different
+      mechanics take over — and that understanding all three is what separates a
+      complete analysis from an incomplete one.
+    </p>
+
+    <p>
+      The series was built on the principle that the bear case deserves the most rigorous
+      engagement. This is the bear case the framework hadn't fully articulated.
+      It is articulated now.
+    </p>
+
+    <p>
+      The question is no longer just whether XRP succeeds. It is whether it becomes
+      necessary to hold — even when it is no longer necessary to use.
+    </p>
+
+    <div class="framework-ref">
+      <div class="framework-ref-label">From the XRP Valuation Series</div>
+      <p>
+        The square root market impact law and the slippage constraint are established in Part I.
+        The atomic settlement repricing argument lives in Part III.
+        The collateral reflexivity loop — which this field note argues strengthens at full tokenization —
+        is Argument 09 in Part III. Part VI prices the probability that adoption conditions are met
+        at all and names the falsification criteria that would break the thesis before the peak zone is reached.
+      </p>
+      <p>
+        <a href="/part1/">Start with Part I →</a>
+        &nbsp;&nbsp;
+        <a href="/part3/">Part III — Collateral reflexivity →</a>
+        &nbsp;&nbsp;
+        <a href="/part6/">Part VI — The probability framework →</a>
+      </p>
+    </div>
+
+    <div class="disclaimer">
+      This is not financial advice. The Living Framework extends the analytical work of the XRP Valuation Series —
+      a conditional sizing model, not a price prediction. All scenarios depend on stated assumptions.
+      Do your own research.
+    </div>
+
+    <div class="post-footer">
+      <div class="post-footer-label">Continue reading</div>
+      <div class="post-footer-links">
+        <a class="footer-link primary" href="/part1/">Part I — XRP is not being valued. It is being sized.</a>
+        <a class="footer-link" href="/pathfinding-threshold/">Field Note 10 — The pathfinding threshold.</a>
+        <a class="footer-link" href="/">All articles</a>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>XRP Valuation Series &nbsp;·&nbsp; The Living Framework</div>
+    <div>FutureXRP &nbsp;·&nbsp; @the5blairs</div>
+  </div>
+</footer>
+
+</body>
+</html>

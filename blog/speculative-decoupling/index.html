@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Field Note 12: The Speculative Decoupling — XRP Valuation Series</title>
+  <meta name="description" content="XRP's all-time high of $3.65 produced the largest market cap in the asset's history. The framework's own formula shows it also produced one of the weakest peak ticket capacities of recent years. This field note runs the numbers — and explains what the gap reveals." />
+  <meta property="og:title" content="Field Note 12: The Speculative Decoupling" />
+  <meta property="og:description" content="The ATH was not an institutional moment. The terminal proves it. Here is what the formula produces when you run July 18, 2025 — and what it tells you about what to watch for next." />
+  <meta property="og:type" content="article" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --paper: #ffffff;
+      --paper-soft: #f7f3ea;
+      --paper-deep: #f4efe4;
+      --ink: #171512;
+      --ink-soft: #3a342e;
+      --ink-medium: #61594f;
+      --ink-faint: #8a8073;
+      --rule: #d8d0c3;
+      --rule-strong: #1a1a1a;
+      --accent: #9b2226;
+      --display: "Newsreader", Georgia, serif;
+      --body: "Newsreader", Georgia, serif;
+      --ui: "IBM Plex Sans", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --text-width: 680px;
+      --page-width: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 20px; line-height: 1.72; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    a { color: inherit; text-decoration: none; }
+
+    .topbar { max-width: var(--page-width); margin: 0 auto; padding: 24px 28px 0; }
+    .topbar-inner { border-top: 2px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); padding: 15px 0 13px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-family: var(--ui); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-medium); }
+    .topbar-left { font-weight: 600; color: var(--accent); }
+    .topbar-left a { color: var(--accent); }
+    .topbar-left a:hover { opacity: 0.75; }
+    .topbar-right { letter-spacing: 0.1em; color: var(--ink-faint); }
+
+    .article-wrap { max-width: var(--page-width); margin: 0 auto; padding: 56px 28px 120px; display: grid; grid-template-columns: 1fr min(var(--text-width), 100%) 1fr; }
+    .article-wrap > * { grid-column: 2; }
+
+    .post-header { margin-bottom: 56px; }
+    .post-section { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 24px; }
+    .post-section::before { content: ""; display: inline-block; width: 20px; height: 1px; background: var(--accent); }
+
+    h1.post-title { font-family: var(--display); font-size: clamp(36px, 6vw, 62px); line-height: 1.05; font-weight: 500; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 22px; }
+    h1.post-title em { font-style: italic; color: var(--accent); }
+
+    .post-deck { font-family: var(--display); font-style: italic; font-size: clamp(19px, 2.5vw, 24px); line-height: 1.45; color: var(--ink-medium); margin-bottom: 32px; }
+
+    .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 18px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+    .post-meta .meta-tag { color: var(--accent); font-weight: 600; }
+    .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--rule); flex-shrink: 0; }
+
+    .post-body { padding-top: 48px; }
+    .post-body p { margin-bottom: 28px; font-size: 20px; line-height: 1.72; color: var(--ink-soft); }
+    .post-body p:first-child { font-size: 22px; line-height: 1.65; color: var(--ink); }
+    .post-body h2 { font-family: var(--display); font-size: clamp(24px, 3vw, 32px); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 20px; padding-top: 40px; border-top: 1px solid var(--rule); }
+
+    .pull-quote { margin: 44px 0; padding: 28px 32px; border-left: 3px solid var(--accent); background: var(--paper-soft); }
+    .pull-quote p { font-family: var(--display); font-size: clamp(20px, 2.5vw, 26px) !important; font-style: italic; line-height: 1.45; color: var(--ink) !important; margin-bottom: 0 !important; }
+
+    /* ── STAT BLOCK ── */
+    .stat-block { margin: 40px 0; padding: 32px 36px; background: var(--ink); display: flex; align-items: center; gap: 36px; }
+    .stat-number { font-family: var(--mono); font-size: clamp(52px, 8vw, 80px); font-weight: 600; color: #fff; line-height: 1; white-space: nowrap; }
+    .stat-number span { font-size: clamp(24px, 4vw, 36px); color: var(--accent); }
+    .stat-divider { width: 1px; height: 72px; background: rgba(255,255,255,0.15); flex-shrink: 0; }
+    .stat-context { font-family: var(--mono); font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+    .stat-context strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+    /* ── DUAL STAT BLOCK — ATH vs. Today ── */
+    .dual-stat { margin: 40px 0; background: var(--ink); }
+    .dual-stat-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.08); }
+    .dual-stat-panel { padding: 28px 32px; background: var(--ink); }
+    .dual-stat-panel.panel-today { background: #1c1a15; }
+    .dual-stat-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 14px; }
+    .dual-stat-number { font-family: var(--mono); font-size: clamp(40px, 6vw, 60px); font-weight: 600; line-height: 1; margin-bottom: 16px; }
+    .dual-stat-number.ath { color: #c9a84c; }
+    .dual-stat-number.current { color: #7ecb7e; }
+    .dual-stat-line { font-family: var(--mono); font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.85; }
+    .dual-stat-line .hi { color: rgba(255,255,255,0.8); }
+    .dual-stat-line .eq-ath { color: #c9a84c; font-weight: 600; }
+    .dual-stat-line .eq-now { color: #7ecb7e; font-weight: 600; }
+    .dual-stat-footer { padding: 16px 32px; border-top: 1px solid rgba(255,255,255,0.07); }
+    .dual-stat-formula { font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.3); line-height: 1.6; }
+    .dual-stat-verdict { margin-top: 10px; font-family: var(--ui); font-size: 14px; font-style: italic; color: rgba(255,255,255,0.55); line-height: 1.55; }
+
+    /* ── COMPARE TABLE ── */
+    .compare-table { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .compare-table-head { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; background: var(--ink); padding: 12px 20px; gap: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .compare-table-row { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; padding: 14px 20px; gap: 12px; border-top: 1px solid var(--rule); background: var(--paper); align-items: center; }
+    .compare-table-row:nth-child(even) { background: var(--paper-soft); }
+    .compare-table-row.highlight { background: #fff5f5; border-left: 3px solid var(--accent); }
+    .compare-table-row.highlight-green { background: #f0f5f0; border-left: 3px solid #2d6a2d; }
+    .c-label { font-family: var(--ui); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+    .c-cell { font-family: var(--mono); font-size: 13px; color: var(--ink); font-weight: 500; }
+    .c-cell.muted { color: var(--ink-faint); font-size: 12px; font-weight: 400; }
+    .c-cell.red { color: var(--accent); font-weight: 700; }
+    .c-cell.green { color: #2d6a2d; font-weight: 700; }
+    .c-cell.gold { color: #8a6020; font-weight: 700; }
+    .compare-table .table-note { padding: 12px 20px; background: var(--paper-deep); border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.6; }
+
+    /* ── GAP DEFINITION BLOCK ── */
+    .gap-def { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .gap-def-row { display: grid; grid-template-columns: 52px 1fr; border-bottom: 1px solid var(--rule); }
+    .gap-def-row:last-child { border-bottom: none; }
+    .gap-def-term { background: var(--ink); display: flex; align-items: center; justify-content: center; }
+    .gap-def-term span { font-family: var(--mono); font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.6); letter-spacing: 0.12em; text-transform: uppercase; writing-mode: vertical-rl; text-orientation: mixed; }
+    .gap-def-body { padding: 20px 24px; background: var(--paper); }
+    .gap-def-head { font-family: var(--ui); font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+    .gap-def-figure { font-family: var(--mono); font-size: 12px; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
+    .gap-def-text { font-family: var(--ui); font-size: 14px; color: var(--ink-medium); line-height: 1.6; }
+
+    /* ── SIGNAL BLOCK ── */
+    .signal-block { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .signal-head { background: var(--ink); padding: 12px 20px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .signal-entry { padding: 18px 20px; border-top: 1px solid var(--rule); background: var(--paper); }
+    .signal-entry:nth-child(even) { background: var(--paper-soft); }
+    .signal-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+    .signal-text { font-family: var(--ui); font-size: 14px; color: var(--ink-medium); line-height: 1.6; }
+    .signal-text strong { color: var(--ink); font-weight: 600; }
+
+    /* ── MATH BLOCK ── */
+    .math-block { margin: 36px 0; padding: 24px 28px; background: var(--ink); border-radius: 4px; }
+    .math-block .math-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 12px; }
+    .math-block .math-line { font-family: var(--mono); font-size: 15px; color: #fff; line-height: 1.9; }
+    .math-block .math-line .var { color: #c9a84c; }
+    .math-block .math-line .result-ath { color: #c9a84c; font-weight: 600; }
+    .math-block .math-line .result-now { color: #7ecb7e; font-weight: 600; }
+    .math-block .math-section { margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .math-block .math-section-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 8px; }
+    .math-block .math-note { margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.1); font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.6; }
+
+    .framework-ref { margin: 40px 0; padding: 22px 24px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
+    .framework-ref-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+    .framework-ref p { font-size: 16px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 10px !important; }
+    .framework-ref p:last-child { margin-bottom: 0 !important; }
+    .framework-ref a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+    .framework-ref a:hover { border-bottom-color: var(--accent); }
+
+    .post-footer { margin-top: 72px; padding-top: 32px; border-top: 2px solid var(--rule-strong); }
+    .post-footer-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 20px; }
+    .post-footer-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .footer-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--rule); background: var(--paper); font-family: var(--ui); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-medium); font-weight: 500; transition: border-color 0.15s, color 0.15s; }
+    .footer-link:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-link.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .footer-link.primary:hover { background: #7f1d1d; border-color: #7f1d1d; }
+    .footer-link::after { content: "→"; font-size: 13px; }
+
+    .disclaimer { margin-top: 40px; padding: 18px 20px; background: var(--paper-soft); border: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-faint); line-height: 1.7; }
+
+    .site-footer { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 40px; }
+    .site-footer-inner { border-top: 1px solid var(--rule); padding-top: 18px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+
+    @media (max-width: 760px) {
+      body { font-size: 19px; }
+      .article-wrap { grid-template-columns: 1fr; padding: 40px 20px 80px; }
+      .article-wrap > * { grid-column: 1; }
+      .stat-block { flex-direction: column; gap: 20px; }
+      .stat-divider { width: 60px; height: 1px; }
+      .dual-stat-panels { grid-template-columns: 1fr; }
+      .compare-table-head, .compare-table-row { grid-template-columns: 1.4fr 0.9fr 0.9fr; }
+      .compare-table-head > *:nth-child(4), .compare-table-row > *:nth-child(4) { display: none; }
+      .gap-def-row { grid-template-columns: 1fr; }
+      .gap-def-term { writing-mode: horizontal-tb; padding: 10px 20px; min-height: unset; }
+      .gap-def-term span { writing-mode: horizontal-tb; }
+      .site-footer { padding: 0 20px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left"><a href="/">XRP Valuation Series</a> &nbsp;·&nbsp; The Living Framework</div>
+    <div class="topbar-right">Field Note · May 2026</div>
+  </div>
+</header>
+
+<article class="article-wrap">
+
+  <div class="post-header">
+    <div class="post-section">The Living Framework &nbsp;·&nbsp; No. 12</div>
+    <h1 class="post-title">The <em>speculative decoupling</em> — what the ATH proves about the framework</h1>
+    <p class="post-deck">
+      XRP's all-time high of $3.65 on July 18, 2025 produced the largest market cap in the asset's
+      history. The framework's own formula shows it also produced one of the weakest peak ticket
+      capacities of recent years. This field note runs the confirmed numbers — and explains what
+      the gap reveals about what kind of event the ATH actually was.
+    </p>
+    <div class="post-meta">
+      <span class="meta-tag">The Living Framework</span>
+      <span class="meta-dot"></span>
+      <span>Falsifiability</span>
+      <span class="meta-dot"></span>
+      <span>Settlement Capacity</span>
+      <span class="meta-dot"></span>
+      <span>May 2026</span>
+    </div>
+  </div>
+
+  <div class="post-body">
+
+    <p>
+      The framework has a formula. Run it on any date with confirmed inputs and it produces
+      a result. The result doesn't respond to narrative, to sentiment, or to how significant
+      a market event feels. It responds to volume. That property is what makes it useful —
+      and what makes July 18, 2025 worth running.
+    </p>
+
+    <div class="dual-stat">
+      <div class="dual-stat-panels">
+        <div class="dual-stat-panel">
+          <div class="dual-stat-label">Peak ticket capacity · July 18, 2025 · ATH</div>
+          <div class="dual-stat-number ath">$560K</div>
+          <div class="dual-stat-line">Price: <span class="hi">$3.65</span> &nbsp;·&nbsp; Mcap: <span class="hi">~$226B</span></div>
+          <div class="dual-stat-line">24h volume: <span class="hi">~$1.4B</span></div>
+          <div class="dual-stat-line">Velocity: <span class="hi">0.62%</span></div>
+          <div class="dual-stat-line" style="margin-top:10px;">Q<sub>max</sub> = $1.4B × (0.001 ÷ 0.05)² = <span class="eq-ath">$560,000</span></div>
+        </div>
+        <div class="dual-stat-panel panel-today">
+          <div class="dual-stat-label">Peak ticket capacity · May 2026 · 30-day avg volume</div>
+          <div class="dual-stat-number current">~$680K</div>
+          <div class="dual-stat-line">Price: <span class="hi">~$1.42</span> &nbsp;·&nbsp; Mcap: <span class="hi">~$88B</span></div>
+          <div class="dual-stat-line">24h volume: <span class="hi">~$1.7B</span> (30-day average)</div>
+          <div class="dual-stat-line">Velocity: <span class="hi">~1.93%</span></div>
+          <div class="dual-stat-line" style="margin-top:10px;">Q<sub>max</sub> = $1.7B × (0.001 ÷ 0.05)² = <span class="eq-now">~$680,000</span></div>
+        </div>
+      </div>
+      <div class="dual-stat-footer">
+        <div class="dual-stat-formula">10bp institutional slippage tolerance · 5% daily volatility · same formula, same parameters · ATH volume confirmed from XRP Ledger activity data, July 2025</div>
+        <div class="dual-stat-verdict">A market worth 61% less by price supports a larger institutional ticket than it did at the highest price XRP has ever traded — even using a conservative 30-day volume average. On active trading days the live terminal reads $1M+. The ATH day never got close to either figure. The formula is working correctly.</div>
+      </div>
+    </div>
+
+    <h2>The formula doesn't care about price</h2>
+
+    <p>
+      The settlement terminal's peak ticket formula is Q<sub>max</sub> = V × (tol ÷ σ)².
+      Volume is the only live input. Tolerance and volatility are fixed assumptions.
+      Price does not appear anywhere in that expression.
+    </p>
+
+    <p>
+      This is not an oversight. The Almgren-Chriss square root law — established in
+      <a href="/part1/">Part I</a> — describes how much of a market you can consume before
+      your own order moves the price against you. That capacity is a function of how much
+      flow is available to absorb your trade. A $226B market cap tells you the asset is
+      highly valued. It tells you nothing about how much volume is actually cycling through
+      the market on any given day. Those are different properties. Most of the time they
+      correlate loosely. At XRP's ATH, they diverged sharply.
+    </p>
+
+    <p>
+      On July 18, 2025, approximately $1.4 billion traded on XRP markets — confirmed by the
+      XRP Ledger's own activity data and noted as the highest ledger activity since early 2025.
+      Notable in isolation. Unremarkable against the scale of the market cap it was set against.
+      The velocity index — daily volume divided by market cap — is where the divergence becomes legible.
+    </p>
+
+    <div class="compare-table">
+      <div class="compare-table-head">
+        <span>Measure</span>
+        <span>July 18, 2025 (ATH)</span>
+        <span>May 2026 (current)</span>
+        <span>Direction</span>
+      </div>
+      <div class="compare-table-row">
+        <div class="c-label">Price</div>
+        <div class="c-cell">$3.65</div>
+        <div class="c-cell">~$1.42</div>
+        <div class="c-cell muted">−61%</div>
+      </div>
+      <div class="compare-table-row">
+        <div class="c-label">Market cap</div>
+        <div class="c-cell">~$226B</div>
+        <div class="c-cell">~$88B</div>
+        <div class="c-cell muted">−61%</div>
+      </div>
+      <div class="compare-table-row">
+        <div class="c-label">24h volume</div>
+        <div class="c-cell">~$1.4B</div>
+        <div class="c-cell">~$1.7B</div>
+        <div class="c-cell muted">+21%</div>
+      </div>
+      <div class="compare-table-row highlight">
+        <div class="c-label">Velocity (vol ÷ mcap)</div>
+        <div class="c-cell red">0.62%</div>
+        <div class="c-cell green">~1.93%</div>
+        <div class="c-cell muted">+3.1×</div>
+      </div>
+      <div class="compare-table-row highlight">
+        <div class="c-label">Q<sub>max</sub> at 10bp / 5% vol</div>
+        <div class="c-cell red">~$560K</div>
+        <div class="c-cell green">~$680K</div>
+        <div class="c-cell muted">+21%</div>
+      </div>
+      <div class="compare-table-row">
+        <div class="c-label">Collateral capacity (10% haircut)</div>
+        <div class="c-cell gold">$22.6B</div>
+        <div class="c-cell">$8.8B</div>
+        <div class="c-cell muted">−61%</div>
+      </div>
+      <div class="table-note">
+        Velocity = daily volume ÷ market cap. Q<sub>max</sub> = V × (tol ÷ σ)². Collateral = mcap × 10%.<br/>
+        ATH volume (~$1.4B) from XRP Ledger activity data, July 2025. Current column uses 30-day average volume (~$1.7B), May 2026.<br/>
+        The Settlement Terminal uses live 24h volume — on active trading days that figure runs $2.5B+, producing Q<sub>max</sub> of $1M+.
+        Both are correct: the terminal reflects the market right now; this article uses the 30-day average
+        to produce a stable baseline comparable to the ATH figure. The ATH Q<sub>max</sub> ($560K) holds
+        regardless of which current baseline is used — July 18, 2025 was weaker than both.<br/>
+        Highlighted rows are the load-bearing result: the ATH produced lower throughput capacity despite 2.5× the market cap.
+      </div>
+    </div>
+
+    <p>
+      The ATH day produced a velocity of 0.62% — among the lowest in the recent observable record.
+      Today's market runs at roughly 1.93% on a 30-day volume average, producing Q<sub>max</sub>
+      of ~$680K on that basis. On active trading days the live terminal reads higher — $2.5B+ in
+      daily volume produces Q<sub>max</sub> above $1M. Both figures are correct for their respective
+      inputs: this article uses the 30-day average to produce a stable, conservative baseline
+      directly comparable to the ATH snapshot. Either way, July 18, 2025 was weaker than both.
+      A market three times smaller by price is turning over three times faster relative to its own
+      size. That difference, passed through the square root law, is what the formula produces.
+    </p>
+
+    <h2>What low velocity at a high price means</h2>
+
+    <p>
+      Velocity is not a judgment. It is a description of what kind of participants were driving the
+      market at a given moment. High velocity means the float is being worked — buyers and sellers
+      cycling rapidly through positions, volume accumulating against a market cap that reflects that
+      activity. Low velocity means the float is being held — capital concentrated in positions that
+      are not being turned over, price reflecting expectations rather than throughput.
+    </p>
+
+    <p>
+      At the ATH, XRP's velocity of 0.62% placed it squarely in the behavioral risk management zone
+      described in <a href="/blog/velocity-problem/">Field Note 11</a> — a market where participants
+      are managing positions, not cycling capital. The July 2025 rally was driven by confirmed external catalysts: the SEC
+      settlement with Ripple nearing finalization, spot ETF approvals from Grayscale and Bitwise
+      becoming credible, and Bitcoin breaking new highs across the same window. Whale accumulation
+      was documented at key support levels around $3.34.
+    </p>
+
+    <p>
+      None of those catalysts appear in Q<sub>max</sub>. They increased price by concentrating demand
+      into accumulation positions. They did not increase settlement throughput. The participants buying
+      XRP at $3.65 were buying to hold — to benefit from further appreciation, to position ahead of
+      ETF launch, to express conviction about the regulatory clearing event. They were not routing ODL
+      payments. The volume they generated was real, but it was the volume of a speculative positioning
+      event, not a utility event. The framework distinguishes between these regimes because they
+      produce different capacity outputs from the same formula.
+    </p>
+
+    <h2>The settlement capacity gap</h2>
+
+    <p>
+      This introduces a distinction the series has not previously named explicitly. The terminal
+      tracks two capacity measures that are mechanically linked but empirically separable.
+    </p>
+
+    <div class="gap-def">
+      <div class="gap-def-row">
+        <div class="gap-def-term"><span>Collateral</span></div>
+        <div class="gap-def-body">
+          <div class="gap-def-head">Collateral capacity</div>
+          <div class="gap-def-figure">ATH: $22.6B at 10% haircut — the largest XRP has ever produced</div>
+          <div class="gap-def-text">What the market's size implies it could support as collateral in institutional frameworks. Derived from market cap. Real and meaningful — but a measure of potential, not of what the market can absorb in a single transaction today.</div>
+        </div>
+      </div>
+      <div class="gap-def-row">
+        <div class="gap-def-term"><span>Throughput</span></div>
+        <div class="gap-def-body">
+          <div class="gap-def-head">Throughput capacity</div>
+          <div class="gap-def-figure">ATH: ~$560K at 10bp — below the current market at a lower price</div>
+          <div class="gap-def-text">What the market's actual volume proves it can absorb in a single institutional settlement transaction without unacceptable slippage. Derived from volume. The measure that determines whether the asset is usable for settlement on any given day.</div>
+        </div>
+      </div>
+    </div>
+
+    <p>
+      The gap between these two figures on July 18, 2025 was the widest in recent observable history.
+      A $22.6B collateral capacity sitting above a $560K throughput capacity is not a contradiction —
+      it is a structural description of a market in speculative appreciation mode. The collateral value
+      was real. The settlement utility was constrained. The two had decoupled.
+    </p>
+
+    <div class="pull-quote">
+      <p>
+        The reflexivity loop in Part III requires price, collateral capacity, ODL demand, settlement
+        volume, and throughput capacity to reinforce each other. At the ATH, price ran ahead of the
+        loop. Collateral capacity expanded enormously. But ODL volume — the node that converts
+        collateral capacity into throughput capacity — did not scale with it. The loop was primed.
+        It was not running.
+      </p>
+    </div>
+
+    <p>
+      This is the speculative decoupling: the condition in which price and throughput capacity diverge
+      because the price movement is driven by expectation of the loop engaging, rather than by the
+      loop actually engaging. It is not a failure of the framework. It is exactly what the framework
+      predicts when settlement demand is not the driver of price appreciation.
+    </p>
+
+    <h2>Why this is a falsifiability test — and what it confirms</h2>
+
+    <p>
+      The series has been explicit from Part I that it is a conditional analysis. The price scenarios
+      require adoption conditions to be met. They do not predict those conditions will be met. Part VI
+      priced the probabilities honestly. But a model that cannot be wrong is not a model — it is a
+      narrative. The ATH gives us a chance to ask whether the formula produces results consistent
+      with observed reality when we run confirmed data through it.
+    </p>
+
+    <p>
+      If the Almgren-Chriss model were wrong — if market cap rather than volume determined settlement
+      capacity — then July 18, 2025 should have been the peak settlement moment in XRP's history.
+      A $226B market cap, the largest the asset had ever carried, should have implied the deepest
+      institutional throughput. Instead, by the formula's output, it was a weak settlement moment at
+      an extreme price. The formula produced that result from the data inputs without being told
+      what to conclude. The formula doesn't respond to narrative. It responds to volume.
+    </p>
+
+    <p>
+      A speculative rally — even a large one, even one triggered by legitimate structural catalysts —
+      does not advance the asset toward institutional settlement utility unless volume scales
+      proportionally with price. At the ATH, it did not. The formula said so. The data confirmed it.
+      The framework held.
+    </p>
+
+    <h2>What a utility event would look like instead</h2>
+
+    <p>
+      The ATH establishes one empirical reference point. The framework's opposite — a genuine
+      institutional utility event — is equally specific, and equally derivable from the formula.
+    </p>
+
+    <div class="math-block">
+      <div class="math-label">Speculative event vs. utility event — same price, different market</div>
+      <div class="math-line">Scenario A &nbsp;·&nbsp; Speculative (July 18, 2025 — confirmed)</div>
+      <div class="math-line">Price: <span class="var">$3.65</span> &nbsp;·&nbsp; Volume: <span class="var">$1.4B</span> &nbsp;·&nbsp; Velocity: <span class="var">0.62%</span></div>
+      <div class="math-line">Q<sub>max</sub> = <span class="result-ath">~$560K</span> &nbsp;·&nbsp; Remittance tier &nbsp;·&nbsp; Settlement capacity gap: wide</div>
+      <div class="math-section">
+        <div class="math-section-label">Scenario B &nbsp;·&nbsp; Utility (hypothetical, same price)</div>
+        <div class="math-line">Price: <span class="var">$3.65</span> &nbsp;·&nbsp; Volume: <span class="var">$8–10B</span> &nbsp;·&nbsp; Velocity: <span class="var">3.5–4.4%</span></div>
+        <div class="math-line">Q<sub>max</sub> = <span class="result-now">$3.2–4.0B</span> &nbsp;·&nbsp; Institutional tier &nbsp;·&nbsp; Reflexivity loop engaged</div>
+      </div>
+      <div class="math-note">
+        Scenario B requires ~6–7× the ATH volume at the same price. That is not an incremental change.
+        It is a structural regime change — from a market priced on narrative to a market priced on throughput.
+        Part IV's Layer 03 ($2B peak ticket threshold) would be cleared under Scenario B.
+        It was not approached under Scenario A, despite the higher price.
+      </div>
+    </div>
+
+    <p>
+      The signal is not the price. It is not the market cap. It is the velocity index and what it
+      implies for Q<sub>max</sub>. A genuine institutional breakthrough would not look like July 2025.
+      It would look like volume scaling with or ahead of price — velocity staying elevated as the float
+      grows, Q<sub>max</sub> crossing the institutional threshold because throughput demanded it, not
+      because price pushed it there.
+    </p>
+
+    <h2>What to watch — the signals the formula requires</h2>
+
+    <p>
+      The speculative decoupling is observable in real time. The terminal calculates Q<sub>max</sub>
+      live every 60 seconds. The velocity index — daily volume divided by market cap — is the single
+      number that determines whether price appreciation is being accompanied by capacity expansion
+      or not. These are the specific signals worth tracking.
+    </p>
+
+    <div class="signal-block">
+      <div class="signal-head">Observable Signals — Settlement Capacity vs. Price</div>
+
+      <div class="signal-entry">
+        <div class="signal-label">Signal 01 &nbsp;·&nbsp; Velocity index during price rallies</div>
+        <div class="signal-text">
+          <strong>Daily volume ÷ market cap, tracked as price rises.</strong> If velocity stays above
+          1.5% during a price rally — meaning volume is growing proportionally with market cap — the
+          reflexivity loop is beginning to engage. Q<sub>max</sub> will grow with price, not lag it.
+          If velocity falls during a rally (as it did on July 18, 2025), the move is speculative:
+          price is running ahead of throughput. The ATH baseline is 0.62%. Any sustained rally where
+          velocity holds above 1.5% is structurally different from July 2025.
+        </div>
+      </div>
+
+      <div class="signal-entry">
+        <div class="signal-label">Signal 02 &nbsp;·&nbsp; Q<sub>max</sub> tier crossing</div>
+        <div class="signal-text">
+          <strong>The terminal's peak ticket crossing $500M (corporate tier) or $2B (institutional tier).</strong>
+          These are the thresholds established in Part IV's settlement stack. Both require volume to
+          reach them, not price. At 10bp / 5% vol, $500M Q<sub>max</sub> requires ~$1.25T daily
+          volume. $2B Q<sub>max</sub> requires ~$5T daily volume. Neither is close today. When
+          Q<sub>max</sub> crosses those thresholds, the framework's institutional settlement
+          scenarios are live — not before.
+        </div>
+      </div>
+
+      <div class="signal-entry">
+        <div class="signal-label">Signal 03 &nbsp;·&nbsp; ODL volume vs. price correlation</div>
+        <div class="signal-text">
+          <strong>Any confirmed disclosure of ODL throughput growing proportionally with XRP price.</strong>
+          Ripple does not publish real-time ODL data, but periodic disclosures provide reference points.
+          The 2024 confirmed baseline was $15B/year (~$41M/day). Q2 2025 DAS Research put quarterly
+          ODL at ~$1.3B. If a future disclosure shows ODL pace doubling while price doubles, the
+          reflexivity loop is engaging. If price doubles while ODL pace is flat, the speculative
+          decoupling is intact.
+        </div>
+      </div>
+
+      <div class="signal-entry">
+        <div class="signal-label">Signal 04 &nbsp;·&nbsp; Collateral capacity gap narrowing</div>
+        <div class="signal-text">
+          <strong>Q<sub>max</sub> as a fraction of collateral capacity, tracked over time.</strong>
+          At the ATH, throughput capacity ($560K) was roughly 0.00025% of collateral capacity ($22.6B) —
+          the widest gap in recent history. Today that ratio is roughly 0.00077% ($680K ÷ $88B).
+          The absolute percentages are both tiny, which is itself the signal — the market is priced
+          far ahead of what it can settle in a single transaction. But the ratio has improved 3×
+          since the ATH despite the lower price, because collateral capacity fell faster than
+          throughput capacity. A narrowing ratio — throughput capacity growing faster than collateral
+          capacity — is the direct empirical signature of the reflexivity loop engaging. A widening
+          ratio means speculative decoupling is persisting or deepening.
+        </div>
+      </div>
+    </div>
+
+    <h2>The honest reading of where we are</h2>
+
+    <p>
+      Today's market at ~$1.42 is more useful for institutional settlement, by the framework's
+      own metric, than the ATH was. That is a precise, mechanically derived statement — not a
+      consolation for holders sitting 61% below the peak. It reflects a real structural fact:
+      volume has not compressed proportionally with price in the drawdown. The float is working
+      harder relative to its size. Velocity is higher now than it was at the top.
+    </p>
+
+    <p>
+      That observation does not mean today's market is institutionally ready. On the 30-day
+      volume average used in this article, Q<sub>max</sub> sits around $680K — still remittance
+      tier, below the corporate threshold of $500M, far below the institutional threshold at $2B.
+      The live terminal reads higher on active days, crossing $1M when daily volume clears $2.5B.
+      Either figure is still remittance tier. The series has always been explicit about this gap.
+      The terminal shows it live. Nothing in this field note changes those numbers.
+    </p>
+
+    <p>
+      What it does is establish a confirmed empirical reference point in the historical record —
+      a date on which the framework was applied to real data and produced a result consistent
+      with its own logic. July 18, 2025 was a speculative event. The formula correctly
+      classified it as one without being told to. That is what a working model does.
+    </p>
+
+    <div class="pull-quote">
+      <p>
+        The framework will know when a utility event arrives. The velocity index will hold
+        above 1.5% as price rises. Q<sub>max</sub> will grow faster than price. The
+        settlement capacity gap will narrow. None of those conditions exist today.
+        They did not exist on July 18, 2025. The terminal will show when they do.
+      </p>
+    </div>
+
+    <div class="framework-ref">
+      <div class="framework-ref-label">Series context</div>
+      <p>
+        This field note applies the peak ticket formula from the <a href="/terminal/">Settlement Terminal</a>
+        — derived from the Almgren-Chriss square root market impact law in <a href="/part1/">Part I</a> —
+        retroactively to a confirmed historical date to demonstrate a structural property of the model.
+        The settlement capacity gap concept introduced here — the divergence between collateral capacity
+        (derived from market cap) and throughput capacity (derived from volume) — extends the reflexivity
+        argument in <a href="/part3/">Part III</a> by naming the observable condition under which the
+        reflexivity loop is primed but not running. The velocity dynamics developed in
+        <a href="/blog/velocity-problem/">Field Note 11</a> provide the velocity framework that makes
+        the ATH analysis interpretable. <a href="/part6/">Part VI</a>'s probability framework is
+        unchanged — this note adds an empirical reference point for what the non-adoption scenario
+        looks like in confirmed market data.
+      </p>
+      <p>
+        <a href="/part1/">Part I — The square root law →</a>
+        &nbsp;&nbsp;
+        <a href="/part3/">Part III — The reflexivity loop →</a>
+        &nbsp;&nbsp;
+        <a href="/terminal/">Settlement Terminal — Live →</a>
+        &nbsp;&nbsp;
+        <a href="/part6/">Part VI — The probability framework →</a>
+      </p>
+    </div>
+
+    <div class="disclaimer">
+      This is not financial advice. The Living Framework extends the analytical work of the XRP Valuation Series —
+      a conditional sizing model, not a price prediction. All scenarios depend on stated assumptions.
+      ATH volume figure (~$1.4B, July 18, 2025) confirmed from XRP Ledger activity data and
+      contemporaneous market reporting. Current volume and market cap figures from CoinGecko,
+      30-day average, May 2026. Q<sub>max</sub> calculations apply the square root law from Part I
+      with confirmed inputs. Do your own research.
+    </div>
+
+    <div class="post-footer">
+      <div class="post-footer-label">Continue reading</div>
+      <div class="post-footer-links">
+        <a class="footer-link primary" href="/part1/">Part I — XRP is not being valued. It is being sized.</a>
+        <a class="footer-link" href="/part3/">Part III — The reflexivity loop.</a>
+        <a class="footer-link" href="/terminal/">Settlement Terminal — Live.</a>
+        <a class="footer-link" href="/">All field notes</a>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>XRP Valuation Series &nbsp;·&nbsp; The Living Framework</div>
+    <div>FutureXRP &nbsp;·&nbsp; @the5blairs</div>
+  </div>
+</footer>
+
+</body>
+</html>

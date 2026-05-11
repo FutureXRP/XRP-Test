@@ -86,5 +86,13 @@
     "tags": ["Supply Mechanics", "Active Float"],
     "title": "A live look at the system, and <em>where we go from here.</em>",
     "deck": "The series has modeled what the system requires. This note looks at what the system actually is — right now, with real on-chain data. Only 5–8 billion XRP is consistently available for settlement execution today. Here is what that means, and what changes as price appreciates through a series of economic activation thresholds."
+  },
+  {
+    "number": 12,
+    "slug": "speculative-decoupling",
+    "date": "May 2026",
+    "tags": ["Falsifiability", "Settlement Capacity"],
+    "title": "The <em>speculative decoupling</em> — what the ATH proves about the framework.",
+    "deck": "XRP's all-time high of $3.65 on July 18, 2025 produced the largest market cap in the asset's history. The framework's own formula shows it also produced one of the weakest peak ticket capacities of recent years. This field note runs the confirmed numbers — and explains what the gap reveals about what kind of event the ATH actually was."
   }
 ]

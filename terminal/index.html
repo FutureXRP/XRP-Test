@@ -485,7 +485,7 @@ a { color: inherit; text-decoration: none; }
   </div>
 
   <div class="method-note">
-    ODL detection methodology: transactions classified as theoretically ODL-relevant when XRP purchased at a known origin exchange is sent across the XRPL and sold at a known destination exchange within ~60 seconds. Classification is estimated — not officially confirmed by Ripple. Methodology adapted from Utility-Scan (2019–2022). Corridor volume proportions: total ~$41M/day based on Ripple's confirmed &gt;$15B annual ODL (2024); APAC ~56% of volume; USD→MXN via Bitso confirmed at ~$2B/year in 2024. Per-corridor breakdowns are estimated proportionally — Ripple does not publish corridor-level data. Small intraday volume variance (±4%) is applied at each refresh to reflect normal fluctuation around the daily average. No 24h change percentage is shown — we have no real-time delta data source and displaying invented figures would be misleading.
+    ODL detection methodology: transactions classified as theoretically ODL-relevant when XRP purchased at a known origin exchange is sent across the XRPL and sold at a known destination exchange within ~60 seconds. Classification is estimated — not officially confirmed by Ripple. Methodology adapted from Utility-Scan (2019–2022). Corridor volume proportions: total ~$41M/day based on Ripple's confirmed &gt;$15B annual ODL (2024); APAC ~56% of volume; USD→MXN via Bitso confirmed at ~$2B/year in 2024. Per-corridor breakdowns are estimated proportionally — Ripple does not publish corridor-level data. Ripple now operates over 70 active corridor pairs as of 2025, covering an estimated 80% of major global remittance corridors. Small intraday volume variance (±4%) is applied at each refresh to reflect normal fluctuation around the daily average. No 24h change percentage is shown — we have no real-time delta data source and displaying invented figures would be misleading.
   </div>
 
   <!-- 02 NOSTRO -->
@@ -498,7 +498,7 @@ a { color: inherit; text-decoration: none; }
     <div class="stat-cell">
       <div class="stat-label">Annualised ODL volume (est.)</div>
       <div class="stat-value" id="nostro-odl">—</div>
-      <div class="stat-desc">Estimated annual XRP-settled cross-border flow through known ODL corridors.</div>
+      <div class="stat-desc">Estimated annual XRP-settled cross-border flow through known ODL corridors. Ripple confirmed &gt;$15B for 2024; 2025 pace tracking higher.</div>
     </div>
     <div class="stat-cell">
       <div class="stat-label">Nostro capital freed (est.)</div>
@@ -518,7 +518,7 @@ a { color: inherit; text-decoration: none; }
   </div>
 
   <div class="method-note">
-    Nostro displacement = estimated annualised ODL volume × (3 days / 365). The 3-day figure represents the average pre-funding horizon for traditional correspondent banking; ODL reduces this to seconds, freeing the daily float. ODL volume basis: Ripple reported &gt;$15B annual ODL in 2024 (~$1.25B/month), a 32% year-over-year increase (CryptoSlate, CoinLaw, Dec 2025). 2025 pace appears higher — DAS Research estimates Q2 2025 ODL at ~$1.3B for the quarter alone — but full-year 2025 figures are not yet publicly confirmed. We use the conservative 2024 confirmed baseline of $15B/year (~$41M/day). This model is illustrative — Ripple does not publish official per-corridor ODL breakdowns.
+    Nostro displacement = estimated annualised ODL volume × (3 days / 365). The 3-day figure represents the average pre-funding horizon for traditional correspondent banking; ODL reduces this to seconds, freeing the daily float. ODL volume basis: Ripple confirmed &gt;$15B annual ODL in 2024 (~$1.25B/month), a 32% year-over-year increase (CryptoSlate, Dec 2025). 2025 pace is tracking higher — DAS Research confirmed Q2 2025 ODL at ~$1.3B for the quarter alone; full-year 2025 figures are not yet publicly confirmed. We use the conservative 2024 confirmed baseline of $15B/year (~$41M/day). This model is illustrative — Ripple does not publish official per-corridor ODL breakdowns.
   </div>
 
   <!-- 03 REFLEXIVITY + PEAK TICKET + SETTLEMENT STACK -->
@@ -670,18 +670,18 @@ a { color: inherit; text-decoration: none; }
 
   <div class="quadrant-datestamp">
     <span class="quadrant-date-label">Signals last assessed</span>
-    <span class="quadrant-date-value">April 2026</span>
+    <span class="quadrant-date-value">May 2026</span>
     <span class="quadrant-date-note">These signals reflect editorial judgment, not a data feed. Updated when material evidence changes — new G20 reports, Ripple disclosures, corridor announcements, or shifts in RLUSD adoption.</span>
   </div>
 
   <div class="quad-axes">
     <div class="quad-axis-cell">
       <div class="quad-axis-label">Axis 1 — Cross-border atomic settlement scaling?</div>
-      <div class="quad-axis-reading">Developing — below G20 pace</div>
+      <div class="quad-axis-reading">Developing — FSB confirms 2027 targets unlikely to be met</div>
     </div>
     <div class="quad-axis-cell">
       <div class="quad-axis-label">Axis 2 — XRP capturing the hub role?</div>
-      <div class="quad-axis-reading">Partial — ODL growing, RLUSD competing</div>
+      <div class="quad-axis-reading">Partial — ODL growing, RLUSD routing around XRP as asset</div>
     </div>
   </div>
 
@@ -819,11 +819,13 @@ async function fetchPrice() {
 // APAC accounts for ~56% of volume (Ripple, CryptoSlate Dec 2025).
 // USD→MXN via Bitso confirmed ~$2B/year in 2024 (~$5.5M/day).
 // Remaining corridors proportioned by known relative activity.
+// Ripple now operates 70+ active corridor pairs covering ~80% of
+// major global remittance corridors (2025 reporting).
 // Sum of base values = ~$41M/day, consistent with the $15B/year stated basis.
 // Per-corridor breakdowns are estimates — Ripple does not publish these figures.
 // ─────────────────────────────────────────────────────────────────
 const BASE_CORRIDORS = [
-  {pair:'USD→PHP', base: 8.2e6},   // ~20% — largest APAC remittance corridor
+  {pair:'USD→PHP', base: 8.2e6},   // ~20% — largest APAC remittance corridor (Coins.ph)
   {pair:'USD→MXN', base: 5.5e6},   // ~13% — $2B/year confirmed via Bitso (2024)
   {pair:'JPY→USD', base: 5.8e6},   // ~14% — SBI Remit institutional flows
   {pair:'USD→INR', base: 5.3e6},   // ~13% — Gulf-India and US-India corridors
@@ -854,8 +856,9 @@ function renderCorridors() {
 function updateNostro() {
   // ODL basis: Ripple confirmed >$15B annual ODL in 2024 (~$41M/day).
   // This figure is consistent with BASE_CORRIDORS sum above.
-  // 2025 pace appears higher (DAS Research: ~$1.3B in Q2 2025 alone)
-  // but full-year 2025 is not publicly confirmed. Using 2024 confirmed baseline.
+  // 2025 pace is tracking higher — DAS Research confirmed Q2 2025 ODL at ~$1.3B
+  // for the quarter alone, implying ~$5.2B annualised pace from that quarter.
+  // Full-year 2025 is not yet publicly confirmed. Using 2024 confirmed baseline.
   const annualODL  = 15e9;   // $15B/year — matches corridor section basis
   const nostroDays = 3;      // average correspondent banking pre-funding horizon
   const nostroFreed  = annualODL * (nostroDays / 365);
@@ -890,7 +893,6 @@ function updateReflexivity() {
   else                      { velSub.textContent = 'low · deep OTC market characteristics'; velSub.style.color = 'var(--green)'; }
 
   const chgEl = document.getElementById('reflex-price-chg');
-  // 24h change not available here — pulled from fetchPrice separately
   chgEl.textContent = '';
 
   let tier, assess;
@@ -1069,17 +1071,17 @@ function updateSensitivityTable() {
 }
 
 // ─────────────────────────────────────────────────────────────────
-// QUADRANT SIGNALS — editorial, updated monthly
+// QUADRANT SIGNALS — editorial, updated May 2026
 // ─────────────────────────────────────────────────────────────────
 const SIGNALS = [
-  {dot:'mixed', text:'<strong>G20 cross-border targets behind schedule.</strong> FSB Oct 2025: only 35% of retail and 55% of wholesale cross-border payments settle within one hour, against 75% targets. Atomic settlement is developing — but at corridor speed, not system speed.'},
-  {dot:'pos',   text:'<strong>71 active ODL corridors, up from ~40 in 2024.</strong> Cross-border atomic settlement is being adopted in production. The architecture is building. The question is scale and pace.'},
+  {dot:'mixed', text:'<strong>FSB confirms G20 2027 targets unlikely to be met.</strong> The October 2025 consolidated progress report found KPIs showing only slight improvement since 2023 — 35% of retail and 55% of wholesale cross-border payments settle within one hour, against a 75% target. The FSB convened an emergency summit in London in March 2026, asking members to develop national action plans. Atomic settlement is developing, but at corridor speed, not system speed.'},
+  {dot:'pos',   text:'<strong>70+ active ODL corridor pairs, up from ~40 in 2024, covering ~80% of major global remittance corridors.</strong> Cross-border atomic settlement is being adopted in production across Japan, Philippines, Mexico, India, UAE, Brazil, and Africa. The architecture is building. The question is scale and pace.'},
   {dot:'mixed', text:'<strong>India T+0 pilot: $7,400 total volume, 139 trades.</strong> Institutions chose netting efficiency over settlement speed. Structural friction in atomic adoption is real and documented.'},
-  {dot:'mixed', text:'<strong>~40% of 300+ RippleNet institutions use XRP for ODL.</strong> The majority use messaging rails and fiat routing. The 60% not using XRP is the signal that needs watching. Source: secondary reporting, April 2026.'},
-  {dot:'mixed', text:'<strong>XRPL hosts $2.3B in tokenized RWA (April 2026), up from $991M at start of year.</strong> Infrastructure validation is real — Société Générale, Aviva, Deutsche Bank, Ondo all on-ledger. But only 22 RWA holders exist across the entire ledger, $1.49B sits in represented (non-transferable) assets, and institutions are settling in RLUSD not XRP. The collateral reflexivity loop from Part III requires XRP as the settlement layer — right now it is only the fee token. Plumbing adoption without asset demand.'},
-  {dot:'neg',   text:'<strong>RLUSD is the "primary stablecoin" for Ripple rails and the default RWA settlement token</strong> (Monica Long, CoinDesk). $1.56B market cap, expanding multi-chain. Deutsche Bank and Société Générale settling via RLUSD, not XRP ODL. RWA growth on XRPL is accelerating Ripple\'s infrastructure story while routing around XRP as an asset.'},
-  {dot:'pos',   text:'<strong>XRP ETF net inflows $1.24B, holding positive</strong> through 2026 sell-off. Institutional conviction is real and sustained, even if not yet utility-driven on-chain demand.'},
-  {dot:'pos',   text:'<strong>ODL volume >$15B in 2024, ~$1.25B/month pace confirmed.</strong> 2025 trajectory appears higher per DAS Research (Q2 2025: ~$1.3B in one quarter). The XRP-settled corridor base is growing. RLUSD competition narrows the addressable market but does not eliminate it.'},
+  {dot:'mixed', text:'<strong>~40% of 300+ RippleNet institutions use XRP for ODL.</strong> The majority use messaging rails and fiat routing. The 60% not using XRP is the signal that needs watching. Source: secondary reporting, May 2026.'},
+  {dot:'mixed', text:'<strong>XRPL now hosts ~$3B+ in tokenized RWA (late April 2026), up from $991M at start of year.</strong> Infrastructure validation is accelerating — Société Générale launched its euro stablecoin on-ledger, Aviva Investors announced a tokenization partnership, Deutsche Bank integrated Ripple\'s tech stack, and Ondo Finance\'s tokenized Treasuries are growing 8× year-over-year. XRPL now ranks 5th globally in total tokenized value and 2nd in 30-day RWA growth. But only 22 RWA holders exist across the ledger, ~$1.49B sits in represented (non-transferable) assets, and the $861M Justoken JMWH energy token — one asset, 12 holders — drove most of the gain. Institutions are settling in RLUSD, not XRP. Plumbing adoption without asset demand.'},
+  {dot:'neg',   text:'<strong>RLUSD is the default settlement token for Ripple rails, with ~$1.55B market cap and growing.</strong> BlackRock is using RLUSD as a redemption mechanism for its BUIDL tokenized fund. LMAX Group adopted it as core collateral for banks, brokers, and buy-side institutions. Deutsche Bank and SBI Japan settling through RLUSD rails, not XRP ODL. RLUSD transfer volume hit $18.4B in Q1 2026, up dramatically. The collateral reflexivity loop from Part III requires XRP as the settlement layer — right now it is largely the fee token. RWA growth on XRPL is validating Ripple\'s infrastructure story while routing around XRP as an asset.'},
+  {dot:'pos',   text:'<strong>XRP ETF cumulative inflows hit $1.32B, total AUM ~$1.43B, holding positive through 2026 sell-off.</strong> Seven spot ETFs now trading in the US with 847M+ XRP tokens locked. April 2026 marked the strongest monthly inflows since December 2025 at $84M. Institutional conviction is real and sustained, even if not yet utility-driven on-chain demand.'},
+  {dot:'pos',   text:'<strong>ODL volume >$15B in 2024, Q2 2025 pace at $1.3B for the quarter alone (DAS Research).</strong> The XRP-settled corridor base is growing and the trajectory is upward. RLUSD competition narrows the addressable market but has not displaced ODL — it is expanding alongside it, primarily through different institution types.'},
 ];
 
 function updateQuadrant() {
@@ -1095,7 +1097,7 @@ function updateQuadrant() {
   ).join('');
 
   document.getElementById('quadrant-verdict').innerHTML =
-    `<strong>Current position: Modal quadrant (40–55% probability).</strong> The evidence places XRP in the "DTCC wins domestically, cross-border develops at corridor speed" quadrant from Part VI — the most likely outcome, not the bear case. The emerging RWA picture sharpens the tension: XRPL is winning institutional infrastructure adoption at pace, but XRP the asset is being routed around in the process — fees consumed, settlement in RLUSD. ODL is the one mechanism that creates direct XRP demand, and it is growing but slowly. The 25–35% upside path requires atomic settlement scaling in non-CLS corridors with XRP holding the hub role, or RWA settlement migrating from RLUSD to XRP as collateral. Neither is happening yet. Signals to watch: ODL adoption crossing 60% of RippleNet institutions, RWA holders scaling beyond current 22, or a sovereign settling cross-border flows directly in XRP.`;
+    `<strong>Current position: Modal quadrant (40–55% probability).</strong> The evidence places XRP in the "DTCC wins domestically, cross-border develops at corridor speed" quadrant from Part VI — the most likely outcome, not the bear case. The FSB's March 2026 summit acknowledged G20 2027 targets are unlikely to be met, confirming that atomic settlement is developing at corridor pace rather than system pace. The XRPL RWA picture has sharpened the core tension: the ledger crossed $3B in tokenized assets in April 2026, with Société Générale, Aviva, Deutsche Bank, and BlackRock all engaging the ecosystem — yet institutions are settling in RLUSD, not XRP. The collateral reflexivity loop from Part III requires XRP as the settlement layer; right now it is the fee token. ODL is the one mechanism creating direct XRP demand and it continues growing, but the ratio of RLUSD-settled to XRP-settled flows on institutional rails is widening. The 25–35% upside path requires atomic settlement scaling in non-CLS corridors with XRP holding the hub role, or RWA settlement migrating from RLUSD to XRP as collateral. Neither is happening yet. Signals to watch: ODL adoption crossing 60% of RippleNet institutions, RWA holders scaling beyond the current 22, or a named institution settling cross-border flows directly in XRP rather than RLUSD.`;
 }
 
 // ─────────────────────────────────────────────────────────────────

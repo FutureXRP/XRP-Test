@@ -655,100 +655,172 @@
       collateral demand (Positions 2, 3, 6) on the same fixed supply.
     </p>
 
-    <h3>Model one — the velocity equation (MV = PQ)</h3>
+    <h3>Three variables nobody knows — and why they matter more than anything else</h3>
+
+    <p>
+      Before running any numbers, three input variables require explicit acknowledgment. Each one
+      is genuinely unknown. The system has never operated at institutional scale. There is no
+      historical data to anchor these assumptions. Every pricing output below is a mechanical
+      consequence of inputs that are, at this moment, speculative. Change any of the three and
+      the outputs change dramatically. This is not a caveat buried in a footnote. It is the
+      central epistemological fact about any XRP pricing model, and it should be the first thing
+      a reader understands before engaging with the numbers.
+    </p>
 
     <div class="math-block">
-      <div class="math-label">MV = PQ — Solved for Price · Multi-Use-Case Form</div>
-      <div class="math-line"><span class="var">M</span> = total XRP available for transit (~57B minus collateral-locked supply)</div>
-      <div class="math-line"><span class="var">V</span> = blended velocity across transit and held positions</div>
-      <div class="math-line"><span class="var">Q</span> = total annual flow volume across all six positions</div>
-      <div class="math-line"><span class="var">P</span> = implied price per XRP = Q ÷ (M × V)</div>
+      <div class="math-label">The Three Unknown Variables — Stated Honestly</div>
+      <div class="math-line"><span class="var">Variable 1: M — the productive working float</span></div>
+      <div class="math-line">57 billion XRP are in circulation. The vast majority are not in active settlement use.</div>
+      <div class="math-line">Observable on-chain data (Glassnode, XRPL native analytics) suggests roughly <span class="var">5–8 billion XRP</span> constitute the productive working float — the supply actually cycling through ODL corridors, market maker inventories, and active exchange positions. The rest is in long-term holder wallets, Ripple escrow releases (largely re-escrowed), and dormant accounts.</div>
+      <div class="math-line">If XRP is being sized as settlement infrastructure, M should be the float available for settlement functions — not total circulating supply. Using 57B overstates supply by a factor of 7–10x, which understates implied price by the same factor.</div>
+      <div class="math-line">We use <span class="var">M = 6B XRP</span> as the working figure, consistent with Observatory No. 1. <span class="var">This is an estimate. The real number is unknown and will shift as institutional adoption changes holding behavior.</span></div>
       <div class="math-note">
-        The compounding effect: if Position 3 (derivatives margin) locks 15% of circulating supply
-        in held collateral, the effective M for transit positions drops from 57B to ~48B. The same
-        Q now requires a higher P because fewer tokens are available to do the transit work.
-        Q is annual flow volume across all positions combined. The $29.7T Treasury repo outstanding
-        is stock, not flow — annual flow is orders of magnitude larger. Q inputs here are fractional
-        capture of combined flow across all six markets, not any single one.
-        These are stated assumptions, not forecasts. Change any input and the outputs change.
+        Why this variable matters most: a change from M=57B to M=6B, holding everything else constant,
+        multiplies the implied price by roughly 9.5x. This single correction accounts for the majority
+        of the difference between the original article's $9–$25 base case and the corrected numbers below.
+        It is not a more optimistic assumption — it is a more precise one. But precision here is itself uncertain.
       </div>
     </div>
 
-    <h3>Model two — the square root law (market impact)</h3>
+    <div class="math-block">
+      <div class="math-label">The Three Unknown Variables — Continued</div>
+      <div class="math-line"><span class="var">Variable 2: V — velocity, and why it differs by demand type</span></div>
+      <div class="math-line">The series framework has established ~68x annual velocity for XRP's current productive float (Observatory No. 1). That is the observed turnover in today's ODL-era environment.</div>
+      <div class="math-line">For <span class="var">transit positions</span> (1, 2, 4, 5): institutional settlement velocity is lower than retail ODL but higher than collateral holding. Repo collateral itself turns over at roughly 200–250x annually (the $29.7T stock rolls approximately daily). XRP as a settlement bridge would turn over slower — institutions hold briefly between uses. We use <span class="var">V = 50x</span> as a mid-range estimate for transit positions.</div>
+      <div class="math-line">For <span class="var">held collateral positions</span> (3): velocity is near zero by construction — XRP sits in a margin account and does not cycle. V ≈ 0 during the holding period.</div>
+      <div class="math-line"><span class="var">Both figures are speculative. No institutional settlement system using XRP at scale has ever operated. The real velocity could be 20x or 200x. We do not know.</span></div>
+      <div class="math-note">
+        Why this matters: at M=6B, moving V from 50x to 20x doubles the implied price. Moving it to 100x
+        halves it. Velocity is the most sensitive input in MV=PQ and the one with the least empirical grounding.
+        The scenarios below use V=50x for transit as a stated benchmark, not a prediction.
+      </div>
+    </div>
+
+    <div class="math-block">
+      <div class="math-label">The Three Unknown Variables — Continued</div>
+      <div class="math-line"><span class="var">Variable 3: Q_ticket vs Q_annual — two different questions, two different models</span></div>
+      <div class="math-line">The two models use Q differently and they must not be conflated:</div>
+      <div class="math-line">In <span class="var">MV = PQ</span>: Q_annual is total annual flow volume — dollars processed per year across all transit positions. It is a flow, not a stock. The $29.7T Treasury repo figure is outstanding stock; annual flow is that stock multiplied by daily turnover across ~250 trading days.</div>
+      <div class="math-line">In the <span class="var">square root law</span>: Q_ticket is the size of a single peak transaction — the largest trade that must execute within the 3.5bp slippage tolerance. It has nothing to do with annual volume.</div>
+      <div class="math-line">The two models answer different questions: MV=PQ asks what price supports the total volume. The square root law asks what depth — and therefore what price — is required for the largest single transaction to execute cleanly.</div>
+      <div class="math-line"><span class="var">At institutional ticket sizes ($500M+), the square root law is the binding constraint — it demands more depth than MV=PQ alone would require. The two models do not converge at large ticket sizes. This is important.</span></div>
+      <div class="math-note">
+        Q_annual inputs below are fractional shares of large markets: Position 1 at ~0.1% of U.S. Treasury
+        repo annual flow; Position 2 at ~0.15% of global secured financing annual flow. These shares are
+        assumptions, not forecasts. Q_ticket inputs are the peak single-transaction sizes each scenario
+        must support within the 3.5bp institutional tolerance. They are engineering constraints, not projections.
+      </div>
+    </div>
+
+    <h3>Model one — the velocity equation (MV = PQ_annual)</h3>
+
+    <p>
+      Given stated assumptions about M (productive float), V (velocity by demand type), and
+      Q_annual (annual flow volume captured), what price is mechanically implied? This model tells
+      you the minimum price required to support the volume. It is not a ceiling and not a forecast.
+      It is the arithmetic result of the inputs. Every number below changes if the inputs change —
+      and the inputs are speculative.
+    </p>
+
+    <div class="math-block">
+      <div class="math-label">MV = PQ_annual — Productive Float Form</div>
+      <div class="math-line"><span class="var">M</span> = productive working float = ~6B XRP (estimated · genuinely uncertain)</div>
+      <div class="math-line"><span class="var">M_available</span> = M minus XRP locked in held collateral positions (Position 3)</div>
+      <div class="math-line"><span class="var">V_transit</span> = ~50x annually for transit positions (estimated · no live data exists)</div>
+      <div class="math-line"><span class="var">Q_annual</span> = annual flow volume captured across transit positions (stated assumption)</div>
+      <div class="math-line"><span class="var">P</span> = Q_annual ÷ (M_available × V_transit)</div>
+      <div class="math-note">
+        The compounding mechanism: Position 3 (derivatives margin) locks a portion of M out of
+        transit use. If 20% of the productive float is held in margin accounts (~1.2B XRP),
+        M_available for transit falls from 6B to 4.8B. The same Q_annual now requires a higher P
+        because fewer tokens are available. The compounding is real — but the percentage locked
+        is itself an assumption with no live precedent.
+      </div>
+    </div>
+
+    <h3>Model two — the square root law (market impact on Q_ticket)</h3>
+
+    <p>
+      Given the size of the largest single transaction that must execute cleanly, what daily trading
+      volume — and therefore what market capitalization, and therefore what price — is mechanically
+      required? This model sets the depth floor. At large institutional ticket sizes it is more
+      demanding than MV=PQ. The two models answer different questions and should not be expected
+      to converge.
+    </p>
 
     <div class="math-block">
       <div class="math-label">Square Root Market Impact Law — Almgren-Chriss</div>
       <div class="math-line">&#916;P/P = <span class="var">&#963;</span> × √( <span class="var">Q_ticket</span> / <span class="var">V_daily</span> )</div>
-      <div class="math-line"><span class="var">&#963;</span> = daily volatility (~2.5% for XRP at institutional scale)</div>
-      <div class="math-line"><span class="var">Q_ticket</span> = size of the largest single transaction being executed</div>
-      <div class="math-line"><span class="var">V_daily</span> = XRP daily trading volume (must dwarf Q_ticket)</div>
+      <div class="math-line"><span class="var">&#963;</span> = daily volatility — assumed ~2.5% at institutional scale · <span class="var">genuinely unknown, could be higher or lower</span></div>
+      <div class="math-line"><span class="var">Q_ticket</span> = single peak transaction size (the largest trade that must clear within tolerance)</div>
+      <div class="math-line"><span class="var">V_daily</span> = daily trading volume in XRP (must be large relative to Q_ticket)</div>
       <div class="math-note">
-        Institutional slippage tolerance: 3.5 basis points (0.035%).
-        The collateral use cases (Positions 2, 3) do not create market impact on entry —
-        they move XRP into a held position at current market price. But the transit positions
-        (1, 4, 5) must execute at scale without moving the market. As collateral positions
-        absorb more of the float, the daily trading volume available for transit functions
-        shrinks, which means the market impact of each transit transaction increases —
-        which means a higher price (and therefore deeper market) is required to stay within
-        the 3.5bp tolerance. The two demand types tighten each other's constraint simultaneously.
+        Slippage tolerance: 3.5 basis points (0.035%). This is an institutional standard, not a
+        guaranteed threshold — different institutions may accept different tolerances.
+        Working backward: to settle a $500M ticket within 3.5bp requires approximately $15–20B
+        in daily XRP volume. At M=6B and 2% daily turnover of market cap, that requires
+        a market cap of roughly $750B–$1T, implying P ≈ $125–$167 per XRP.
+        At a $1B ticket, daily volume requirements roughly double.
+        At a $5B ticket, the depth requirement becomes enormous — implying prices well above $1,000.
+        <span class="var">These are mechanical outputs. Whether institutional ticket sizes actually reach
+        $500M or $5B depends entirely on adoption — which has not happened yet.</span>
       </div>
     </div>
 
-    <h3>The pricing scenarios — full DTCC surface area</h3>
+    <h3>The pricing scenarios — corrected inputs, explicit uncertainty</h3>
 
     <p>
-      These are mechanical outputs under explicit adoption and velocity assumptions. They are not
-      price targets or predictions. Each scenario stacks a different subset of the six positions
-      and applies the compounding effect of held collateral reducing available transit supply.
-      Change any input and the outputs change. The inputs themselves are the judgment call.
+      What follows are mechanical outputs under three sets of stated assumptions. Each row represents
+      a specific combination of positions active, productive float available, velocity, and peak
+      ticket size. <strong>All three key variables — float, velocity, and ticket size — are
+      speculative. No institutional settlement system using XRP has ever operated at scale.
+      The real values could be dramatically different from any of these assumptions in either
+      direction.</strong> These are not price targets. They are the arithmetic consequences
+      of stated inputs. Read them as sensitivity analysis, not prediction.
     </p>
 
     <div class="scenario-table">
       <div class="scenario-table-head">
         <span>Scenario</span>
-        <span>Implied Price</span>
-        <span>Positions Active</span>
-        <span>Key Inputs</span>
+        <span>MV=PQ Price</span>
+        <span>Sq. Root Floor</span>
+        <span>Key Inputs · All Speculative</span>
       </div>
       <div class="scenario-row">
-        <div class="scenario-name">Repo Only</div>
-        <div class="scenario-price">$9 – $25</div>
-        <div class="scenario-cell">Position 1 only. XRP handles a thin share of cross-border NCCBR cash legs at high velocity. Correspondent banks still dominant. No collateral holding. Single use case, no compounding.</div>
-        <div class="scenario-inputs">Q=$15T, V=30×<br>M=57B (full supply)<br>Sq. root: $100M ticket</div>
+        <div class="scenario-name">Thin Adoption<br><small style="font-family:var(--mono);font-size:10px;color:var(--ink-faint)">Position 1 only</small></div>
+        <div class="scenario-price">~$50</div>
+        <div class="scenario-cell">XRP handles a thin share of cross-border NCCBR cash legs. Correspondent banks still dominant. No collateral holding. Single use case, no compounding. MV=PQ gives ~$50; square root law at $100M ticket gives a similar floor.</div>
+        <div class="scenario-inputs">M=6B · V=50× · Q_annual=$15T<br>P = $15T÷(6B×50) = <strong>$50</strong><br>Q_ticket=$100M → floor ~$40–80</div>
       </div>
       <div class="scenario-row">
-        <div class="scenario-name">Repo + Collateral AppChain</div>
-        <div class="scenario-price">$75 – $150</div>
-        <div class="scenario-cell">Positions 1 + 2. XRP bridges both the repo cash leg and variation margin calls in the Collateral AppChain. Still primarily a transit asset. Velocity moderately reduced as AppChain holds between margin calls.</div>
-        <div class="scenario-inputs">Q=$80T, V=15×<br>M=57B<br>Sq. root: $500M ticket</div>
+        <div class="scenario-name">Transit Positions<br><small style="font-family:var(--mono);font-size:10px;color:var(--ink-faint)">Positions 1 + 2</small></div>
+        <div class="scenario-price">~$280</div>
+        <div class="scenario-cell">XRP bridges repo cash legs and Collateral AppChain variation margin. Still transit only — no collateral holding compounding yet. MV=PQ at $100T annual flow implies ~$280–$335. Square root law at $500M ticket requires ~$125–$170 depth floor — MV=PQ is the binding constraint here.</div>
+        <div class="scenario-inputs">M=6B · V=50–60× · Q_annual=$100T<br>P = $100T÷(6B×55) = <strong>~$303</strong><br>Q_ticket=$500M → floor ~$125–170</div>
       </div>
       <div class="scenario-row highlight">
-        <div class="scenario-name">Structural Base Case</div>
-        <div class="scenario-price">$200 – $500</div>
-        <div class="scenario-cell">Positions 1 + 2 + 3. Derivatives margin collateral locks ~15% of supply. Effective M shrinks to ~48B. Transit velocity drops as available float tightens. Both models converge in this range. This is the minimum credible institutional adoption scenario across DTCC's core clearing functions.</div>
-        <div class="scenario-inputs">Q=$200T, V=8×<br>M=48B (15% locked)<br>Sq. root: $1B ticket</div>
+        <div class="scenario-name">Structural Base Case<br><small style="font-family:var(--mono);font-size:10px;color:var(--ink-faint)">Positions 1 + 2 + 3</small></div>
+        <div class="scenario-price">~$415</div>
+        <div class="scenario-cell">Derivatives margin (Position 3) locks ~20% of productive float (~1.2B XRP). M_available for transit falls to ~4.8B. Transit velocity unchanged at 50×. Q_annual=$100T across Positions 1+2. MV=PQ gives ~$415. Square root law at $500M ticket still requires ~$125–170 depth floor — MV=PQ is binding. The compounding shows clearly: same volume, smaller available supply, higher required price.</div>
+        <div class="scenario-inputs">M_available=4.8B · V=50× · Q_annual=$100T<br>P = $100T÷(4.8B×50) = <strong>~$417</strong><br>Q_ticket=$500M → floor ~$125–170<br>20% of 6B locked in margin</div>
       </div>
       <div class="scenario-row">
-        <div class="scenario-name">Full Integration</div>
-        <div class="scenario-price">$800 – $2,000</div>
-        <div class="scenario-cell">Positions 1–5 active. DVP cross-chain bridge and SFT cash collateral add volume. Derivatives margin now locks ~25% of supply. Effective M ~43B. Transit velocity compressed to 5× as collateral demand dominates float. Ticket size scales to $5B+.</div>
-        <div class="scenario-inputs">Q=$500T, V=5×<br>M=43B (25% locked)<br>Sq. root: $5B ticket</div>
+        <div class="scenario-name">Full Integration<br><small style="font-family:var(--mono);font-size:10px;color:var(--ink-faint)">Positions 1–5</small></div>
+        <div class="scenario-price">~$700–$1,400</div>
+        <div class="scenario-cell">All five positions active. DVP and SFT add volume — Q_annual rises to $200T+. Margin lockup grows to ~30% of productive float (~1.8B XRP). M_available falls to ~4.2B. At this scale, Q_ticket for individual transactions reaches $1B+, at which point the square root law becomes the binding constraint — depth requirements exceed what MV=PQ alone implies. Both models now agree a price above $500 is required. The range is wide because ticket size, velocity, and float remain genuinely unknown.</div>
+        <div class="scenario-inputs">M_available=4.2B · V=50× · Q_annual=$200T<br>P = $200T÷(4.2B×50) = <strong>~$952</strong><br>Q_ticket=$1B+ → sq. root becomes binding<br>Range wide due to input uncertainty</div>
       </div>
       <div class="table-note">
-        The structural base case is highlighted — Positions 1 + 2 + 3 only — because it represents
-        the minimum credible multi-use-case adoption scenario and requires three positions where live
-        evidence, launching infrastructure, or an active regulatory pilot already exists.
-        The compounding mechanism is the key analytical addition: held collateral (Position 3) removes
-        supply from transit functions (Positions 1, 2), tightening the square root law constraint
-        simultaneously with increasing the MV=PQ implied price. The two demand types reinforce each
-        other on the same fixed supply rather than adding linearly.
-        Q inputs are annual flow volume, not outstanding stock. Each Q is bounded by explicit
-        market-share assumptions: Position 1 at ~0.1% of U.S. Treasury repo annual flow;
-        Position 2 at ~0.15% of global secured financing annual flow; Position 3 is a stock
-        (standing margin), not flow. Combined Q of $200T for the base case reflects these
-        fractional shares of markets measured in the hundreds of trillions annually.
-        NCCBR daily outstanding: $2T+ (OFR 2022). Global derivatives margin: ~$2T (BIS).
-        These are stated assumptions. Not forecasts.
+        The structural base case is highlighted because it requires only three positions — all with live evidence,
+        launching infrastructure, or an active regulatory pilot — and it uses the most
+        defensible inputs: productive float of 6B (observable), transit velocity of 50× (benchmarked against
+        repo collateral turnover), and a 20% margin lockup (bounded by the ~$2T global derivatives
+        margin stock relative to implied market cap). The full integration scenario range is intentionally
+        wide — $700–$1,400 — because at that scale the uncertainty in all three variables compounds.
+        Scenario prices are MV=PQ outputs. Square root law floors are shown separately because the
+        two models answer different questions. At large Q_ticket sizes the square root law is
+        binding; at smaller sizes MV=PQ is binding. Neither model is a price forecast.
+        All inputs are speculative. The system has never operated at institutional scale.
       </div>
     </div>
 
@@ -769,10 +841,11 @@
 
     <div class="pull-quote">
       <p>
-        The base case was $100–$200 when sized against one use case. It is $200–$500 when sized
-        against three. The difference is not more optimistic inputs — it is the compounding effect
-        of held collateral removing supply from transit functions on a fixed total supply.
-        These are not six independent bets. They are one systemic bet with six expressions.
+        Correcting from total circulating supply (57B) to productive working float (6B) shifts
+        the thin-adoption price from ~$9 to ~$50. The compounding effect of held collateral
+        then shifts the base case from ~$303 to ~$417. These are not more optimistic assumptions.
+        They are more precise ones — applied to a system that has never operated at scale,
+        where the real values of float, velocity, and ticket size remain genuinely unknown.
       </p>
     </div>
 

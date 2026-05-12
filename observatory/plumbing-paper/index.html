@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Plumbing Paper — Where XRP Fits in the New Clearing Machine · Observatory No. 3 · XRP Valuation Series</title>
+  <title>The Plumbing Paper — Every Place XRP Fits in the New Clearing Machine · Observatory No. 3 · XRP Valuation Series</title>
   <meta name="description" content="Every night, while markets are closed, trillions of dollars move through systems most people have never heard of. Here is how that works. Here is where XRP fits. And here is what it would have to be worth." />
-  <meta property="og:title" content="The Plumbing Paper — Where XRP Fits in the New Clearing Machine" />
-  <meta property="og:description" content="Every night, trillions of dollars move through systems most people have never heard of. Here is where XRP fits — and what it would have to be worth to fit there." />
+  <meta property="og:title" content="The Plumbing Paper — Every Place XRP Fits in the New Clearing Machine" />
+  <meta property="og:description" content="The Plumbing Paper mapped one entry point. This is the full map — six distinct places XRP fits inside the DTCC system, each with different mechanics, different velocity dynamics, and different pricing implications." />
   <meta property="og:type" content="article" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -141,6 +141,17 @@
     .scenario-row { display: grid; grid-template-columns: 1fr 1fr 1.6fr 0.8fr; padding: 14px 20px; gap: 12px; border-top: 1px solid var(--rule); background: var(--paper); align-items: start; }
     .scenario-row:nth-child(even) { background: var(--paper-soft); }
     .scenario-row.highlight { background: #f0ebe0; border-left: 3px solid var(--accent); }
+
+    /* Confidence tier markers in pathway table */
+    .pathway-row.tier-live { border-left: 3px solid #2d6a2d; }
+    .pathway-row.tier-pilot { border-left: 3px solid var(--accent); }
+    .pathway-row.tier-conditional { border-left: 3px solid #8a8073; }
+    .pathway-row.tier-speculative { border-left: 3px dashed #8a8073; background: var(--paper-soft) !important; opacity: 0.85; }
+    .tier-badge { display: inline-block; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 2px 7px; border-radius: 2px; margin-bottom: 5px; }
+    .tier-badge.live { background: #eaf3e8; color: #2d6a2d; border: 1px solid #7aad7a; }
+    .tier-badge.pilot { background: #f0ebe0; color: var(--accent); border: 1px solid var(--accent); }
+    .tier-badge.conditional { background: var(--paper-soft); color: var(--ink-faint); border: 1px solid var(--rule); }
+    .tier-badge.speculative { background: var(--paper-soft); color: var(--ink-faint); border: 1px dashed var(--rule); }
     .scenario-name { font-family: var(--ui); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.4; }
     .scenario-price { font-family: var(--display); font-size: 22px; font-weight: 500; color: var(--accent); line-height: 1.1; }
     .scenario-cell { font-family: var(--ui); font-size: 13px; color: var(--ink-medium); line-height: 1.5; }
@@ -205,20 +216,21 @@
 
   <div class="post-header">
     <div class="post-section">The Observatory &nbsp;·&nbsp; No. 3</div>
-    <h1 class="post-title">The <em>plumbing</em> paper — where XRP fits in the new clearing machine.</h1>
+    <h1 class="post-title">The <em>plumbing</em> paper — every place XRP fits in the new clearing machine.</h1>
     <p class="post-deck">
-      Every night, while markets are closed, trillions of dollars move through systems most people have never heard of.
-      Here is how that works — in plain English, from the beginning. Here is where XRP fits.
-      And here is what it would have to be worth to fit there.
+      The first version of this piece mapped one entry point into the DTCC system — the cash leg of
+      cross-border repo settlement. That was incomplete. There are six distinct places XRP fits inside
+      the machine being built right now. Each operates through different mechanics. Each creates different
+      pricing pressure. This is the full map.
     </p>
     <div class="post-meta">
       <span class="meta-tag">The Observatory</span>
       <span class="meta-dot"></span>
       <span>General Audience</span>
       <span class="meta-dot"></span>
-      <span>FICC · NCCBR · Repo</span>
+      <span>FICC · NCCBR · Collateral · DVP · SFT</span>
       <span class="meta-dot"></span>
-      <span>MV=PQ · Square Root Law</span>
+      <span>MV=PQ · Square Root Law · Full Surface Area</span>
       <span class="meta-dot"></span>
       <span>May 12, 2026</span>
     </div>
@@ -472,104 +484,107 @@
       cross-border, non-FICC-member, after-hours — is where XRP enters the story.
     </p>
 
-    <h2>Where XRP actually fits</h2>
+    <h2>Where XRP actually fits — the full map</h2>
 
     <p>
-      XRP is not going to replace FICC. It is not going to replace the Federal Reserve's Fedwire system.
-      It is not going to replace BNY Mellon's custody operations. Anyone claiming any of those things is
-      either uninformed or selling something.
+      The original version of this piece identified one entry point: the cash leg of cross-border,
+      non-dollar, after-hours repo settlement. That claim is correct. It is also incomplete. The DTCC
+      system being built right now has six distinct functional layers where XRP has a structural argument.
+      They are not the same argument. Each operates through different mechanics, creates different
+      velocity dynamics, and implies different pricing pressure. Most of them compound rather than
+      substitute for each other.
     </p>
 
     <p>
-      What XRP is specifically designed to do — and what the evolving institutional architecture
-      increasingly points toward — is serve as the <strong>cash leg bridge asset</strong> for
-      settlement transactions that fall outside the reach of the traditional system. The precise
-      boundary matters: not the dollar-denominated FICC-member residual that Fedwire already handles,
-      but the non-dollar, cross-border, after-hours cash leg between parties who do not share a
-      clearing network and cannot access central bank money at the moment they need to settle.
+      XRP is not going to replace FICC. It is not going to replace Fedwire. It is not going to replace
+      BNY Mellon's custody operations. The precise boundary still matters — and it matters more now
+      that the surface area is larger, because the temptation to overclaim grows with the number of
+      entry points. Each of the six positions below is structurally defensible. None of them are
+      guaranteed. Together they represent a much larger addressable market than the Plumbing Paper's
+      original framing suggested.
     </p>
 
     <div class="pathway-table">
       <div class="pathway-table-head">
-        <span>Pathway</span>
-        <span>What XRP Replaces</span>
-        <span>Incumbent Displaced</span>
+        <span>Position</span>
+        <span>Mechanism</span>
+        <span>Market Size</span>
         <span>Timeline</span>
       </div>
-      <div class="pathway-row">
-        <div class="pathway-name">Cross-Border Cash Leg</div>
-        <div class="pathway-cell">The 4-hop correspondent banking chain on the cash side of international repo. Currently takes hours, closes at 5pm ET.</div>
-        <div class="pathway-cell">Correspondent banking fees and delays at clearing banks' FX desks</div>
+      <div class="pathway-row tier-live">
+        <div class="pathway-name"><span class="tier-badge live">Evidence live</span><br>1 · NCCBR / Repo Cash Leg</div>
+        <div class="pathway-cell">Bridge transit asset for the cash leg of cross-border, non-dollar, after-hours bilateral repo. Replaces the 4-hop correspondent banking chain that closes at 5pm ET. The May 2026 Ondo/JPMorgan pilot proved the cash delivery mechanism on XRPL rails.</div>
+        <div class="pathway-cell">$2T+ daily outstanding (NCCBR alone)</div>
         <div class="pathway-cell timeline">Near-term · Pilot live May 2026</div>
       </div>
-      <div class="pathway-row highlight">
-        <div class="pathway-name">NCCBR Settlement After Mandate</div>
-        <div class="pathway-cell">FX intermediation on the cash leg of bilateral repo trades involving non-Fedwire-eligible collateral or non-dollar counterparties left behind after mandate migration.</div>
-        <div class="pathway-cell">FX intermediation desks at JPMorgan, Citi, BNY — high-margin, high-resistance</div>
-        <div class="pathway-cell timeline">Medium-term · 2027+</div>
+      <div class="pathway-row tier-pilot">
+        <div class="pathway-name"><span class="tier-badge pilot">Infrastructure launching</span><br>2 · Collateral AppChain Cash Leg</div>
+        <div class="pathway-cell">DTCC's Collateral AppChain (Q4 2026) moves tokenized securities 24/7 across chains. The variation margin call that accompanies each collateral movement needs a settlement mechanism. XRP is the cash leg of collateral mobility across all secured financing — not just repo.</div>
+        <div class="pathway-cell">All global secured financing · $10T+ daily</div>
+        <div class="pathway-cell timeline">Q4 2026+ · AppChain launching</div>
       </div>
-      <div class="pathway-row">
-        <div class="pathway-name">Ripple Prime as Settlement Agent</div>
-        <div class="pathway-cell">Tail settlement financing for NSCC members: residual post-netting obligations delivered to non-member counterparties via XRPL, squared back on a netted basis. Requires either GSD membership or a sponsored arrangement with a GSD netting member — one step beyond current credentials.</div>
-        <div class="pathway-cell">Prime brokerage tail-settlement desks at Goldman, JPMorgan, Morgan Stanley</div>
-        <div class="pathway-cell timeline">Longer-term · OTC credentials live · GSD access pending</div>
+      <div class="pathway-row tier-pilot">
+        <div class="pathway-name"><span class="tier-badge pilot">Regulatory gate</span><br>3 · Derivatives Margin Collateral</div>
+        <div class="pathway-cell">XRP held as posted initial margin at FICC in lieu of cash or Treasuries. Not a transit asset — a <em>held</em> asset. Near-zero velocity during the holding period. The CFTC has an active pilot. Regulators will cap volatile-asset margin as a percentage of total margin (procyclicality risk), which bounds the supply lockup and is already reflected in the 15% assumption in the base case scenario.</div>
+        <div class="pathway-cell">~$2T standing margin globally · Capped by regulator</div>
+        <div class="pathway-cell timeline">CFTC pilot underway · Active gate</div>
+      </div>
+      <div class="pathway-row tier-conditional">
+        <div class="pathway-name"><span class="tier-badge conditional">Regulatory step pending</span><br>4 · DVP Cross-Chain Bridge</div>
+        <div class="pathway-cell">DTCC's tokenized securities live on Canton. DTCC's patents describe bridge nodes coordinating atomic DVP across chains — securities leg on Canton, cash leg on XRPL, simultaneous finality. Requires XRPL to be added to DTCC's pre-approved blockchain list, which is a separate regulatory step beyond the patent evidence. XRP or RLUSD is the cash instrument.</div>
+        <div class="pathway-cell">All tokenized securities post-Oct 2026</div>
+        <div class="pathway-cell timeline">Post-Canton launch · Pre-approval required</div>
+      </div>
+      <div class="pathway-row tier-conditional">
+        <div class="pathway-name"><span class="tier-badge conditional">Same gate as Position 1</span><br>5 · SFT Cash Collateral</div>
+        <div class="pathway-cell">NSCC's Securities Financing Transaction service clears equity lending. Non-U.S. institutions borrowing U.S. equities and posting cash collateral in local currency face the same 24/7 gap as repo. Structurally identical to Position 1, applied to equity financing instead of fixed income. Shares the same regulatory and adoption dependencies.</div>
+        <div class="pathway-cell">Global equity financing market</div>
+        <div class="pathway-cell timeline">Medium-term · Dependent on Position 1</div>
+      </div>
+      <div class="pathway-row tier-speculative">
+        <div class="pathway-name"><span class="tier-badge speculative">Speculative endpoint</span><br>6 · Systemic Reserve Asset</div>
+        <div class="pathway-cell">If XRP becomes embedded across Positions 1–5, DTCC's own risk management has incentive to hold XRP as a systemic hedge. The reflexivity loop closing on itself — precautionary reserve demand independent of transaction velocity. This is the Observatory No. 2 terminal-state argument made operational. It has no current regulatory pathway and no institutional precedent. It is an extrapolated endpoint, not a near-to-medium-term claim.</div>
+        <div class="pathway-cell">DTCC clearing fund · No current pathway</div>
+        <div class="pathway-cell timeline">Long-term · Speculative · No precedent</div>
       </div>
       <div class="table-note">
-        Highlighted row is the highest-probability near-to-medium-term pathway: the NCCBR cash leg after mandate migration concentrates riskier, more complex, more cross-border flow in exactly the segment where XRP's architecture is most differentiated.
+        Border color indicates confidence tier: green = live evidence, amber = infrastructure launching or regulatory pilot active, grey solid = conditional on regulatory step not yet taken, grey dashed = speculative endpoint with no current pathway.
+        Position 6 is included as the logical extrapolated endpoint of the framework, consistent with Observatory No. 2. It is not a near-to-medium-term claim and does not appear in the quantitative pricing scenarios below.
+        All six positions share common trunk-level dependencies — see "What has to happen" below.
       </div>
     </div>
 
-    <h3>Why XRP specifically — not RLUSD, not USDC</h3>
+    <h3>The mechanism that makes Position 3 different from everything else</h3>
 
     <p>
-      This is the question a sophisticated reader will immediately ask, and it deserves a direct answer.
-      Ripple's own stablecoin, RLUSD, runs on the XRP Ledger. So does USDC on other chains. If the
-      claim is just that XRPL rails work for cross-border cash delivery, why does XRP the asset need
-      to be involved at all? Why not route everything through a dollar-pegged stablecoin and skip
-      the volatility exposure entirely?
+      Every position except Position 3 treats XRP as a <strong>transit asset</strong> — it enters
+      the system, performs a function, and exits. High velocity, lower price pressure per unit of
+      volume. Position 3 treats XRP as a <strong>held asset</strong> — it enters a margin account
+      and stays there for the duration of the derivatives position, which can be days, weeks, or
+      months. During that time, the XRP sitting in the margin account is locked out of circulation
+      entirely. It cannot be borrowed, lent, or transited. It simply holds.
     </p>
 
     <p>
-      For dollar-to-dollar corridors, that argument is correct. RLUSD is the better instrument.
-      A U.S. institution settling a dollar-denominated cash leg with another dollar-denominated
-      counterparty on XRPL should use RLUSD. It is stable, audited, and eliminates FX risk.
-      The article does not contest this.
-    </p>
-
-    <p>
-      The structural case for XRP specifically is in the <strong>non-dollar-to-non-dollar corridor</strong>.
-      Consider a yen-funded Japanese asset manager settling a cash leg with a euro-funded European
-      dealer at 2 a.m. Eastern time. RLUSD doesn't solve this — it's a dollar stablecoin. Using it
-      requires converting yen to RLUSD on one side, moving RLUSD, then converting RLUSD to euros on
-      the other side. That's two FX conversions, two sets of slippage, two sets of counterparty
-      exposure, and RLUSD's own depth constraints at the point of conversion.
-    </p>
-
-    <p>
-      XRP as a neutral bridge asset requires only two conversions — yen to XRP, XRP to euros — but
-      the bridge leg itself carries no sovereign or issuer risk. It is not a claim on any institution.
-      No counterparty can freeze it, delay it, or redirect it. This is exactly what the DTCC patent
-      language describes when it designates XRP as a "Digital Liquidity Token" for cross-ledger flows:
-      a unit that is neither the source currency nor the destination currency, owned by no single
-      institution, that provides atomic transit between any two currency pairs.
-    </p>
-
-    <p>
-      There is a second reason: market depth. RLUSD's market capitalization is a fraction of XRP's.
-      A $500 million transaction in RLUSD would move the RLUSD market far more than the same
-      transaction in XRP would move the XRP market, at any comparable adoption level. Depth is
-      what makes the square root law tolerable at institutional ticket sizes, and depth scales with
-      market capitalization. XRP's larger float is a feature in this context, not a liability.
+      In MV=PQ terms: the same supply M supporting transit positions at velocity V=10 or V=30 is
+      unavailable during the holding period for a margin position. If 10% of XRP's circulating
+      supply is locked in derivatives margin accounts at any given time, the effective supply
+      available for transit functions drops by 10% — which means the price required to support
+      the same transit volume rises by approximately 11%. If 30% is locked in margin, the required
+      price for the remaining transit functions rises by approximately 43%. The two demand types
+      compound on the same fixed supply, rather than adding linearly.
     </p>
 
     <div class="callout">
-      <div class="callout-label">The RLUSD / XRP division of labor</div>
-      <p>RLUSD handles dollar-denominated corridors: U.S. institution to U.S. institution, or any
-      pair where both sides want dollar exposure on XRPL. XRP handles non-dollar-to-non-dollar
-      corridors: yen to euro, sterling to yen, any pair where neither side wants to hold dollars
-      in transit and neither side shares a common clearing network. The two assets are
-      complementary, not competing. The DTCC patents describe both — RLUSD as a collateral
-      instrument, XRP as the cross-ledger liquidity token.</p>
+      <div class="callout-label">Why RLUSD doesn't replace XRP here</div>
+      <p>For dollar-to-dollar corridors, RLUSD is the right instrument — stable, audited, no FX exposure.
+      But for non-dollar-to-non-dollar corridors (yen to euro, sterling to yen), RLUSD requires two FX
+      conversions rather than one, plus exposure to dollar peg risk during transit. XRP as a neutral
+      bridge carries no sovereign or issuer risk and requires only one conversion on each end.
+      For derivatives margin specifically, regulators are more likely to accept a high-liquidity
+      native crypto asset as margin than a stablecoin whose peg could break under stress — the
+      precise moment margin collateral is most needed. These are structurally different use cases
+      that happen to involve the same ledger.</p>
     </div>
 
     <h3>The proof of concept — May 7, 2026</h3>
@@ -622,139 +637,142 @@
       gets built. This is one component. It is the right one to prove first.
     </p>
 
-    <h2>What XRP would have to be worth</h2>
+    <h2>What XRP would have to be worth — the full surface area</h2>
 
     <p>
-      Now comes the question most people actually want answered. If XRP does end up playing this role —
-      the cash leg bridge asset for cross-border, non-dollar, after-hours repo and securities settlement —
-      what does that imply about its price?
+      The original pricing scenarios sized XRP against a single use case: the NCCBR repo cash leg.
+      That produced a base case of $100–$200. Now that we have mapped six distinct positions inside
+      the DTCC system, the pricing question becomes more complex — and the answer is materially higher.
+      Not because the inputs are more optimistic, but because the demand sources are additive on a
+      fixed supply.
     </p>
 
     <p>
-      There are two ways to approach this, and they arrive at similar answers from completely
-      different directions. Using both is how we know the answer is structural, not arbitrary.
+      There are two models. The velocity equation (MV=PQ) asks: given total annual volume and velocity,
+      what price is implied? The square root law asks: given the size of the largest single transaction,
+      what market depth — and therefore what price — is mechanically required? Both models now need to
+      account for the compounding effect of transit demand (Positions 1, 4, 5) layered on top of held
+      collateral demand (Positions 2, 3, 6) on the same fixed supply.
     </p>
 
     <h3>Model one — the velocity equation (MV = PQ)</h3>
 
-    <p>
-      Economists use a simple equation to think about how much money needs to exist to support a given
-      level of economic activity. In its basic form it says: <strong>MV = PQ</strong>. Money supply
-      times velocity equals price times quantity. Rearranged to solve for the price of one unit
-      of the asset: <strong>P = Q ÷ (M × V)</strong>.
-    </p>
-
     <div class="math-block">
-      <div class="math-label">MV = PQ — Solved for Price</div>
-      <div class="math-line"><span class="var">M</span> = total XRP in circulation (~57 billion tokens)</div>
-      <div class="math-line"><span class="var">V</span> = velocity — how many times each unit turns over per year</div>
-      <div class="math-line"><span class="var">Q</span> = annual settlement volume XRP must support</div>
+      <div class="math-label">MV = PQ — Solved for Price · Multi-Use-Case Form</div>
+      <div class="math-line"><span class="var">M</span> = total XRP available for transit (~57B minus collateral-locked supply)</div>
+      <div class="math-line"><span class="var">V</span> = blended velocity across transit and held positions</div>
+      <div class="math-line"><span class="var">Q</span> = total annual flow volume across all six positions</div>
       <div class="math-line"><span class="var">P</span> = implied price per XRP = Q ÷ (M × V)</div>
       <div class="math-note">
-        The counterintuitive result: the slower XRP turns over, the higher the implied price.
-        Settlement assets held as collateral between transactions are reused far less often than
-        high-speed payment rail assets. Institutional settlement velocity — 5 to 30 turnovers per year —
-        is orders of magnitude lower than retail payment velocity. Lower V with the same Q requires
-        higher P to make the equation balance.
-        Q here is <em>annual flow volume</em> — not outstanding stock. This distinction matters.
-        The $29.7T Treasury market figure cited earlier is outstanding stock. Annual flow is the stock
-        multiplied by daily turnover: a $29.7T stock rolling at daily repo rates across ~250 trading
-        days produces annual flow in the hundreds of trillions. The Q inputs below ($15T, $100T, $250T)
-        therefore represent fractional capture — roughly 0.05–0.85% — of U.S. Treasury repo annual
-        flow alone, before adding cross-border triparty and NCCBR volume. These are not market-share
-        forecasts. They are explicit assumptions. State them, stress-test them, and draw your own
-        conclusions.
+        The compounding effect: if Position 3 (derivatives margin) locks 15% of circulating supply
+        in held collateral, the effective M for transit positions drops from 57B to ~48B. The same
+        Q now requires a higher P because fewer tokens are available to do the transit work.
+        Q is annual flow volume across all positions combined. The $29.7T Treasury repo outstanding
+        is stock, not flow — annual flow is orders of magnitude larger. Q inputs here are fractional
+        capture of combined flow across all six markets, not any single one.
+        These are stated assumptions, not forecasts. Change any input and the outputs change.
       </div>
     </div>
 
     <h3>Model two — the square root law (market impact)</h3>
 
-    <p>
-      The velocity model tells us what price is implied by a given transaction volume. The square root
-      law — the Almgren-Chriss market impact formula — tells us something different and more structural:
-      what price XRP <em>needs</em> to be at in order to execute a given-sized transaction without
-      moving the market against itself in the process.
-    </p>
-
-    <p>
-      This matters because institutional repo tickets are large — sometimes billions of dollars in a
-      single trade. If XRP's market depth is insufficient, a large settlement transaction causes its
-      price to spike mid-execution, making the settlement more expensive than the correspondent banking
-      chain it was supposed to replace. The square root law sets the mechanical floor.
-    </p>
-
     <div class="math-block">
       <div class="math-label">Square Root Market Impact Law — Almgren-Chriss</div>
-      <div class="math-line">ΔP/P = <span class="var">σ</span> × √( <span class="var">Q</span> / <span class="var">V_daily</span> )</div>
-      <div class="math-line"><span class="var">σ</span> = daily volatility (~2.5% for XRP at institutional scale)</div>
-      <div class="math-line"><span class="var">Q</span> = transaction size being executed</div>
-      <div class="math-line"><span class="var">V_daily</span> = XRP daily trading volume (must be large relative to Q)</div>
+      <div class="math-line">&#916;P/P = <span class="var">&#963;</span> × √( <span class="var">Q_ticket</span> / <span class="var">V_daily</span> )</div>
+      <div class="math-line"><span class="var">&#963;</span> = daily volatility (~2.5% for XRP at institutional scale)</div>
+      <div class="math-line"><span class="var">Q_ticket</span> = size of the largest single transaction being executed</div>
+      <div class="math-line"><span class="var">V_daily</span> = XRP daily trading volume (must dwarf Q_ticket)</div>
       <div class="math-note">
-        Institutional slippage tolerance: 3.5 basis points (0.035%). A $1 billion settlement ticket
-        may move the price by no more than $350,000 to be competitive with existing rails.
-        Working backward from that constraint: to settle a $500M ticket within tolerance,
-        XRP needs approximately $15–20 billion in daily trading volume.
-        That volume only comes at a substantially higher market capitalization than today's.
+        Institutional slippage tolerance: 3.5 basis points (0.035%).
+        The collateral use cases (Positions 2, 3) do not create market impact on entry —
+        they move XRP into a held position at current market price. But the transit positions
+        (1, 4, 5) must execute at scale without moving the market. As collateral positions
+        absorb more of the float, the daily trading volume available for transit functions
+        shrinks, which means the market impact of each transit transaction increases —
+        which means a higher price (and therefore deeper market) is required to stay within
+        the 3.5bp tolerance. The two demand types tighten each other's constraint simultaneously.
       </div>
     </div>
 
-    <h3>The pricing scenarios</h3>
+    <h3>The pricing scenarios — full DTCC surface area</h3>
 
     <p>
-      What follows are illustrative outputs under specific adoption and velocity assumptions.
-      These scenarios are mechanical outputs under explicit adoption, velocity, and market-share
-      assumptions. Change any input and the outputs change. They are not price targets or predictions.
-      Each scenario is the mechanical result of plugging stated inputs into the two models above.
-      Change the inputs — how much volume XRP captures, how fast it turns over — and the outputs
-      change accordingly. The scenarios are structured to show the range of outcomes under low,
-      base, and high adoption, not to assert that any particular outcome is likely. The inputs
-      themselves are the judgment call. The math is just arithmetic.
+      These are mechanical outputs under explicit adoption and velocity assumptions. They are not
+      price targets or predictions. Each scenario stacks a different subset of the six positions
+      and applies the compounding effect of held collateral reducing available transit supply.
+      Change any input and the outputs change. The inputs themselves are the judgment call.
     </p>
 
     <div class="scenario-table">
       <div class="scenario-table-head">
         <span>Scenario</span>
         <span>Implied Price</span>
-        <span>Description &amp; Assumptions</span>
-        <span>Model Inputs</span>
+        <span>Positions Active</span>
+        <span>Key Inputs</span>
       </div>
       <div class="scenario-row">
-        <div class="scenario-name">Entry Threshold</div>
+        <div class="scenario-name">Repo Only</div>
         <div class="scenario-price">$9 – $25</div>
-        <div class="scenario-cell">Thin adoption. XRP handles a small cross-border cash leg share at high velocity. Correspondent banks still dominant. $100M ticket capacity at the high end.</div>
-        <div class="scenario-inputs">MV=PQ: Q=$15T, V=30×<br>Sq. root: $100M ticket<br>Depth req: ~$3B/day</div>
+        <div class="scenario-cell">Position 1 only. XRP handles a thin share of cross-border NCCBR cash legs at high velocity. Correspondent banks still dominant. No collateral holding. Single use case, no compounding.</div>
+        <div class="scenario-inputs">Q=$15T, V=30×<br>M=57B (full supply)<br>Sq. root: $100M ticket</div>
+      </div>
+      <div class="scenario-row">
+        <div class="scenario-name">Repo + Collateral AppChain</div>
+        <div class="scenario-price">$75 – $150</div>
+        <div class="scenario-cell">Positions 1 + 2. XRP bridges both the repo cash leg and variation margin calls in the Collateral AppChain. Still primarily a transit asset. Velocity moderately reduced as AppChain holds between margin calls.</div>
+        <div class="scenario-inputs">Q=$80T, V=15×<br>M=57B<br>Sq. root: $500M ticket</div>
       </div>
       <div class="scenario-row highlight">
         <div class="scenario-name">Structural Base Case</div>
-        <div class="scenario-price">$100 – $200</div>
-        <div class="scenario-cell">XRP becomes the standard bridge for non-dollar, after-hours repo cash legs. Institutional velocity (10×) reflects collateral holding behavior. $500M ticket capacity. Both models converge here.</div>
-        <div class="scenario-inputs">MV=PQ: Q=$100T, V=10×<br>Sq. root: $500M ticket<br>Depth req: $15–20B/day</div>
+        <div class="scenario-price">$200 – $500</div>
+        <div class="scenario-cell">Positions 1 + 2 + 3. Derivatives margin collateral locks ~15% of supply. Effective M shrinks to ~48B. Transit velocity drops as available float tightens. Both models converge in this range. This is the minimum credible institutional adoption scenario across DTCC's core clearing functions.</div>
+        <div class="scenario-inputs">Q=$200T, V=8×<br>M=48B (15% locked)<br>Sq. root: $1B ticket</div>
       </div>
       <div class="scenario-row">
-        <div class="scenario-name">Deep Integration</div>
-        <div class="scenario-price">$500 – $1,000+</div>
-        <div class="scenario-cell">XRP embedded across NCCBR, cross-border triparty, and derivatives margin settlement. Collateral holding drives velocity to 5× or lower. Systemic importance creates precautionary reserve demand.</div>
-        <div class="scenario-inputs">MV=PQ: Q=$250T, V=5×<br>Sq. root: $5B+ ticket<br>Depth req: $150B+/day</div>
+        <div class="scenario-name">Full Integration</div>
+        <div class="scenario-price">$800 – $2,000</div>
+        <div class="scenario-cell">Positions 1–5 active. DVP cross-chain bridge and SFT cash collateral add volume. Derivatives margin now locks ~25% of supply. Effective M ~43B. Transit velocity compressed to 5× as collateral demand dominates float. Ticket size scales to $5B+.</div>
+        <div class="scenario-inputs">Q=$500T, V=5×<br>M=43B (25% locked)<br>Sq. root: $5B ticket</div>
       </div>
       <div class="table-note">
-        The structural base case is highlighted because both models converge on it independently.
-        MV=PQ at institutional settlement velocity implies ~$175. The square root law at $500M ticket
-        capacity with 3.5bp tolerance implies $50–$200. Different questions, same answer — that
-        convergence is the analytical signal, not any individual scenario price.
-        Q inputs are annual flow volume, not outstanding stock. The $29.7T Treasury repo figure
-        cited in the text is outstanding stock; annual flow is that stock multiplied by daily
-        turnover across ~250 trading days — hundreds of trillions annually. The Q inputs here
-        ($15T, $100T, $250T) are fractional capture of that flow. They are stated assumptions,
-        not forecasts. Source the NCCBR daily outstanding at $2T+ (OFR, 2022). Stress-test
-        accordingly.
+        The structural base case is highlighted — Positions 1 + 2 + 3 only — because it represents
+        the minimum credible multi-use-case adoption scenario and requires three positions where live
+        evidence, launching infrastructure, or an active regulatory pilot already exists.
+        The compounding mechanism is the key analytical addition: held collateral (Position 3) removes
+        supply from transit functions (Positions 1, 2), tightening the square root law constraint
+        simultaneously with increasing the MV=PQ implied price. The two demand types reinforce each
+        other on the same fixed supply rather than adding linearly.
+        Q inputs are annual flow volume, not outstanding stock. Each Q is bounded by explicit
+        market-share assumptions: Position 1 at ~0.1% of U.S. Treasury repo annual flow;
+        Position 2 at ~0.15% of global secured financing annual flow; Position 3 is a stock
+        (standing margin), not flow. Combined Q of $200T for the base case reflects these
+        fractional shares of markets measured in the hundreds of trillions annually.
+        NCCBR daily outstanding: $2T+ (OFR 2022). Global derivatives margin: ~$2T (BIS).
+        These are stated assumptions. Not forecasts.
       </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">Position 6 — the speculative endpoint</div>
+      <p>Position 6 (systemic reserve asset) is excluded from the quantitative pricing scenarios
+      above because it has no current regulatory pathway and no institutional precedent. It belongs
+      to a different analytical register — the terminal-state modeling in
+      <a href="/observatory/tokenization-ceiling/" style="color:var(--accent);border-bottom:1px solid rgba(122,92,32,0.3)">Observatory No. 2</a>
+      — rather than the near-to-medium-term infrastructure analysis here.
+      If Positions 1–5 materialize and XRP achieves systemic importance across DTCC's clearing
+      functions, precautionary reserve demand of the kind described in Position 6 becomes
+      structurally plausible. The price implications would be additive on top of the Full
+      Integration scenario — but the conditions required are so far beyond current
+      infrastructure that quantifying them here would misrepresent the analytical confidence level.
+      The endpoint exists. The timeline is genuinely unknown.</p>
     </div>
 
     <div class="pull-quote">
       <p>
-        Two models, built from different assumptions, converge on the same range. The velocity equation
-        asks: what price supports the volume? The square root law asks: what price supports the ticket size?
-        Same answer. Different questions. Convergence is not coincidence — it is structural.
+        The base case was $100–$200 when sized against one use case. It is $200–$500 when sized
+        against three. The difference is not more optimistic inputs — it is the compounding effect
+        of held collateral removing supply from transit functions on a fixed total supply.
+        These are not six independent bets. They are one systemic bet with six expressions.
       </p>
     </div>
 
@@ -764,6 +782,19 @@
       This piece is not a price prediction. It is a structural analysis of where XRP is most likely
       to be useful if the financial infrastructure being built right now reaches its intended destination.
       The distinction matters. Several things have to go right — and none are guaranteed.
+    </p>
+
+    <p>
+      <strong>The six positions are not six independent bets.</strong> They share common trunk-level
+      dependencies, and they largely fail together rather than independently. Every position requires
+      DTCC's tokenization to launch and scale. Every position requires regulators to permit crypto
+      assets in clearing workflows. Every position requires institutions to choose XRP over
+      bank-owned alternatives. If any of those three trunk conditions fails — if tokenization slips
+      two years, if the CFTC pilot produces an unfavorable ruling, if JPMorgan's Kinexys wins the
+      cash leg competition — multiple positions collapse simultaneously. The piece maps the upside
+      as compounding. The downside is equally correlated. An investor who accepts the six-position
+      map should not treat it as diversification across six independent risks. It is one systemic
+      bet with six expressions.
     </p>
 
     <p>
@@ -809,10 +840,14 @@
     <div class="callout">
       <div class="callout-label">The honest limits</div>
       <p>XRP is not replacing Fedwire. It is not replacing FICC. It is not replacing the Federal Reserve.
-      The claim being made here is narrower and more defensible: XRP is the most architecturally suited
-      candidate for the cash leg of cross-border, non-dollar, after-hours settlement in the residual
-      that survives central clearing netting. That is a specific, bounded claim. The size of that
-      residual market is, however, measured in trillions of dollars per day.</p>
+      Six positions inside the DTCC system is not the same as replacing the DTCC system. Each position
+      is bounded, specific, and contingent on approvals and market choices that have not yet occurred.</p>
+      <p>The aggregate implied price is higher than the single-use-case version — but the positions
+      are not independent. They share trunk-level dependencies and fail together rather than
+      separately. The scenarios stack positions; the probability of each additional position
+      materializing is conditional on the previous ones, not independent of them. The base case
+      ($200–$500) requires three positions. All three share the same regulatory and institutional
+      adoption dependencies. That is one bet, not three. Size exposure accordingly.</p>
     </div>
 
     <h2>The machine is being rebuilt</h2>
@@ -820,38 +855,50 @@
     <p>
       The machine has run for fifty years without most people knowing it existed. It is being rebuilt
       now, on blockchain rails, with compressed timelines and enormous institutional capital behind it.
-      The organizations doing the rebuilding have named, in patent filings and participant directories
-      and working group rosters, a specific asset as the bridge unit for the flows that will not fit
-      anywhere else.
+      The original version of this piece found one door into the new machine. The full map has six.
     </p>
 
     <p>
-      Whether that naming becomes operational reality depends on regulatory approvals that have not
-      arrived, market depth that has not materialized, and competitive outcomes that have not been
-      decided. Finance moves slowly, then all at once.
+      What makes the six-position picture analytically different from the single-position picture is
+      not scale — it is compounding. Held collateral demand and transit demand operate on the same
+      fixed supply simultaneously. Each position that materializes tightens the constraint for every
+      other position. The pricing scenarios do not add linearly; they multiply through the supply
+      mechanics. That is the structural insight the original Plumbing Paper left on the table.
     </p>
 
     <p>
-      The plumbing is being laid. The question is what flows through it.
+      Whether any of these positions become operational reality depends on regulatory approvals that
+      have not arrived, market depth that has not materialized, and competitive outcomes that have
+      not been decided. Finance moves slowly, then all at once.
+    </p>
+
+    <p>
+      The plumbing is being laid. There is more of it than we first mapped.
     </p>
 
     <div class="framework-ref">
       <div class="framework-ref-label">How this relates to the series</div>
       <p>
-        This Observatory piece is written for a general audience and introduces the NCCBR, FICC clearing
-        structure, and XRP's architectural fit in plain language. The pricing analysis applies both the
-        MV=PQ velocity framework and the Almgren-Chriss square root law established in
-        <a href="/part1/">Part I</a>. The velocity inversion argument — that settlement assets held as
-        collateral generate more price pressure per dollar than high-velocity payment rails — was
-        introduced in <a href="/observatory/velocity-problem/">Observatory No. 1</a>. The collateral
-        reflexivity loop that amplifies institutional holding demand is Argument 09 in
-        <a href="/part3/">Part III</a>. The DTCC patent trail, Ripple Prime NSCC listing, and FICC
-        membership are live infrastructure facts, not projections.
+        This Observatory piece maps the full surface area of XRP's potential positions inside the
+        DTCC system — expanding the original single-use-case framing to six distinct positions with
+        different mechanisms, velocity dynamics, and pricing implications. The pricing analysis applies
+        both the MV=PQ velocity framework and the Almgren-Chriss square root law established in
+        <a href="/part1/">Part I</a>, extended here to account for the compounding effect of held
+        collateral demand (Positions 2, 3, 6) on transit demand (Positions 1, 4, 5) across a
+        fixed supply. The velocity inversion argument — that settlement assets held as collateral
+        generate more price pressure per dollar than high-velocity payment rails — was introduced in
+        <a href="/observatory/velocity-problem/">Observatory No. 1</a> and is at its most extreme
+        in Position 3 (derivatives margin). The reserve asset transition dynamic in Position 6
+        was first examined in <a href="/observatory/tokenization-ceiling/">Observatory No. 2</a>.
+        The collateral reflexivity loop that makes Position 6 self-reinforcing is Argument 09 in
+        <a href="/part3/">Part III</a>.
       </p>
       <p>
-        <a href="/part1/">Part I — XRP is not being valued. It is being sized. →</a>
+        <a href="/part1/">Part I — The square root law →</a>
         &nbsp;&nbsp;
         <a href="/observatory/velocity-problem/">Observatory No. 1 — The velocity problem →</a>
+        &nbsp;&nbsp;
+        <a href="/observatory/tokenization-ceiling/">Observatory No. 2 — The tokenization ceiling →</a>
         &nbsp;&nbsp;
         <a href="/part3/">Part III — Collateral reflexivity →</a>
       </p>
@@ -860,12 +907,15 @@
     <div class="disclaimer">
       This is not financial advice. This Observatory piece applies two structural frameworks —
       MV=PQ velocity analysis and the Almgren-Chriss square root market impact law — to publicly
-      available data on the DTCC, FICC, and NCCBR markets. Pricing scenarios are illustrative
-      outputs of those frameworks under stated assumptions, not price targets or forecasts.
-      DTCC transaction volume from DTCC 2025 annual reporting. NCCBR outstanding balance from
-      Office of Financial Research (2022 estimate). Treasury market outstanding from Federal Reserve
-      September 2025 data. OUSG pilot details from Ondo Finance / CoinDesk May 7, 2026.
-      Do your own research.
+      available data on the DTCC, FICC, NCCBR, and derivatives markets. Pricing scenarios are
+      illustrative outputs of those frameworks under stated assumptions, not price targets or
+      forecasts. The compounding mechanism described (held collateral reducing effective supply
+      for transit functions) is a structural consequence of MV=PQ applied to a fixed-supply asset
+      with heterogeneous demand types — it is not a speculative claim. DTCC transaction volume
+      from DTCC 2025 annual reporting. NCCBR outstanding balance from Office of Financial Research
+      (2022 estimate). Treasury market outstanding from Federal Reserve September 2025 data.
+      Global derivatives margin estimate from BIS. OUSG pilot details from Ondo Finance / CoinDesk
+      May 7, 2026. Do your own research.
     </div>
 
     <div class="post-footer">

@@ -525,9 +525,9 @@
       </div>
       <div class="pathway-row tier-pilot">
         <div class="pathway-name"><span class="tier-badge pilot">Regulatory gate</span><br>3 · Derivatives Margin Collateral</div>
-        <div class="pathway-cell">XRP held as posted initial margin at FICC in lieu of cash or Treasuries. Not a transit asset — a <em>held</em> asset. Near-zero velocity during the holding period. The CFTC has an active pilot. Regulators will cap volatile-asset margin as a percentage of total margin (procyclicality risk), which bounds the supply lockup and is already reflected in the 15% assumption in the base case scenario.</div>
-        <div class="pathway-cell">~$2T standing margin globally · Capped by regulator</div>
-        <div class="pathway-cell timeline">CFTC pilot underway · Active gate</div>
+        <div class="pathway-cell">XRP held as posted initial margin at FICC in lieu of cash or Treasuries — specifically the Treasury and interest rate derivatives margin in the FICC/CME cross-margining arrangement. Not a transit asset — a <em>held</em> asset. Near-zero velocity during the holding period. The CFTC launched a pilot in December 2025 permitting FCMs to accept crypto assets as derivatives margin collateral; the initial three-month restriction window passed in March 2026, after which the CFTC clarified that FCMs may expand to other crypto assets including XRP (a CFTC-classified commodity). Formal inclusion at any given FCM remains subject to that FCM's own determination — the regulatory door is open, not walked through. Important scope note: DTCC is not the central counterparty for the full global OTC derivatives market. LCH (SwapClear) clears the bulk of interest rate swaps; CME clears rates futures; ICE Clear Credit clears CDS. DTCC operates the Trade Information Warehouse — the reporting and operational infrastructure around those CCPs — and FICC touches the Treasury/rates cross-margining layer specifically. This position addresses only the FICC-adjacent margin pool, which is a subset of the ~$2T global total. The full global derivatives layer and its 5-6 digit price implications are analyzed separately in <a href="/part5/" style="color:var(--accent)">Part V</a> of the series. Regulators will cap volatile-asset margin as a percentage of total margin (procyclicality risk), which bounds the supply lockup.</div>
+        <div class="pathway-cell">FICC-adjacent Treasury/rates margin · Subset of ~$2T global pool</div>
+        <div class="pathway-cell timeline">CFTC pilot restriction window closed Mar 2026 · FCM determination pending</div>
       </div>
       <div class="pathway-row tier-conditional">
         <div class="pathway-name"><span class="tier-badge conditional">Regulatory step pending</span><br>4 · DVP Cross-Chain Bridge</div>
@@ -670,12 +670,12 @@
     <div class="math-block">
       <div class="math-label">The Three Unknown Variables — Stated Honestly</div>
       <div class="math-line"><span class="var">Variable 1: M — the productive working float</span></div>
-      <div class="math-line">57 billion XRP are in circulation. The vast majority are not in active settlement use.</div>
+      <div class="math-line">61.8 billion XRP are in circulation (CoinMarketCap, May 2026). The vast majority are not in active settlement use.</div>
       <div class="math-line">Observable on-chain data (Glassnode, XRPL native analytics) suggests roughly <span class="var">5–8 billion XRP</span> constitute the productive working float — the supply actually cycling through ODL corridors, market maker inventories, and active exchange positions. The rest is in long-term holder wallets, Ripple escrow releases (largely re-escrowed), and dormant accounts.</div>
-      <div class="math-line">If XRP is being sized as settlement infrastructure, M should be the float available for settlement functions — not total circulating supply. Using 57B overstates supply by a factor of 7–10x, which understates implied price by the same factor.</div>
-      <div class="math-line">We use <span class="var">M = 6B XRP</span> as the working figure, consistent with Observatory No. 1. <span class="var">This is an estimate. The real number is unknown and will shift as institutional adoption changes holding behavior.</span></div>
+      <div class="math-line">If XRP is being sized as settlement infrastructure, M should be the float available for settlement functions — not total circulating supply. Using 61.8B overstates supply by a factor of ~10x, which understates implied price by the same factor.</div>
+      <div class="math-line">We use <span class="var">M = 6B XRP</span> as the working figure, consistent with Observatory No. 1. That figure is derived by dividing confirmed annual on-chain settlement volume by the observed velocity of ~68x — yielding an implied productive float of approximately 6B XRP. It is a residual estimate from observable data, not a directly measured count. <span class="var">This is an estimate. The real number is unknown and will shift as institutional adoption changes holding behavior.</span></div>
       <div class="math-note">
-        Why this variable matters most: a change from M=57B to M=6B, holding everything else constant,
+        Why this variable matters most: a change from M=61.8B to M=6B, holding everything else constant,
         multiplies the implied price by roughly 9.5x. This single correction accounts for the majority
         of the difference between the original article's $9–$25 base case and the corrected numbers below.
         It is not a more optimistic assumption — it is a more precise one. But precision here is itself uncertain.
@@ -701,14 +701,14 @@
       <div class="math-line"><span class="var">Variable 3: Q_ticket vs Q_annual — two different questions, two different models</span></div>
       <div class="math-line">The two models use Q differently and they must not be conflated:</div>
       <div class="math-line">In <span class="var">MV = PQ</span>: Q_annual is total annual flow volume — dollars processed per year across all transit positions. It is a flow, not a stock. The $29.7T Treasury repo figure is outstanding stock; annual flow is that stock multiplied by daily turnover across ~250 trading days.</div>
-      <div class="math-line">In the <span class="var">square root law</span>: Q_ticket is the size of a single peak transaction — the largest trade that must execute within the 3.5bp slippage tolerance. It has nothing to do with annual volume.</div>
+      <div class="math-line">In the <span class="var">square root law</span>: Q_ticket is the size of a single peak transaction — the largest trade that must execute within the institutional slippage tolerance — the series uses 3.5bp as the standard baseline, with 50bp as the upper bound in a disintermediated market. It has nothing to do with annual volume.</div>
       <div class="math-line">The two models answer different questions: MV=PQ asks what price supports the total volume. The square root law asks what depth — and therefore what price — is required for the largest single transaction to execute cleanly.</div>
       <div class="math-line"><span class="var">At institutional ticket sizes ($500M+), the square root law is the binding constraint — it demands more depth than MV=PQ alone would require. The two models do not converge at large ticket sizes. This is important.</span></div>
       <div class="math-note">
         Q_annual inputs below are fractional shares of large markets: Position 1 at ~0.1% of U.S. Treasury
         repo annual flow; Position 2 at ~0.15% of global secured financing annual flow. These shares are
         assumptions, not forecasts. Q_ticket inputs are the peak single-transaction sizes each scenario
-        must support within the 3.5bp institutional tolerance. They are engineering constraints, not projections.
+        must support within the institutional slippage tolerance. The series uses 3.5bp as the standard (current institutional FX desks on existing rails); the real tolerance in a disintermediated market could range from 3.5bp to 50bp — both are discussed in the square root law block below. They are engineering constraints, not projections.
       </div>
     </div>
 
@@ -751,19 +751,40 @@
     <div class="math-block">
       <div class="math-label">Square Root Market Impact Law — Almgren-Chriss</div>
       <div class="math-line">&#916;P/P = <span class="var">&#963;</span> × √( <span class="var">Q_ticket</span> / <span class="var">V_daily</span> )</div>
-      <div class="math-line"><span class="var">&#963;</span> = daily volatility — assumed ~2.5% at institutional scale · <span class="var">genuinely unknown, could be higher or lower</span></div>
+      <div class="math-line"><span class="var">&#963;</span> = daily volatility — <span class="var">5% today</span> (consistent with Part I · 90% annualized ÷ √252); compresses naturally toward <span class="var">3%</span> at the institutional scenario scale and <span class="var">2%</span> at sovereign scale as liquidity depth grows and speculative churn falls · <span class="var">The compression is mechanically plausible but genuinely uncertain — the system has never operated at institutional scale</span></div>
       <div class="math-line"><span class="var">Q_ticket</span> = single peak transaction size (the largest trade that must clear within tolerance)</div>
       <div class="math-line"><span class="var">V_daily</span> = daily trading volume in XRP (must be large relative to Q_ticket)</div>
       <div class="math-note">
-        Slippage tolerance: 3.5 basis points (0.035%). This is an institutional standard, not a
-        guaranteed threshold — different institutions may accept different tolerances.
-        Working backward: to settle a $500M ticket within 3.5bp requires approximately $15–20B
-        in daily XRP volume. At M=6B and 2% daily turnover of market cap, that requires
-        a market cap of roughly $750B–$1T, implying P ≈ $125–$167 per XRP.
-        At a $1B ticket, daily volume requirements roughly double.
-        At a $5B ticket, the depth requirement becomes enormous — implying prices well above $1,000.
-        <span class="var">These are mechanical outputs. Whether institutional ticket sizes actually reach
-        $500M or $5B depends entirely on adoption — which has not happened yet.</span>
+        Slippage tolerance: Part I of the series uses <span class="var">10bp as the practical benchmark</span> for serious institutional use, with 50bp as the outer bound for less urgent flows. Part V tightens this to <span class="var">3.5bp</span> as the strictest institutional standard — the level required for sovereign-scale FX settlement where 1% slippage on a $50B transaction costs $500M and eliminates the efficiency argument entirely. This Observatory piece uses 3.5bp as the baseline, consistent with Part V, because the DTCC-adjacent positions being analyzed are in the institutional and cross-border settlement category where the tightest standard applies. For remittance-scale flows (Part I's near-term scenario), 10–50bp is the more appropriate benchmark.
+        The level at which institutional FX settlement desks currently operate on existing rails with
+        intermediaries present is closer to 5–30bp (Part I). 3.5bp represents the tightest institutional standard. This figure is defensible as a floor: at 1% slippage on a $50B transaction,
+        the cost is $500M, which eliminates the efficiency argument for blockchain settlement entirely.
+        However, the series also acknowledges a wider range is possible.
+        <span class="var">If financial intermediaries are removed from the settlement chain — one of the
+        structural consequences of atomic settlement that Part III examines — the price-smoothing function
+        those intermediaries provide disappears with them. In a disintermediated market, institutions
+        dealing directly may face higher instantaneous price impact, potentially up to 50bp in stressed
+        or illiquid conditions. At 50bp tolerance rather than 3.5bp, the required depth per transaction
+        shrinks by a factor of ~200 (since depth scales with the square of the tolerance ratio:
+        (50÷3.5)² ≈ 204). This dramatically lowers the implied price floor from the square root law —
+        but only if institutions accept that wider tolerance, which is itself unknown.</span>
+        The scenarios below use 3.5bp as the binding standard. If the real-world tolerance is higher,
+        the square root law floor is lower. If it is lower, the floor is higher. This is the third
+        unknown variable in the pricing model, alongside float and velocity.
+        Working backward at 3.5bp: to settle a $500M ticket within tolerance requires approximately
+        $15–20B in daily XRP volume. Part I's honest central range for vol/mcap turnover at
+        institutional utility scale is <span class="var">0.5–1.5%</span> (not the current 2–2.5% which
+        reflects speculative trading rather than utility). At 1% turnover, $15–20B daily volume implies
+        market cap of ~$1.5–2T and P ≈ $250–$333. At the high-scarcity 0.3% turnover bound
+        from Part I, the same depth requires market cap of ~$5–7T and P ≈ $830–$1,165.
+        Using today's 2% speculative-era turnover understates the implied price floor at institutional
+        scale — Part I argues explicitly that the 2–2.5% figure is not appropriate for modeling
+        a mature utility asset.
+        At 50bp: the same $500M ticket requires only ~$75–100M in daily volume — a trivially low bar
+        regardless of turnover assumption.
+        The gap between 3.5bp and 50bp is the range of analytical uncertainty on slippage alone;
+        the gap between 0.3% and 2% turnover is the range on depth efficiency alone.
+        <span class="var">The system has never operated at institutional scale. Both are unknown.</span>
       </div>
     </div>
 
@@ -814,12 +835,19 @@
         The structural base case is highlighted because it requires only three positions — all with live evidence,
         launching infrastructure, or an active regulatory pilot — and it uses the most
         defensible inputs: productive float of 6B (observable), transit velocity of 50× (benchmarked against
-        repo collateral turnover), and a 20% margin lockup (bounded by the ~$2T global derivatives
-        margin stock relative to implied market cap). The full integration scenario range is intentionally
-        wide — $700–$1,400 — because at that scale the uncertainty in all three variables compounds.
+        repo collateral turnover), and a 20% margin lockup (bounded by the FICC-adjacent Treasury/rates
+        margin pool, which is a subset of the ~$2T global derivatives margin held across LCH, CME, ICE,
+        and bilateral OTC counterparties — DTCC is not the CCP for the full global pool). The full
+        integration scenario range is intentionally wide — $700–$1,400 — because at that scale the
+        uncertainty in all three variables compounds. The 5-6 digit price scenarios from the full global
+        derivatives layer are in <a href="/part5/" style="color:var(--accent);border-bottom:1px solid rgba(122,92,32,0.3)">Part V</a>
+        of the series, which is a separate and larger analysis than this Observatory piece.
         Scenario prices are MV=PQ outputs. Square root law floors are shown separately because the
         two models answer different questions. At large Q_ticket sizes the square root law is
         binding; at smaller sizes MV=PQ is binding. Neither model is a price forecast.
+        Square root law floors use 3.5bp as the baseline tolerance — at 50bp the depth
+        requirement drops by ~200x, dramatically lowering the floor. The real tolerance
+        in a disintermediated institutional market is unknown.
         All inputs are speculative. The system has never operated at institutional scale.
       </div>
     </div>
@@ -841,7 +869,7 @@
 
     <div class="pull-quote">
       <p>
-        Correcting from total circulating supply (57B) to productive working float (6B) shifts
+        Correcting from total circulating supply (61.8B) to productive working float (6B) shifts
         the thin-adoption price from ~$9 to ~$50. The compounding effect of held collateral
         then shifts the base case from ~$303 to ~$417. These are not more optimistic assumptions.
         They are more precise ones — applied to a system that has never operated at scale,
@@ -884,9 +912,12 @@
       credentials are not the same as Government Securities Division netting membership, which is the
       tier that handles Treasury repo clearing directly. Pathway Three requires either GSD membership
       or a sponsored arrangement with a GSD netting member — one additional step Ripple Prime has not
-      yet taken publicly. More broadly, no regulator has approved XRP as a settlement asset. The CFTC
-      has a pilot underway for crypto derivatives margin collateral. That outcome will be the first
-      real signal of how willing U.S. regulators are to embed crypto in core clearing infrastructure.
+      yet taken publicly. More broadly, no regulator has approved XRP as a settlement asset. The CFTC launched a pilot in December 2025 for crypto derivatives margin
+      collateral; the initial restriction window passed in March 2026 and FCMs may now expand to
+      other crypto assets at their own determination. No FCM has yet publicly committed to accepting
+      XRP as margin. The CFTC pilot's transition from "pilot" to "operational practice" will be
+      the first real signal of how willing the institutional layer is to embed crypto in core
+      clearing infrastructure.
     </p>
 
     <p>
@@ -953,21 +984,35 @@
       <div class="framework-ref-label">How this relates to the series</div>
       <p>
         This Observatory piece maps the full surface area of XRP's potential positions inside the
-        DTCC system — expanding the original single-use-case framing to six distinct positions with
-        different mechanisms, velocity dynamics, and pricing implications. The pricing analysis applies
-        both the MV=PQ velocity framework and the Almgren-Chriss square root law established in
-        <a href="/part1/">Part I</a>, extended here to account for the compounding effect of held
-        collateral demand (Positions 2, 3, 6) on transit demand (Positions 1, 4, 5) across a
-        fixed supply. The velocity inversion argument — that settlement assets held as collateral
-        generate more price pressure per dollar than high-velocity payment rails — was introduced in
+        DTCC system specifically — FICC, NSCC, DTC, and the Collateral AppChain. The pricing
+        scenarios are bounded to that scope: 4-digit implied prices reflect DTCC-adjacent positions
+        only. This is intentional and important. DTCC operates the Trade Information Warehouse and
+        operational infrastructure around OTC derivatives, but is <em>not</em> the central counterparty
+        for the bulk of the global OTC derivatives market — that role belongs to LCH (interest rate
+        swaps), CME (rates futures), and ICE Clear Credit (CDS). The full global derivatives layer —
+        $846T notional, the complete ~$2T standing margin pool, and peak central bank FX swap draws
+        of $36–583 billion — produces the 5-6 digit price scenarios analyzed in
+        <a href="/part5/">Part V</a> of the series. This Observatory piece and Part V are
+        complementary, not contradictory: Part V sizes XRP against the full global settlement
+        infrastructure; this piece sizes it against the DTCC-specific subset where live infrastructure,
+        regulatory pilots, and patent evidence already exist.
+      </p>
+      <p>
+        The pricing analysis here applies both the MV=PQ velocity framework and the Almgren-Chriss
+        square root law established in <a href="/part1/">Part I</a>, extended to account for the
+        compounding effect of held collateral demand (Positions 2, 3) on transit demand
+        (Positions 1, 4, 5) across the productive working float. The velocity inversion argument
+        — that settlement assets held as collateral generate more price pressure per dollar than
+        high-velocity payment rails — was introduced in
         <a href="/observatory/velocity-problem/">Observatory No. 1</a> and is at its most extreme
-        in Position 3 (derivatives margin). The reserve asset transition dynamic in Position 6
-        was first examined in <a href="/observatory/tokenization-ceiling/">Observatory No. 2</a>.
-        The collateral reflexivity loop that makes Position 6 self-reinforcing is Argument 09 in
-        <a href="/part3/">Part III</a>.
+        in Position 3. The reserve asset transition dynamic in Position 6 was first examined in
+        <a href="/observatory/tokenization-ceiling/">Observatory No. 2</a>. The collateral
+        reflexivity loop is Argument 09 in <a href="/part3/">Part III</a>.
       </p>
       <p>
         <a href="/part1/">Part I — The square root law →</a>
+        &nbsp;&nbsp;
+        <a href="/part5/">Part V — The full derivatives layer →</a>
         &nbsp;&nbsp;
         <a href="/observatory/velocity-problem/">Observatory No. 1 — The velocity problem →</a>
         &nbsp;&nbsp;
@@ -982,13 +1027,18 @@
       MV=PQ velocity analysis and the Almgren-Chriss square root market impact law — to publicly
       available data on the DTCC, FICC, NCCBR, and derivatives markets. Pricing scenarios are
       illustrative outputs of those frameworks under stated assumptions, not price targets or
-      forecasts. The compounding mechanism described (held collateral reducing effective supply
-      for transit functions) is a structural consequence of MV=PQ applied to a fixed-supply asset
-      with heterogeneous demand types — it is not a speculative claim. DTCC transaction volume
-      from DTCC 2025 annual reporting. NCCBR outstanding balance from Office of Financial Research
-      (2022 estimate). Treasury market outstanding from Federal Reserve September 2025 data.
-      Global derivatives margin estimate from BIS. OUSG pilot details from Ondo Finance / CoinDesk
-      May 7, 2026. Do your own research.
+      forecasts. Scope note: DTCC is not the central counterparty for the full global OTC
+      derivatives market. LCH, CME, and ICE Clear Credit hold those CCP roles. DTCC operates
+      the Trade Information Warehouse (reporting and operational infrastructure) and FICC touches
+      the Treasury/rates cross-margining layer. Position 3 in this piece addresses only the
+      FICC-adjacent margin pool. The full global derivatives layer producing 5-6 digit price
+      scenarios is analyzed in Part V of the series. The compounding mechanism described
+      (held collateral reducing effective supply for transit functions) is a structural consequence
+      of MV=PQ applied to a fixed-supply asset with heterogeneous demand types. DTCC transaction
+      volume from DTCC 2025 annual reporting. NCCBR outstanding balance from Office of Financial
+      Research (2022 estimate). Treasury market outstanding from Federal Reserve September 2025
+      data. Circulating supply from CoinMarketCap, May 2026. Global derivatives margin estimate
+      from BIS. OUSG pilot details from Ondo Finance / CoinDesk May 7, 2026. Do your own research.
     </div>
 
     <div class="post-footer">

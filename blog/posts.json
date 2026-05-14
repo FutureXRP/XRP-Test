@@ -5,13 +5,19 @@
     "slug": "jit-sourcing",
     "title": "Why <em>just-in-time sourcing</em> doesn't kill the price argument",
     "deck": "The sharpest bear case against the framework isn't about adoption — it's about inventory. If banks source XRP three seconds before each transaction and dump it immediately after, does the price argument collapse? The answer reveals something the series left implicit.",
-    "tags": ["Store of Value", "Liquidity Mechanics"]
+    "tags": [
+      "Store of Value",
+      "Liquidity Mechanics"
+    ]
   },
   {
     "number": 2,
     "slug": "derivatives-and-spot",
     "date": "April 27, 2026",
-    "tags": ["Methodology", "Market Structure"],
+    "tags": [
+      "Methodology",
+      "Market Structure"
+    ],
     "title": "The derivatives market doesn't break the model. It completes it.",
     "deck": "A reader challenged whether using spot-only volume understates XRP's settlement capacity. The answer is counterintuitive: spot-only is the correct input for settlement analysis, and a deep derivatives market is a precondition for the thesis — not a competing narrative."
   },
@@ -19,7 +25,10 @@
     "number": 3,
     "slug": "batch-transactions",
     "date": "April 27, 2026",
-    "tags": ["Protocol Development", "Settlement Architecture"],
+    "tags": [
+      "Protocol Development",
+      "Settlement Architecture"
+    ],
     "title": "Batch transactions on the XRPL: what they mean for the settlement thesis.",
     "deck": "The series has not addressed batch transactions on the XRPL. It should. A native protocol feature that bundles multiple atomic payments through XRP changes the liquidity demand picture — and its near-miss with a critical bug tells us something important about where the protocol is in its maturity curve."
   },
@@ -27,7 +36,10 @@
     "number": 4,
     "slug": "supply-velocity",
     "date": "April 27, 2026",
-    "tags": ["Methodology", "Market Structure"],
+    "tags": [
+      "Methodology",
+      "Market Structure"
+    ],
     "title": "Two price drivers the model doesn't capture — and why one matters more than the other.",
     "deck": "A reader argued the framework misses FASB ASC 350-60 supply depletion and HFT velocity recycling. Both deserve serious engagement. One identifies a genuine gap in the model. The other conflates two distinct kinds of velocity — and the distinction reveals something important about how the market is actually structured."
   },
@@ -35,7 +47,10 @@
     "number": 5,
     "slug": "equilibrium-band",
     "date": "April 28, 2026",
-    "tags": ["Framework Extension", "Liquidity Mechanics"],
+    "tags": [
+      "Framework Extension",
+      "Liquidity Mechanics"
+    ],
     "title": "The price that doesn't collapse <em>on itself.</em>",
     "deck": "There is a calculable equilibrium band at every stage of adoption — wide enough that liquidity providers are rational to hold inventory, narrow enough that the asset isn't priced so far ahead of utility that a delay becomes a collapse. The series never formalized it. This note does."
   },
@@ -43,7 +58,10 @@
     "number": 6,
     "slug": "irreducible-ticket",
     "date": "April 29, 2026",
-    "tags": ["Settlement Architecture", "Framework Extension"],
+    "tags": [
+      "Settlement Architecture",
+      "Framework Extension"
+    ],
     "title": "The transaction that cannot <em>be made smaller.</em>",
     "deck": "Prisma and transaction-splitting change how ODL executes. They do not change what institutional settlement requires. There is a class of cross-border transactions that cannot be netted, layered, or split below a threshold — and that threshold is where the framework's price logic lives."
   },
@@ -51,7 +69,10 @@
     "number": 7,
     "slug": "modern-objections",
     "date": "April 29, 2026",
-    "tags": ["Objections", "Market Structure"],
+    "tags": [
+      "Objections",
+      "Market Structure"
+    ],
     "title": "The workaround <em>that isn't.</em>",
     "deck": "AMMs, PayFi, ETF hoarding, and CBDC closed loops. Four objections from the current competitive landscape that target the framework's mechanical assumptions — not its adoption conditions. Each is answered on its own terms. One partial concession is made."
   },
@@ -59,7 +80,10 @@
     "number": 8,
     "slug": "dynamic-assembly",
     "date": "April 29, 2026",
-    "tags": ["Liquidity Mechanics", "Framework Extension"],
+    "tags": [
+      "Liquidity Mechanics",
+      "Framework Extension"
+    ],
     "title": "The network finds the liquidity. <em>Until it can't.</em>",
     "deck": "XRPL's pathfinding and dynamic liquidity assembly change the picture at smaller ticket sizes. A serious practitioner pushed on whether the static depth assumption overstates the requirement. He's right — up to a point. This note finds that point."
   },
@@ -67,7 +91,10 @@
     "number": 9,
     "slug": "constrained-architecture",
     "date": "April 30, 2026",
-    "tags": ["Legal Architecture", "Institutional Stack"],
+    "tags": [
+      "Legal Architecture",
+      "Institutional Stack"
+    ],
     "title": "This is not Ripple's <em>preferred arrangement.</em>",
     "deck": "The sharpest empirical objection to this framework is that XRP is largely invisible in Ripple's own institutional stack. The objection is accurate. What it misreads is why — and what the legal record shows Ripple has been trying to do about it from the moment it legally could."
   },
@@ -75,7 +102,10 @@
     "number": 10,
     "slug": "pathfinding-threshold",
     "date": "May 2, 2026",
-    "tags": ["Liquidity Mechanics", "Pathfinding"],
+    "tags": [
+      "Liquidity Mechanics",
+      "Pathfinding"
+    ],
     "title": "The <em>pathfinding threshold</em> — a framework for the most important unanswered question.",
     "deck": "ISO Ledger audited the full series and closed with one open question: at what specific adoption threshold does XRPL's dynamic liquidity assembly stop compensating for insufficient static depth? They called it the most important number in the framework. Here is a framework for thinking about the answer."
   },
@@ -83,7 +113,10 @@
     "number": 11,
     "slug": "active-float",
     "date": "May 2, 2026",
-    "tags": ["Supply Mechanics", "Active Float"],
+    "tags": [
+      "Supply Mechanics",
+      "Active Float"
+    ],
     "title": "A live look at the system, and <em>where we go from here.</em>",
     "deck": "The series has modeled what the system requires. This note looks at what the system actually is — right now, with real on-chain data. Only 5–8 billion XRP is consistently available for settlement execution today. Here is what that means, and what changes as price appreciates through a series of economic activation thresholds."
   },
@@ -91,8 +124,22 @@
     "number": 12,
     "slug": "speculative-decoupling",
     "date": "May 2026",
-    "tags": ["Falsifiability", "Settlement Capacity"],
+    "tags": [
+      "Falsifiability",
+      "Settlement Capacity"
+    ],
     "title": "The <em>speculative decoupling</em> — what the ATH proves about the framework.",
     "deck": "XRP's all-time high of $3.65 on July 18, 2025 produced the largest market cap in the asset's history. The framework's own formula shows it also produced one of the weakest peak ticket capacities of recent years. This field note runs the confirmed numbers — and explains what the gap reveals about what kind of event the ATH actually was."
+  },
+  {
+    "number": 13,
+    "slug": "dvp-irreducible",
+    "date": "May 2026",
+    "tags": [
+      "Settlement Architecture",
+      "Framework Extension"
+    ],
+    "title": "The transaction that cannot <em>be made smaller.</em>",
+    "deck": "Prisma can split PvP flows. It cannot split DvP. The atomicity that eliminates principal risk is the same property that prohibits leg-decoupled partial execution. Most settlement flows use conditional escrow and are priced by MV=PQ. A narrower class cannot be split — and for those transactions, peak ticket depth governs everything."
   }
 ]

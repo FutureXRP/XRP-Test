@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Field Note 13: The Transaction That Cannot Be Made Smaller — XRP Valuation Series</title>
+  <meta name="description" content="DvP atomicity changes which pricing model is binding. Most settlement flows use conditional escrow and are priced by MV=PQ. A narrower class cannot be leg-decoupled — and for those transactions, peak ticket depth is everything." />
+  <meta property="og:title" content="Field Note 13: The Transaction That Cannot Be Made Smaller" />
+  <meta property="og:description" content="Prisma can split PvP flows. It cannot split DvP. The atomicity that eliminates principal risk is the same property that prohibits leg-decoupled partial execution. Here is what that means for the pricing model." />
+  <meta property="og:type" content="article" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --paper: #ffffff;
+      --paper-soft: #f7f3ea;
+      --paper-deep: #f4efe4;
+      --ink: #171512;
+      --ink-soft: #3a342e;
+      --ink-medium: #61594f;
+      --ink-faint: #8a8073;
+      --rule: #d8d0c3;
+      --rule-strong: #1a1a1a;
+      --accent: #9b2226;
+      --display: "Newsreader", Georgia, serif;
+      --body: "Newsreader", Georgia, serif;
+      --ui: "IBM Plex Sans", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --text-width: 680px;
+      --page-width: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 20px; line-height: 1.72; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    a { color: inherit; text-decoration: none; }
+
+    .topbar { max-width: var(--page-width); margin: 0 auto; padding: 24px 28px 0; }
+    .topbar-inner { border-top: 2px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); padding: 15px 0 13px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-family: var(--ui); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-medium); }
+    .topbar-left { font-weight: 600; color: var(--accent); }
+    .topbar-left a { color: var(--accent); }
+    .topbar-left a:hover { opacity: 0.75; }
+    .topbar-right { letter-spacing: 0.1em; color: var(--ink-faint); }
+
+    .article-wrap { max-width: var(--page-width); margin: 0 auto; padding: 56px 28px 120px; display: grid; grid-template-columns: 1fr min(var(--text-width), 100%) 1fr; }
+    .article-wrap > * { grid-column: 2; }
+
+    .post-header { margin-bottom: 56px; }
+    .post-section { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 24px; }
+    .post-section::before { content: ""; display: inline-block; width: 20px; height: 1px; background: var(--accent); }
+
+    h1.post-title { font-family: var(--display); font-size: clamp(36px, 6vw, 62px); line-height: 1.05; font-weight: 500; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 22px; }
+    h1.post-title em { font-style: italic; color: var(--accent); }
+
+    .post-deck { font-family: var(--display); font-style: italic; font-size: clamp(19px, 2.5vw, 24px); line-height: 1.45; color: var(--ink-medium); margin-bottom: 32px; }
+
+    .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 18px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+    .post-meta .meta-tag { color: var(--accent); font-weight: 600; }
+    .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--rule); flex-shrink: 0; }
+
+    .post-body { padding-top: 48px; }
+    .post-body p { margin-bottom: 28px; font-size: 20px; line-height: 1.72; color: var(--ink-soft); }
+    .post-body p:first-child { font-size: 22px; line-height: 1.65; color: var(--ink); }
+    .post-body h2 { font-family: var(--display); font-size: clamp(24px, 3vw, 32px); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 20px; padding-top: 40px; border-top: 1px solid var(--rule); }
+
+    .pull-quote { margin: 44px 0; padding: 28px 32px; border-left: 3px solid var(--accent); background: var(--paper-soft); }
+    .pull-quote p { font-family: var(--display); font-size: clamp(20px, 2.5vw, 26px) !important; font-style: italic; line-height: 1.45; color: var(--ink) !important; margin-bottom: 0 !important; }
+
+    /* ── EDITOR NOTE ── */
+    .editor-note { margin: 0 0 40px; padding: 24px 28px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
+    .editor-note-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 12px; }
+    .editor-note p { font-size: 16px !important; line-height: 1.7; color: var(--ink-medium) !important; margin-bottom: 12px !important; }
+    .editor-note p:last-child { margin-bottom: 0 !important; }
+
+    /* ── PROTOCOL STATUS CALLOUT ── */
+    .protocol-note { margin: 32px 0; padding: 20px 24px; background: var(--paper-deep); border: 1px solid var(--rule); border-left: 3px solid #8a6020; }
+    .protocol-note-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8a6020; font-weight: 600; margin-bottom: 10px; }
+    .protocol-note p { font-size: 15px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 8px !important; }
+    .protocol-note p:last-child { margin-bottom: 0 !important; }
+
+    /* ── MATH BLOCK ── */
+    .math-block { margin: 36px 0; padding: 24px 28px; background: var(--ink); }
+    .math-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 14px; }
+    .math-line { font-family: var(--mono); font-size: 14px; color: #fff; line-height: 2.0; }
+    .math-line .var { color: #c9a84c; }
+    .math-note { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1); font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.7; }
+
+    /* ── TICKET CATEGORY BLOCK ── */
+    .ticket-block { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .ticket-category-head { background: var(--ink); padding: 12px 20px; display: flex; align-items: center; gap: 14px; }
+    .ticket-category-badge { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 10px; font-weight: 600; }
+    .badge-cat-a { background: var(--accent); color: #fff; }
+    .badge-cat-b { background: #8a6020; color: #fff; }
+    .ticket-category-title { font-family: var(--ui); font-size: 13px; color: rgba(255,255,255,0.55); font-style: italic; }
+    .ticket-entry { padding: 18px 20px; border-top: 1px solid var(--rule); background: var(--paper); }
+    .ticket-entry:nth-child(even) { background: var(--paper-soft); }
+    .ticket-name { font-family: var(--ui); font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+    .ticket-text { font-family: var(--ui); font-size: 14px; color: var(--ink-medium); line-height: 1.65; }
+    .ticket-floor { font-family: var(--mono); font-size: 11px; color: var(--accent); margin-top: 6px; }
+    .ticket-block .block-note { padding: 14px 20px; background: var(--paper-deep); border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.65; }
+
+    /* ── SENSITIVITY TABLE ── */
+    .sensitivity-table { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .sensitivity-head { display: grid; grid-template-columns: 2fr 1fr 1fr; background: var(--ink); padding: 12px 20px; gap: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .sensitivity-row { display: grid; grid-template-columns: 2fr 1fr 1fr; padding: 14px 20px; gap: 12px; border-top: 1px solid var(--rule); background: var(--paper); align-items: start; }
+    .sensitivity-row:nth-child(even) { background: var(--paper-soft); }
+    .sensitivity-row.top { background: #fff5f5; border-left: 3px solid var(--accent); }
+    .s-label { font-family: var(--ui); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+    .s-label small { display: block; font-weight: 400; font-size: 12px; color: var(--ink-faint); margin-top: 2px; font-family: var(--mono); }
+    .s-cell { font-family: var(--mono); font-size: 12px; color: var(--ink); line-height: 1.55; }
+    .s-cell.red { color: var(--accent); font-weight: 600; }
+    .s-cell.muted { color: var(--ink-faint); }
+
+    /* ── SIGNAL BLOCK ── */
+    .signal-block { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .signal-head { background: var(--ink); padding: 12px 20px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .signal-entry { padding: 18px 20px; border-top: 1px solid var(--rule); background: var(--paper); }
+    .signal-entry:nth-child(even) { background: var(--paper-soft); }
+    .signal-entry.top-signal { background: #fff5f5; border-left: 3px solid var(--accent); }
+    .signal-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; font-weight: 600; }
+    .signal-text { font-family: var(--ui); font-size: 14px; color: var(--ink-medium); line-height: 1.65; }
+    .signal-text strong { color: var(--ink); font-weight: 600; }
+
+    /* ── BLENDED MODEL CALLOUT ── */
+    .blended-model { margin: 36px 0; background: var(--ink); padding: 28px 32px; }
+    .blended-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 16px; }
+    .blended-split { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.08); margin-bottom: 16px; }
+    .blended-panel { padding: 18px 20px; background: var(--ink); }
+    .blended-panel-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 8px; }
+    .blended-panel-price { font-family: var(--mono); font-size: 32px; font-weight: 600; line-height: 1; margin-bottom: 10px; }
+    .blended-panel-price.escrow { color: #7ecb7e; }
+    .blended-panel-price.atomic { color: #c9a84c; }
+    .blended-panel-note { font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.65; }
+    .blended-footer { padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.65; }
+    .blended-central { font-family: var(--mono); font-size: 15px; color: rgba(255,255,255,0.75); font-weight: 600; margin-bottom: 6px; }
+
+    /* ── FRAMEWORK REF ── */
+    .framework-ref { margin: 40px 0; padding: 22px 24px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
+    .framework-ref-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+    .framework-ref p { font-size: 16px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 10px !important; }
+    .framework-ref p:last-child { margin-bottom: 0 !important; }
+    .framework-ref a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+    .framework-ref a:hover { border-bottom-color: var(--accent); }
+
+    /* ── FRAMEWORK STATUS ── */
+    .status-block { margin: 40px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .status-head { background: var(--ink); padding: 12px 20px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .status-entry { padding: 18px 20px; border-top: 1px solid var(--rule); background: var(--paper); }
+    .status-entry:nth-child(even) { background: var(--paper-soft); }
+    .status-type { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; font-weight: 600; }
+    .status-type.refinement { color: #185FA5; }
+    .status-type.addition { color: #0F6E56; }
+    .status-type.protocol { color: #8a6020; }
+    .status-type.unchanged { color: var(--ink-faint); }
+    .status-text { font-family: var(--ui); font-size: 14px; color: var(--ink-medium); line-height: 1.65; }
+    .status-text strong { color: var(--ink); font-weight: 600; }
+
+    /* ── WHAT TO HOLD ── */
+    .hold-block { margin: 36px 0; padding: 28px 32px; border: 1px solid var(--rule); background: var(--paper-soft); }
+    .hold-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 16px; }
+    .hold-item { font-family: var(--ui); font-size: 15px; color: var(--ink-medium); line-height: 1.7; margin-bottom: 14px; padding-left: 18px; position: relative; }
+    .hold-item::before { content: "→"; position: absolute; left: 0; color: var(--accent); font-family: var(--mono); font-size: 13px; top: 2px; }
+    .hold-item:last-child { margin-bottom: 0; }
+    .hold-item strong { color: var(--ink); font-weight: 600; }
+
+    .post-footer { margin-top: 72px; padding-top: 32px; border-top: 2px solid var(--rule-strong); }
+    .post-footer-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 20px; }
+    .post-footer-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .footer-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--rule); background: var(--paper); font-family: var(--ui); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-medium); font-weight: 500; transition: border-color 0.15s, color 0.15s; }
+    .footer-link:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-link.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .footer-link.primary:hover { background: #7f1d1d; border-color: #7f1d1d; }
+    .footer-link::after { content: "→"; font-size: 13px; }
+
+    .disclaimer { margin-top: 40px; padding: 18px 20px; background: var(--paper-soft); border: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-faint); line-height: 1.7; }
+
+    .site-footer { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 40px; }
+    .site-footer-inner { border-top: 1px solid var(--rule); padding-top: 18px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+
+    @media (max-width: 760px) {
+      body { font-size: 19px; }
+      .article-wrap { grid-template-columns: 1fr; padding: 40px 20px 80px; }
+      .article-wrap > * { grid-column: 1; }
+      .blended-split { grid-template-columns: 1fr; }
+      .sensitivity-head, .sensitivity-row { grid-template-columns: 1.4fr 0.8fr; }
+      .sensitivity-head > *:nth-child(3), .sensitivity-row > *:nth-child(3) { display: none; }
+      .site-footer { padding: 0 20px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left"><a href="/">XRP Valuation Series</a> &nbsp;·&nbsp; The Living Framework</div>
+    <div class="topbar-right">Field Note · May 2026</div>
+  </div>
+</header>
+
+<article class="article-wrap">
+
+  <div class="post-header">
+    <div class="post-section">The Living Framework &nbsp;·&nbsp; No. 13</div>
+    <h1 class="post-title">The transaction that cannot <em>be made smaller.</em></h1>
+    <p class="post-deck">
+      Prisma can split PvP flows. It cannot split DvP. The atomicity that eliminates
+      principal risk is the same property that prohibits leg-decoupled partial execution.
+      Here is what that means for which pricing model governs — and which constraint
+      the market must satisfy before institutional settlement is possible.
+    </p>
+    <div class="post-meta">
+      <span class="meta-tag">The Living Framework</span>
+      <span class="meta-dot"></span>
+      <span>Settlement Architecture</span>
+      <span class="meta-dot"></span>
+      <span>Framework Extension</span>
+      <span class="meta-dot"></span>
+      <span>May 2026</span>
+    </div>
+  </div>
+
+  <div class="post-body">
+
+    <div class="editor-note">
+      <div class="editor-note-label">Editor's note — framework status</div>
+      <p>This field note contains the most significant analytical finding in the series to date. It is not a price prediction. It is a structural argument sourced from primary regulatory and institutional authorities that changes which pricing model is binding — and therefore changes how the series' scenarios should be read.</p>
+      <p>Two things happen in this note. First, a refinement: most real-world DvP settlement will use conditional escrow rather than pure atomic batch, and those flows are primarily priced via MV=PQ rather than the square root law. This moderates some of the series' higher price scenarios. Second, and more important: a narrower class of transactions may require true simultaneous atomic execution rather than escrow-style conditional release — either because the legal instrument, operational standard, or counterparty risk policy does not permit a meaningful exposure window between legs. For those transactions, the square root law is the applicable model, and it is set by peak ticket size rather than annual volume.</p>
+      <p>These two findings work in opposite directions and must be understood together.</p>
+    </div>
+
+    <h2>Section 01 — What DvP actually means</h2>
+
+    <p>
+      Delivery versus payment is not a technology preference. It is a legal and operational
+      structure developed specifically to eliminate principal risk — the risk that one party
+      delivers securities without receiving payment, or vice versa.
+    </p>
+
+    <p>
+      The Bank for International Settlements defined the standard in 1992 in its report
+      <em>Delivery Versus Payment in Securities Settlement Systems</em>. The Principles for
+      Financial Market Infrastructures (PFMI), jointly published by BIS and IOSCO and adopted
+      as regulatory standard by all major jurisdictions, elevated it to a mandatory component
+      of resilient financial market infrastructure. The New York Federal Reserve's own language
+      is unambiguous: <em>delivery occurs if and only if payment occurs.</em>
+    </p>
+
+    <p>
+      All three BIS DvP models — gross real-time, securities gross with end-of-day funds
+      netting, and both legs netted at end of day — preserve this linkage without exception.
+      In none of the three models can the legs be decoupled.
+    </p>
+
+    <p>
+      One important qualification: some advanced DvP systems — notably TARGET2-Securities
+      (T2S), the ECB's pan-European settlement platform covering 23 countries — operate
+      optional partial settlement windows, running five times daily. T2S partial settlement
+      allows a transaction to settle in a smaller amount when the full securities quantity
+      is unavailable, but it does so under strict proportionality rules: the cash leg moves
+      in exact proportion to the securities actually delivered, and the DvP linkage is
+      preserved on whatever portion settles. This is a feature layered on top of DvP, not
+      a violation of it — it does not permit the cash leg to settle independently of the
+      delivery leg, or vice versa. The "if and only if" property is maintained proportionally.
+      The irreducibility argument in Section 04 applies to the minimum floor size set by the
+      instrument's contractual terms — not to an absolute prohibition of partial settlement
+      in every system under every circumstance.
+    </p>
+
+    <p>
+      The mechanism that enforces the "if and only if" property is atomicity. In computer
+      science terms: the transaction either succeeds completely or fails completely, with no
+      intermediate state. Partial completion is not an outcome. If any leg fails, the entire
+      transaction reverts as if it never happened.
+    </p>
+
+    <p>
+      On the XRP Ledger specifically, the BatchV1_1 amendment — the corrected replacement
+      for XLS-56 — is designed to implement this mechanism via ALLORNOTHING mode. Up to
+      eight inner transactions execute as a single indivisible outer transaction. All succeed,
+      or the entire batch fails and reverts. There is no partial settlement. The cap of eight
+      inner transactions is a real constraint: simple 2–3 leg DvP (the repo and tokenized
+      securities use cases this note focuses on) fits comfortably within it; complex
+      multi-party netting chains would require either multiple batches or the escrow mechanism.
+    </p>
+
+    <div class="protocol-note">
+      <div class="protocol-note-label">Protocol status — February 2026</div>
+      <p>The original Batch amendment (XLS-56) was disabled in rippled v3.1.1 on February 23, 2026, following responsible disclosure of a critical signature-validation bug by security researcher Pranamya Keshkamat and Cantina AI's autonomous tool Apex. The bug would have allowed an attacker to execute inner transactions on behalf of arbitrary victim accounts without their private keys. Critically, the amendment had not activated on mainnet — it was still in the validator voting phase — so no funds were ever at risk.</p>
+      <p>The emergency disable was a preventative measure, not damage control, and reflects the system working as designed. The corrected replacement, BatchV1_1, has been implemented and is currently under security review with no confirmed release date. In the interim, Token Escrow (XLS-85, live on mainnet since February 2026) is the operational DvP protection mechanism — which reinforces the escrow-dominant scenario modeled in Section 03.</p>
+    </div>
+
+    <p>
+      Any mechanism that allows the cash and delivery legs to settle at different times, in
+      different amounts, or under different conditions has ceased to be <em>true simultaneous
+      atomic DvP</em>. It has reintroduced exactly the principal risk that DvP was designed
+      to eliminate. Conditional escrow mechanisms — which enforce the same "if and only if"
+      protection through locked pre-commitment rather than simultaneous transfer — preserve
+      DvP's core guarantee through different means. Section 03 addresses this directly.
+    </p>
+
+    <h2>Section 02 — The splitting question, answered precisely</h2>
+
+    <p>
+      The community debate around Prisma — Ripple's proprietary liquidity aggregation API
+      confirmed by David Schwartz — centers on whether XRP's transaction-splitting capabilities
+      resolve the depth requirement the series models. The answer is: for PvP flows, partially.
+      For DvP flows, not at all.
+    </p>
+
+    <p>
+      Prisma routes large PvP (payment versus payment) transactions through multiple exchanges
+      and DEX liquidity simultaneously, breaking them into smaller sub-transactions distributed
+      over time — TWAP-style execution applied to settlement. This is a genuine capability
+      and it does reduce the peak depth required for PvP flows. The two blockers Schwartz
+      named when describing Prisma — robust stablecoins in major currencies and legal
+      clarity — have both materially improved with RLUSD approaching institutional scale
+      and the SEC case resolved.
+    </p>
+
+    <p>
+      For DvP, Prisma's splitting mechanic is inapplicable by definition. Here is the
+      precise reason: if you split a DvP transaction — delivering half the securities against
+      half the cash first, then the other half — you have created two sequential transfers.
+      Between the first settlement and the second, principal risk exists. The first half
+      settled but the second half might not. That exposure window is the exact risk DvP
+      was invented to eliminate.
+    </p>
+
+    <div class="pull-quote">
+      <p>DvP cannot be leg-decoupled. Splitting a DvP into sequential one-sided transfers destroys the "if and only if" property. What DvP systems like T2S permit is proportional partial DvP, where both legs settle in reduced but still linked quantities. That is a refinement of DvP, not a decoupling of it.</p>
+    </div>
+
+    <p>
+      This is not a limitation of Prisma specifically. It is a constraint that applies to
+      every conceivable routing architecture. The atomicity that eliminates principal risk
+      is the same property that prohibits leg-decoupled partial execution. They are the same
+      thing. You cannot have one without the other.
+    </p>
+
+    <h2>Section 03 — The escrow distinction: most DvP will not be atomic</h2>
+
+    <p>
+      Here is the refinement that moderates some of the series' higher scenarios.
+    </p>
+
+    <p>
+      Token Escrow (XLS-85) went live on XRPL mainnet in February 2026. It extends native
+      escrow to all issued tokens — IOUs and Multi-Purpose Tokens — not just XRP. The
+      mechanism: the cash leg (XRP or RLUSD) is locked into an on-ledger escrow contract.
+      Release occurs only when pre-defined conditions are met — cryptographic proof of
+      delivery, oracle confirmation, or custom logic via Smart Escrows launching Q2 2026.
+    </p>
+
+    <p>
+      This achieves conditional DvP protection — the same "if and only if" guarantee —
+      without requiring both legs to execute in the same ledger close. The security mechanism
+      is conditional locking rather than simultaneous transfer. Principal risk is eliminated:
+      neither party can run with the asset while the other waits. The result is functionally
+      equivalent to DvP's core guarantee, delivered through pre-commitment rather than
+      simultaneity. This is why Token Escrow should be understood as an alternative
+      implementation of DvP's protection, not a relaxation of it.
+    </p>
+
+    <div class="blended-model">
+      <div class="blended-label">Two pricing regimes on the same productive float</div>
+      <div class="blended-split">
+        <div class="blended-panel">
+          <div class="blended-panel-label">Escrow-dominant flows · 70% (provisional)</div>
+          <div class="blended-panel-price escrow">MV=PQ</div>
+          <div class="blended-panel-note">Cash leg pre-positioned and locked. Velocity matters. Annual flow volume matters. Escrow still locks float temporarily, creating liquidity-demand effects additive to the velocity model — the series' productive float assumptions account for this lockup.</div>
+        </div>
+        <div class="blended-panel">
+          <div class="blended-panel-label">Atomic batch flows · 30% (provisional)</div>
+          <div class="blended-panel-price atomic">√ Law</div>
+          <div class="blended-panel-note">Full amount must be executable at the precise moment of settlement. Velocity over time is irrelevant. Peak ticket size in a single transaction is the governing variable. The square root law is the only applicable model.</div>
+        </div>
+      </div>
+      <div class="blended-footer">
+        <div class="blended-central">Blended central case: ~$280–$1,100 · At 20B productive float (33% of supply) → ~$1,050–$1,100</div>
+        The 70/30 split is a provisional modeling assumption — not derived from live institutional data. No such data exists because the system has not operated at scale. Section 05 shows sensitivity across split scenarios. The ratio is expected to shift toward higher atomic as infrastructure matures and institutions gain confidence in on-ledger finality.
+      </div>
+    </div>
+
+    <p>
+      Atomic batch will be used selectively, for the highest-speed use cases where true
+      simultaneity adds value that escrow cannot provide — specifically, same-ledger
+      cross-asset swaps, high-speed repo between institutional counterparties, and cases
+      where any exposure window is operationally unacceptable.
+    </p>
+
+    <h2>Section 04 — The irreducible ticket list</h2>
+
+    <p>
+      Within the atomic batch segment, the binding constraint is always the largest single
+      transaction that must execute cleanly — the peak ticket. If the market has sufficient
+      depth to handle the largest irreducible atomic transaction, it has sufficient depth to
+      handle everything smaller.
+    </p>
+
+    <p>
+      The following transaction types represent the hardest category: those that cannot be
+      made smaller, cannot be staged across time, and for which any leg-decoupled splitting
+      reintroduces the principal risk DvP was designed to eliminate.
+    </p>
+
+    <div class="ticket-block">
+      <div class="ticket-category-head">
+        <span class="ticket-category-badge badge-cat-a">Category A</span>
+        <span class="ticket-category-title">Definitionally irreducible — irreducibility flows from BIS DvP definition or regulatory mandate</span>
+      </div>
+      <div class="ticket-entry">
+        <div class="ticket-name">Delivery versus payment in tokenized securities</div>
+        <div class="ticket-text">A block trade in tokenized U.S. Treasuries or Russell 1000 equities settling cross-chain between a U.S. custodian and a foreign institutional investor. The securities leg settles on Canton. The cash leg must arrive simultaneously. It cannot be approximated in tranches.</div>
+        <div class="ticket-floor">Peak ticket: $500M–$5B+ · This is the exact use case DTCC's October 2026 tokenization commercial launch creates.</div>
+      </div>
+      <div class="ticket-entry">
+        <div class="ticket-name">FICC net settlement obligations</div>
+        <div class="ticket-text">The net obligation surviving the FICC netting window is an indivisible claim on a specific counterparty for a specific dollar amount on a specific settlement date. The net cannot be further decomposed. It is the result of decomposing everything else.</div>
+        <div class="ticket-floor">Definitionally irreducible under FICC's own Rules.</div>
+      </div>
+    </div>
+
+    <div class="ticket-block">
+      <div class="ticket-category-head">
+        <span class="ticket-category-badge badge-cat-b">Category B</span>
+        <span class="ticket-category-title">Practically irreducible — subdivision is legally possible but commercially or contractually infeasible under standard market practice</span>
+      </div>
+      <div class="ticket-entry">
+        <div class="ticket-name">Repo close legs</div>
+        <div class="ticket-text">When the collateral is returned and the cash is repaid, the contractual instrument defines a single simultaneous exchange. A $1B overnight repo closing is one transaction. It cannot be split into two sequential legs without reintroducing the exposure that secured repo was structured to eliminate.</div>
+        <div class="ticket-floor">Typical range: $100M–$2B+</div>
+      </div>
+      <div class="ticket-entry">
+        <div class="ticket-name">Central bank FX swap draws</div>
+        <div class="ticket-text">Sovereign credit facilities between monetary authorities execute as single bilateral draws against pre-agreed facility limits. The 2020 Federal Reserve swap lines reached aggregate outstanding usage of approximately $449B at their 2020 peak. Individual draws are defined by bilateral agreement terms and cannot be further decomposed by the drawing institution.</div>
+        <div class="ticket-floor">Facility capacity: bilateral · Draws: defined by sovereign agreement</div>
+      </div>
+      <div class="ticket-entry">
+        <div class="ticket-name">Derivatives variation margin calls under ISDA agreements</div>
+        <div class="ticket-text">ISDA's Credit Support Annex specifies that variation margin must be delivered as a stated net amount by a defined time. The stated amount is the floor. You cannot deliver 60% of a margin call and treat the rest as pending.</div>
+        <div class="ticket-floor">Floor: stated net per CSA · Timing: T+1 or same-day per agreement</div>
+      </div>
+      <div class="ticket-entry">
+        <div class="ticket-name">Syndicated loan drawdowns</div>
+        <div class="ticket-text">The legal instrument defines both the amount and the simultaneous disbursement timing across the syndicate. Sub-tranche staging requires separate legal instruments, which changes the transaction entirely.</div>
+        <div class="ticket-floor">Floor: set by facility terms</div>
+      </div>
+      <div class="ticket-entry">
+        <div class="ticket-name">SFT collateral legs</div>
+        <div class="ticket-text">Under the EU SFT Regulation and equivalent frameworks, title transfer collateral arrangements define simultaneous delivery of the collateral leg against the cash leg. Partial delivery without proportional cash movement violates the instrument's definition.</div>
+        <div class="ticket-floor">Floor: instrument definition · EU SFT Regulation and equivalents</div>
+      </div>
+      <div class="block-note">The common thread: each transaction type has a floor size set by the legal instrument, contractual definition, or regulatory framework — not by market preference. Below that floor, the transaction ceases to be what the counterparties agreed to. For all of these, Prisma's splitting is inapplicable. Token Escrow provides the "if and only if" protection but not the simultaneity required by some instruments. Only true atomic execution appears to satisfy the strictest form of same-ledger, simultaneous DvP.</div>
+    </div>
+
+    <h2>Section 05 — What this means for the pricing model</h2>
+
+    <p>
+      The series has used the square root law throughout as the primary pricing constraint.
+      The escrow/atomic split insight refines when each model applies — it does not eliminate
+      the square root law from the framework.
+    </p>
+
+    <p>
+      For the escrow-dominant majority, MV=PQ is the right primary tool. The series' velocity
+      equation, applied to annual flow volume across all three layers — DTCC residual, non-dollar
+      FX corridors, derivatives margin — produces base case implied prices of $300–$600 at
+      conservative adoption assumptions and expanded float.
+    </p>
+
+    <p>
+      For the atomic-batch minority, the square root law sets a floor that is determined by
+      the largest single irreducible transaction. This floor is independent of annual volume.
+      A market could process only ten atomic DvP transactions per year — but if any one of
+      them is a $2B block trade in tokenized Treasuries, the market must have depth to handle
+      $2B atomically at institutional slippage tolerance. Annual flow is irrelevant. The peak
+      ticket is everything.
+    </p>
+
+    <p>
+      The two constraints must both be satisfied simultaneously — and in the full integration
+      scenario with large-ticket atomic settlement, the square root law becomes binding even
+      if it governs a minority of transactions by count or notional.
+    </p>
+
+    <div class="sensitivity-table">
+      <div class="sensitivity-head">
+        <span>Input variable</span>
+        <span>Sensitivity</span>
+        <span>Direction</span>
+      </div>
+      <div class="sensitivity-row top">
+        <div class="s-label">Slippage tolerance<small>3.5bp vs. 50bp</small></div>
+        <div class="s-cell red">~200× price change</div>
+        <div class="s-cell">Tighter tolerance → higher required depth. Most consequential input by far. Unknown until the system operates at scale.</div>
+      </div>
+      <div class="sensitivity-row">
+        <div class="s-label">Productive float<small>6B vs. 20B XRP</small></div>
+        <div class="s-cell">3.3× price change</div>
+        <div class="s-cell">Higher float → lower MV=PQ implied price. LP yield incentives expand float as price rises.</div>
+      </div>
+      <div class="sensitivity-row">
+        <div class="s-label">Escrow/atomic split<small>80/20 vs. 50/50</small></div>
+        <div class="s-cell">40–50% price change</div>
+        <div class="s-cell">Higher atomic % → square root law more binding → higher required depth. Provisional 70/30 used here.</div>
+      </div>
+      <div class="sensitivity-row">
+        <div class="s-label">Velocity<small>50× vs. 100×</small></div>
+        <div class="s-cell">2× price change</div>
+        <div class="s-cell">Higher velocity → lower MV=PQ price. No live institutional data to anchor this assumption.</div>
+      </div>
+      <div class="sensitivity-row">
+        <div class="s-label">Market share capture<small>Q_annual assumptions</small></div>
+        <div class="s-cell">Variable</div>
+        <div class="s-cell">Fractional capture of DTCC residual, non-dollar FX, derivatives margin. Stated assumptions only.</div>
+      </div>
+      <div class="sensitivity-row">
+        <div class="s-label">Acquisition slippage<small>Pre-positioning cost</small></div>
+        <div class="s-cell">Additive friction</div>
+        <div class="s-cell">Slippage modeled is for the DvP execution leg only. Pre-positioning XRP via fiat or stablecoin adds its own market impact. Effective tolerance available for DvP execution is lower than the headline benchmark.</div>
+      </div>
+    </div>
+
+    <h2>Section 06 — The competitive landscape through this lens</h2>
+
+    <p>
+      TARGET2-Securities — the ECB's pan-European settlement platform covering 23 countries
+      and settling in central bank money — is the world's most advanced DvP infrastructure
+      in terms of participant count and cross-border scope. It is also jurisdiction-specific:
+      it covers Eurozone and select EU nations using central bank money in euros or Danish
+      krone. An Asian institution, a Gulf sovereign wealth fund, or an institution settling
+      cross-currency between non-aligned blocs faces a gap T2S does not address. This is not
+      a criticism of T2S — it is exactly the right design for its purpose. It is evidence
+      that the cross-jurisdictional non-dollar DvP gap is structural, not a failure of
+      existing infrastructure to solve a problem it was designed to solve.
+    </p>
+
+    <p>
+      JPMorgan Kinexys has broken out of its original layer-lock — it now connects to Canton
+      Network and public blockchain infrastructure, and JPM Coin is explicitly designed to be
+      offered on external blockchains. The technical layer-lock argument should be retired.
+      However, the jurisdictional argument is unchanged and is in fact strengthened by
+      Kinexys's expansion. JPM Coin is a claim on JPMorgan Chase deposits. JPMorgan Chase
+      is a U.S.-chartered bank subject to U.S. jurisdiction, OFAC enforcement, and Treasury
+      oversight. A foreign institutional counterparty that routes DvP settlement through
+      JPM Coin is placing its settlement activity inside the U.S. legal perimeter. This is
+      a demonstrated, exercised power — used in living institutional memory against Russia
+      in 2022 — that risk management teams in Beijing, New Delhi, Riyadh, and Jakarta are
+      explicitly required to account for.
+    </p>
+
+    <p>
+      Regional stablecoins (EURC, JPY stablecoins, CNH instruments) solve the same-currency
+      leg efficiently. They do not solve the cross-currency non-dollar DvP cash leg — the
+      yen-to-euro, sterling-to-won, real-to-dirham transaction where neither counterparty
+      wants to convert through a dollar instrument at all. XRP and XLM are among the few
+      credible permissionless, trustless, geopolitically neutral candidates designed for this
+      kind of bridge function. Every other widely deployed alternative has counterparty or
+      jurisdictional trust embedded in its structure.
+    </p>
+
+    <p>
+      A critical objection must be stated honestly: a thriving XRPL does not automatically
+      translate into proportional demand for XRP. If stablecoins become the main unit of
+      account on XRPL — RLUSD for dollar corridors, EURC for euro corridors — then
+      stablecoin-to-stablecoin routing can expand without forcing participants to hold much
+      XRP beyond protocol fees and reserves. In that scenario, XRPL succeeds while XRP
+      remains optional.
+    </p>
+
+    <p>
+      The pricing thesis in this note depends on XRP being the bridge asset specifically —
+      not merely a token used on XRPL. The case rests on the sovereignty and non-dollar
+      corridor argument developed in <a href="/observatory/plumbing-paper/" style="color:var(--accent);border-bottom:1px solid rgba(155,34,38,0.3)">Observatory No. 3</a>:
+      for cross-currency DvP between non-aligned jurisdictions, RLUSD is a dollar instrument,
+      regional stablecoins are sovereign instruments, and only a permissionless non-sovereign
+      bridge satisfies the jurisdictional neutrality requirement. The DvP pricing argument
+      is only as strong as the non-dollar corridor argument that underlies it.
+    </p>
+
+    <p>
+      The atomic DvP segment is the highest-value, highest-depth-requirement segment — where
+      XRP's structural advantages are most acute and where the square root law produces its
+      most demanding price floors. But that advantage only materializes in corridors where
+      institutional counterparties have jurisdictional reasons to avoid dollar-denominated
+      alternatives. Sizing the market requires sizing those specific corridors.
+    </p>
+
+    <h2>Section 07 — The observable signals</h2>
+
+    <p>
+      The October 2026 DTCC commercial tokenization launch is the first moment when
+      cross-chain tokenized DvP transactions involving non-dollar cash legs become
+      operationally possible at scale. The signals to watch, in order of evidential weight:
+    </p>
+
+    <div class="signal-block">
+      <div class="signal-head">Observable signals — DvP adoption on XRPL</div>
+
+      <div class="signal-entry top-signal">
+        <div class="signal-label">Signal 01 &nbsp;·&nbsp; BatchV1_1 mainnet activation</div>
+        <div class="signal-text">
+          <strong>The corrected batch amendment has no confirmed release date as of May 2026.</strong>
+          Validator voting requires 80% of UNL validators sustained over two weeks — typically
+          several months from release. If BatchV1_1 is not mainnet-activated before October 2026,
+          atomic DvP use cases will not be operationally available at the DTCC commercial launch.
+          Token Escrow (live) covers conditional DvP in the interim. Watch for: BatchV1_1
+          inclusion in a rippled release, validator voting progress, and activation date.
+          This is the single most concrete near-term observable for the atomic DvP thesis.
+        </div>
+      </div>
+
+      <div class="signal-entry top-signal">
+        <div class="signal-label">Signal 02 &nbsp;·&nbsp; First $100M+ atomic DvP batch on XRPL</div>
+        <div class="signal-text">
+          <strong>Once BatchV1_1 activates, on-chain data will show batch transaction volume.</strong>
+          Non-attributable by counterparty, but ticket sizes will be visible. The first confirmed
+          atomic DvP batch transaction at $100M+ on XRPL is a threshold event for the adoption
+          probability in <a href="/part6/" style="color:var(--accent);border-bottom:1px solid rgba(155,34,38,0.3)">Part VI</a>.
+        </div>
+      </div>
+
+      <div class="signal-entry">
+        <div class="signal-label">Signal 03 &nbsp;·&nbsp; DTCC Collateral AppChain connectivity docs</div>
+        <div class="signal-text">
+          <strong>Whether XRPL appears as a connected network in the AppChain's published bridge architecture.</strong>
+          Binary observable — it either appears or it doesn't — available at the October 2026
+          commercial launch. No announcement will say "DTCC chose XRP." The signal is
+          infrastructure documentation, not press releases.
+        </div>
+      </div>
+
+      <div class="signal-entry">
+        <div class="signal-label">Signal 04 &nbsp;·&nbsp; Ripple Prime clearing volume disclosures</div>
+        <div class="signal-text">
+          Any public disclosure of clearing volume or settlement throughput from Ripple Prime's
+          NSCC and FICC credentials. Growth in clearing volume consistent with repo-scale DvP
+          flows is a proxy signal.
+        </div>
+      </div>
+
+      <div class="signal-entry">
+        <div class="signal-label">Signal 05 &nbsp;·&nbsp; FCM margin decisions</div>
+        <div class="signal-text">
+          Whether any FCM publicly discloses acceptance of XRP as derivatives margin collateral
+          following the CFTC pilot's restriction window closing in March 2026. <strong>No FCM has
+          done so publicly as of May 2026.</strong>
+        </div>
+      </div>
+    </div>
+
+    <h2>What to hold from this note</h2>
+
+    <div class="hold-block">
+      <div class="hold-label">The framework, refined</div>
+      <div class="hold-item"><strong>Most DvP volume will use Token Escrow.</strong> Those flows are primarily priced via MV=PQ. Velocity matters. Higher float expands the denominator and reduces required prices. LP yields pulling XRP into productive use are a real moderating force on the high-end scenarios.</div>
+      <div class="hold-item"><strong>A subset of DvP requires true atomic batch settlement.</strong> Those flows are priced by the square root law, set by peak ticket size, independent of annual volume. The market must have sufficient depth to handle the largest single irreducible transaction — a $2B block trade in tokenized Treasuries, a central bank FX swap draw, a FICC net settlement obligation — without unacceptable slippage.</div>
+      <div class="hold-item"><strong>Slippage tolerance is the most consequential variable.</strong> At 3.5bp, the square root law produces prices in the thousands per XRP for large institutional tickets. At 50bp, the same model produces prices in the tens to low hundreds. The real-world tolerance for institutional DvP settlement on XRPL has never been observed. The series will update when observable data exists.</div>
+      <div class="hold-item"><strong>The DvP pricing argument depends on non-dollar corridor adoption.</strong> If RLUSD and regional stablecoins dominate XRPL settlement, XRP remains optional. The argument requires XRP to be the bridge asset for cross-jurisdictional, non-dollar corridors specifically. Sizing the opportunity requires sizing those corridors — not the full XRPL settlement universe.</div>
+      <div class="hold-item">Until the system operates at scale, the framework holds. The constraint is real. The outcome is conditional.</div>
+    </div>
+
+    <div class="framework-ref">
+      <div class="framework-ref-label">Framework status — what this note changes</div>
+      <p>
+        <strong>Refinement:</strong> The escrow/atomic split is now an explicit modeling variable.
+        Future field notes and the settlement terminal will display sensitivity to this split
+        alongside velocity, float, and slippage tolerance.
+      </p>
+      <p>
+        <strong>Addition:</strong> The irreducible ticket list in Section 04 is new. It establishes
+        the specific transaction categories for which DvP atomicity is mandatory and Prisma-style
+        splitting is inapplicable by definition, separated into definitionally irreducible
+        (Category A) and practically irreducible (Category B).
+      </p>
+      <p>
+        <strong>Protocol update:</strong> The original Batch amendment (XLS-56) was disabled on
+        XRPL in February 2026 following pre-mainnet security bug disclosure. BatchV1_1 is the
+        corrected replacement, under review with no confirmed release date. Token Escrow (XLS-85)
+        is the currently operational conditional DvP mechanism on XRPL mainnet.
+      </p>
+      <p>
+        <strong>Unchanged:</strong> The DvP-unsplittable core finding — sourced from the New York
+        Federal Reserve, BIS-IOSCO PFMI, Chainlink technical documentation, and DTCC's own Rules
+        — stands without modification. The atomicity that eliminates principal risk is the same
+        property that prohibits leg-decoupled partial execution. This is definitional, not empirical.
+        T2S partial settlement preserves proportional DvP linkage and does not permit leg decoupling.
+      </p>
+      <p>
+        <a href="/part1/">Part I — The square root law →</a>
+        &nbsp;&nbsp;
+        <a href="/part3/">Part III — Collateral reflexivity →</a>
+        &nbsp;&nbsp;
+        <a href="/observatory/plumbing-paper/">Observatory No. 3 — DTCC surface area →</a>
+        &nbsp;&nbsp;
+        <a href="/field-notes/equilibrium-band/">Field Note 5 — Equilibrium band →</a>
+        &nbsp;&nbsp;
+        <a href="/field-notes/irreducible-ticket/">Field Note 6 — Prisma and the irreducible ticket →</a>
+      </p>
+    </div>
+
+    <div class="disclaimer">
+      This is not financial advice. All pricing outputs are mechanical consequences of stated assumptions.
+      Inputs are speculative. The system has never operated at institutional scale. BIS DvP standard:
+      BIS 1992, <em>Delivery Versus Payment in Securities Settlement Systems</em>; PFMI (BIS-IOSCO, 2012).
+      NY Fed language: Liberty Street Economics. T2S partial settlement: ECB <em>Insights on T2S Partial
+      Settlement</em>. XRPL Batch bug: XRPL Foundation Vulnerability Disclosure Report, February 2026.
+      BatchV1_1 status: xrpl.org/resources/known-amendments, May 2026. DTCC tokenization timeline:
+      DTCC press release, May 4, 2026. Do your own research.
+    </div>
+
+    <div class="post-footer">
+      <div class="post-footer-label">Continue reading</div>
+      <div class="post-footer-links">
+        <a class="footer-link primary" href="/part1/">Part I — XRP is not being valued. It is being sized.</a>
+        <a class="footer-link" href="/observatory/plumbing-paper/">Observatory No. 3 — The Plumbing Paper.</a>
+        <a class="footer-link" href="/part3/">Part III — The reflexivity loop.</a>
+        <a class="footer-link" href="/">All field notes</a>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>XRP Valuation Series &nbsp;·&nbsp; The Living Framework</div>
+    <div>FutureXRP &nbsp;·&nbsp; @the5blairs</div>
+  </div>
+</footer>
+
+</body>
+</html>

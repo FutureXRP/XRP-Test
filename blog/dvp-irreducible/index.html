@@ -487,6 +487,78 @@
       if it governs a minority of transactions by count or notional.
     </p>
 
+    <p>
+      The most important thing to understand about the pricing output is that it is not one
+      number — it is a range produced by six inputs, and one of those inputs dwarfs all the
+      others combined. That input is slippage tolerance. At 3.5 basis points — the tightest
+      institutional standard, applicable to sovereign-scale FX settlement where 1% slippage
+      on a $50B transaction costs $500M and eliminates the efficiency argument entirely — the
+      square root law produces implied prices in the hundreds to thousands of dollars per XRP
+      for large institutional tickets. At 50 basis points — the outer bound for a
+      disintermediated market where intermediaries and their price-smoothing function have
+      been removed — the same model produces prices in the tens to low hundreds. That is a
+      200-fold difference from changing one input. Every other variable in the model moves
+      the needle by factors of 2 to 5. Slippage tolerance moves it by 200. The honest answer
+      is that the real-world tolerance for institutional DvP settlement on XRPL has never
+      been observed, because the system has never operated at institutional scale. The series
+      will update the scenarios when observable data exists.
+    </p>
+
+    <p>
+      The second most important input is productive float — the XRP actually available for
+      settlement use rather than sitting in dormant wallets, ETF cold storage, or long-term
+      holdings. Today that figure is approximately 6 billion tokens. As price rises, LP yield
+      incentives pull dormant supply into active circulation — market makers, AMM pools,
+      settlement inventory. At 20 billion tokens in active use (roughly 33% of circulating
+      supply), MV=PQ implied prices fall by a factor of 3.3 relative to the 6B baseline.
+      This is a moderating force on the high-end scenarios, not a reason to dismiss them.
+      Higher float means the same monetary base is distributed across more tokens, which
+      lowers the per-token price required to support a given volume. The direction is honest:
+      the series' highest price scenarios assume the productive float stays constrained.
+      As adoption expands the float, the required price per token falls — though the required
+      total market cap does not.
+    </p>
+
+    <p>
+      The escrow/atomic split — provisionally modeled at 70/30 — is the third significant
+      input and the most uncertain. Moving from 80/20 escrow-to-atomic to 50/50 increases
+      the blended implied price by 40–50% because a larger share of volume falls under the
+      square root law rather than MV=PQ. Whether institutional adoption tilts toward
+      escrow-dominant conditional settlement or toward true atomic batch depends on how
+      quickly BatchV1_1 activates, how regulators treat escrow-based finality versus
+      simultaneous settlement, and what counterparty risk policies the first institutional
+      adopters bring to the table. The series treats this split as a sensitivity variable,
+      not a prediction. Velocity and market share capture round out the remaining inputs —
+      each moving the MV=PQ component by factors of 2 to 3, significant in isolation
+      but secondary to the slippage and float questions.
+    </p>
+
+    <p>
+      One additional friction cost belongs in any honest treatment: acquisition slippage.
+      The slippage tolerance modeled applies to the DvP execution leg only — the moment XRP
+      moves as the cash leg of a settlement transaction. In most institutional workflows,
+      XRP must first be acquired via a stablecoin or fiat conversion immediately before
+      the transaction executes. That pre-positioning step creates its own market impact,
+      additive to the execution slippage. The effective tolerance available for the DvP leg
+      is therefore lower than the institutional benchmark implies — some portion of the
+      tolerance budget is consumed before settlement begins. This does not change the
+      pricing logic, but it is a real friction that institutional treasury desks will price
+      into their settlement economics.
+    </p>
+
+    <p>
+      What does the blended model actually produce? Using the 70/30 provisional split,
+      6–20 billion in productive float depending on adoption stage, and conservative market
+      share assumptions across the three layers — DTCC residual, non-dollar FX corridors,
+      derivatives margin — the implied range is approximately $280 to $1,100. At 20 billion
+      productive float with the 70/30 split, independent modeling converges on a central
+      case of approximately $1,050–$1,100. These are not predictions. They are the
+      arithmetic output of stated inputs applied to a framework that has been stress-tested
+      across five review cycles. Change any input and the outputs change. The inputs
+      themselves are the judgment. The table below is a reference summary — the argument
+      lives in the paragraphs above it.
+    </p>
+
     <div class="sensitivity-table">
       <div class="sensitivity-head">
         <span>Input variable</span>
@@ -496,32 +568,32 @@
       <div class="sensitivity-row top">
         <div class="s-label">Slippage tolerance<small>3.5bp vs. 50bp</small></div>
         <div class="s-cell red">~200× price change</div>
-        <div class="s-cell">Tighter tolerance → higher required depth. Most consequential input by far. Unknown until the system operates at scale.</div>
+        <div class="s-cell">The dominant variable. Unknown until the system operates at scale. Everything else is secondary.</div>
       </div>
       <div class="sensitivity-row">
         <div class="s-label">Productive float<small>6B vs. 20B XRP</small></div>
         <div class="s-cell">3.3× price change</div>
-        <div class="s-cell">Higher float → lower MV=PQ implied price. LP yield incentives expand float as price rises.</div>
+        <div class="s-cell">Higher float → lower per-token price. LP yield incentives expand float as adoption grows.</div>
       </div>
       <div class="sensitivity-row">
         <div class="s-label">Escrow/atomic split<small>80/20 vs. 50/50</small></div>
         <div class="s-cell">40–50% price change</div>
-        <div class="s-cell">Higher atomic % → square root law more binding → higher required depth. Provisional 70/30 used here.</div>
+        <div class="s-cell">Higher atomic % → square root law more binding. Provisional 70/30 used as working assumption.</div>
       </div>
       <div class="sensitivity-row">
         <div class="s-label">Velocity<small>50× vs. 100×</small></div>
         <div class="s-cell">2× price change</div>
-        <div class="s-cell">Higher velocity → lower MV=PQ price. No live institutional data to anchor this assumption.</div>
+        <div class="s-cell">Higher velocity → lower MV=PQ price. No live institutional data to anchor this.</div>
       </div>
       <div class="sensitivity-row">
-        <div class="s-label">Market share capture<small>Q_annual assumptions</small></div>
+        <div class="s-label">Market share capture<small>Q_annual across three layers</small></div>
         <div class="s-cell">Variable</div>
-        <div class="s-cell">Fractional capture of DTCC residual, non-dollar FX, derivatives margin. Stated assumptions only.</div>
+        <div class="s-cell">Stated assumptions only. Fractional capture of DTCC residual, non-dollar FX, derivatives margin.</div>
       </div>
       <div class="sensitivity-row">
         <div class="s-label">Acquisition slippage<small>Pre-positioning cost</small></div>
         <div class="s-cell">Additive friction</div>
-        <div class="s-cell">Slippage modeled is for the DvP execution leg only. Pre-positioning XRP via fiat or stablecoin adds its own market impact. Effective tolerance available for DvP execution is lower than the headline benchmark.</div>
+        <div class="s-cell">Execution-leg tolerance is lower than the headline benchmark. Pre-positioning consumes part of the budget.</div>
       </div>
     </div>
 

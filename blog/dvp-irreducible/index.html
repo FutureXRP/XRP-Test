@@ -225,6 +225,16 @@
 
   <div class="post-body">
 
+    <div style="margin-bottom:32px; padding:18px 22px; background:#fff8e6; border:1px solid #c9a84c; border-left:4px solid #c9a84c;">
+      <div style="font-family:var(--mono); font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#8a6020; font-weight:600; margin-bottom:10px;">⟳ &nbsp;This article has been updated — May 2026</div>
+      <p style="font-family:var(--ui); font-size:14px; color:var(--ink-medium); line-height:1.65; margin:0 0 10px;">Three analytical additions were made after initial publication based on primary source review. The core finding — DvP cannot be leg-decoupled — is unchanged. No previously stated claim was retracted or weakened.</p>
+      <div style="font-family:var(--ui); font-size:13px; color:var(--ink); line-height:1.7;">
+        <div style="margin-bottom:6px;"><strong>Section 01 — IMF strict vs. weak atomicity added.</strong> IMF Fintech Note 2025/011 (November 2025) distinguishes strict atomicity (same-ledger, BatchV1_1 — the gold standard) from weak atomicity (cross-ledger HTLC/Token Escrow — cannot replicate strict guarantees). BatchV1_1 is now correctly framed as the mechanism for the highest-value DvP transactions, not merely an enhancement.</div>
+        <div style="margin-bottom:6px;"><strong>Section 01 — NY Fed simultaneous vs. instant settlement added.</strong> Lee, Martin, Müller (NY Fed, 2022) separate simultaneous settlement (the "if and only if" property — Token Escrow) from instant settlement (same-ledger finality — BatchV1_1). The NY Fed confirms the liquidity burden of instant settlement is the depth requirement the series models.</div>
+        <div><strong>"What to hold" section — Talos empirical slippage grounding added.</strong> The Talos Market Impact model (December 2025, 50,000+ institutional orders) confirms the modal institutional crypto execution outcome is 0–5bp actual slippage; algorithmic execution achieves 1.3–5.2bp; manual execution 17–54bp. The series' 3.5–10bp range is empirically anchored. The 50bp scenario represents unoptimized manual execution, not a realistic prime brokerage tolerance.</div>
+      </div>
+    </div>
+
     <div class="editor-note">
       <div class="editor-note-label">Editor's note — framework status</div>
       <p>This field note contains the most significant analytical finding in the series to date. It is not a price prediction. It is a structural argument sourced from primary regulatory and institutional authorities that changes which pricing model is binding — and therefore changes how the series' scenarios should be read.</p>
@@ -291,6 +301,19 @@
       <div class="protocol-note-label">Protocol status — February 2026</div>
       <p>The original Batch amendment (XLS-56) was disabled in rippled v3.1.1 on February 23, 2026, following responsible disclosure of a critical signature-validation bug by security researcher Pranamya Keshkamat and Cantina AI's autonomous tool Apex. The bug would have allowed an attacker to execute inner transactions on behalf of arbitrary victim accounts without their private keys. Critically, the amendment had not activated on mainnet — it was still in the validator voting phase — so no funds were ever at risk.</p>
       <p>The emergency disable was a preventative measure, not damage control, and reflects the system working as designed. The corrected replacement, BatchV1_1, has been implemented and is currently under security review with no confirmed release date. In the interim, Token Escrow (XLS-85, live on mainnet since February 2026) is the operational DvP protection mechanism — which reinforces the escrow-dominant scenario modeled in Section 03.</p>
+    </div>
+
+    <div class="protocol-note" style="border-left-color:#185FA5;">
+      <div class="protocol-note-label" style="color:#185FA5;">IMF Fintech Note 2025/011 — Strict vs. weak atomicity · November 2025</div>
+      <p><strong>Strict atomicity</strong> — the gold standard — is only guaranteed when both assets and payments are recorded and settled on a single ledger with a unified execution environment. Smart contracts enforce delivery and payment simultaneously, with finality provided by the consensus mechanism rather than by legal or institutional arrangements. For same-ledger XRPL-native DvP, BatchV1_1 provides strict atomicity.</p>
+      <p><strong>Weak atomicity</strong> — achievable cross-ledger — uses hash-time-locked contracts (HTLCs) that coordinate execution by acting as technical escrows, releasing transfers only if cryptographic conditions are met within a time window. Token Escrow with crypto-conditions operates in this regime for cross-ledger DvP (securities on Canton, cash leg on XRPL). The IMF states explicitly: <em>"Cross-ledger arrangements cannot replicate the guarantees of strict atomicity achievable under a single ledger environment."</em> Both eliminate principal risk. Only strict atomicity provides the technical guarantee without any reliance on legal or institutional enforcement — making BatchV1_1 the correct mechanism for the highest-value, most risk-sensitive DvP transactions, not merely an enhancement of Token Escrow.</p>
+      <p>Source: IMF Fintech Note 2025/011, <em>Central Bank Exploration of Tokenized Reserves</em> (Kunaratskul, Lannquist, Reslow, Zhang), Box 1 — Atomicity and Atomic Settlement.</p>
+    </div>
+
+    <div class="protocol-note" style="border-left-color:#0F6E56;">
+      <div class="protocol-note-label" style="color:#0F6E56;">NY Fed Liberty Street Economics — Simultaneous vs. instant settlement · November 2022</div>
+      <p>Lee, Martin, and Müller (NY Fed, 2022) separate two distinct properties that "atomic settlement" combines: <strong>simultaneous settlement</strong> (the "if and only if" property — one leg conditional on the other, achievable through both atomic execution and conditional escrow) and <strong>instant settlement</strong> (immediate finality in the same ledger close, with no delay between trade agreement and settlement). Token Escrow provides simultaneous settlement without instant settlement. BatchV1_1 provides both in a single 3–5 second ledger close.</p>
+      <p>The NY Fed confirms the liquidity burden of instant settlement: traders can only sell securities they already hold, requiring pre-positioned liquidity. This is precisely the depth requirement the series models through the square root law. The Talos empirical model (Section below) validates this further: atomic DvP — with no VWAP spreading available, the full transaction executing in a single ledger close — requires more instantaneous depth than equivalent algorithmically executed orders of the same size.</p>
     </div>
 
     <p>
@@ -731,7 +754,7 @@
       <div class="hold-label">The framework, refined</div>
       <div class="hold-item"><strong>Most DvP volume will use Token Escrow.</strong> Those flows are primarily priced via MV=PQ. Velocity matters. Higher float expands the denominator and reduces required prices. LP yields pulling XRP into productive use are a real moderating force on the high-end scenarios.</div>
       <div class="hold-item"><strong>A subset of DvP requires true atomic batch settlement.</strong> Those flows are priced by the square root law, set by peak ticket size, independent of annual volume. The market must have sufficient depth to handle the largest single irreducible transaction — a $2B block trade in tokenized Treasuries, a central bank FX swap draw, a FICC net settlement obligation — without unacceptable slippage.</div>
-      <div class="hold-item"><strong>Slippage tolerance is the most consequential variable.</strong> At 3.5bp, the square root law produces prices in the thousands per XRP for large institutional tickets. At 50bp, the same model produces prices in the tens to low hundreds. The real-world tolerance for institutional DvP settlement on XRPL has never been observed. The series will update when observable data exists.</div>
+      <div class="hold-item"><strong>Slippage tolerance is the most consequential variable — now empirically bounded.</strong> The Talos Market Impact (TMI) model (Eliad Hoch, December 2025), built on 50,000+ parent orders and 50 million child orders from real institutional execution on 50+ venues (June 2024–July 2025), establishes that the modal institutional crypto execution outcome is 0–5bp actual slippage. Algorithmic execution (Hidden Road-level prime brokerage infrastructure) achieves 1.3–5.2bp on BTC/ETH basis trades. Manual execution without optimization produces 17–54bp — this is where the 50bp figure originates. The 50bp scenario is not a realistic institutional adoption tolerance. The series' 3.5–10bp range is correctly calibrated and empirically supported. The Talos model independently validates the Almgren-Chriss square root law as the correct foundation for institutional crypto execution cost modeling, and confirms that atomic DvP — with no VWAP spreading available, the full transaction executing instantaneously — requires more depth than equivalent algorithmically executed orders. The real-world tolerance for institutional DvP settlement on XRPL at scale remains to be confirmed by live volume data. The series will update when that data exists.</div>
       <div class="hold-item"><strong>The DvP pricing argument depends on non-dollar corridor adoption.</strong> If RLUSD and regional stablecoins dominate XRPL settlement, XRP remains optional. The argument requires XRP to be the bridge asset for cross-jurisdictional, non-dollar corridors specifically. Sizing the opportunity requires sizing those corridors — not the full XRPL settlement universe.</div>
       <div class="hold-item">Until the system operates at scale, the framework holds. The constraint is real. The outcome is conditional.</div>
     </div>
@@ -756,11 +779,7 @@
         is the currently operational conditional DvP mechanism on XRPL mainnet.
       </p>
       <p>
-        <strong>Unchanged:</strong> The DvP-unsplittable core finding — sourced from the New York
-        Federal Reserve, BIS-IOSCO PFMI, Chainlink technical documentation, and DTCC's own Rules
-        — stands without modification. The atomicity that eliminates principal risk is the same
-        property that prohibits leg-decoupled partial execution. This is definitional, not empirical.
-        T2S partial settlement preserves proportional DvP linkage and does not permit leg decoupling.
+        <strong>Unchanged:</strong> The DvP-unsplittable core finding — sourced from BIS 1992 <em>Delivery Versus Payment in Securities Settlement Systems</em>, BIS-IOSCO PFMI, NY Fed Liberty Street Economics (Lee, Martin, Müller 2022), IMF Fintech Note 2025/011 (Kunaratskul et al., November 2025), Chainlink technical documentation, and DTCC's own Rules — stands without modification. The atomicity that eliminates principal risk is the same property that prohibits leg-decoupled partial execution. This is definitional, not empirical. T2S partial settlement preserves proportional DvP linkage and does not permit leg decoupling. The IMF strict/weak atomicity distinction refines the mechanism — strict atomicity (BatchV1_1, same-ledger) provides the highest guarantee; weak atomicity (Token Escrow, cross-ledger) preserves the "if and only if" protection through conditional execution. Neither revision weakens the core finding.
       </p>
       <p>
         <a href="/part1/">Part I — The square root law →</a>
@@ -777,12 +796,35 @@
 
     <div class="disclaimer">
       This is not financial advice. All pricing outputs are mechanical consequences of stated assumptions.
-      Inputs are speculative. The system has never operated at institutional scale. BIS DvP standard:
-      BIS 1992, <em>Delivery Versus Payment in Securities Settlement Systems</em>; PFMI (BIS-IOSCO, 2012).
-      NY Fed language: Liberty Street Economics. T2S partial settlement: ECB <em>Insights on T2S Partial
-      Settlement</em>. XRPL Batch bug: XRPL Foundation Vulnerability Disclosure Report, February 2026.
-      BatchV1_1 status: xrpl.org/resources/known-amendments, May 2026. DTCC tokenization timeline:
-      DTCC press release, May 4, 2026. Do your own research.
+      Inputs are speculative. The system has never operated at institutional scale.
+      BIS DvP standard: BIS 1992, <em>Delivery Versus Payment in Securities Settlement Systems</em>; PFMI (BIS-IOSCO, 2012).
+      NY Fed: Liberty Street Economics, "What Is Atomic Settlement?" (Lee, Martin, Müller, November 2022).
+      IMF: Fintech Note 2025/011, <em>Central Bank Exploration of Tokenized Reserves</em> (Kunaratskul, Lannquist, Reslow, Zhang, November 2025) — Box 1, Atomicity and Atomic Settlement.
+      Talos: Market Impact model (Eliad Hoch, December 2025) — 50,000+ parent orders, 50M child orders, June 2024–July 2025.
+      T2S partial settlement: ECB <em>Insights on T2S Partial Settlement</em>.
+      XRPL Batch bug: XRPL Foundation Vulnerability Disclosure Report, February 2026.
+      BatchV1_1 status: xrpl.org/resources/known-amendments, May 2026.
+      DTCC tokenization timeline: DTCC press release, May 4, 2026. Do your own research.
+    </div>
+
+    <div class="protocol-note" style="border-left-color:var(--ink-faint); margin-top:40px;">
+      <div class="protocol-note-label" style="color:var(--ink-faint);">Revision changelog — Living Framework updates</div>
+      <p><strong>Original publication:</strong> May 2026. Sections 01–07, editor's note, irreducible ticket list (Categories A and B), provisional 70/30 escrow/atomic split, slippage tolerance range, BatchV1_1 protocol status, T2S partial settlement qualification, RLUSD routing objection, competitive landscape, observable signals, framework status.</p>
+      <p><strong>Update — May 2026 (post-publication sourcing review):</strong></p>
+      <p><strong>Change 1 — IMF strict/weak atomicity distinction added to Section 01.</strong> Source: IMF Fintech Note 2025/011 (November 2025). The IMF distinguishes strict atomicity (same-ledger, guaranteed by consensus — BatchV1_1) from weak atomicity (cross-ledger HTLC/escrow — Token Escrow). The IMF states explicitly that cross-ledger arrangements cannot replicate strict atomicity guarantees. This makes BatchV1_1 the correct mechanism for the highest-value DvP transactions, not merely an enhancement of Token Escrow.</p>
+      <p><strong>Change 2 — NY Fed simultaneous/instant distinction incorporated in Section 01.</strong> Source: Liberty Street Economics, "What Is Atomic Settlement?" (Lee, Martin, Müller, November 2022). Token Escrow provides simultaneous settlement without instant settlement. BatchV1_1 provides both. The NY Fed confirms the liquidity burden of instant settlement is the depth requirement the series models through the square root law.</p>
+      <p><strong>Change 3 — Talos empirical slippage grounding added to "What to hold" section.</strong> Source: Talos Market Impact model (Eliad Hoch, December 2025) — 50,000+ institutional orders. Modal outcome: 0–5bp actual slippage. Algorithmic execution: 1.3–5.2bp. Manual execution: 17–54bp. The series' 3.5–10bp range is empirically anchored. The 50bp scenario represents unoptimized manual execution. Talos independently validates the Almgren-Chriss square root law and confirms atomic DvP (no VWAP spreading) requires more instantaneous depth than equivalent algorithmically executed orders.</p>
+      <p><strong>What did not change:</strong> The DvP-unsplittable core finding. The irreducible ticket list. The provisional 70/30 split. The competitive landscape. The observable signals. The directional conclusion. No previously stated claim was retracted or weakened.</p>
+    </div>
+
+    <div class="protocol-note" style="border-left-color:var(--ink-faint); margin-top:40px;">
+      <div class="protocol-note-label" style="color:var(--ink-faint);">Revision changelog — Living Framework updates</div>
+      <p><strong>Original publication:</strong> May 2026. Sections 01–07, editor's note, irreducible ticket list (Categories A and B), provisional 70/30 escrow/atomic split, slippage tolerance range, BatchV1_1 protocol status, T2S partial settlement qualification, RLUSD routing objection, competitive landscape, observable signals, framework status.</p>
+      <p><strong>Update — May 2026 (post-publication sourcing review).</strong> Three analytical additions based on primary source review conducted after initial publication.</p>
+      <p><strong>Change 1 — IMF strict/weak atomicity distinction added to Section 01.</strong> Source: IMF Fintech Note 2025/011, Box 1 (November 2025). The IMF distinguishes strict atomicity (same-ledger, guaranteed by consensus — BatchV1_1) from weak atomicity (cross-ledger HTLC/escrow — Token Escrow). Cross-ledger arrangements cannot replicate strict atomicity guarantees. BatchV1_1 is the correct mechanism for the highest-value DvP transactions, not merely an enhancement of Token Escrow.</p>
+      <p><strong>Change 2 — NY Fed simultaneous/instant distinction incorporated in Section 01.</strong> Source: Liberty Street Economics, "What Is Atomic Settlement?" (Lee, Martin, Müller, November 2022). Token Escrow provides simultaneous settlement without instant settlement. BatchV1_1 provides both. The NY Fed confirms the liquidity burden of instant settlement is the depth requirement the series models through the square root law.</p>
+      <p><strong>Change 3 — Talos empirical slippage grounding added to "What to hold" section.</strong> Source: Talos Market Impact model (Eliad Hoch, December 2025) — 50,000+ institutional orders on 50+ venues. Modal outcome 0–5bp actual slippage. Algorithmic execution 1.3–5.2bp. Manual execution 17–54bp. The series' 3.5–10bp range is empirically anchored. The 50bp scenario is unoptimized manual execution. Talos independently validates the Almgren-Chriss square root law and confirms atomic DvP requires more instantaneous depth than equivalent algorithmically executed orders.</p>
+      <p><strong>What did not change:</strong> The DvP-unsplittable core finding. The irreducible ticket list. The provisional 70/30 split. The competitive landscape. The observable signals. The directional conclusion. No previously stated claim was retracted or weakened.</p>
     </div>
 
     <div class="post-footer">

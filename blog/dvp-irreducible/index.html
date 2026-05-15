@@ -511,6 +511,26 @@
     </p>
 
     <p>
+      <strong>One layer of a three-layer model.</strong> Before reading the pricing
+      outputs below, one structural fact must be stated plainly. The pricing analysis
+      in this note addresses a single demand pool: DvP settlement transactions that
+      require true atomic or conditionally atomic execution — the DTCC cross-border
+      residual and non-dollar corridor DvP flows. This is not the complete pricing
+      picture. The series models three separate and additive demand pools on the same
+      fixed 6 billion XRP productive float: Layer 1 — the DTCC repo and Treasury
+      clearing residual (this note and Observatory No. 3); Layer 2 — the global
+      non-dollar FX settlement corridor market, $150–300 trillion annually outside
+      CLS and SWIFT (Observatory No. 3 and Field Note 14); Layer 3 — the global
+      derivatives margin layer (Part V). Each layer competes for the same productive
+      float simultaneously. The prices derived in this note are the floor implied by
+      DvP adoption alone at corridor-specific slippage tolerances. If all three layers
+      develop, they are additive on the same supply — and the compounding effect is
+      the central analytical contribution of the full series. The ceiling is
+      determined by how many of the three additive demand pools materialize
+      simultaneously. These numbers are the floor, not the ceiling.
+    </p>
+
+    <p>
       The most important thing to understand about the pricing output is that it is not one
       number — it is a range produced by six inputs, and one of those inputs dwarfs all the
       others combined. That input is slippage tolerance. At 3.5 basis points — the tightest
@@ -618,6 +638,11 @@
         <div class="s-cell">Additive friction</div>
         <div class="s-cell">Execution-leg tolerance is lower than the headline benchmark. Pre-positioning consumes part of the budget.</div>
       </div>
+      <div class="sensitivity-row" style="background:var(--paper-soft); border-left:3px solid #5a3e8a;">
+        <div class="s-label" style="color:#3a2060;">Corridor-specific tolerance<small>EM vs. major currency</small></div>
+        <div class="s-cell" style="color:#5a3e8a; font-weight:600;">59–90bp (EM) vs. 3.5–10bp (major)</div>
+        <div class="s-cell">The 3.5–10bp range applies to the most demanding institutional use cases in major CLS currency pairs. For XRP's realistic near-term addressable market — non-dollar EM corridors where current system costs run 60–200bp — corridor-specific tolerances of 59–90bp are economically justified. At those tolerances, the required price for the non-dollar corridor segment alone is $77–$258 per XRP, derived from $23–62T in annual non-dollar corridor Q_annual at 6B productive float and 50× velocity. At EM corridor tolerances, the square root law floor drops significantly and the chicken-and-egg problem substantially resolves — organic adoption can begin at prices achievable without speculative appreciation. The blended 3.5–10bp scenario produces the high-end prices the series models; the EM corridor scenario produces the near-term floor.</div>
+      </div>
     </div>
 
     <h2>Section 06 — The competitive landscape through this lens</h2>
@@ -656,6 +681,39 @@
       credible permissionless, trustless, geopolitically neutral candidates designed for this
       kind of bridge function. Every other widely deployed alternative has counterparty or
       jurisdictional trust embedded in its structure.
+    </p>
+
+    <p>
+      <strong>Dollar-denominated DvP: RLUSD first, XRP as overflow bridge.</strong> Most
+      cross-border DvP settlement in Treasury and repo markets is dollar-denominated —
+      a U.S. Treasury security settling against dollars, even if the counterparty is a
+      Japanese pension fund or a Gulf sovereign wealth fund. For those transactions, the
+      cash leg obligation is in dollars. RLUSD — a dollar stablecoin on XRPL — satisfies
+      that obligation directly, without the two-hop FX conversion that XRP would require.
+      Where RLUSD supply is sufficient to meet instantaneous atomic DvP depth requirements,
+      RLUSD is the structurally correct instrument for dollar-denominated cross-border DvP.
+    </p>
+
+    <p>
+      However, RLUSD supply is currently approximately $1.55 billion. The dollar-denominated
+      cross-border Treasury clearing market the TBAC describes runs $926 billion daily in
+      cash transactions and $2.4 trillion daily in uncleared bilateral repo. Even at V=50×
+      annual velocity, $1.55 billion in RLUSD supports approximately $310 million in daily
+      settlement flow — a fraction of the market. At current supply, RLUSD cannot serve
+      as the primary settlement asset for the dollar corridor at institutional scale. For
+      dollar-denominated flows that exceed RLUSD's available depth, XRP serves as an
+      ODL-style just-in-time bridge: dollars to XRP to dollars, atomically, within a
+      single settlement window. This is not a design preference — it is a supply
+      constraint. XRP's role in dollar corridors therefore shrinks as RLUSD scales and
+      grows as institutional clearing volumes expand faster than RLUSD supply. The
+      instrument separation is directionally correct — RLUSD is designed for dollar
+      corridors, XRP for non-dollar corridors — but XRP absorbs the dollar corridor
+      overflow for as long as RLUSD supply is insufficient to meet instantaneous
+      institutional DvP depth requirements. Both instruments expand XRP's addressable
+      market rather than competing for the same flows. The DvP depth argument the
+      square root law models applies most cleanly to XRP in the non-dollar cross-currency
+      corridor. It applies secondarily to XRP as a dollar corridor overflow bridge for
+      as long as RLUSD supply is constrained.
     </p>
 
     <p>

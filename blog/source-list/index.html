@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Field Note 14: The Source List — XRP Valuation Series</title>
+  <meta name="description" content="21 primary sources across the full series. BIS, IMF, NY Fed, TBAC, SEC, DTCC, Almgren-Chriss, Talos. None of them mention XRP. All of them describe the problems XRP is built to solve." />
+  <meta property="og:title" content="Field Note 14: The Source List" />
+  <meta property="og:description" content="21 primary sources. The BIS, the IMF, the NY Fed, the Treasury's advisors, and the central banks of seven countries. None of them were writing about XRP. Here is what they said." />
+  <meta property="og:type" content="article" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:#fbfaf7;--paper:#ffffff;--paper-soft:#f7f3ea;--paper-deep:#f4efe4;
+      --ink:#171512;--ink-soft:#3a342e;--ink-medium:#61594f;--ink-faint:#8a8073;
+      --rule:#d8d0c3;--rule-strong:#1a1a1a;--accent:#9b2226;
+      --display:"Newsreader",Georgia,serif;--body:"Newsreader",Georgia,serif;
+      --ui:"IBM Plex Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;
+      --text-width:680px;--page-width:1120px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:20px;line-height:1.72;-webkit-font-smoothing:antialiased;}
+    a{color:inherit;text-decoration:none;}
+    .topbar{max-width:var(--page-width);margin:0 auto;padding:24px 28px 0;}
+    .topbar-inner{border-top:2px solid var(--rule-strong);border-bottom:1px solid var(--rule-strong);padding:15px 0 13px;display:flex;justify-content:space-between;align-items:baseline;gap:16px;font-family:var(--ui);font-size:11px;text-transform:uppercase;letter-spacing:0.14em;color:var(--ink-medium);}
+    .topbar-left{font-weight:600;color:var(--accent);}
+    .topbar-left a{color:var(--accent);}
+    .topbar-right{letter-spacing:0.1em;color:var(--ink-faint);}
+    .article-wrap{max-width:var(--page-width);margin:0 auto;padding:56px 28px 120px;display:grid;grid-template-columns:1fr min(var(--text-width),100%) 1fr;}
+    .article-wrap>*{grid-column:2;}
+    .post-header{margin-bottom:56px;}
+    .post-section{display:inline-flex;align-items:center;gap:10px;font-family:var(--ui);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:24px;}
+    .post-section::before{content:"";display:inline-block;width:20px;height:1px;background:var(--accent);}
+    h1.post-title{font-family:var(--display);font-size:clamp(36px,6vw,62px);line-height:1.05;font-weight:500;letter-spacing:-0.025em;color:var(--ink);margin-bottom:22px;}
+    h1.post-title em{font-style:italic;color:var(--accent);}
+    .post-deck{font-family:var(--display);font-style:italic;font-size:clamp(19px,2.5vw,24px);line-height:1.45;color:var(--ink-medium);margin-bottom:32px;}
+    .post-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;padding:18px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);}
+    .post-meta .meta-tag{color:var(--accent);font-weight:600;}
+    .meta-dot{width:3px;height:3px;border-radius:50%;background:var(--rule);flex-shrink:0;}
+    .post-body{padding-top:48px;}
+    .post-body p{margin-bottom:28px;font-size:20px;line-height:1.72;color:var(--ink-soft);}
+    .post-body p:first-child{font-size:22px;line-height:1.65;color:var(--ink);}
+    .post-body h2{font-family:var(--display);font-size:clamp(22px,3vw,28px);font-weight:500;line-height:1.2;letter-spacing:-0.02em;color:var(--ink);margin:48px 0 6px;padding-top:36px;border-top:1px solid var(--rule);}
+    .tier-desc{font-family:var(--ui);font-size:14px;color:var(--ink-faint);line-height:1.6;margin-bottom:20px;font-style:italic;}
+
+    .source-card{border:1px solid var(--rule);background:var(--paper);margin-bottom:10px;}
+    .sc{padding:18px 20px;}
+    .si{font-family:var(--mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:4px;}
+    .st{font-family:var(--ui);font-size:15px;font-weight:600;color:var(--ink);margin-bottom:4px;line-height:1.4;}
+    .sm{display:flex;flex-wrap:wrap;gap:6px 16px;margin-bottom:8px;}
+    .sy{font-family:var(--mono);font-size:11px;color:var(--ink-faint);}
+    .sp{font-family:var(--mono);font-size:11px;color:var(--ink-medium);}
+    .sk{font-family:var(--ui);font-size:14px;color:var(--ink-medium);line-height:1.6;margin-bottom:8px;}
+    .sq{font-family:var(--display);font-style:italic;font-size:14px;color:var(--ink);line-height:1.55;margin-bottom:10px;padding:10px 14px;background:var(--paper-soft);border-left:2px solid var(--accent);}
+    .sl{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11px;color:var(--accent);word-break:break-all;}
+    .sl::before{content:"↗";flex-shrink:0;}
+    .sl:hover{opacity:0.75;}
+
+    .pull-quote{margin:44px 0;padding:28px 32px;border-left:3px solid var(--accent);background:var(--paper-soft);}
+    .pull-quote p{font-family:var(--display);font-size:clamp(19px,2.5vw,24px)!important;font-style:italic;line-height:1.45;color:var(--ink)!important;margin-bottom:0!important;}
+
+    .framework-ref{margin:40px 0;padding:22px 24px;border:1px solid var(--rule);border-left:3px solid var(--accent);background:var(--paper);}
+    .framework-ref-label{font-family:var(--ui);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:10px;}
+    .framework-ref p{font-size:15px!important;line-height:1.65;color:var(--ink-medium)!important;margin-bottom:8px!important;}
+    .framework-ref p:last-child{margin-bottom:0!important;}
+    .framework-ref a{color:var(--accent);border-bottom:1px solid rgba(155,34,38,0.3);}
+
+    .post-footer{margin-top:72px;padding-top:32px;border-top:2px solid var(--rule-strong);}
+    .post-footer-label{font-family:var(--ui);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin-bottom:20px;}
+    .post-footer-links{display:flex;flex-wrap:wrap;gap:12px;}
+    .footer-link{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid var(--rule);background:var(--paper);font-family:var(--ui);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-medium);font-weight:500;transition:border-color 0.15s,color 0.15s;}
+    .footer-link:hover{border-color:var(--accent);color:var(--accent);}
+    .footer-link.primary{background:var(--accent);border-color:var(--accent);color:#fff;}
+    .footer-link::after{content:"→";font-size:13px;}
+    .disclaimer{margin-top:40px;padding:18px 20px;background:var(--paper-soft);border:1px solid var(--rule);font-family:var(--mono);font-size:11px;letter-spacing:0.06em;color:var(--ink-faint);line-height:1.7;}
+    .site-footer{max-width:var(--page-width);margin:0 auto;padding:0 28px 40px;}
+    .site-footer-inner{border-top:1px solid var(--rule);padding-top:18px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-faint);}
+
+    @media(max-width:760px){
+      body{font-size:19px;}
+      .article-wrap{grid-template-columns:1fr;padding:40px 20px 80px;}
+      .article-wrap>*{grid-column:1;}
+      .site-footer{padding:0 20px 32px;}
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left"><a href="/">XRP Valuation Series</a> &nbsp;·&nbsp; The Living Framework</div>
+    <div class="topbar-right">Field Note · May 2026</div>
+  </div>
+</header>
+
+<article class="article-wrap">
+
+  <div class="post-header">
+    <div class="post-section">The Living Framework &nbsp;·&nbsp; No. 14</div>
+    <h1 class="post-title">The source list — <em>they weren't writing about XRP.</em></h1>
+    <p class="post-deck">
+      21 primary sources across the full six-part series and field notes.
+      The BIS, the IMF, the New York Federal Reserve, the U.S. Treasury's advisory committee,
+      the SEC, DTCC, and the central banks of seven countries.
+      None of them mention XRP. All of them describe the problems XRP is built to solve.
+    </p>
+    <div class="post-meta">
+      <span class="meta-tag">The Living Framework</span>
+      <span class="meta-dot"></span>
+      <span>Primary Sources · Full Series</span>
+      <span class="meta-dot"></span>
+      <span>May 2026</span>
+    </div>
+  </div>
+
+  <div class="post-body">
+
+    <p>
+      Every significant claim in this series traces to a primary source. None of those sources
+      are XRP community publications. None were written to support a bull case. Most predate
+      XRP's institutional ambitions by years or decades. They describe how the global settlement
+      system works, where it breaks, and what fixing it requires. The series' contribution
+      is showing how those requirements map onto XRP's architecture.
+    </p>
+
+    <p>
+      The links below are all publicly available. Most are free. Read any one of them and
+      you will understand exactly what the series is arguing — without taking anyone's word for it.
+    </p>
+
+    <div class="pull-quote">
+      <p>The thesis was not built by finding documents that mention XRP. It was built by finding documents that describe the problem — and showing how XRP fits the solution.</p>
+    </div>
+
+    <!-- ── TIER 1 ── -->
+    <h2>Tier 1 — The Foundational Rules</h2>
+    <p class="tier-desc">Two documents that define how global securities settlement is legally required to work. Every DvP atomicity claim in the series traces here. Written by the G10 central bank community, adopted as mandatory international standards by every major jurisdiction.</p>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">BIS — Committee on Payment and Settlement Systems</div>
+      <div class="st">Delivery Versus Payment in Securities Settlement Systems</div>
+      <div class="sm"><span class="sy">September 1992 · 86 pages · PDF</span><span class="sp">Part I · Part II · Field Note 13</span></div>
+      <div class="sk">The foundational document. Written after the 1987 equity crash. This is where the BIS defined DvP, established the three settlement models, and set the "if and only if" standard that has governed global securities settlement ever since. Field Note 13's entire core finding — DvP cannot be leg-decoupled — traces to this 33-year-old document written two decades before XRP existed.</div>
+      <div class="sq">"The risk that one party will deliver securities but not receive payment... one way to mitigate principal risk is to link the delivery and the payment legs so that the securities move if and only if the corresponding cash transfer occurs."</div>
+      <a class="sl" href="https://www.bis.org/cpmi/publ/d06.pdf" target="_blank">bis.org/cpmi/publ/d06.pdf</a>
+    </div></div>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">BIS-IOSCO — Committee on Payments and Market Infrastructures</div>
+      <div class="st">Principles for Financial Market Infrastructures (PFMI)</div>
+      <div class="sm"><span class="sy">April 2012 · International regulatory standard · PDF</span><span class="sp">Part I · Part II · Field Note 13</span></div>
+      <div class="sk">Elevated DvP from best practice to mandatory standard for all systemically important financial market infrastructures. Adopted by every major jurisdiction. The regulatory basis for why the SEC's Treasury clearing mandate carries the force that it does — and why DvP settlement is not optional for the clearing systems being expanded.</div>
+      <div class="sq">"An FMI should conduct its money settlements in central bank money where practical and available. Final settlement of one obligation occurs if and only if final settlement of the linked obligation occurs."</div>
+      <a class="sl" href="https://www.bis.org/cpmi/publ/d101a.pdf" target="_blank">bis.org/cpmi/publ/d101a.pdf</a>
+    </div></div>
+
+    <!-- ── TIER 2 ── -->
+    <h2>Tier 2 — Central Banks on the Mechanics</h2>
+    <p class="tier-desc">Five documents from central bank economists and international institutions explaining how atomic settlement works, what it costs, and where the infrastructure gaps are. The sourcing behind Part II's netting argument, Part III's phase-change argument, and Field Note 13's atomicity distinctions.</p>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">BIS · Project Agorá · 7 central banks (incl. Federal Reserve) · 40+ financial institutions</div>
+      <div class="st">Project Agorá — Tokenized Cross-Border Payments</div>
+      <div class="sm"><span class="sy">2024–2025 · Prototype testing</span><span class="sp">Part II · Part III</span></div>
+      <div class="sk">The largest public-private tokenized cross-border payments project in the world. Their finding: netting and liquidity-saving mechanisms are at odds with T+0 settlement. Instant atomic settlement requires full pre-funding of each transaction. This is the institution building the future confirming the analytical argument in Part II. Seven central banks including the Fed said it on the record.</div>
+      <a class="sl" href="https://www.bis.org/about/bisih/topics/fmis/agora.htm" target="_blank">bis.org/about/bisih/topics/fmis/agora.htm</a>
+    </div></div>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">BIS · Bank of England · ECB · Banque de France · Banca d'Italia · Deutsche Bundesbank</div>
+      <div class="st">Project Meridian FX — Cross-Currency Atomic Settlement Trial</div>
+      <div class="sm"><span class="sy">April 2025 · Technical paper · PDF</span><span class="sp">Part II · Part III</span></div>
+      <div class="sk">The most technically sophisticated test of cross-border atomic settlement conducted to date. Central banks looked at pure atomic RTGS, saw the liquidity cost, and designed netting windows back in — proving pure atomic settlement cannot maintain CLS-level efficiency. The finding that matters most: the bridge currency in the multi-currency experiment retained netting benefits that outer currencies lost. The XRP-analogous position benefits from surviving netting.</div>
+      <div class="sq">"The bridging currency was able to utilise netting, reducing the liquidity in the bridge currency that would have been required."</div>
+      <a class="sl" href="https://www.bis.org/publ/othp88.htm" target="_blank">bis.org/publ/othp88.htm</a>
+    </div></div>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">BIS</div>
+      <div class="st">FX Settlement Risk: Could New Payment Arrangements Improve on the Status Quo?</div>
+      <div class="sm"><span class="sy">2022 · BIS Working Paper</span><span class="sp">Part II · Part VI · Field Note 13</span></div>
+      <div class="sk">Confirms $2.2 trillion in daily FX settlement subject to principal risk because it falls outside CLS coverage. CLS covers only 18 currencies. Rising EM currency trading volumes are expanding the unprotected gap despite absolute CLS growth. The structural evidence behind XRP's non-dollar corridor thesis — the gap is documented, growing, and without an existing solution.</div>
+      <div class="sq">"Existing PvP arrangements such as CLS do not support many emerging market and developing economy currencies whose trading volumes have been steadily increasing."</div>
+      <a class="sl" href="https://www.bis.org/publ/work1016.htm" target="_blank">bis.org/publ/work1016.htm</a>
+    </div></div>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">Federal Reserve Bank of New York — Liberty Street Economics</div>
+      <div class="st">What Is Atomic Settlement?</div>
+      <div class="sm"><span class="sy">Michael Lee, Antoine Martin, Benjamin Müller · November 7, 2022</span><span class="sp">Field Note 13</span></div>
+      <div class="sk">The NY Fed drawing the precise distinction between simultaneous settlement (the "if and only if" property, achievable through Token Escrow) and instant settlement (same-ledger finality, requires BatchV1_1). Confirms the liquidity burden of instant settlement: traders can only sell what they already hold — which is precisely the depth requirement the series models through the square root law.</div>
+      <div class="sq">"Delivery occurs if and only if payment occurs... instant settlement can fundamentally alter the information environment in which traders operate."</div>
+      <a class="sl" href="https://libertystreeteconomics.newyorkfed.org/2022/11/what-is-atomic-settlement/" target="_blank">libertystreeteconomics.newyorkfed.org/2022/11/what-is-atomic-settlement/</a>
+    </div></div>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">IMF — Fintech Note 2025/011</div>
+      <div class="st">Central Bank Exploration of Tokenized Reserves</div>
+      <div class="sm"><span class="sy">Kunaratskul, Lannquist, Reslow, Zhang · November 2025 · PDF</span><span class="sp">Field Note 13 · Part II</span></div>
+      <div class="sk">Box 1 defines the strict/weak atomicity distinction at the heart of Field Note 13. Strict atomicity — the gold standard — requires same-ledger settlement. Cross-ledger arrangements achieve only weak atomicity. Also compares four settlement models (RTGS link, omnibus, tokenized reserves, privately issued tokenized money) — the competitive framework behind the RLUSD vs. XRP instrument distinction. Published November 2025.</div>
+      <div class="sq">"Cross-ledger arrangements cannot replicate the guarantees of strict atomicity achievable under a single ledger environment... the key innovation introduced by tokenized reserves lies in atomic settlement from having money and assets on the same ledger."</div>
+      <a class="sl" href="https://www.imf.org/-/media/files/publications/ftn063/2025/english/ftnea2025011.pdf" target="_blank">imf.org/-/media/files/publications/ftn063/2025/english/ftnea2025011.pdf</a>
+    </div></div>
+
+    <!-- ── TIER 3 ── -->
+    <h2>Tier 3 — U.S. Regulatory and Infrastructure Documents</h2>
+    <p class="tier-desc">Four documents from U.S. institutions establishing the regulatory deadlines, the infrastructure buildout, and the critical DTCC architecture clarification that correctly scopes XRP's addressable market vs. DTCC's domestic mandate.</p>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">DTCC</div>
+      <div class="st">Advancing Together: Leading the Industry to Accelerated Settlement</div>
+      <div class="sm"><span class="sy">February 2021 · White paper · PDF</span><span class="sp">Part VI</span></div>
+      <div class="sk">DTCC's foundational settlement reform document. Explicitly supported netted T+0 for domestic settlement and rejected real-time gross settlement — stating it "would reduce or eliminate the significant benefits and cost savings provided by multilateral netting." This document is what correctly scopes XRP's addressable market. DTCC's domestic mandate is netted T+0; that is not XRP's space. XRP's space is the cross-border, non-CLS corridor DTCC's architecture does not address.</div>
+      <a class="sl" href="https://www.dtcc.com/-/media/files/downloads/settlement-and-asset-services/advancing-together.pdf" target="_blank">dtcc.com · advancing-together.pdf</a>
+    </div></div>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">U.S. Treasury — Treasury Borrowing Advisory Committee</div>
+      <div class="st">Developments in Central Clearing in the U.S. Treasury Market</div>
+      <div class="sm"><span class="sy">February 2025 · Presented to the Secretary of the Treasury · PDF</span><span class="sp">Observatory No. 3 · Field Note 13</span></div>
+      <div class="sk">The TBAC is the advisory committee of senior bank, broker-dealer, asset manager, hedge fund, and insurance executives who advise the Treasury Secretary on debt management — the people who run the U.S. Treasury market. This document confirms: $6T daily Treasury market, $4T moving into clearing, FICC Sponsored DVP at $1.2T daily with 75%+ growth since December 2023, done-away clearing as the scalability solution, and cross-border jurisdictional application as a formally unresolved open question.</div>
+      <div class="sq">"The Rule may require as much as $4TN in additional daily transactions to be centrally cleared... Questions remain regarding the implication of the Rule for trades conducted in non-U.S. jurisdictions and regulations."</div>
+      <a class="sl" href="https://home.treasury.gov/system/files/221/TBACCharge2Q12025.pdf" target="_blank">home.treasury.gov/system/files/221/TBACCharge2Q12025.pdf</a>
+    </div></div>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">U.S. Securities and Exchange Commission</div>
+      <div class="st">Treasury Clearing Implementation — Compliance Dates</div>
+      <div class="sm"><span class="sy">Current · Official SEC page</span><span class="sp">Field Note 13 · Observatory No. 3</span></div>
+      <div class="sk">The SEC's own page confirming the compliance deadlines: December 31, 2026 for eligible cash Treasury transactions, June 30, 2027 for eligible repo transactions. These are the hard regulatory deadlines behind the series' timeline argument. Federal law enacted under the Securities Exchange Act. Not targets — mandatory compliance dates with enforcement consequences.</div>
+      <a class="sl" href="https://www.sec.gov/featured-topics/treasury-clearing-implementation" target="_blank">sec.gov/featured-topics/treasury-clearing-implementation</a>
+    </div></div>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">DTCC</div>
+      <div class="st">DTCC Advances DTC Tokenization Service; 50+ Firms Join</div>
+      <div class="sm"><span class="sy">May 4, 2026 · Official press release</span><span class="sp">Field Note 13 · Observatory No. 3</span></div>
+      <div class="sk">Confirms limited production trades of tokenized securities beginning July 2026 and commercial launch October 2026, covering Russell 1000 equities, major ETFs, and U.S. Treasuries. SEC no-action relief granted December 2025. 50+ firms including BlackRock and JPMorgan in the working group. Ripple Prime is among the participants. This is the infrastructure launch that opens the cross-chain tokenized DvP settlement window.</div>
+      <a class="sl" href="https://www.dtcc.com/news/2026/may/04/dtcc-advances-development-of-new-tokenization-service" target="_blank">dtcc.com/news/2026/may/04/dtcc-advances-development-of-new-tokenization-service</a>
+    </div></div>
+
+    <!-- ── TIER 4 ── -->
+    <h2>Tier 4 — Market Structure and Empirical Evidence</h2>
+    <p class="tier-desc">Four documents providing real-world evidence for the series' claims about netting costs, adoption behavior, and the growing cross-border settlement gap.</p>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">GreySpark Partners</div>
+      <div class="st">Real-Time Securities Settlement: Implications for Market Structure</div>
+      <div class="sm"><span class="sy">March 2026</span><span class="sp">Part II</span></div>
+      <div class="sk">Provides the 50× transaction throughput figure: under atomic settlement, custodians would need to process up to 50 times more individual payment transactions than under netted settlement. A firm executing 500 buys and 480 sells in one security would settle 980 transactions instead of 20 net under current regimes. The clearest available quantification of what temporal netting actually achieves.</div>
+      <div class="sq">"Eliminating netting would force custodians to process up to fifty times more individual payment transactions each day."</div>
+      <a class="sl" href="https://greyspark.com" target="_blank">greyspark.com</a>
+    </div></div>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">SEBI / National Stock Exchange and Bombay Stock Exchange — India</div>
+      <div class="st">Optional T+0 Rolling Settlement Scheme</div>
+      <div class="sm"><span class="sy">2024–2025 · Live production pilot</span><span class="sp">Part II · Part III</span></div>
+      <div class="sk">Real-world test with genuine institutional incentives: optional T+0 settlement offered alongside T+2. Result: 139 total trades, $7,400 total value across both exchanges. Market participants priced the cost of losing netting efficiency and chose netting. Every time. The most direct empirical evidence available that the liquidity cost of atomic settlement is real and institutions price it accurately.</div>
+      <div class="sq">139 trades · $7,400 total value · Institutions chose netting over speed every time.</div>
+      <a class="sl" href="https://www.sebi.gov.in/legal/circulars/mar-2024/circular-on-introduction-of-optional-t-0-rolling-settlement-on-an-optional-basis_81594.html" target="_blank">sebi.gov.in · T+0 settlement circular, March 2024</a>
+    </div></div>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">Financial Stability Board</div>
+      <div class="st">G20 Roadmap for Enhancing Cross-Border Payments — 2025 Consolidated Progress Report</div>
+      <div class="sm"><span class="sy">October 2025</span><span class="sp">Part VI</span></div>
+      <div class="sk">The FSB's own assessment of G20 2027 cross-border payment targets: only 35% of retail and 55% of wholesale payments settle within one hour, against targets of 75%. The FSB's own language: "the work done so far is not sufficient" and targets "are unlikely to be met." The evidential basis for Part VI's slower-than-assumed adoption probability — the G20 roadmap is behind schedule by the FSB's own account.</div>
+      <div class="sq">"The work done so far is not sufficient... the targets are unlikely to be met."</div>
+      <a class="sl" href="https://www.fsb.org/2025/10/g20-roadmap-for-enhancing-cross-border-payments-2025-consolidated-progress-report/" target="_blank">fsb.org · G20 cross-border payments 2025 progress report</a>
+    </div></div>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">CLS Group</div>
+      <div class="st">FX Settlement Risk — PvP Coverage and Non-CLS Flows</div>
+      <div class="sm"><span class="sy">2024</span><span class="sp">Part II · Part VI</span></div>
+      <div class="sk">CLS covers 18 currencies. $2.2 trillion in daily FX settlement operates without PvP protection. Despite absolute CLS growth, the percentage of global FX under PvP protection is declining because EM currency trading is growing faster than CLS coverage. The structural gap the non-dollar corridor thesis addresses is confirmed and expanding by CLS's own data.</div>
+      <a class="sl" href="https://www.cls-group.com/insights/" target="_blank">cls-group.com/insights/</a>
+    </div></div>
+
+    <!-- ── TIER 5 ── -->
+    <h2>Tier 5 — Protocol Status and Market Execution</h2>
+    <p class="tier-desc">Four documents: the transparent disclosure of XRPL's current protocol state, and the empirical grounding for the series' slippage tolerance assumptions — the single most consequential variable in the pricing model.</p>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">Talos — Eliad Hoch, Head of Quant Execution Services (ex-Goldman Sachs, ex-Bank of America Merrill Lynch)</div>
+      <div class="st">Understanding Market Impact in Crypto Trading: The Talos Model for Estimating Execution Costs</div>
+      <div class="sm"><span class="sy">December 2, 2025 · 50,000+ institutional orders · 50M child orders · June 2024–July 2025 · 50+ venues</span><span class="sp">Field Note 13</span></div>
+      <div class="sk">The first empirically calibrated institutional crypto market impact model, built on real execution data from asset managers, hedge funds, market makers, and systematic traders. Modal outcome: 0–5bp actual slippage. Algorithmic execution: 1.3–5.2bp. Manual execution: 17–54bp. Independently validates the Almgren-Chriss square root law the series uses. Anchors the 3.5–10bp tolerance range from observed data, not assumption. The 50bp "stress case" in the series represents unoptimized manual execution — not a realistic prime brokerage standard.</div>
+      <div class="sq">"The majority of samples — over 26% — fall in the 0–5 bps actual slippage range, demonstrating the model's accuracy for typical institutional trading scenarios."</div>
+      <a class="sl" href="https://www.talos.com/insights/understanding-market-impact-in-crypto-trading-the-talos-model-for-estimating-execution-costs" target="_blank">talos.com · market impact model for crypto trading</a>
+    </div></div>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">XRPL Foundation</div>
+      <div class="st">Vulnerability Disclosure Report: XRPL Batch Amendment — Unauthorized Inner Transaction Execution</div>
+      <div class="sm"><span class="sy">February 2026</span><span class="sp">Field Note 13</span></div>
+      <div class="sk">Transparent pre-mainnet disclosure of the XLS-56 batch amendment security bug, caught by researcher Pranamya Keshkamat and Cantina AI. No funds were at risk — the amendment had not activated on mainnet. The disable was preventative. BatchV1_1 is the corrected replacement under review. The series cites this because honest analysis requires stating the protocol's current state accurately — and this disclosure shows the security process working as designed.</div>
+      <a class="sl" href="https://xrpl.org/blog/2026/vulnerabilitydisclosurereport-bug-feb2026" target="_blank">xrpl.org/blog/2026/vulnerabilitydisclosurereport-bug-feb2026</a>
+    </div></div>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">XRPL Foundation</div>
+      <div class="st">Introducing XRP Ledger version 3.1.1</div>
+      <div class="sm"><span class="sy">February 2026</span><span class="sp">Field Note 13</span></div>
+      <div class="sk">Release notes confirming BatchV1_1 is the corrected replacement under review with no confirmed release date, and that Token Escrow (XLS-85) is the currently operational conditional DvP mechanism on XRPL mainnet. Confirms the protocol state the series describes.</div>
+      <a class="sl" href="https://xrpl.org/blog/2026/rippled-3.1.1" target="_blank">xrpl.org/blog/2026/rippled-3.1.1</a>
+    </div></div>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">European Central Bank</div>
+      <div class="st">Insights on T2S Partial Settlement</div>
+      <div class="sm"><span class="sy">ECB official documentation</span><span class="sp">Field Note 13</span></div>
+      <div class="sk">The ECB's documentation on how TARGET2-Securities handles partial settlement — five daily windows, strict proportionality rules, DvP linkage preserved on whatever portion settles. Used to address the T2S objection: T2S partial settlement maintains proportional DvP linkage on both legs simultaneously. It does not permit leg-decoupled partial execution. It is a feature layered on top of DvP, not a contradiction of it.</div>
+      <a class="sl" href="https://www.ecb.europa.eu/paym/target/target-professional-use-documents-links/t2s/shared/pdf/insights_on_partial_settlement.pdf" target="_blank">ecb.europa.eu · insights_on_partial_settlement.pdf</a>
+    </div></div>
+
+    <!-- ── TIER 6 ── -->
+    <h2>Tier 6 — Academic and Methodology Foundation</h2>
+    <p class="tier-desc">The academic papers behind the series' mathematical framework and market size estimates.</p>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">Academic — Robert Almgren and Neil Chriss</div>
+      <div class="st">Optimal Execution of Portfolio Transactions</div>
+      <div class="sm"><span class="sy">Journal of Risk, 2001</span><span class="sp">Part I — methodology foundation for all pricing scenarios</span></div>
+      <div class="sk">The foundational paper for the square root market impact law — Impact ≈ σ × √(Q/V) — the mathematical basis for every price scenario in the series. Validated across millions of institutional trades and every major asset class for 25 years. The Talos empirical model (above) independently confirms the Almgren-Chriss framework on crypto markets using 50,000+ real institutional orders. The series inverts the formula to derive the required XRP market depth at institutional slippage tolerances.</div>
+      <div class="sq">"Market impact scales as the square root of order size relative to daily trading volume — an empirical regularity validated across millions of institutional trades and every major asset class."</div>
+      <a class="sl" href="https://www.risk.net/journal-of-risk/2161150/optimal-execution-portfolio-transactions" target="_blank">risk.net · optimal-execution-portfolio-transactions</a>
+    </div></div>
+
+    <div class="source-card"><div class="sc">
+      <div class="si">FXC Intelligence</div>
+      <div class="st">Global Cross-Border Payments Report</div>
+      <div class="sm"><span class="sy">2024</span><span class="sp">Part I</span></div>
+      <div class="sk">$30–32 trillion in annual B2B cross-border payment flows today, growing toward $50 trillion by the early 2030s. Total flows including FX notional reach well beyond $150 trillion annually. The foundation for Part I's market size estimates — a 5% capture of the conservative B2B figure is $1.6 trillion annually, roughly $4.4 billion per day requiring XRP liquidity at the near-term scenario level.</div>
+      <a class="sl" href="https://fxcintel.com/research/reports/the-global-cross-border-payments-report" target="_blank">fxcintel.com · global cross-border payments report</a>
+    </div></div>
+
+    <div class="framework-ref">
+      <div class="framework-ref-label">The credibility argument — stated plainly</div>
+      <p>The institutions on this list include the Bank for International Settlements, the International Monetary Fund, the New York Federal Reserve, the U.S. Treasury's advisory committee, the SEC, DTCC, the Bank of England, the ECB, Banque de France, Banca d'Italia, Deutsche Bundesbank, the Financial Stability Board, and SEBI. Together they represent the regulatory and operational core of the global financial system. Not one of them was writing about XRP. The BIS wrote about DvP in 1992 to prevent a recurrence of the 1987 crash. The IMF wrote about tokenized reserves in November 2025 to guide central banks. The TBAC advised the Treasury Secretary about a clearing mandate. Seven central banks ran a trial of cross-border atomic settlement and documented exactly what it costs.</p>
+      <p>The series reads these documents as structural descriptions of a problem — and shows how XRP's architecture fits the solution. Whether it does is a conditional argument that Part VI prices honestly. That the problem exists is documented here, in primary sources, by the institutions responsible for fixing it. Read them yourself.</p>
+      <p>
+        <a href="/part1/">Part I — The square root law →</a> &nbsp;&nbsp;
+        <a href="/part2/">Part II — The netting argument →</a> &nbsp;&nbsp;
+        <a href="/part6/">Part VI — The probability framework →</a> &nbsp;&nbsp;
+        <a href="/field-notes/dvp-irreducible/">Field Note 13 — DvP irreducibility →</a> &nbsp;&nbsp;
+        <a href="/observatory/plumbing-paper/">Observatory No. 3 — The Plumbing Paper →</a>
+      </p>
+    </div>
+
+    <div class="disclaimer">
+      This is not financial advice. These are publicly available primary documents. The series connects them to XRP's architecture — that analytical work is conditional and speculative. The documents themselves are not. Read them yourself and form your own conclusions. Do your own research.
+    </div>
+
+    <div class="post-footer">
+      <div class="post-footer-label">Continue reading</div>
+      <div class="post-footer-links">
+        <a class="footer-link primary" href="/part1/">Part I — The square root law.</a>
+        <a class="footer-link" href="/field-notes/dvp-irreducible/">Field Note 13 — DvP irreducibility.</a>
+        <a class="footer-link" href="/observatory/plumbing-paper/">Observatory No. 3.</a>
+        <a class="footer-link" href="/">All field notes</a>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>XRP Valuation Series &nbsp;·&nbsp; The Living Framework</div>
+    <div>FutureXRP &nbsp;·&nbsp; @the5blairs</div>
+  </div>
+</footer>
+
+</body>
+</html>

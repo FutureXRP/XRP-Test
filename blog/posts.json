@@ -139,7 +139,8 @@
       "Settlement Architecture",
       "Framework Extension"
     ],
-    "title": "The transaction that cannot <em>be made smaller.</em>",
+    "title": "The leg that cannot <em>move first.</em>",
+    "subtitle": "The property that cannot be separated.",
     "deck": "Prisma can split PvP flows. It cannot split DvP. The atomicity that eliminates principal risk is the same property that prohibits leg-decoupled partial execution. Most settlement flows use conditional escrow and are priced by MV=PQ. A narrower class cannot be split — and for those transactions, peak ticket depth governs everything."
   },
   {

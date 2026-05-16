@@ -141,5 +141,16 @@
     ],
     "title": "The transaction that cannot <em>be made smaller.</em>",
     "deck": "Prisma can split PvP flows. It cannot split DvP. The atomicity that eliminates principal risk is the same property that prohibits leg-decoupled partial execution. Most settlement flows use conditional escrow and are priced by MV=PQ. A narrower class cannot be split — and for those transactions, peak ticket depth governs everything."
+  },
+  {
+    "number": 14,
+    "slug": "source-list",
+    "date": "May 2026",
+    "tags": [
+      "Primary Sources",
+      "Credibility Record"
+    ],
+    "title": "The source list — <em>they weren't writing about XRP.</em>",
+    "deck": "Every primary document behind the series. BIS, IMF, NY Fed, TBAC, SEC, DTCC, XRPL. None of them mention XRP. All of them describe the problems XRP is built to solve. Read them yourself."
   }
 ]

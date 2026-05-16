@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Field Note 13: The Transaction That Cannot Be Made Smaller — XRP Valuation Series</title>
+  <title>Field Note 13: The leg that cannot move first — XRP Valuation Series</title>
   <meta name="description" content="DvP atomicity changes which pricing model is binding. Most settlement flows use conditional escrow and are priced by MV=PQ. A narrower class cannot be leg-decoupled — and for those transactions, peak ticket depth is everything." />
-  <meta property="og:title" content="Field Note 13: The Transaction That Cannot Be Made Smaller" />
-  <meta property="og:description" content="Prisma can split PvP flows. It cannot split DvP. The atomicity that eliminates principal risk is the same property that prohibits leg-decoupled partial execution. Here is what that means for the pricing model." />
+  <meta property="og:title" content="Field Note 13: The leg that cannot move first" />
+  <meta property="og:description" content="The leg that cannot move first. The property that cannot be separated. The atomicity that eliminates principal risk is the same property that prohibits leg-decoupled partial execution. Here is what that means for the pricing model." />
   <meta property="og:type" content="article" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -53,8 +53,10 @@
     .post-section { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 24px; }
     .post-section::before { content: ""; display: inline-block; width: 20px; height: 1px; background: var(--accent); }
 
-    h1.post-title { font-family: var(--display); font-size: clamp(36px, 6vw, 62px); line-height: 1.05; font-weight: 500; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 22px; }
+    h1.post-title { font-family: var(--display); font-size: clamp(36px, 6vw, 62px); line-height: 1.05; font-weight: 500; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 14px; }
     h1.post-title em { font-style: italic; color: var(--accent); }
+
+    .post-subtitle { font-family: var(--display); font-style: italic; font-size: clamp(20px, 2.8vw, 28px); color: var(--ink-medium); margin-bottom: 22px; letter-spacing: -0.01em; }
 
     .post-deck { font-family: var(--display); font-style: italic; font-size: clamp(19px, 2.5vw, 24px); line-height: 1.45; color: var(--ink-medium); margin-bottom: 32px; }
 
@@ -205,7 +207,8 @@
 
   <div class="post-header">
     <div class="post-section">The Living Framework &nbsp;·&nbsp; No. 13</div>
-    <h1 class="post-title">The transaction that cannot <em>be made smaller.</em></h1>
+    <h1 class="post-title">The leg that cannot <em>move first.</em></h1>
+    <p class="post-subtitle">The property that cannot be separated.</p>
     <p class="post-deck">
       Prisma can split PvP flows. It cannot split DvP. The atomicity that eliminates
       principal risk is the same property that prohibits leg-decoupled partial execution.
@@ -842,7 +845,7 @@
       <p>
         <a href="/part1/">Part I — The square root law →</a>
         &nbsp;&nbsp;
-        <a href="/part3/">Part III — Collateral reflexivity →</a>
+        <a href="/part3/">Part III — The reflexivity loop →</a>
         &nbsp;&nbsp;
         <a href="/observatory/plumbing-paper/">Observatory No. 3 — DTCC surface area →</a>
         &nbsp;&nbsp;
@@ -872,16 +875,6 @@
       <p><strong>Change 1 — IMF strict/weak atomicity distinction added to Section 01.</strong> Source: IMF Fintech Note 2025/011 (November 2025). The IMF distinguishes strict atomicity (same-ledger, guaranteed by consensus — BatchV1_1) from weak atomicity (cross-ledger HTLC/escrow — Token Escrow). The IMF states explicitly that cross-ledger arrangements cannot replicate strict atomicity guarantees. This makes BatchV1_1 the correct mechanism for the highest-value DvP transactions, not merely an enhancement of Token Escrow.</p>
       <p><strong>Change 2 — NY Fed simultaneous/instant distinction incorporated in Section 01.</strong> Source: Liberty Street Economics, "What Is Atomic Settlement?" (Lee, Martin, Müller, November 2022). Token Escrow provides simultaneous settlement without instant settlement. BatchV1_1 provides both. The NY Fed confirms the liquidity burden of instant settlement is the depth requirement the series models through the square root law.</p>
       <p><strong>Change 3 — Talos empirical slippage grounding added to "What to hold" section.</strong> Source: Talos Market Impact model (Eliad Hoch, December 2025) — 50,000+ institutional orders. Modal outcome: 0–5bp actual slippage. Algorithmic execution: 1.3–5.2bp. Manual execution: 17–54bp. The series' 3.5–10bp range is empirically anchored. The 50bp scenario represents unoptimized manual execution. Talos independently validates the Almgren-Chriss square root law and confirms atomic DvP (no VWAP spreading) requires more instantaneous depth than equivalent algorithmically executed orders.</p>
-      <p><strong>What did not change:</strong> The DvP-unsplittable core finding. The irreducible ticket list. The provisional 70/30 split. The competitive landscape. The observable signals. The directional conclusion. No previously stated claim was retracted or weakened.</p>
-    </div>
-
-    <div class="protocol-note" style="border-left-color:var(--ink-faint); margin-top:40px;">
-      <div class="protocol-note-label" style="color:var(--ink-faint);">Revision changelog — Living Framework updates</div>
-      <p><strong>Original publication:</strong> May 2026. Sections 01–07, editor's note, irreducible ticket list (Categories A and B), provisional 70/30 escrow/atomic split, slippage tolerance range, BatchV1_1 protocol status, T2S partial settlement qualification, RLUSD routing objection, competitive landscape, observable signals, framework status.</p>
-      <p><strong>Update — May 2026 (post-publication sourcing review).</strong> Three analytical additions based on primary source review conducted after initial publication.</p>
-      <p><strong>Change 1 — IMF strict/weak atomicity distinction added to Section 01.</strong> Source: IMF Fintech Note 2025/011, Box 1 (November 2025). The IMF distinguishes strict atomicity (same-ledger, guaranteed by consensus — BatchV1_1) from weak atomicity (cross-ledger HTLC/escrow — Token Escrow). Cross-ledger arrangements cannot replicate strict atomicity guarantees. BatchV1_1 is the correct mechanism for the highest-value DvP transactions, not merely an enhancement of Token Escrow.</p>
-      <p><strong>Change 2 — NY Fed simultaneous/instant distinction incorporated in Section 01.</strong> Source: Liberty Street Economics, "What Is Atomic Settlement?" (Lee, Martin, Müller, November 2022). Token Escrow provides simultaneous settlement without instant settlement. BatchV1_1 provides both. The NY Fed confirms the liquidity burden of instant settlement is the depth requirement the series models through the square root law.</p>
-      <p><strong>Change 3 — Talos empirical slippage grounding added to "What to hold" section.</strong> Source: Talos Market Impact model (Eliad Hoch, December 2025) — 50,000+ institutional orders on 50+ venues. Modal outcome 0–5bp actual slippage. Algorithmic execution 1.3–5.2bp. Manual execution 17–54bp. The series' 3.5–10bp range is empirically anchored. The 50bp scenario is unoptimized manual execution. Talos independently validates the Almgren-Chriss square root law and confirms atomic DvP requires more instantaneous depth than equivalent algorithmically executed orders.</p>
       <p><strong>What did not change:</strong> The DvP-unsplittable core finding. The irreducible ticket list. The provisional 70/30 split. The competitive landscape. The observable signals. The directional conclusion. No previously stated claim was retracted or weakened.</p>
     </div>
 

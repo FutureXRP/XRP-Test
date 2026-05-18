@@ -234,15 +234,15 @@ tbody tr.hi td:not(:first-child){color:var(--crimson)}
         <div class="cval" id="i-turn-out">1.0%</div>
       </div>
       <div class="crow">
-        <div class="clabel"><strong>Float — circulating supply</strong>Current ~57.7B liquid; 100B total issued</div>
-        <input type="range" id="i-float" min="40" max="100" step="0.1" value="57.7">
-        <div class="cval" id="i-float-out">57.7B</div>
+        <div class="clabel"><strong>Float — circulating supply</strong>Current ~62B liquid; 100B total issued. Drag left to model supply shocks or escrow scenarios.</div>
+        <input type="range" id="i-float" min="5" max="100" step="0.1" value="62">
+        <div class="cval" id="i-float-out">62.0B</div>
       </div>
     </div>
     <div class="results">
       <div class="rcard"><div class="rlabel">Required daily volume</div><div class="rval" id="i-vol">—</div><div class="rsub">to meet tolerance</div></div>
       <div class="rcard"><div class="rlabel">Required market cap</div><div class="rval" id="i-mcap">—</div><div class="rsub">at turnover ratio</div></div>
-      <div class="rcard"><div class="rlabel">Required XRP price</div><div class="rval" id="i-price" style="color:var(--crimson)">—</div><div class="rsub" id="i-supply-sub">at 57.7B float</div></div>
+      <div class="rcard"><div class="rlabel">Required XRP price</div><div class="rval" id="i-price" style="color:var(--crimson)">—</div><div class="rsub" id="i-supply-sub">at 62B float</div></div>
     </div>
 
     <!-- Gap panel -->
@@ -290,7 +290,7 @@ tbody tr.hi td:not(:first-child){color:var(--crimson)}
 </div>
 
 <script>
-const SUPPLY = 61e9; // legacy reference; actual supply read from #i-float slider
+const SUPPLY = 62e9; // legacy reference; actual supply read from #i-float slider
 let live = null, chg24 = null;
 let mode = 'forward', fCh = null, iCh = null;
 
@@ -434,7 +434,9 @@ function refreshGap(reqP){
     const Q=parseFloat(document.getElementById('i-q').value)*1e9;
     const tol=parseFloat(document.getElementById('i-tol').value);
     const turn=parseFloat(document.getElementById('i-turn').value);
-    reqP=calcP(Q,sig,tol,turn).p;
+    const floatB=parseFloat(document.getElementById('i-float').value);
+    const supply=floatB*1e9;
+    reqP=calcP(Q,sig,tol,turn,supply).p;
   }
   document.getElementById('gap-live').textContent=live!==null?'$'+live.toFixed(4):'loading…';
   document.getElementById('gap-cur').textContent=live!==null?'$'+live.toFixed(4):'—';

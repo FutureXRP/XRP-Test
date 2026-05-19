@@ -153,5 +153,16 @@
     ],
     "title": "The source list — <em>they weren't writing about XRP.</em>",
     "deck": "Every primary document behind the series. BIS, IMF, NY Fed, TBAC, SEC, DTCC, XRPL. None of them mention XRP. All of them describe the problems XRP is built to solve. Read them yourself."
+  },
+  {
+    "number": 15,
+    "slug": "dtcc-room",
+    "date": "May 2026",
+    "tags": [
+      "Infrastructure Architecture",
+      "Framework Update"
+    ],
+    "title": "The room <em>gets built.</em>",
+    "deck": "Four DTCC and SEC announcements in fourteen days. The ledger layer named. The data layer named. The working group named — including Ripple Prime, explicitly, in the press release. The timeline named. The one thing DTCC has not named is the cross-border value settlement asset. That chair is still empty. That chair is what this series has always been about."
   }
 ]

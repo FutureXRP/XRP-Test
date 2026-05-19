@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Field Note 15: The room gets built — XRP Valuation Series</title>
-  <meta name="description" content="Four DTCC announcements in fourteen days. Read separately, they are infrastructure news. Read together, they are a single coordinated roadmap executing on schedule — and the framework's open question is now imminent." />
+  <meta name="description" content="Four DTCC announcements in fourteen days. The ledger layer named. The data layer named. The interoperability layer named. The working group named. The one thing not named is the cross-border value settlement asset. That chair is still empty." />
   <meta property="og:title" content="Field Note 15: The room gets built" />
-  <meta property="og:description" content="DTCC named the ledger layer. Named the data layer. Named the working group — including Ripple Prime. Named the timeline. The one thing DTCC has not named is the cross-border value settlement asset. That chair is still empty. That chair is what this series has always been about." />
+  <meta property="og:description" content="DTCC named Besu. Named Chainlink. Named Quant Overledger as the interoperability layer. Named Ripple Prime in the working group. The one thing DTCC has not named is the cross-border value settlement asset. That chair is still empty. That chair is what this series has always been about." />
   <meta property="og:type" content="article" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -187,11 +187,11 @@
     <h1 class="post-title">The room <em>gets built.</em></h1>
     <p class="post-subtitle">Four announcements. One roadmap. One open question.</p>
     <p class="post-deck">
-      DTCC named the ledger layer. Named the data layer. Named the orchestration layer.
-      Named the working group — including Ripple Prime, explicitly, in the press release.
-      Named the timeline. The one thing DTCC has not named is the cross-border value
-      settlement asset. That chair is still empty. That chair is what this series has
-      always been about.
+      DTCC named the ledger layer — Besu. Named the data layer — Chainlink. Named the
+      interoperability layer — Quant Overledger. Named the working group — including
+      Ripple Prime, explicitly, in the press release. Named the timeline. The one thing
+      DTCC has not named is the cross-border value settlement asset. That chair is still
+      empty. That chair is what this series has always been about.
     </p>
     <div class="post-meta">
       <span class="meta-tag">The Living Framework</span>
@@ -360,6 +360,17 @@
       the messenger. Not the money.
     </p>
 
+    <p>
+      Quant's Overledger does not solve this either — though it sits closer to the gap
+      than Chainlink does. Overledger is a universal API connector that routes cross-chain
+      instructions, coordinates timing across multiple ledgers simultaneously, and connects
+      Besu natively to external chains including XRPL, Ethereum, Canton, and legacy banking
+      systems. It is already processing over $1.5 trillion in tokenized deposit flows and
+      is the core interoperability layer for the UK's Great British Tokenized Deposit
+      project with HSBC, Barclays, and Lloyds. Overledger can route the instruction that
+      tells both sides of the trade what to do and when. What it cannot do is carry the
+      value itself. It is the conductor. Not the orchestra.</p>
+
     <div class="pull-quote">
       <p>The hole is the cross-border, cross-ledger, non-dollar value settlement layer. The thing that moves value — not data, value — atomically across institutional boundaries that no single permissioned network can span.</p>
     </div>
@@ -407,13 +418,23 @@
         </div>
       </div>
 
+      <div class="layer-entry">
+        <div>
+          <div class="layer-label named">Named ✓</div>
+        </div>
+        <div>
+          <div class="layer-name">The interoperability layer — Quant Overledger</div>
+          <div class="layer-text">Quant Network's Overledger is a universal API connector explicitly designed to be interoperable with Hyperledger Besu — the same stack DTCC is running. It connects Besu to XRPL, Ethereum, Canton, and legacy banking systems simultaneously without modifying the underlying chains. Overledger has already processed over $1.5 trillion in tokenized deposit flows and is the live interoperability layer for the UK's Great British Tokenized Deposit project with HSBC, Barclays, and Lloyds. It routes cross-chain instructions and coordinates settlement timing. It does not carry value. It is the conductor. Not the orchestra.</div>
+        </div>
+      </div>
+
       <div class="layer-entry hole">
         <div>
           <div class="layer-label open">Open ✗</div>
         </div>
         <div>
           <div class="layer-name">The cross-border value settlement asset — unnamed</div>
-          <div class="layer-text">No DTCC press release, working group document, or official announcement names XRP, RLUSD, USDC, or any other specific asset as the bridge for cross-border value movement. The interoperability requirement is named. The asset that fulfills it is not. This is the open question this series has always been building toward.</div>
+          <div class="layer-text">No DTCC press release, working group document, or official announcement names XRP, RLUSD, USDC, or any other specific asset as the bridge for cross-border value movement. Besu is named. Chainlink is named. Quant Overledger routes the instruction. The asset that actually carries the value across the perimeter is not named. This is the open question this series has always been building toward.</div>
         </div>
       </div>
 
@@ -459,12 +480,28 @@
     <h2>Section 05 — What DTCC has and hasn't said</h2>
 
     <p>
+      DTCC has named the ledger layer — Hyperledger Besu. Named the data layer — Chainlink.
+      Named the interoperability layer — Quant Overledger, which connects natively to Besu
+      and routes cross-chain instructions to XRPL, Ethereum, Canton, and legacy systems
+      simultaneously. Named the working group participants — including Ripple Prime
+      explicitly. Named the interoperability requirement — multi-chain, explicitly stated
+      as a core design principle. Named the timeline — July pilot, October launch.
+    </p>
+
+    <p>
+      DTCC has not named the cross-border value settlement asset. Besu is named. Chainlink
+      is named. Quant Overledger is named. The thing that those three layers are being
+      built to move — the value that crosses the perimeter when Nomura's yen needs to meet
+      DTCC's Treasury atomically — is not named. That question is deliberately open.
+    </p>
+
+    <p>
       DTCC has no operational reason to name the cross-border value settlement asset
       before the room opens. Their domestic settlement function — the vast majority of
       what they do — doesn't require a neutral bridge asset at all. US institution
       settling with US institution in dollars through NSCC works perfectly on Besu
-      with Chainlink handling the data. DTCC can go fully live in October without ever
-      filling the hole publicly.
+      with Chainlink handling the data and Quant Overledger routing any cross-chain
+      instructions. DTCC can go fully live in October without ever filling the hole publicly.
     </p>
 
     <p>
@@ -484,9 +521,9 @@
     </p>
 
     <div class="protocol-note" style="border-left-color:#185FA5;">
-      <div class="protocol-note-label" style="color:#185FA5;">What the Chainlink announcement means for the competitive picture</div>
-      <p>Chainlink's co-founder called collateral management "the killer app that traditional finance has been waiting for from our industry." He is right about the function. He is describing the information layer of that function. The Chainlink announcement does not close the question of the value layer. It defines Chainlink's lane — data, orchestration, pricing — and leaves the value transfer lane explicitly open. The two roles are complementary, not competing.</p>
-      <p>Chainlink's LINK token surged over 20% on the announcement day. That is a market pricing in the data layer role. It is not a market pricing in the value settlement role. The distinction matters analytically.</p>
+      <div class="protocol-note-label" style="color:#185FA5;">What the Chainlink and Quant announcements mean for the competitive picture</div>
+      <p>Chainlink's co-founder called collateral management "the killer app that traditional finance has been waiting for from our industry." He is right about the function. He is describing the information layer of that function — pricing, valuation, and data routing. Quant Overledger occupies the adjacent layer: cross-chain instruction routing and coordination. Both Chainlink and Quant are competing for the interoperability and orchestration function. Neither is competing for the value settlement function. Chainlink's lane is data. Quant's lane is routing. The value lane — the thing that actually moves across the gap — remains open regardless of which one wins the orchestration layer.</p>
+      <p>Chainlink's LINK token surged over 20% on the announcement day. That is a market pricing in the data layer role. It is not a market pricing in the value settlement role. The distinction matters analytically. Quant Overledger being designed to connect natively to Besu is the most significant interoperability detail in the whole architecture — it means the door between DTCC's room and the outside world is already being built. What carries the value through that door is still the open question.</p>
     </div>
 
     <h2>Section 06 — Framework implications</h2>
@@ -644,7 +681,7 @@
     </p>
 
     <div class="pull-quote">
-      <p>The chair labeled cross-border settlement asset is still empty. That chair is what this series has always been about.</p>
+      <p>Besu is named. Chainlink is named. Quant Overledger is named. The chair labeled cross-border settlement asset is still empty. That chair is what this series has always been about.</p>
     </div>
 
     <div class="status-block">
@@ -667,7 +704,7 @@
 
       <div class="status-entry">
         <div class="status-type unchanged">Unchanged</div>
-        <div class="status-text"><strong>The conditional structure of the argument is intact.</strong> If institutional adoption occurs, here is what the math requires. The math has not changed. The adoption question moved materially closer to resolution — it did not resolve. XRP winning the cross-border value settlement function inside DTCC's architecture is still a probability, not a certainty. The signals in Section 07 are what distinguish between those outcomes.</div>
+        <div class="status-text"><strong>The conditional structure of the argument is intact.</strong> If institutional adoption occurs, here is what the math requires. The math has not changed. Quant Overledger routing cross-chain instructions, Chainlink pricing collateral, and Besu holding tokenized assets are all named layers in a named architecture. None of them carry value cross-border. The adoption question moved materially closer to resolution — it did not resolve. XRP winning the cross-border value settlement function inside DTCC's architecture is still a probability, not a certainty. The signals in Section 07 are what distinguish between those outcomes.</div>
       </div>
 
       <div class="status-entry">
@@ -693,7 +730,7 @@
 
     <div class="disclaimer">
       This is not financial advice. The framework is conditional throughout — if institutional adoption occurs, here is what the math requires. That conditional has moved materially closer to resolution. It has not resolved.
-      Sources: DTCC press release, May 4, 2026 — DTC Tokenization Service announcement. DTCC press release, May 12, 2026 — Collateral AppChain / Chainlink collaboration. SEC Federal Register filing, May 15, 2026 — SR-NSCC-2026-005, order approving NSCC SFT Clearing client access model. Bloomberg Law / Reuters, May 18, 2026 — SEC Project Crypto innovation exemption for tokenized stocks. Ripple Prime NSCC directory listing: confirmed March 2026. All primary sources publicly available. Do your own research.
+      Sources: DTCC press release, May 4, 2026 — DTC Tokenization Service announcement. DTCC press release, May 12, 2026 — Collateral AppChain / Chainlink collaboration. SEC Federal Register filing, May 15, 2026 — SR-NSCC-2026-005, order approving NSCC SFT Clearing client access model. Bloomberg Law / Reuters, May 18, 2026 — SEC Project Crypto innovation exemption for tokenized stocks. Ripple Prime NSCC directory listing: confirmed March 2026. Quant Network / Overledger: quant.network — $1.5 trillion processed figure January 2026; Great British Tokenized Deposit project confirmed. All primary sources publicly available. Do your own research.
     </div>
 
     <div class="post-footer">

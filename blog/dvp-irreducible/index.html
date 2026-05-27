@@ -72,26 +72,22 @@
     .pull-quote { margin: 44px 0; padding: 28px 32px; border-left: 3px solid var(--accent); background: var(--paper-soft); }
     .pull-quote p { font-family: var(--display); font-size: clamp(20px, 2.5vw, 26px) !important; font-style: italic; line-height: 1.45; color: var(--ink) !important; margin-bottom: 0 !important; }
 
-    /* ── EDITOR NOTE ── */
     .editor-note { margin: 0 0 40px; padding: 24px 28px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
     .editor-note-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 12px; }
     .editor-note p { font-size: 16px !important; line-height: 1.7; color: var(--ink-medium) !important; margin-bottom: 12px !important; }
     .editor-note p:last-child { margin-bottom: 0 !important; }
 
-    /* ── PROTOCOL STATUS CALLOUT ── */
     .protocol-note { margin: 32px 0; padding: 20px 24px; background: var(--paper-deep); border: 1px solid var(--rule); border-left: 3px solid #8a6020; }
     .protocol-note-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8a6020; font-weight: 600; margin-bottom: 10px; }
     .protocol-note p { font-size: 15px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 8px !important; }
     .protocol-note p:last-child { margin-bottom: 0 !important; }
 
-    /* ── MATH BLOCK ── */
     .math-block { margin: 36px 0; padding: 24px 28px; background: var(--ink); }
     .math-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 14px; }
     .math-line { font-family: var(--mono); font-size: 14px; color: #fff; line-height: 2.0; }
     .math-line .var { color: #c9a84c; }
     .math-note { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1); font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.7; }
 
-    /* ── TICKET CATEGORY BLOCK ── */
     .ticket-block { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
     .ticket-category-head { background: var(--ink); padding: 12px 20px; display: flex; align-items: center; gap: 14px; }
     .ticket-category-badge { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 10px; font-weight: 600; }
@@ -105,7 +101,6 @@
     .ticket-floor { font-family: var(--mono); font-size: 11px; color: var(--accent); margin-top: 6px; }
     .ticket-block .block-note { padding: 14px 20px; background: var(--paper-deep); border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.65; }
 
-    /* ── SENSITIVITY TABLE ── */
     .sensitivity-table { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
     .sensitivity-head { display: grid; grid-template-columns: 2fr 1fr 1fr; background: var(--ink); padding: 12px 20px; gap: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
     .sensitivity-row { display: grid; grid-template-columns: 2fr 1fr 1fr; padding: 14px 20px; gap: 12px; border-top: 1px solid var(--rule); background: var(--paper); align-items: start; }
@@ -117,7 +112,22 @@
     .s-cell.red { color: var(--accent); font-weight: 600; }
     .s-cell.muted { color: var(--ink-faint); }
 
-    /* ── SIGNAL BLOCK ── */
+    /* CANDIDATE TABLE */
+    .candidate-table { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .candidate-head { background: var(--ink); padding: 12px 20px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .candidate-entry { padding: 20px 22px; border-top: 1px solid var(--rule); background: var(--paper); }
+    .candidate-entry:nth-child(even) { background: var(--paper-soft); }
+    .candidate-entry.complementary { background: #f0f7f0; border-left: 3px solid #0F6E56; }
+    .candidate-name { font-family: var(--ui); font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 10px; letter-spacing: -0.01em; }
+    .candidate-tests { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; margin-bottom: 12px; }
+    .candidate-test { font-family: var(--mono); font-size: 12px; color: var(--ink-medium); line-height: 1.5; }
+    .candidate-test .pass { color: #0F6E56; font-weight: 600; }
+    .candidate-test .fail { color: var(--accent); font-weight: 600; }
+    .candidate-test .conditional { color: #8a6020; font-weight: 600; }
+    .candidate-note { font-family: var(--ui); font-size: 13px; color: var(--ink-medium); line-height: 1.65; margin-bottom: 10px; }
+    .candidate-result { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); border-top: 1px solid var(--rule); padding-top: 10px; margin-top: 10px; line-height: 1.6; }
+    .candidate-result strong { color: var(--ink); }
+
     .signal-block { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
     .signal-head { background: var(--ink); padding: 12px 20px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
     .signal-entry { padding: 18px 20px; border-top: 1px solid var(--rule); background: var(--paper); }
@@ -127,7 +137,15 @@
     .signal-text { font-family: var(--ui); font-size: 14px; color: var(--ink-medium); line-height: 1.65; }
     .signal-text strong { color: var(--ink); font-weight: 600; }
 
-    /* ── BLENDED MODEL CALLOUT ── */
+    /* TIMELINE TABLE */
+    .timeline-table { margin: 16px 0 20px; border: 1px solid rgba(255,255,255,0.12); overflow: hidden; }
+    .timeline-head { display: grid; grid-template-columns: 2fr 1fr 1.5fr; background: rgba(255,255,255,0.06); padding: 8px 14px; gap: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+    .timeline-row { display: grid; grid-template-columns: 2fr 1fr 1.5fr; padding: 10px 14px; gap: 12px; border-top: 1px solid rgba(255,255,255,0.08); font-family: var(--mono); font-size: 12px; color: rgba(255,255,255,0.6); align-items: start; line-height: 1.5; }
+    .timeline-row.active { background: rgba(155,34,38,0.15); }
+    .timeline-row .t-event { color: rgba(255,255,255,0.85); }
+    .timeline-row .t-status { }
+    .timeline-row .t-timing { color: rgba(255,255,255,0.45); font-size: 11px; }
+
     .blended-model { margin: 36px 0; background: var(--ink); padding: 28px 32px; }
     .blended-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 16px; }
     .blended-split { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.08); margin-bottom: 16px; }
@@ -140,7 +158,6 @@
     .blended-footer { padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.65; }
     .blended-central { font-family: var(--mono); font-size: 15px; color: rgba(255,255,255,0.75); font-weight: 600; margin-bottom: 6px; }
 
-    /* ── FRAMEWORK REF ── */
     .framework-ref { margin: 40px 0; padding: 22px 24px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
     .framework-ref-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
     .framework-ref p { font-size: 16px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 10px !important; }
@@ -148,7 +165,6 @@
     .framework-ref a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
     .framework-ref a:hover { border-bottom-color: var(--accent); }
 
-    /* ── FRAMEWORK STATUS ── */
     .status-block { margin: 40px 0; border: 1px solid var(--rule); overflow: hidden; }
     .status-head { background: var(--ink); padding: 12px 20px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
     .status-entry { padding: 18px 20px; border-top: 1px solid var(--rule); background: var(--paper); }
@@ -161,7 +177,6 @@
     .status-text { font-family: var(--ui); font-size: 14px; color: var(--ink-medium); line-height: 1.65; }
     .status-text strong { color: var(--ink); font-weight: 600; }
 
-    /* ── WHAT TO HOLD ── */
     .hold-block { margin: 36px 0; padding: 28px 32px; border: 1px solid var(--rule); background: var(--paper-soft); }
     .hold-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 16px; }
     .hold-item { font-family: var(--ui); font-size: 15px; color: var(--ink-medium); line-height: 1.7; margin-bottom: 14px; padding-left: 18px; position: relative; }
@@ -190,6 +205,9 @@
       .blended-split { grid-template-columns: 1fr; }
       .sensitivity-head, .sensitivity-row { grid-template-columns: 1.4fr 0.8fr; }
       .sensitivity-head > *:nth-child(3), .sensitivity-row > *:nth-child(3) { display: none; }
+      .candidate-tests { grid-template-columns: 1fr; }
+      .timeline-head, .timeline-row { grid-template-columns: 1.5fr 0.8fr; }
+      .timeline-head > *:nth-child(3), .timeline-row > *:nth-child(3) { display: none; }
       .site-footer { padding: 0 20px 32px; }
     }
   </style>
@@ -228,21 +246,25 @@
 
   <div class="post-body">
 
+    <!-- UPDATE BANNER -->
     <div style="margin-bottom:32px; padding:18px 22px; background:#fff8e6; border:1px solid #c9a84c; border-left:4px solid #c9a84c;">
       <div style="font-family:var(--mono); font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#8a6020; font-weight:600; margin-bottom:10px;">⟳ &nbsp;This article has been updated — May 2026</div>
-      <p style="font-family:var(--ui); font-size:14px; color:var(--ink-medium); line-height:1.65; margin:0 0 10px;">Three analytical additions were made after initial publication based on primary source review. The core finding — DvP cannot be leg-decoupled — is unchanged. No previously stated claim was retracted or weakened.</p>
+      <p style="font-family:var(--ui); font-size:14px; color:var(--ink-medium); line-height:1.65; margin:0 0 10px;">Four rounds of additions have been made after initial publication. The core finding — DvP cannot be leg-decoupled — is unchanged. No previously stated claim was retracted or weakened.</p>
       <div style="font-family:var(--ui); font-size:13px; color:var(--ink); line-height:1.7;">
         <div style="margin-bottom:6px;"><strong>Section 01 — IMF strict vs. weak atomicity added.</strong> IMF Fintech Note 2025/011 (November 2025) distinguishes strict atomicity (same-ledger, BatchV1_1 — the gold standard) from weak atomicity (cross-ledger HTLC/Token Escrow — cannot replicate strict guarantees). BatchV1_1 is now correctly framed as the mechanism for the highest-value DvP transactions, not merely an enhancement.</div>
         <div style="margin-bottom:6px;"><strong>Section 01 — NY Fed simultaneous vs. instant settlement added.</strong> Lee, Martin, Müller (NY Fed, 2022) separate simultaneous settlement (the "if and only if" property — Token Escrow) from instant settlement (same-ledger finality — BatchV1_1). The NY Fed confirms the liquidity burden of instant settlement is the depth requirement the series models.</div>
-        <div><strong>"What to hold" section — Talos empirical slippage grounding added.</strong> The Talos Market Impact model (December 2025, 50,000+ institutional orders) confirms the modal institutional crypto execution outcome is 0–5bp actual slippage; algorithmic execution achieves 1.3–5.2bp; manual execution 17–54bp. The series' 3.5–10bp range is empirically anchored. The 50bp scenario represents unoptimized manual execution, not a realistic prime brokerage tolerance.</div>
+        <div style="margin-bottom:6px;"><strong>"What to hold" section — Talos empirical slippage grounding added.</strong> The Talos Market Impact model (December 2025, 50,000+ institutional orders) confirms the modal institutional crypto execution outcome is 0–5bp actual slippage; algorithmic execution achieves 1.3–5.2bp; manual execution 17–54bp. The series' 3.5–10bp range is empirically anchored.</div>
+        <div><strong>Section 06 — Four-test competitive framework added. Signal 01 updated with BatchV1_1 v3.3.0 release target.</strong> Every major cash leg candidate is run through four structural tests. Canton + JPM Coin + LSEG DiSH are credited for solving the domestic corridor. The cross-jurisdictional vacancy is defined precisely. BatchV1_1 is confirmed for rippled v3.3.0 — the first public release target. Race timeline against DTCC H2 2026 updated.</div>
       </div>
     </div>
 
+    <!-- EDITOR NOTE -->
     <div class="editor-note">
       <div class="editor-note-label">Editor's note — framework status</div>
       <p>This field note contains the most significant analytical finding in the series to date. It is not a price prediction. It is a structural argument sourced from primary regulatory and institutional authorities that changes which pricing model is binding — and therefore changes how the series' scenarios should be read.</p>
       <p>Two things happen in this note. First, a refinement: most real-world DvP settlement will use conditional escrow rather than pure atomic batch, and those flows are primarily priced via MV=PQ rather than the square root law. This moderates some of the series' higher price scenarios. Second, and more important: a narrower class of transactions may require true simultaneous atomic execution rather than escrow-style conditional release — either because the legal instrument, operational standard, or counterparty risk policy does not permit a meaningful exposure window between legs. For those transactions, the square root law is the applicable model, and it is set by peak ticket size rather than annual volume.</p>
       <p>These two findings work in opposite directions and must be understood together.</p>
+      <p><strong>May 2026 update:</strong> Section 06 has been substantially expanded with an explicit four-test competitive framework running every major candidate through the same criteria, crediting what each solves and identifying precisely where each fails. Signal 01 has been updated with a confirmed release target for BatchV1_1 and a revised race timeline against the DTCC H2 2026 commercial launch.</p>
     </div>
 
     <h2>Section 01 — What DvP actually means</h2>
@@ -300,10 +322,13 @@
       multi-party netting chains would require either multiple batches or the escrow mechanism.
     </p>
 
+    <!-- PROTOCOL STATUS BOX — UPDATED -->
     <div class="protocol-note">
-      <div class="protocol-note-label">Protocol status — February 2026</div>
-      <p>The original Batch amendment (XLS-56) was disabled in rippled v3.1.1 on February 23, 2026, following responsible disclosure of a critical signature-validation bug by security researcher Pranamya Keshkamat and Cantina AI's autonomous tool Apex. The bug would have allowed an attacker to execute inner transactions on behalf of arbitrary victim accounts without their private keys. Critically, the amendment had not activated on mainnet — it was still in the validator voting phase — so no funds were ever at risk.</p>
-      <p>The emergency disable was a preventative measure, not damage control, and reflects the system working as designed. The corrected replacement, BatchV1_1, has been implemented and is currently under security review with no confirmed release date. In the interim, Token Escrow (XLS-85, live on mainnet since February 2026) is the operational DvP protection mechanism — which reinforces the escrow-dominant scenario modeled in Section 03.</p>
+      <div class="protocol-note-label">Protocol status — updated May 2026</div>
+      <p>The original Batch amendment (XLS-56) was disabled in rippled v3.1.1 on February 23, 2026, following responsible disclosure of a critical signature-validation bug by security researcher Pranamya Keshkamat and Cantina AI's autonomous tool Apex. The bug would have allowed an attacker to execute inner transactions on behalf of arbitrary victim accounts without their private keys. Critically, the amendment had not activated on mainnet — it was still in the validator voting phase — so no funds were ever at risk. The emergency disable was a preventative measure, not damage control, and reflects the system working as designed.</p>
+      <p><strong>BatchV1_1 is scheduled for rippled v3.3.0</strong> — the first confirmed release target as of May 2026. Development and security review are active. The AI-assisted red team program implemented by RippleX is specifically designed to catch the class of cross-feature interaction vulnerability that appeared in the original Batch amendment. When it clears, the probability that BatchV1_1 ships clean is higher than for a conventional code review process.</p>
+      <p><strong>fixCleanup3_1_3</strong> activated May 27, 2026, at 100% validator consensus — a rare unanimity that confirms the validator set is operationally coordinated and current. Most amendments merely surpass the required 80% threshold.</p>
+      <p><strong>Token Escrow (XLS-85)</strong> remains the operational DvP protection mechanism on XRPL mainnet — live since February 2026, providing weak atomicity (IMF framework) and conditional DvP protection for the escrow-dominant settlement regime.</p>
     </div>
 
     <div class="protocol-note" style="border-left-color:#185FA5;">
@@ -369,9 +394,7 @@
 
     <h2>Section 03 — The escrow distinction: most DvP will not be atomic</h2>
 
-    <p>
-      Here is the refinement that moderates some of the series' higher scenarios.
-    </p>
+    <p>Here is the refinement that moderates some of the series' higher scenarios.</p>
 
     <p>
       Token Escrow (XLS-85) went live on XRPL mainnet in February 2026. It extends native
@@ -514,95 +537,27 @@
     </p>
 
     <p>
-      <strong>One layer of a three-layer model.</strong> Before reading the pricing
-      outputs below, one structural fact must be stated plainly. The pricing analysis
-      in this note addresses a single demand pool: DvP settlement transactions that
-      require true atomic or conditionally atomic execution — the DTCC cross-border
-      residual and non-dollar corridor DvP flows. This is not the complete pricing
-      picture. The series models three separate and additive demand pools on the same
-      fixed 6 billion XRP productive float: Layer 1 — the DTCC repo and Treasury
-      clearing residual (this note and Observatory No. 3); Layer 2 — the global
-      non-dollar FX settlement corridor market, $150–300 trillion annually outside
-      CLS and SWIFT (Observatory No. 3 and Field Note 14); Layer 3 — the global
-      derivatives margin layer (Part V). Each layer competes for the same productive
-      float simultaneously. The prices derived in this note are the floor implied by
-      DvP adoption alone at corridor-specific slippage tolerances. If all three layers
-      develop, they are additive on the same supply — and the compounding effect is
-      the central analytical contribution of the full series. The ceiling is
-      determined by how many of the three additive demand pools materialize
-      simultaneously. These numbers are the floor, not the ceiling.
+      <strong>One layer of a three-layer model.</strong> Before reading the pricing outputs below, one structural fact must be stated plainly. The pricing analysis in this note addresses a single demand pool: DvP settlement transactions that require true atomic or conditionally atomic execution — the DTCC cross-border residual and non-dollar corridor DvP flows. This is not the complete pricing picture. The series models three separate and additive demand pools on the same fixed 6 billion XRP productive float: Layer 1 — the DTCC repo and Treasury clearing residual (this note and Observatory No. 3); Layer 2 — the global non-dollar FX settlement corridor market, $150–300 trillion annually outside CLS and SWIFT (Observatory No. 3 and Field Note 14); Layer 3 — the global derivatives margin layer (Part V). Each layer competes for the same productive float simultaneously. The prices derived in this note are the floor implied by DvP adoption alone at corridor-specific slippage tolerances. If all three layers develop, they are additive on the same supply — and the compounding effect is the central analytical contribution of the full series. The ceiling is determined by how many of the three additive demand pools materialize simultaneously. These numbers are the floor, not the ceiling.
     </p>
 
     <p>
-      The most important thing to understand about the pricing output is that it is not one
-      number — it is a range produced by six inputs, and one of those inputs dwarfs all the
-      others combined. That input is slippage tolerance. At 3.5 basis points — the tightest
-      institutional standard, applicable to sovereign-scale FX settlement where 1% slippage
-      on a $50B transaction costs $500M and eliminates the efficiency argument entirely — the
-      square root law produces implied prices in the hundreds to thousands of dollars per XRP
-      for large institutional tickets. At 50 basis points — the outer bound for a
-      disintermediated market where intermediaries and their price-smoothing function have
-      been removed — the same model produces prices in the tens to low hundreds. That is a
-      200-fold difference from changing one input. Every other variable in the model moves
-      the needle by factors of 2 to 5. Slippage tolerance moves it by 200. The honest answer
-      is that the real-world tolerance for institutional DvP settlement on XRPL has never
-      been observed, because the system has never operated at institutional scale. The series
-      will update the scenarios when observable data exists.
+      The most important thing to understand about the pricing output is that it is not one number — it is a range produced by six inputs, and one of those inputs dwarfs all the others combined. That input is slippage tolerance. At 3.5 basis points — the tightest institutional standard, applicable to sovereign-scale FX settlement where 1% slippage on a $50B transaction costs $500M and eliminates the efficiency argument entirely — the square root law produces implied prices in the hundreds to thousands of dollars per XRP for large institutional tickets. At 50 basis points — the outer bound for a disintermediated market where intermediaries and their price-smoothing function have been removed — the same model produces prices in the tens to low hundreds. That is a 200-fold difference from changing one input. Every other variable in the model moves the needle by factors of 2 to 5. Slippage tolerance moves it by 200. The honest answer is that the real-world tolerance for institutional DvP settlement on XRPL has never been observed, because the system has never operated at institutional scale. The series will update the scenarios when observable data exists.
     </p>
 
     <p>
-      The second most important input is productive float — the XRP actually available for
-      settlement use rather than sitting in dormant wallets, ETF cold storage, or long-term
-      holdings. Today that figure is approximately 6 billion tokens. As price rises, LP yield
-      incentives pull dormant supply into active circulation — market makers, AMM pools,
-      settlement inventory. At 20 billion tokens in active use (roughly 33% of circulating
-      supply), MV=PQ implied prices fall by a factor of 3.3 relative to the 6B baseline.
-      This is a moderating force on the high-end scenarios, not a reason to dismiss them.
-      Higher float means the same monetary base is distributed across more tokens, which
-      lowers the per-token price required to support a given volume. The direction is honest:
-      the series' highest price scenarios assume the productive float stays constrained.
-      As adoption expands the float, the required price per token falls — though the required
-      total market cap does not.
+      The second most important input is productive float — the XRP actually available for settlement use rather than sitting in dormant wallets, ETF cold storage, or long-term holdings. Today that figure is approximately 6 billion tokens. As price rises, LP yield incentives pull dormant supply into active circulation — market makers, AMM pools, settlement inventory. At 20 billion tokens in active use (roughly 33% of circulating supply), MV=PQ implied prices fall by a factor of 3.3 relative to the 6B baseline. This is a moderating force on the high-end scenarios, not a reason to dismiss them. Higher float means the same monetary base is distributed across more tokens, which lowers the per-token price required to support a given volume. The direction is honest: the series' highest price scenarios assume the productive float stays constrained. As adoption expands the float, the required price per token falls — though the required total market cap does not.
     </p>
 
     <p>
-      The escrow/atomic split — provisionally modeled at 70/30 — is the third significant
-      input and the most uncertain. Moving from 80/20 escrow-to-atomic to 50/50 increases
-      the blended implied price by 40–50% because a larger share of volume falls under the
-      square root law rather than MV=PQ. Whether institutional adoption tilts toward
-      escrow-dominant conditional settlement or toward true atomic batch depends on how
-      quickly BatchV1_1 activates, how regulators treat escrow-based finality versus
-      simultaneous settlement, and what counterparty risk policies the first institutional
-      adopters bring to the table. The series treats this split as a sensitivity variable,
-      not a prediction. Velocity and market share capture round out the remaining inputs —
-      each moving the MV=PQ component by factors of 2 to 3, significant in isolation
-      but secondary to the slippage and float questions.
+      The escrow/atomic split — provisionally modeled at 70/30 — is the third significant input and the most uncertain. Moving from 80/20 escrow-to-atomic to 50/50 increases the blended implied price by 40–50% because a larger share of volume falls under the square root law rather than MV=PQ. Whether institutional adoption tilts toward escrow-dominant conditional settlement or toward true atomic batch depends on how quickly BatchV1_1 activates, how regulators treat escrow-based finality versus simultaneous settlement, and what counterparty risk policies the first institutional adopters bring to the table. The series treats this split as a sensitivity variable, not a prediction. Velocity and market share capture round out the remaining inputs — each moving the MV=PQ component by factors of 2 to 3, significant in isolation but secondary to the slippage and float questions.
     </p>
 
     <p>
-      One additional friction cost belongs in any honest treatment: acquisition slippage.
-      The slippage tolerance modeled applies to the DvP execution leg only — the moment XRP
-      moves as the cash leg of a settlement transaction. In most institutional workflows,
-      XRP must first be acquired via a stablecoin or fiat conversion immediately before
-      the transaction executes. That pre-positioning step creates its own market impact,
-      additive to the execution slippage. The effective tolerance available for the DvP leg
-      is therefore lower than the institutional benchmark implies — some portion of the
-      tolerance budget is consumed before settlement begins. This does not change the
-      pricing logic, but it is a real friction that institutional treasury desks will price
-      into their settlement economics.
+      One additional friction cost belongs in any honest treatment: acquisition slippage. The slippage tolerance modeled applies to the DvP execution leg only — the moment XRP moves as the cash leg of a settlement transaction. In most institutional workflows, XRP must first be acquired via a stablecoin or fiat conversion immediately before the transaction executes. That pre-positioning step creates its own market impact, additive to the execution slippage. The effective tolerance available for the DvP leg is therefore lower than the institutional benchmark implies — some portion of the tolerance budget is consumed before settlement begins. This does not change the pricing logic, but it is a real friction that institutional treasury desks will price into their settlement economics.
     </p>
 
     <p>
-      What does the blended model actually produce? Using the 70/30 provisional split,
-      6–20 billion in productive float depending on adoption stage, and conservative market
-      share assumptions across the three layers — DTCC residual, non-dollar FX corridors,
-      derivatives margin — the implied range is approximately $280 to $1,100. At 20 billion
-      productive float with the 70/30 split, independent modeling converges on a central
-      case of approximately $1,050–$1,100. These are not predictions. They are the
-      arithmetic output of stated inputs applied to a framework that has been stress-tested
-      across five review cycles. Change any input and the outputs change. The inputs
-      themselves are the judgment. The table below is a reference summary — the argument
-      lives in the paragraphs above it.
+      What does the blended model actually produce? Using the 70/30 provisional split, 6–20 billion in productive float depending on adoption stage, and conservative market share assumptions across the three layers — DTCC residual, non-dollar FX corridors, derivatives margin — the implied range is approximately $280 to $1,100. At 20 billion productive float with the 70/30 split, independent modeling converges on a central case of approximately $1,050–$1,100. These are not predictions. They are the arithmetic output of stated inputs applied to a framework that has been stress-tested across five review cycles. Change any input and the outputs change. The inputs themselves are the judgment. The table below is a reference summary — the argument lives in the paragraphs above it.
     </p>
 
     <div class="sensitivity-table">
@@ -644,108 +599,165 @@
       <div class="sensitivity-row" style="background:var(--paper-soft); border-left:3px solid #5a3e8a;">
         <div class="s-label" style="color:#3a2060;">Corridor-specific tolerance<small>EM vs. major currency</small></div>
         <div class="s-cell" style="color:#5a3e8a; font-weight:600;">59–90bp (EM) vs. 3.5–10bp (major)</div>
-        <div class="s-cell">The 3.5–10bp range applies to the most demanding institutional use cases in major CLS currency pairs. For XRP's realistic near-term addressable market — non-dollar EM corridors where current system costs run 60–200bp — corridor-specific tolerances of 59–90bp are economically justified. At those tolerances, the required price for the non-dollar corridor segment alone is $77–$258 per XRP, derived from $23–62T in annual non-dollar corridor Q_annual at 6B productive float and 50× velocity. At EM corridor tolerances, the square root law floor drops significantly and the chicken-and-egg problem substantially resolves — organic adoption can begin at prices achievable without speculative appreciation. The blended 3.5–10bp scenario produces the high-end prices the series models; the EM corridor scenario produces the near-term floor.</div>
+        <div class="s-cell">The 3.5–10bp range applies to the most demanding institutional use cases in major CLS currency pairs. For XRP's realistic near-term addressable market — non-dollar EM corridors where current system costs run 60–200bp — corridor-specific tolerances of 59–90bp are economically justified. At those tolerances, the required price for the non-dollar corridor segment alone is $77–$258 per XRP. At EM corridor tolerances, the square root law floor drops significantly and the chicken-and-egg problem substantially resolves — organic adoption can begin at prices achievable without speculative appreciation.</div>
       </div>
     </div>
 
-    <h2>Section 06 — The competitive landscape through this lens</h2>
+    <!-- SECTION 06 — FULL REPLACEMENT -->
+    <h2>Section 06 — The competitive landscape: four tests, every candidate</h2>
 
     <p>
-      TARGET2-Securities — the ECB's pan-European settlement platform covering 23 countries
-      and settling in central bank money — is the world's most advanced DvP infrastructure
-      in terms of participant count and cross-border scope. It is also jurisdiction-specific:
-      it covers Eurozone and select EU nations using central bank money in euros or Danish
-      krone. An Asian institution, a Gulf sovereign wealth fund, or an institution settling
-      cross-currency between non-aligned blocs faces a gap T2S does not address. This is not
-      a criticism of T2S — it is exactly the right design for its purpose. It is evidence
-      that the cross-jurisdictional non-dollar DvP gap is structural, not a failure of
-      existing infrastructure to solve a problem it was designed to solve.
+      The most important analytical discipline in this series is engaging the strongest counterarguments honestly. This section does that for the competitive landscape. Every candidate that could plausibly serve as the cash leg for cross-jurisdictional atomic DvP settlement at $1–5 billion ticket sizes is run through the same four tests. No candidate is dismissed without showing precisely where and why it fails. Credit is given where it is due.
     </p>
 
     <p>
-      JPMorgan Kinexys has broken out of its original layer-lock — it now connects to Canton
-      Network and public blockchain infrastructure, and JPM Coin is explicitly designed to be
-      offered on external blockchains. The technical layer-lock argument should be retired.
-      However, the jurisdictional argument is unchanged and is in fact strengthened by
-      Kinexys's expansion. JPM Coin is a claim on JPMorgan Chase deposits. JPMorgan Chase
-      is a U.S.-chartered bank subject to U.S. jurisdiction, OFAC enforcement, and Treasury
-      oversight. A foreign institutional counterparty that routes DvP settlement through
-      JPM Coin is placing its settlement activity inside the U.S. legal perimeter. This is
-      a demonstrated, exercised power — used in living institutional memory against Russia
-      in 2022 — that risk management teams in Beijing, New Delhi, Riyadh, and Jakarta are
-      explicitly required to account for.
+      One fact must be stated at the outset: <strong>the domestic US corridor is being solved, and solved well.</strong> Canton Network is live. JPM Coin is coming to Canton natively through a phased 2026 rollout. LSEG DiSH tokenized deposits have already executed as the cash leg of cross-border intraday repo transactions on Canton. USDC completed live US Treasury financing on Canton in August 2025. Two US institutions settling US Treasuries through DTCC's Canton infrastructure, with JPM Coin as the cash leg, under US jurisdiction — that works. That is real. This section is not about the domestic corridor. It is about the cross-jurisdictional corridor.
     </p>
 
     <p>
-      Regional stablecoins (EURC, JPY stablecoins, CNH instruments) solve the same-currency
-      leg efficiently. They do not solve the cross-currency non-dollar DvP cash leg — the
-      yen-to-euro, sterling-to-won, real-to-dirham transaction where neither counterparty
-      wants to convert through a dollar instrument at all. XRP and XLM are among the few
-      credible permissionless, trustless, geopolitically neutral candidates designed for this
-      kind of bridge function. Every other widely deployed alternative has counterparty or
-      jurisdictional trust embedded in its structure.
+      DTCC's depository provides custody and asset servicing for securities from <strong>over 150 countries and territories</strong>, valued at $99 trillion. Not US institutions. 150 countries. The moment a Japanese pension fund, a Saudi sovereign wealth fund, or a Norwegian oil fund is on the other side of a DTCC Treasury settlement, the jurisdictional question is live. That is the corridor this section analyzes.
+    </p>
+
+    <div class="protocol-note" style="border-left-color: var(--ink-faint);">
+      <div class="protocol-note-label" style="color: var(--ink-faint);">The four structural tests</div>
+      <p><strong>Test 1 — Capacity:</strong> Can the instrument hold $1–5 billion in instantaneous liquidity? A settlement instrument that cannot absorb the peak irreducible ticket within institutional slippage tolerance has failed before the transaction begins. The Talos empirical standard — 1.3 to 5.2 basis points for algorithmic prime brokerage execution — is the benchmark.</p>
+      <p><strong>Test 2 — Atomic DvP:</strong> Can the instrument settle both legs simultaneously on-chain, with cryptographic finality and no meaningful exposure window between delivery and payment? Procedural coordination through legal agreements does not satisfy this test. Conditional escrow satisfies it partially. Strict same-ledger atomic execution satisfies it completely.</p>
+      <p><strong>Test 3 — Legal recognition:</strong> Is the instrument legally recognized at clearing house standard? Acceptance by DTCC, FICC, and equivalent settlement authorities as a valid settlement asset — not merely a technically capable one.</p>
+      <p><strong>Test 4 — Jurisdictional neutrality:</strong> Does the instrument sit outside any single nation's legal perimeter? A settlement asset that can be frozen, restricted, or confiscated by a single sovereign authority is not neutral. In 2022, assets inside the US legal perimeter were frozen within living institutional memory. Every non-US institution with a fiduciary mandate to avoid that exposure has written it into their risk policy. The test is binary: the asset is either subject to unilateral sovereign control, or it is not.</p>
+    </div>
+
+    <div class="candidate-table">
+      <div class="candidate-head">Cash leg candidates — cross-jurisdictional atomic DvP at $1–5B ticket sizes</div>
+
+      <div class="candidate-entry">
+        <div class="candidate-name">Fedwire / Central Bank Reserves</div>
+        <div class="candidate-tests">
+          <div class="candidate-test"><span class="pass">✅ Test 1</span> — Unlimited capacity. Fed backstops the full dollar system.</div>
+          <div class="candidate-test"><span class="fail">❌ Test 2</span> — Fedwire is centralized. Simultaneity is procedural, not cryptographic.</div>
+          <div class="candidate-test"><span class="pass">✅ Test 3</span> — Gold standard. Every clearing house treats Fedwire as the definitional benchmark.</div>
+          <div class="candidate-test"><span class="fail">❌ Test 4</span> — US jurisdiction only. Not available to counterparties requiring neutrality.</div>
+        </div>
+        <div class="candidate-result"><strong>Result:</strong> Fails Tests 2 and 4. Correct instrument for domestic US settlement. Not designed for cross-jurisdictional neutrality.</div>
+      </div>
+
+      <div class="candidate-entry">
+        <div class="candidate-name">JPM Coin / Kinexys (on Canton Network)</div>
+        <div class="candidate-tests">
+          <div class="candidate-test"><span class="pass">✅ Test 1</span> — JPMorgan balance sheet depth sufficient for $1–5B.</div>
+          <div class="candidate-test"><span class="pass">✅ Test 2</span> — Atomic DvP capable. Canton architecture supports it natively.</div>
+          <div class="candidate-test"><span class="pass">✅ Test 3</span> — Bank deposit, regulated, embedded in institutional framework.</div>
+          <div class="candidate-test"><span class="fail">❌ Test 4</span> — US-chartered bank. OFAC jurisdiction. Demonstrated power, exercised in 2022.</div>
+        </div>
+        <div class="candidate-note">The technical layer-lock argument against Kinexys should be retired. JPM Coin deploying natively on Canton is real. Expansion to public blockchains is real. The mechanics are genuine. But expanding the pipe does not change the jurisdictional character of the underlying deposit liability. A foreign institutional counterparty routing DvP settlement through JPM Coin places its settlement activity inside the US legal perimeter — a demonstrated, exercised power that risk management teams in Beijing, New Delhi, Riyadh, and Jakarta are explicitly required to account for.</div>
+        <div class="candidate-result"><strong>Result:</strong> Fails Test 4. Solves the domestic US corridor cleanly. Does not solve cross-jurisdictional neutrality.</div>
+      </div>
+
+      <div class="candidate-entry">
+        <div class="candidate-name">LSEG DiSH / Tokenized Deposits (on Canton)</div>
+        <div class="candidate-tests">
+          <div class="candidate-test"><span class="pass">✅ Test 1</span> — Commercial bank money at institutional scale.</div>
+          <div class="candidate-test"><span class="pass">✅ Test 2</span> — Live on Canton, executing as cash leg of cross-border repo now.</div>
+          <div class="candidate-test"><span class="pass">✅ Test 3</span> — Commercial bank money, regulated, within established legal frameworks.</div>
+          <div class="candidate-test"><span class="fail">❌ Test 4</span> — GBP-anchored. Bank of England jurisdiction. Solves the sterling corridor. Creates the same problem for non-UK counterparties.</div>
+        </div>
+        <div class="candidate-result"><strong>Result:</strong> Fails Test 4. Genuine and operational solution for sterling-corridor settlement. Not a neutral cross-jurisdictional instrument.</div>
+      </div>
+
+      <div class="candidate-entry">
+        <div class="candidate-name">RLUSD</div>
+        <div class="candidate-tests">
+          <div class="candidate-test"><span class="fail">❌ Test 1</span> — $1.55B total supply. One $2B settlement consumes it entirely. ~$310M daily settlement capacity at V=50×.</div>
+          <div class="candidate-test"><span class="conditional">⚠️ Test 2</span> — Atomic DvP capable on XRPL with BatchV1_1 (pending mainnet).</div>
+          <div class="candidate-test"><span class="pass">✅ Test 3</span> — NYDFS regulated. Improving institutional standing.</div>
+          <div class="candidate-test"><span class="fail">❌ Test 4</span> — Dollar instrument, US legal perimeter. Structurally equivalent to JPM Coin for non-US counterparties requiring neutrality.</div>
+        </div>
+        <div class="candidate-result"><strong>Result:</strong> Fails Tests 1 and 4. Structurally correct for dollar corridors on XRPL. XRP serves as dollar corridor overflow while RLUSD supply is constrained.</div>
+      </div>
+
+      <div class="candidate-entry">
+        <div class="candidate-name">USDC / USDT</div>
+        <div class="candidate-tests">
+          <div class="candidate-test"><span class="pass">✅ Test 1</span> — Combined supply sufficient.</div>
+          <div class="candidate-test"><span class="conditional">⚠️ Test 2</span> — Present on Canton for some use cases. Not natively integrated as a primary DvP cash leg.</div>
+          <div class="candidate-test"><span class="conditional">⚠️ Test 3</span> — Improving but not at clearing house standard.</div>
+          <div class="candidate-test"><span class="fail">❌ Test 4</span> — Dollar instruments, US legal perimeter.</div>
+        </div>
+        <div class="candidate-result"><strong>Result:</strong> Fails Tests 2, 3, and 4 for the cross-jurisdictional institutional corridor.</div>
+      </div>
+
+      <div class="candidate-entry">
+        <div class="candidate-name">Fnality (Tokenized Central Bank Money)</div>
+        <div class="candidate-tests">
+          <div class="candidate-test"><span class="pass">✅ Test 1</span> — Central bank money at institutional scale within each currency corridor.</div>
+          <div class="candidate-test"><span class="pass">✅ Test 2</span> — Sterling system live, atomic DvP capable by design.</div>
+          <div class="candidate-test"><span class="pass">✅ Test 3</span> — Supervised by respective central banks. Architecturally correct.</div>
+          <div class="candidate-test"><span class="fail">❌ Test 4</span> — Each system anchored to its home central bank. Multi-currency vision, but each leg carries its central bank's jurisdiction. USD system not yet operational.</div>
+        </div>
+        <div class="candidate-note">Fnality's multi-currency vision improves coordination within aligned currency blocs. It does not produce a neutral cross-jurisdictional instrument. For settlement between non-aligned sovereigns where no single central bank's money is acceptable to both counterparties, each Fnality leg carries the same structural problem as every CBDC-backed instrument.</div>
+        <div class="candidate-result"><strong>Result:</strong> Fails Test 4. Genuine long-term candidate for within-currency-bloc settlement. Not yet operational at dollar scale. Does not solve the neutrality problem for non-aligned cross-currency corridors.</div>
+      </div>
+
+      <div class="candidate-entry complementary">
+        <div class="candidate-name">Chainlink CCIP</div>
+        <div class="candidate-tests">
+          <div class="candidate-test"><span class="conditional">⚠️ Test 1</span> — Depends entirely on the cash leg. CCIP itself holds nothing.</div>
+          <div class="candidate-test"><span class="conditional">⚠️ Test 2</span> — Cross-chain weak atomicity. Coordination is genuine. Not strict same-ledger finality per IMF framework.</div>
+          <div class="candidate-test"><span class="conditional">⚠️ Test 3</span> — Depends on the cash leg. Chainlink itself is not a regulated settlement asset.</div>
+          <div class="candidate-test"><span class="conditional">⚠️ Test 4</span> — Depends entirely on the cash leg. Every CCIP demo to date uses a jurisdictionally anchored cash leg.</div>
+        </div>
+        <div class="candidate-note">CCIP is a coordination protocol, not a settlement asset. The May 2025 Kinexys/Ondo demonstration was technically significant — but the cash leg was JPMorgan USD deposits. CCIP coordinated the swap. The dollar still lived on JPMorgan's balance sheet. <strong>CCIP is a pipe. Not a cash leg.</strong> The vacancy is not about settlement mechanics — every candidate in this table has workable mechanics. The vacancy is about what flows through the pipe. Furthermore, cross-chain CCIP coordination operates in the IMF's weak atomicity regime: a lock on Chain A, a lock on Chain B, a coordination message, a release sequence. There is a window. The IMF states explicitly: cross-ledger arrangements cannot replicate strict atomicity guarantees.</div>
+        <div class="candidate-result"><strong>The complementary reading:</strong> CCIP doesn't compete with XRP for the neutrality role. It needs something to flow through it. For cross-jurisdictional CCIP transactions requiring a neutral cash leg, the available instruments that satisfy Test 4 are extremely limited. <strong>CCIP + XRP is more likely than CCIP vs. XRP.</strong></div>
+      </div>
+
+      <div class="candidate-entry">
+        <div class="candidate-name">Wholesale CBDC / Tokenized Federal Reserve Reserves</div>
+        <div class="candidate-tests">
+          <div class="candidate-test"><span class="pass">✅ Test 1</span> — Would be the definitive standard.</div>
+          <div class="candidate-test"><span class="pass">✅ Test 2</span> — By design, if built correctly.</div>
+          <div class="candidate-test"><span class="pass">✅ Test 3</span> — Ultimate standard.</div>
+          <div class="candidate-test"><span class="fail">❌ Test 4</span> — The Federal Reserve is a US institution. A tokenized Fed reserve is still a US sovereign instrument.</div>
+        </div>
+        <div class="candidate-result"><strong>Result:</strong> Fails Test 4. Does not exist. Not built. Not live. No confirmed timeline.</div>
+      </div>
+
+      <div class="candidate-entry" style="border-left: 3px solid var(--accent);">
+        <div class="candidate-name">XRP</div>
+        <div class="candidate-tests">
+          <div class="candidate-test"><span class="conditional">⚠️ Test 1</span> — Conditional. Market depth depends on market cap and float. At $1.35, insufficient depth to absorb $2B atomic settlement within institutional slippage tolerance. The series' pricing analysis is the exercise of determining what price satisfies this test.</div>
+          <div class="candidate-test"><span class="conditional">⚠️ Test 2</span> — Conditional. Token Escrow live — weak atomicity. BatchV1_1 pending — strict atomicity. Both conditions stated without false precision on timing.</div>
+          <div class="candidate-test"><span class="conditional">⚠️ Test 3</span> — Improving. Ripple v. SEC resolved. Not yet at clearing house standard.</div>
+          <div class="candidate-test"><span class="pass">✅ Test 4</span> — The only major candidate that passes. Permissionless, trustless, not subject to unilateral sovereign control. No single jurisdiction can freeze XRP balances through administrative action.</div>
+        </div>
+        <div class="candidate-note">XRP is the only instrument currently designed to fill the cross-jurisdictional atomic DvP vacancy — and it is not yet a functioning solution. Both halves of that sentence matter equally. The first half is the thesis. The second half is the discipline that makes the thesis credible.</div>
+        <div class="candidate-result"><strong>Result:</strong> Passes Test 4. Conditionally passes Tests 2 and 3. Does not yet pass Test 1 at current price. The series' pricing analysis determines what price satisfies Test 1.</div>
+      </div>
+    </div>
+
+    <p>
+      Every candidate with sufficient depth carries jurisdictional exposure. Every candidate with jurisdictional neutrality lacks the depth, lacks the legal recognition, or lacks the atomic DvP mechanism. Except one — and that one does not yet fully pass all four tests.
     </p>
 
     <p>
-      <strong>Dollar-denominated DvP: RLUSD first, XRP as overflow bridge.</strong> Most
-      cross-border DvP settlement in Treasury and repo markets is dollar-denominated —
-      a U.S. Treasury security settling against dollars, even if the counterparty is a
-      Japanese pension fund or a Gulf sovereign wealth fund. For those transactions, the
-      cash leg obligation is in dollars. RLUSD — a dollar stablecoin on XRPL — satisfies
-      that obligation directly, without the two-hop FX conversion that XRP would require.
-      Where RLUSD supply is sufficient to meet instantaneous atomic DvP depth requirements,
-      RLUSD is the structurally correct instrument for dollar-denominated cross-border DvP.
+      The vacancy is real regardless of whether XRP fills it. If XRP does not, something that does not currently exist — a neutral, deep, strictly atomic, legally recognized cross-jurisdictional settlement asset — must be designed, built, regulated, and deployed. The $1.35 price says the market has decided that gap will either stay unfilled or be solved by something not yet on the drawing board. The series' pricing analysis says if XRP fills it, $1.35 and $280 cannot both be right at the same time.
     </p>
 
     <p>
-      However, RLUSD supply is currently approximately $1.55 billion. The dollar-denominated
-      cross-border Treasury clearing market the TBAC describes runs $926 billion daily in
-      cash transactions and $2.4 trillion daily in uncleared bilateral repo. Even at V=50×
-      annual velocity, $1.55 billion in RLUSD supports approximately $310 million in daily
-      settlement flow — a fraction of the market. At current supply, RLUSD cannot serve
-      as the primary settlement asset for the dollar corridor at institutional scale. For
-      dollar-denominated flows that exceed RLUSD's available depth, XRP serves as an
-      ODL-style just-in-time bridge: dollars to XRP to dollars, atomically, within a
-      single settlement window. This is not a design preference — it is a supply
-      constraint. XRP's role in dollar corridors therefore shrinks as RLUSD scales and
-      grows as institutional clearing volumes expand faster than RLUSD supply. The
-      instrument separation is directionally correct — RLUSD is designed for dollar
-      corridors, XRP for non-dollar corridors — but XRP absorbs the dollar corridor
-      overflow for as long as RLUSD supply is insufficient to meet instantaneous
-      institutional DvP depth requirements. Both instruments expand XRP's addressable
-      market rather than competing for the same flows. The DvP depth argument the
-      square root law models applies most cleanly to XRP in the non-dollar cross-currency
-      corridor. It applies secondarily to XRP as a dollar corridor overflow bridge for
-      as long as RLUSD supply is constrained.
+      <strong>TARGET2-Securities</strong> — the ECB's pan-European settlement platform covering 23 countries — is the world's most advanced DvP infrastructure by participant count and cross-border scope. It is also jurisdiction-specific: it covers Eurozone and select EU nations settling in central bank money. An Asian institution, a Gulf sovereign wealth fund, or a counterparty settling cross-currency between non-aligned blocs faces a gap T2S does not address. This is not a criticism of T2S — it is exactly the right design for its purpose. It is evidence that the cross-jurisdictional non-dollar DvP gap is structural, not a failure of existing infrastructure to solve a problem it was designed to solve.
     </p>
 
     <p>
-      A critical objection must be stated honestly: a thriving XRPL does not automatically
-      translate into proportional demand for XRP. If stablecoins become the main unit of
-      account on XRPL — RLUSD for dollar corridors, EURC for euro corridors — then
-      stablecoin-to-stablecoin routing can expand without forcing participants to hold much
-      XRP beyond protocol fees and reserves. In that scenario, XRPL succeeds while XRP
-      remains optional.
+      <strong>Regional stablecoins</strong> (EURC, JPY stablecoins, CNH instruments) solve the same-currency leg efficiently. They do not solve the cross-currency non-dollar DvP cash leg — the yen-to-euro, sterling-to-won, real-to-dirham transaction where neither counterparty wants to convert through a dollar instrument at all.
     </p>
 
     <p>
-      The pricing thesis in this note depends on XRP being the bridge asset specifically —
-      not merely a token used on XRPL. The case rests on the sovereignty and non-dollar
-      corridor argument developed in <a href="/observatory/plumbing-paper/" style="color:var(--accent);border-bottom:1px solid rgba(155,34,38,0.3)">Observatory No. 3</a>:
-      for cross-currency DvP between non-aligned jurisdictions, RLUSD is a dollar instrument,
-      regional stablecoins are sovereign instruments, and only a permissionless non-sovereign
-      bridge satisfies the jurisdictional neutrality requirement. The DvP pricing argument
-      is only as strong as the non-dollar corridor argument that underlies it.
+      A critical objection must be restated here because the four-test framework makes it sharper, not weaker: <strong>a thriving XRPL does not automatically translate into proportional demand for XRP.</strong> If stablecoins dominate XRPL settlement — RLUSD for dollar corridors, EURC for euro corridors — stablecoin-to-stablecoin routing can expand without requiring participants to hold meaningful XRP beyond protocol fees and reserves. In that scenario, XRPL succeeds while XRP remains optional. The four-test framework shows precisely where that objection does and does not apply. Within single-currency corridors served by adequate stablecoin supply, XRP is largely optional. In the cross-jurisdictional non-dollar corridor where no stablecoin passes Test 4, XRP is structurally necessary — or the vacancy goes unfilled.
     </p>
 
     <p>
-      The atomic DvP segment is the highest-value, highest-depth-requirement segment — where
-      XRP's structural advantages are most acute and where the square root law produces its
-      most demanding price floors. But that advantage only materializes in corridors where
-      institutional counterparties have jurisdictional reasons to avoid dollar-denominated
-      alternatives. Sizing the market requires sizing those specific corridors.
+      The pricing thesis in this note depends on XRP being the bridge asset specifically — not merely a token used on XRPL. The case rests on the sovereignty and non-dollar corridor argument developed in <a href="/observatory/plumbing-paper/" style="color:var(--accent);border-bottom:1px solid rgba(155,34,38,0.3)">Observatory No. 3</a>: for cross-currency DvP between non-aligned jurisdictions, RLUSD is a dollar instrument, regional stablecoins are sovereign instruments, and only a permissionless non-sovereign bridge satisfies the jurisdictional neutrality requirement. The DvP pricing argument is only as strong as the non-dollar corridor argument that underlies it.
     </p>
 
+    <!-- SECTION 07 — SIGNAL 01 UPDATED -->
     <h2>Section 07 — The observable signals</h2>
 
     <p>
@@ -757,16 +769,57 @@
     <div class="signal-block">
       <div class="signal-head">Observable signals — DvP adoption on XRPL</div>
 
+      <!-- SIGNAL 01 — UPDATED -->
       <div class="signal-entry top-signal">
         <div class="signal-label">Signal 01 &nbsp;·&nbsp; BatchV1_1 mainnet activation</div>
         <div class="signal-text">
-          <strong>The corrected batch amendment has no confirmed release date as of May 2026.</strong>
-          Validator voting requires 80% of UNL validators sustained over two weeks — typically
-          several months from release. If BatchV1_1 is not mainnet-activated before October 2026,
-          atomic DvP use cases will not be operationally available at the DTCC commercial launch.
-          Token Escrow (live) covers conditional DvP in the interim. Watch for: BatchV1_1
-          inclusion in a rippled release, validator voting progress, and activation date.
-          This is the single most concrete near-term observable for the atomic DvP thesis.
+          <strong>BatchV1_1 is scheduled for rippled v3.3.0</strong> — the first confirmed release target as of May 2026. This materially updates the series' prior language of "no confirmed release date." A version number is a development milestone, not an activation date. The following sequence applies before mainnet activation:
+
+          <div class="timeline-table" style="margin-top:14px;">
+            <div class="timeline-head">
+              <span>Event</span>
+              <span>Status</span>
+              <span>Timing</span>
+            </div>
+            <div class="timeline-row active">
+              <div class="t-event">fixCleanup3_1_3 activation</div>
+              <div class="t-status" style="color:#7ecb7e;">Complete</div>
+              <div class="t-timing">May 27, 2026 · 100% consensus</div>
+            </div>
+            <div class="timeline-row">
+              <div class="t-event">rippled v3.2.0</div>
+              <div class="t-status">Entering activation cycle</div>
+              <div class="t-timing">June–July 2026</div>
+            </div>
+            <div class="timeline-row">
+              <div class="t-event">rippled v3.3.0 release</div>
+              <div class="t-status">BatchV1_1 scheduled</div>
+              <div class="t-timing">Aug–Oct 2026 (est.)</div>
+            </div>
+            <div class="timeline-row">
+              <div class="t-event">Validator adoption of v3.3.0</div>
+              <div class="t-status">Requires broad upgrade</div>
+              <div class="t-timing">4–8 weeks post-release</div>
+            </div>
+            <div class="timeline-row">
+              <div class="t-event">BatchV1_1 enters voting window</div>
+              <div class="t-status">80% threshold for 2 weeks</div>
+              <div class="t-timing">Oct–Dec 2026 (est.)</div>
+            </div>
+            <div class="timeline-row">
+              <div class="t-event">BatchV1_1 mainnet activation</div>
+              <div class="t-status" style="color:#c9a84c;">Best case</div>
+              <div class="t-timing">Late 2026 / Q1 2027</div>
+            </div>
+          </div>
+
+          <br>The validator set health signal is directly relevant. fixCleanup3_1_3 achieved <strong>100% validator consensus</strong> — a rare unanimity. Most amendments merely surpass the required 80% threshold. A validator set that reaches unanimity on a cleanup amendment is a validator set that is operationally coordinated. When BatchV1_1 enters voting, the infrastructure to reach 80% quickly is demonstrably in place. The bottleneck is development and security review — not validator coordination.<br><br>
+
+          The AI-assisted red team program implemented by RippleX is designed to catch the exact class of cross-feature interaction vulnerability that appeared in the original Batch amendment. BatchV1_1's review is bounded — not indefinite. When it clears, the probability that it ships clean is higher than for a conventional code review process.<br><br>
+
+          <strong>The race.</strong> The DTCC commercial tokenization launch is targeted for H2 2026. Best-case BatchV1_1 mainnet activation is late 2026 or Q1 2027. This is a genuine race — not guaranteed to converge, but no longer implausible. If BatchV1_1 activates before or concurrent with the DTCC commercial launch, the strict atomicity case is operational at the moment the use case goes live. If it activates after, Token Escrow covers the interim for all transactions where weak atomicity satisfies counterparty risk policy. The Category A instruments that require strict atomicity wait.<br><br>
+
+          Watch for: BatchV1_1 inclusion in a rippled v3.3.0 release candidate, validator voting progress on XRPScan, and activation date. <strong>This remains the single most important near-term technical signal in the entire thesis — now with a version number attached.</strong>
         </div>
       </div>
 
@@ -815,33 +868,19 @@
       <div class="hold-label">The framework, refined</div>
       <div class="hold-item"><strong>Most DvP volume will use Token Escrow.</strong> Those flows are primarily priced via MV=PQ. Velocity matters. Higher float expands the denominator and reduces required prices. LP yields pulling XRP into productive use are a real moderating force on the high-end scenarios.</div>
       <div class="hold-item"><strong>A subset of DvP requires true atomic batch settlement.</strong> Those flows are priced by the square root law, set by peak ticket size, independent of annual volume. The market must have sufficient depth to handle the largest single irreducible transaction — a $2B block trade in tokenized Treasuries, a central bank FX swap draw, a FICC net settlement obligation — without unacceptable slippage.</div>
-      <div class="hold-item"><strong>Slippage tolerance is the most consequential variable — now empirically bounded.</strong> The Talos Market Impact (TMI) model (Eliad Hoch, December 2025), built on 50,000+ parent orders and 50 million child orders from real institutional execution on 50+ venues (June 2024–July 2025), establishes that the modal institutional crypto execution outcome is 0–5bp actual slippage. Algorithmic execution (Hidden Road-level prime brokerage infrastructure) achieves 1.3–5.2bp on BTC/ETH basis trades. Manual execution without optimization produces 17–54bp — this is where the 50bp figure originates. The 50bp scenario is not a realistic institutional adoption tolerance. The series' 3.5–10bp range is correctly calibrated and empirically supported. The Talos model independently validates the Almgren-Chriss square root law as the correct foundation for institutional crypto execution cost modeling, and confirms that atomic DvP — with no VWAP spreading available, the full transaction executing instantaneously — requires more depth than equivalent algorithmically executed orders. The real-world tolerance for institutional DvP settlement on XRPL at scale remains to be confirmed by live volume data. The series will update when that data exists.</div>
+      <div class="hold-item"><strong>Slippage tolerance is the most consequential variable — now empirically bounded.</strong> The Talos Market Impact (TMI) model (Eliad Hoch, December 2025), built on 50,000+ parent orders and 50 million child orders from real institutional execution on 50+ venues (June 2024–July 2025), establishes that the modal institutional crypto execution outcome is 0–5bp actual slippage. Algorithmic execution (Hidden Road-level prime brokerage infrastructure) achieves 1.3–5.2bp on BTC/ETH basis trades. Manual execution without optimization produces 17–54bp — this is where the 50bp figure originates. The 50bp scenario is not a realistic institutional adoption tolerance. The series' 3.5–10bp range is correctly calibrated and empirically supported.</div>
+      <div class="hold-item"><strong>The domestic corridor is being solved — by Canton, JPM Coin, and LSEG DiSH.</strong> The vacancy is specifically in cross-jurisdictional settlement where no single central bank's money is acceptable to both counterparties. That corridor is smaller by transaction count. It is not smaller by notional value. It is precisely where sovereign wealth funds, foreign central banks, and the largest institutional positions concentrate.</div>
       <div class="hold-item"><strong>The DvP pricing argument depends on non-dollar corridor adoption.</strong> If RLUSD and regional stablecoins dominate XRPL settlement, XRP remains optional. The argument requires XRP to be the bridge asset for cross-jurisdictional, non-dollar corridors specifically. Sizing the opportunity requires sizing those corridors — not the full XRPL settlement universe.</div>
       <div class="hold-item">Until the system operates at scale, the framework holds. The constraint is real. The outcome is conditional.</div>
     </div>
 
     <div class="framework-ref">
       <div class="framework-ref-label">Framework status — what this note changes</div>
-      <p>
-        <strong>Refinement:</strong> The escrow/atomic split is now an explicit modeling variable.
-        Future field notes and the settlement terminal will display sensitivity to this split
-        alongside velocity, float, and slippage tolerance.
-      </p>
-      <p>
-        <strong>Addition:</strong> The irreducible ticket list in Section 04 is new. It establishes
-        the specific transaction categories for which DvP atomicity is mandatory and Prisma-style
-        splitting is inapplicable by definition, separated into definitionally irreducible
-        (Category A) and practically irreducible (Category B).
-      </p>
-      <p>
-        <strong>Protocol update:</strong> The original Batch amendment (XLS-56) was disabled on
-        XRPL in February 2026 following pre-mainnet security bug disclosure. BatchV1_1 is the
-        corrected replacement, under review with no confirmed release date. Token Escrow (XLS-85)
-        is the currently operational conditional DvP mechanism on XRPL mainnet.
-      </p>
-      <p>
-        <strong>Unchanged:</strong> The DvP-unsplittable core finding — sourced from BIS 1992 <em>Delivery Versus Payment in Securities Settlement Systems</em>, BIS-IOSCO PFMI, NY Fed Liberty Street Economics (Lee, Martin, Müller 2022), IMF Fintech Note 2025/011 (Kunaratskul et al., November 2025), Chainlink technical documentation, and DTCC's own Rules — stands without modification. The atomicity that eliminates principal risk is the same property that prohibits leg-decoupled partial execution. This is definitional, not empirical. T2S partial settlement preserves proportional DvP linkage and does not permit leg decoupling. The IMF strict/weak atomicity distinction refines the mechanism — strict atomicity (BatchV1_1, same-ledger) provides the highest guarantee; weak atomicity (Token Escrow, cross-ledger) preserves the "if and only if" protection through conditional execution. Neither revision weakens the core finding.
-      </p>
+      <p><strong>Refinement:</strong> The escrow/atomic split is now an explicit modeling variable. Future field notes and the settlement terminal will display sensitivity to this split alongside velocity, float, and slippage tolerance.</p>
+      <p><strong>Addition:</strong> The irreducible ticket list in Section 04 is new. It establishes the specific transaction categories for which DvP atomicity is mandatory and Prisma-style splitting is inapplicable by definition, separated into definitionally irreducible (Category A) and practically irreducible (Category B).</p>
+      <p><strong>Addition — May 2026 update:</strong> Section 06 expanded with four-test competitive framework. Every major cash leg candidate assessed against the same four criteria. Canton + JPM Coin + LSEG DiSH credited for solving the domestic corridor. CCIP addressed as a coordination protocol, not a settlement asset — the pipe/cash leg distinction established. Fnality assessed and fails Test 4. The foreign Treasury holder argument added — DTCC's 150-country custody scope establishes that jurisdictional neutrality is live for a meaningful share of DTCC settlement volume.</p>
+      <p><strong>Protocol update — May 2026:</strong> BatchV1_1 confirmed for rippled v3.3.0 — first public release target. fixCleanup3_1_3 activated May 27, 2026 at 100% validator consensus. Race framing updated: DTCC H2 2026 vs. BatchV1_1 late 2026/Q1 2027. Token Escrow (XLS-85) remains the operational conditional DvP mechanism.</p>
+      <p><strong>Unchanged:</strong> The DvP-unsplittable core finding — sourced from BIS 1992, BIS-IOSCO PFMI, NY Fed Liberty Street Economics (Lee, Martin, Müller 2022), IMF Fintech Note 2025/011 (Kunaratskul et al., November 2025), Chainlink technical documentation, and DTCC's own Rules — stands without modification. The atomicity that eliminates principal risk is the same property that prohibits leg-decoupled partial execution. This is definitional, not empirical. No previously stated claim was retracted or weakened.</p>
       <p>
         <a href="/part1/">Part I — The square root law →</a>
         &nbsp;&nbsp;
@@ -856,18 +895,20 @@
     </div>
 
     <div class="disclaimer">
-      This is not financial advice. All pricing outputs are mechanical consequences of stated assumptions.
-      Inputs are speculative. The system has never operated at institutional scale.
+      This is not financial advice. All pricing outputs are mechanical consequences of stated assumptions. Inputs are speculative. The system has never operated at institutional scale.
       BIS DvP standard: BIS 1992, <em>Delivery Versus Payment in Securities Settlement Systems</em>; PFMI (BIS-IOSCO, 2012).
       NY Fed: Liberty Street Economics, "What Is Atomic Settlement?" (Lee, Martin, Müller, November 2022).
       IMF: Fintech Note 2025/011, <em>Central Bank Exploration of Tokenized Reserves</em> (Kunaratskul, Lannquist, Reslow, Zhang, November 2025) — Box 1, Atomicity and Atomic Settlement.
       Talos: Market Impact model (Eliad Hoch, December 2025) — 50,000+ parent orders, 50M child orders, June 2024–July 2025.
       T2S partial settlement: ECB <em>Insights on T2S Partial Settlement</em>.
       XRPL Batch bug: XRPL Foundation Vulnerability Disclosure Report, February 2026.
-      BatchV1_1 status: xrpl.org/resources/known-amendments, May 2026.
-      DTCC tokenization timeline: DTCC press release, May 4, 2026. Do your own research.
+      BatchV1_1 status: rippled v3.3.0 scheduled — xrpl.org blog, May 2026.
+      fixCleanup3_1_3: xrpl.org/blog/2026/rippled-3.1.3; XRPScan amendment voting data, May 2026.
+      Canton Network: Industry Working Group press releases, January and February 2026; DTCC/Digital Asset/Canton partnership, December 2025.
+      Messari Canton Network analysis, May 2026. DTCC tokenization timeline: DTCC press release, May 4, 2026. Do your own research.
     </div>
 
+    <!-- CHANGELOG — UPDATED -->
     <div class="protocol-note" style="border-left-color:var(--ink-faint); margin-top:40px;">
       <div class="protocol-note-label" style="color:var(--ink-faint);">Revision changelog — Living Framework updates</div>
       <p><strong>Original publication:</strong> May 2026. Sections 01–07, editor's note, irreducible ticket list (Categories A and B), provisional 70/30 escrow/atomic split, slippage tolerance range, BatchV1_1 protocol status, T2S partial settlement qualification, RLUSD routing objection, competitive landscape, observable signals, framework status.</p>
@@ -875,7 +916,12 @@
       <p><strong>Change 1 — IMF strict/weak atomicity distinction added to Section 01.</strong> Source: IMF Fintech Note 2025/011 (November 2025). The IMF distinguishes strict atomicity (same-ledger, guaranteed by consensus — BatchV1_1) from weak atomicity (cross-ledger HTLC/escrow — Token Escrow). The IMF states explicitly that cross-ledger arrangements cannot replicate strict atomicity guarantees. This makes BatchV1_1 the correct mechanism for the highest-value DvP transactions, not merely an enhancement of Token Escrow.</p>
       <p><strong>Change 2 — NY Fed simultaneous/instant distinction incorporated in Section 01.</strong> Source: Liberty Street Economics, "What Is Atomic Settlement?" (Lee, Martin, Müller, November 2022). Token Escrow provides simultaneous settlement without instant settlement. BatchV1_1 provides both. The NY Fed confirms the liquidity burden of instant settlement is the depth requirement the series models through the square root law.</p>
       <p><strong>Change 3 — Talos empirical slippage grounding added to "What to hold" section.</strong> Source: Talos Market Impact model (Eliad Hoch, December 2025) — 50,000+ institutional orders. Modal outcome: 0–5bp actual slippage. Algorithmic execution: 1.3–5.2bp. Manual execution: 17–54bp. The series' 3.5–10bp range is empirically anchored. The 50bp scenario represents unoptimized manual execution. Talos independently validates the Almgren-Chriss square root law and confirms atomic DvP (no VWAP spreading) requires more instantaneous depth than equivalent algorithmically executed orders.</p>
-      <p><strong>What did not change:</strong> The DvP-unsplittable core finding. The irreducible ticket list. The provisional 70/30 split. The competitive landscape. The observable signals. The directional conclusion. No previously stated claim was retracted or weakened.</p>
+      <p><strong>Update — May 2026 (competitive landscape and BatchV1_1 timeline):</strong></p>
+      <p><strong>Change 4 — Section 06 substantially expanded with four-test competitive framework.</strong> The four structural tests — capacity, atomic DvP, legal recognition, and jurisdictional neutrality — stated explicitly and applied uniformly to every major candidate: Fedwire, JPM Coin/Kinexys on Canton, LSEG DiSH, RLUSD, USDC/USDT, Fnality, Chainlink CCIP, Wholesale CBDC, and XRP. Each candidate credited for what it solves — particularly Canton + JPM Coin + LSEG DiSH for solving the domestic US corridor. The foreign Treasury holder argument added: DTCC provides custody for securities from 150+ countries, making jurisdictional neutrality live for a significant share of DTCC settlement volume.</p>
+      <p><strong>Change 5 — CCIP addressed directly.</strong> Assessed as a coordination protocol, not a settlement asset. Pipe/cash leg distinction established. The complementary framing — CCIP + XRP is more likely than CCIP vs. XRP — added. IMF weak atomicity classification applied to cross-chain coordination.</p>
+      <p><strong>Change 6 — Signal 01 updated with BatchV1_1 v3.3.0 release target.</strong> "No confirmed release date" replaced with "scheduled for rippled v3.3.0." Updated timeline table, fixCleanup3_1_3 100% consensus as validator health signal, and race framing (DTCC H2 2026 vs. BatchV1_1 late 2026/Q1 2027) added. AI-assisted red team program noted as bounding the security review timeline.</p>
+      <p><strong>Change 7 — Protocol Status Box updated.</strong> BatchV1_1 status updated from "under security review with no confirmed release date" to "scheduled for rippled v3.3.0." fixCleanup3_1_3 100% consensus activation noted.</p>
+      <p><strong>What did not change:</strong> The DvP-unsplittable core finding. The irreducible ticket list (Categories A and B). The provisional 70/30 escrow/atomic split. The pricing range ($280–$1,100 blended central case). The square root law framework. The XRP-optional objection. Observable Signals 02–05. All sourcing. No previously stated claim was retracted or weakened.</p>
     </div>
 
     <div class="post-footer">

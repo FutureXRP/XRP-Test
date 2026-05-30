@@ -164,5 +164,16 @@
     ],
     "title": "The room <em>gets built.</em>",
     "deck": "Four DTCC and SEC announcements in fourteen days. The ledger layer named. The data layer named. The working group named — including Ripple Prime, explicitly, in the press release. The timeline named. The one thing DTCC has not named is the cross-border value settlement asset. That chair is still empty. That chair is what this series has always been about."
+  },
+  {
+    "number": 16,
+    "slug": "thirteen-trillion-question",
+    "date": "May 2026",
+    "tags": [
+      "Settlement Infrastructure",
+      "Institutional Stack"
+    ],
+    "title": "The <em>$13 trillion</em> question.",
+    "deck": "The SEC Chair named the problem. The private networks cannot solve it. The stablecoin float is a fraction of what is needed — and it is not even fully available for this one use case. Here is the arithmetic, and why every escape route dead-ends at the same wall."
   }
 ]

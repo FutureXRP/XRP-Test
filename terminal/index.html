@@ -670,7 +670,7 @@ a { color: inherit; text-decoration: none; }
 
   <div class="quadrant-datestamp">
     <span class="quadrant-date-label">Signals last assessed</span>
-    <span class="quadrant-date-value">May 2026</span>
+    <span class="quadrant-date-value">June 2026</span>
     <span class="quadrant-date-note">These signals reflect editorial judgment, not a data feed. Updated when material evidence changes — new G20 reports, Ripple disclosures, corridor announcements, or shifts in RLUSD adoption.</span>
   </div>
 
@@ -681,7 +681,7 @@ a { color: inherit; text-decoration: none; }
     </div>
     <div class="quad-axis-cell">
       <div class="quad-axis-label">Axis 2 — XRP capturing the hub role?</div>
-      <div class="quad-axis-reading">Partial — ODL accelerating, RLUSD routing around XRP as asset on institutional rails</div>
+      <div class="quad-axis-reading">Partial — ODL growing; RLUSD settling the dollar cash leg; cross-ledger bridge asset still unselected</div>
     </div>
   </div>
 
@@ -816,8 +816,10 @@ async function fetchPrice() {
 // ─────────────────────────────────────────────────────────────────
 // BASE_CORRIDORS — estimated daily ODL volume per corridor
 //
-// Basis: Ripple Q1 2026 update confirmed >$35B annualized ODL (~$96M/day).
-// 41% YoY increase from 2024 $15B baseline. LATAM corridor now leads growth.
+// Basis: Ripple Q1 2026 update confirmed >$35B annualized ODL (~$96M/day),
+// a 41% YoY increase off the ~$25B 2025 run-rate. The 2024 figure (~$15B) is an
+// older baseline, NOT the immediate YoY comparator ($15B x 1.41 != $35B).
+// LATAM corridor now leads growth.
 // APAC historically ~56% of volume; LATAM acceleration shifts mix.
 // USD→MXN via Bitso confirmed ~$2B/year in 2024 (~$5.5M/day), scaling higher.
 // USD→BRL (Travelex Bank, Banco Genial live 2025–2026) now a top growth corridor.
@@ -855,10 +857,11 @@ function renderCorridors() {
 }
 
 function updateNostro() {
-  // ODL basis: Ripple Q1 2026 confirmed >$35B annualized (~$96M/day).
-  // This represents a 41% YoY increase from 2024's $15B confirmed baseline.
-  // LATAM is the leading growth corridor in 2026. DAS Research confirmed
-  // Q2 2025 at ~$1.3B for the quarter alone. Using Q1 2026 annualized figure.
+  // ODL basis: Ripple Q1 2026 confirmed >$35B annualized (~$96M/day), a 41% YoY
+  // increase off the ~$25B 2025 run-rate. The 2024 figure (~$15B) is an older
+  // baseline, not the immediate YoY comparator. LATAM is the leading growth
+  // corridor in 2026. DAS Research confirmed Q2 2025 at ~$1.3B for that quarter.
+  // Using the Q1 2026 annualized figure (Ripple Q1 2026 update via Phemex, May 13 2026).
   const annualODL  = 35e9;   // $35B/year — Ripple Q1 2026 confirmed run-rate
   const nostroDays = 3;      // average correspondent banking pre-funding horizon
   const nostroFreed  = annualODL * (nostroDays / 365);
@@ -1071,7 +1074,7 @@ function updateSensitivityTable() {
 }
 
 // ─────────────────────────────────────────────────────────────────
-// QUADRANT SIGNALS — editorial, updated May 2026
+// QUADRANT SIGNALS — editorial, updated June 2026
 // ─────────────────────────────────────────────────────────────────
 const SIGNALS = [
   {dot:'mixed', text:'<strong>FSB confirms G20 2027 targets unlikely to be met.</strong> The October 2025 consolidated progress report found KPIs showing only slight improvement since 2023 — 35% of retail and 55% of wholesale cross-border payments settle within one hour, against a 75% target. The FSB convened an emergency summit in London in March 2026, asking members to develop national action plans. Atomic settlement is developing, but at corridor speed, not system speed.'},
@@ -1080,9 +1083,10 @@ const SIGNALS = [
   {dot:'mixed', text:'<strong>India T+0 pilot: $7,400 total volume, 139 trades.</strong> Institutions chose netting efficiency over settlement speed. Structural friction in atomic adoption is real and documented.'},
   {dot:'mixed', text:'<strong>~40% of 300+ RippleNet institutions use XRP for ODL.</strong> The majority use messaging rails and fiat routing. The 60% not using XRP is the signal that needs watching. Source: secondary reporting, May 2026.'},
   {dot:'mixed', text:'<strong>XRPL now hosts ~$3.6B+ in tokenized RWA (May 2026), up from $991M at start of year.</strong> Infrastructure validation is accelerating — Société Générale launched its euro stablecoin on-ledger, Aviva Investors announced a tokenization partnership, Deutsche Bank integrated Ripple\'s tech stack, and Ondo Finance\'s tokenized Treasuries are growing 8× year-over-year. XRPL now ranks 5th globally in total tokenized value and 2nd in 30-day RWA growth. But only 22 RWA holders exist across the ledger, and the $861M Justoken JMWH energy token — one asset, 12 holders — drove much of the headline gain. Institutions are settling in RLUSD, not XRP. Plumbing adoption without asset demand.'},
-  {dot:'neg',   text:'<strong>RLUSD is the default settlement token for Ripple rails, with ~$1.56B market cap and growing.</strong> BlackRock is using RLUSD as a redemption mechanism for its BUIDL tokenized fund. LMAX Group adopted it as core collateral for banks, brokers, and buy-side institutions. Deutsche Bank and SBI Japan settling through RLUSD rails, not XRP ODL. RLUSD transfer volume hit $18.4B in Q1 2026. The CLARITY Act — Senate Banking Committee markup scheduled for May 14, 2026 — is the identified trigger that would give U.S. banks legal framework to run ODL corridors using XRP directly. Without it, fiduciaries default to stablecoins. The collateral reflexivity loop from Part III requires XRP as the settlement layer; right now it is largely the fee token.'},
-  {dot:'pos',   text:'<strong>XRP ETF cumulative inflows hit record in April 2026 ($81.59M for the month), total AUM ~$1.43B, holding positive through 2026 sell-off.</strong> Seven spot ETFs now trading in the U.S. with 847M+ XRP tokens locked. The 3× leveraged XRP ETF launched May 7, 2026. Institutional conviction is real and sustained, even if not yet utility-driven on-chain demand. Standard Chartered maintains an $8 price target; analyst consensus for year-end 2026 ranges $2.80–$8.'},
-  {dot:'pos',   text:'<strong>ODL volume >$35B annualized in Q1 2026, trajectory confirmed upward.</strong> RLUSD competition narrows the addressable market but has not displaced ODL — it is expanding alongside it, primarily through different institution types. Ripple Treasury platform (via GTreasury acquisition) processed $13 trillion in payments last year. CEO Garlinghouse: "zero percent of that $13T moved through crypto — that is the opportunity."'},
+  {dot:'neg',   text:'<strong>RLUSD is the default settlement token for Ripple rails, with ~$1.64B market cap (June 2026) and growing.</strong> BlackRock is using RLUSD as a redemption mechanism for its BUIDL tokenized fund. LMAX Group adopted it as core collateral for banks, brokers, and buy-side institutions; OKX and Bullish accept it as institutional margin collateral. Deutsche Bank and SBI Japan settling through RLUSD rails, not XRP ODL. RLUSD now holds ~88% of all stablecoin liquidity on the XRP Ledger; transfer volume hit $18.4B in Q1 2026. The CLARITY Act — advanced out of Senate Banking Committee 15-9 on May 14, 2026 and placed on the Senate floor calendar (No. 423) June 1 — is the identified trigger that would give U.S. banks the legal framework to run ODL corridors using XRP directly. It still needs a full Senate floor vote in a tight pre-recess window, then House reconciliation. Without it, fiduciaries default to stablecoins. The collateral reflexivity loop from Part III requires XRP as the settlement layer; right now it is largely the fee token.'},
+  {dot:'mixed', text:'<strong>DTCC tokenizes securities onto Stellar — the registry layer, not the settlement asset (May 27, 2026).</strong> Announced at Consensus: DTC-custodied assets (US Treasuries, major indices) get synchronized tokenized representations on Stellar in H1 2027, with DTC retaining the authoritative "golden record." This is the asset-ledger / accounting layer — where the tokenized security lives and its lifecycle runs. XLM functions as network fuel here, not as a value-bearing bridge currency. It is <em>not</em> a selection of the settlement asset for the cash leg, and not a cross-ledger bridge mandate. The settlement-asset role the series is actually about — the neutral leg moving value across currencies and across tokenization venues — remains unselected. Read correctly, a multi-chain DTCC (Canton via Digital Asset + Stellar + XRPL named in 2025 patents) fragments the registry layer, which <em>raises</em> the need for a neutral cross-ledger bridge rather than foreclosing it. Ripple Prime sits inside the DTCC ecosystem as a clearing member (NSCC live March 2, 2026; FICC Government Securities Division). Genuine risk to watch is not XLM-as-bridge — it is venue-internalized DvP, where security and cash both go native to one ecosystem, i.e. the tokenization-ceiling dynamic from Observatory No. 2.'},
+  {dot:'pos',   text:'<strong>XRP ETF flows held positive through mid-June 2026 — May was the strongest inflow month of the year (~$84M), and the week ending June 12 added ~$10.7M, a second consecutive positive week.</strong> Cumulative net inflows ~$1.44B since launch; AUM ~$1.2B (below cumulative because price fell through the 2026 drawdown). Seven spot ETFs now trading in the U.S.; the 3x leveraged XRP ETF launched May 7, 2026. Inflows are sustained but modest against JPMorgan\'s $4-8.4B first-year forecast — institutional conviction is real, but not yet utility-driven on-chain demand. Standard Chartered maintains an $8 price target.'},
+  {dot:'pos',   text:'<strong>ODL volume >$35B annualized in Q1 2026, trajectory confirmed upward.</strong> RLUSD competition narrows the addressable market but has not displaced ODL — it is expanding alongside it, primarily through different institution types. Ripple Treasury platform (via GTreasury acquisition) processed $13 trillion in payments last year. CEO Garlinghouse: "zero percent of that $13T moved through crypto — that is the opportunity." In June 2026 Garlinghouse also set a $1B annualized revenue run-rate target for end-2026, explicitly excluding XRP on the balance sheet — a fresh signal of operating-business scale independent of token price (a stated target, not a disclosed current figure).'},
 ];
 
 function updateQuadrant() {
@@ -1098,7 +1102,7 @@ function updateQuadrant() {
   ).join('');
 
   document.getElementById('quadrant-verdict').innerHTML =
-    `<strong>Current position: Modal quadrant (40–55% probability).</strong> The evidence places XRP in the "DTCC wins domestically, cross-border develops at corridor speed" quadrant from Part VI — the most likely outcome, not the bear case. The FSB's March 2026 summit acknowledged G20 2027 targets are unlikely to be met, confirming that atomic settlement is developing at corridor pace rather than system pace. ODL volume accelerated to >$35B annualized in Q1 2026 (41% YoY), with LATAM now the leading growth region — the payment thesis is not stalling. The OCC's conditional approval of Ripple's national trust bank charter (December 2025, final rule April 2026) is the most structurally significant new development: if a Federal Reserve master account follows, Ripple rails gain direct access to FedWire and FedNow, which materially advances the Axis 1 scenario. The XRPL RWA picture sharpens the core tension: the ledger crossed $3.6B in tokenized assets, with Société Générale, Aviva, Deutsche Bank, and BlackRock all engaging the ecosystem — yet institutions are settling in RLUSD (~$1.56B market cap), not XRP. The collateral reflexivity loop from Part III requires XRP as the settlement layer; right now it is the fee token. The CLARITY Act (Senate Banking Committee markup May 14, 2026, White House pushing July 4 signing) is the identified single catalyst that would redirect institutional settlement from RLUSD to XRP directly. ODL is the one mechanism creating direct XRP demand and it continues growing, but the ratio of RLUSD-settled to XRP-settled flows on institutional rails is widening. Signals to watch: CLARITY Act passage, ODL adoption crossing 60% of RippleNet institutions, RWA holders scaling beyond 22, or a named institution settling cross-border flows directly in XRP rather than RLUSD.`;
+    `<strong>Current position: Modal quadrant (40–55% probability).</strong> The evidence places XRP in the "DTCC wins domestically, cross-border develops at corridor speed" quadrant from Part VI — the most likely outcome, not the bear case. The FSB's March 2026 summit acknowledged G20 2027 targets are unlikely to be met, confirming that atomic settlement is developing at corridor pace rather than system pace. ODL volume accelerated to >$35B annualized in Q1 2026 (41% YoY), with LATAM now the leading growth region — the payment thesis is not stalling. The OCC's conditional approval of Ripple's national trust bank charter (December 2025, final rule April 2026) is the most structurally significant new development: if a Federal Reserve master account follows, Ripple rails gain direct access to FedWire and FedNow, which materially advances the Axis 1 scenario. The XRPL RWA picture sharpens the core tension: the ledger crossed $3.6B in tokenized assets, with Société Générale, Aviva, Deutsche Bank, and BlackRock all engaging the ecosystem — yet institutions are settling in RLUSD (~$1.64B market cap as of June 2026), not XRP. The collateral reflexivity loop from Part III requires XRP as the settlement layer; right now it is the fee token. The May 27 DTCC–Stellar announcement must be read with precision: DTCC is tokenizing securities onto Stellar as the asset-registry layer, with DTC retaining the golden record — it is <strong>not</strong> a selection of the cash-leg settlement asset, and not a cross-ledger bridge mandate. The settlement layer the series actually contests remains unchosen, and a multi-chain DTCC (Canton, Stellar, XRPL named in 2025 patents) arguably strengthens the case for a neutral cross-ledger bridge; the real risk is venue-internalized DvP, not XLM as a competing bridge asset. The CLARITY Act — advanced out of Senate Banking Committee 15-9 on May 14, 2026 and placed on the Senate floor calendar June 1, now awaiting a full floor vote in a narrow pre-recess window before House reconciliation — is the identified single catalyst that would redirect institutional settlement from RLUSD to XRP directly. ODL is the one mechanism creating direct XRP demand and it continues growing, but the ratio of RLUSD-settled to XRP-settled flows on institutional rails is widening. Signals to watch: CLARITY Act passage, ODL adoption crossing 60% of RippleNet institutions, RWA holders scaling beyond 22, a named institution settling cross-border flows directly in XRP rather than RLUSD, or DTCC or any major venue naming a cash-leg settlement asset for tokenized securities — the layer the series actually contests.`;
 }
 
 // ─────────────────────────────────────────────────────────────────

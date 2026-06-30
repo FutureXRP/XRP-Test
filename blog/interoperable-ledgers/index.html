@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Field Note 17: A system of interoperable ledgers — XRP Valuation Series</title>
+  <meta name="description" content="The BIS just published its most complete account of the next-generation monetary system. It named the prize, conceded the architecture will be plural, and warned what breaks when ledgers can't talk. It named every part of the machine except one." />
+  <meta property="og:title" content="Field Note 17: A system of interoperable ledgers" />
+  <meta property="og:description" content="In forty-five pages on the future of money, the BIS described the world the bridge is built for — multiple ledgers needing interoperability, atomic settlement as the prize, a neutral anchor between domains — and named the asset that sits between them exactly zero times." />
+  <meta property="og:type" content="article" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --paper: #ffffff;
+      --paper-soft: #f7f3ea;
+      --paper-deep: #f4efe4;
+      --ink: #171512;
+      --ink-soft: #3a342e;
+      --ink-medium: #61594f;
+      --ink-faint: #8a8073;
+      --rule: #d8d0c3;
+      --rule-strong: #1a1a1a;
+      --accent: #9b2226;
+      --display: "Newsreader", Georgia, serif;
+      --body: "Newsreader", Georgia, serif;
+      --ui: "IBM Plex Sans", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --text-width: 680px;
+      --page-width: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 20px; line-height: 1.72; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    a { color: inherit; text-decoration: none; }
+
+    .topbar { max-width: var(--page-width); margin: 0 auto; padding: 24px 28px 0; }
+    .topbar-inner { border-top: 2px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); padding: 15px 0 13px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-family: var(--ui); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-medium); }
+    .topbar-left { font-weight: 600; color: var(--accent); }
+    .topbar-left a { color: var(--accent); }
+    .topbar-left a:hover { opacity: 0.75; }
+    .topbar-right { letter-spacing: 0.1em; color: var(--ink-faint); }
+
+    .article-wrap { max-width: var(--page-width); margin: 0 auto; padding: 56px 28px 120px; display: grid; grid-template-columns: 1fr min(var(--text-width), 100%) 1fr; }
+    .article-wrap > * { grid-column: 2; }
+
+    .post-header { margin-bottom: 56px; }
+    .post-section { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 24px; }
+    .post-section::before { content: ""; display: inline-block; width: 20px; height: 1px; background: var(--accent); }
+
+    h1.post-title { font-family: var(--display); font-size: clamp(36px, 6vw, 62px); line-height: 1.05; font-weight: 500; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 14px; }
+    h1.post-title em { font-style: italic; color: var(--accent); }
+
+    .post-subtitle { font-family: var(--display); font-style: italic; font-size: clamp(20px, 2.8vw, 28px); color: var(--ink-medium); margin-bottom: 22px; letter-spacing: -0.01em; }
+
+    .post-deck { font-family: var(--display); font-style: italic; font-size: clamp(19px, 2.5vw, 24px); line-height: 1.45; color: var(--ink-medium); margin-bottom: 32px; }
+
+    .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 18px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+    .post-meta .meta-tag { color: var(--accent); font-weight: 600; }
+    .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--rule); flex-shrink: 0; }
+
+    .post-body { padding-top: 48px; }
+    .post-body p { margin-bottom: 28px; font-size: 20px; line-height: 1.72; color: var(--ink-soft); }
+    .post-body p:first-child { font-size: 22px; line-height: 1.65; color: var(--ink); }
+    .post-body h2 { font-family: var(--display); font-size: clamp(24px, 3vw, 32px); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 20px; padding-top: 40px; border-top: 1px solid var(--rule); }
+
+    .pull-quote { margin: 44px 0; padding: 28px 32px; border-left: 3px solid var(--accent); background: var(--paper-soft); }
+    .pull-quote p { font-family: var(--display); font-size: clamp(20px, 2.5vw, 26px) !important; font-style: italic; line-height: 1.45; color: var(--ink) !important; margin-bottom: 0 !important; }
+    .pull-quote .pq-attr { font-family: var(--mono); font-style: normal; font-size: 12px !important; letter-spacing: 0.08em; color: var(--ink-faint) !important; margin-top: 16px !important; text-transform: uppercase; }
+
+    .editor-note { margin: 0 0 40px; padding: 24px 28px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
+    .editor-note-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 12px; }
+    .editor-note p { font-size: 16px !important; line-height: 1.7; color: var(--ink-medium) !important; margin-bottom: 12px !important; }
+    .editor-note p:last-child { margin-bottom: 0 !important; }
+
+    .protocol-note { margin: 32px 0; padding: 20px 24px; background: var(--paper-deep); border: 1px solid var(--rule); border-left: 3px solid #8a6020; }
+    .protocol-note-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #8a6020; font-weight: 600; margin-bottom: 10px; }
+    .protocol-note p { font-size: 15px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 8px !important; }
+    .protocol-note p:last-child { margin-bottom: 0 !important; }
+
+    /* DATA TABLE */
+    .data-block { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .data-block-head { background: var(--ink); padding: 12px 20px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .data-row { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 20px; border-top: 1px solid var(--rule); background: var(--paper); gap: 1rem; }
+    .data-row:nth-child(even) { background: var(--paper-soft); }
+    .data-row.highlight { background: #fff5f5; border-left: 3px solid var(--accent); }
+    .data-label { font-family: var(--ui); font-size: 14px; color: var(--ink-medium); flex: 1; line-height: 1.5; }
+    .data-value { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+    .data-row.highlight .data-label { color: var(--accent); font-weight: 500; }
+    .data-row.highlight .data-value { color: var(--accent); }
+    .data-block .block-note { padding: 14px 20px; background: var(--paper-deep); border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.65; }
+
+    /* CHASM CALLOUT */
+    .chasm-block { margin: 36px 0; background: var(--ink); padding: 32px; text-align: center; }
+    .chasm-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 12px; }
+    .chasm-number { font-family: var(--display); font-size: clamp(42px, 7vw, 72px); font-weight: 500; font-style: italic; color: #c9a84c; line-height: 1; margin-bottom: 10px; }
+    .chasm-sub { font-family: var(--mono); font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.65; max-width: 480px; margin: 0 auto; }
+
+    /* ESCAPE ROUTES */
+    .escape-block { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .escape-block-head { background: var(--ink); padding: 12px 20px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .escape-entry { padding: 20px 22px; border-top: 1px solid var(--rule); background: var(--paper); }
+    .escape-entry:nth-child(even) { background: var(--paper-soft); }
+    .escape-name { font-family: var(--ui); font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 10px; letter-spacing: -0.01em; }
+    .escape-text { font-family: var(--ui); font-size: 14px; color: var(--ink-medium); line-height: 1.65; margin-bottom: 10px; }
+    .escape-verdict { font-family: var(--mono); font-size: 11px; color: var(--accent); border-top: 1px solid var(--rule); padding-top: 10px; margin-top: 10px; line-height: 1.6; font-weight: 600; letter-spacing: 0.04em; }
+    .escape-verdict.cseat { color: #0F6E56; }
+
+    /* REQUIREMENTS TABLE */
+    .req-table { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .req-head { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; background: var(--ink); padding: 12px 20px; gap: 10px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .req-row { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; padding: 13px 20px; gap: 10px; border-top: 1px solid var(--rule); background: var(--paper); align-items: center; }
+    .req-row:nth-child(even) { background: var(--paper-soft); }
+    .req-row.xrp { background: #fff5f5; border-left: 3px solid var(--accent); }
+    .req-name { font-family: var(--ui); font-size: 13px; font-weight: 600; color: var(--ink); }
+    .req-name small { display: block; font-weight: 400; font-size: 11px; color: var(--ink-faint); font-family: var(--mono); margin-top: 2px; }
+    .r-cell { font-family: var(--mono); font-size: 12px; text-align: center; font-weight: 600; color: var(--ink-soft); }
+    .r-pass { color: #0F6E56; }
+    .r-fail { color: var(--accent); }
+    .r-cond { color: #8a6020; }
+
+    /* NOSTRO / ARGUMENT CALLOUT */
+    .nostro-block { margin: 36px 0; padding: 28px 32px; background: var(--paper-deep); border: 1px solid var(--rule); border-left: 3px solid var(--ink-faint); }
+    .nostro-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 14px; }
+    .nostro-line { font-family: var(--ui); font-size: 14px; color: var(--ink-medium); line-height: 1.7; margin-bottom: 10px; padding-left: 16px; position: relative; }
+    .nostro-line::before { content: "→"; position: absolute; left: 0; color: var(--accent); font-family: var(--mono); font-size: 12px; top: 2px; }
+    .nostro-line:last-child { margin-bottom: 0; }
+    .nostro-line strong { color: var(--ink); font-weight: 600; }
+
+    /* REINVENTION / LEDGER BLOCK */
+    .reinvention-block { margin: 36px 0; background: var(--ink); padding: 28px 32px; }
+    .reinvention-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 18px; }
+    .reinvention-item { padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.08); display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+    .reinvention-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .ri-what { font-family: var(--ui); font-size: 13px; color: rgba(255,255,255,0.85); font-weight: 600; line-height: 1.5; }
+    .ri-cost { font-family: var(--mono); font-size: 12px; color: #c9a84c; line-height: 1.6; }
+    .ri-head { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 6px; }
+    .ri-head span { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+
+    .hold-block { margin: 36px 0; padding: 28px 32px; border: 1px solid var(--rule); background: var(--paper-soft); }
+    .hold-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 16px; }
+    .hold-item { font-family: var(--ui); font-size: 15px; color: var(--ink-medium); line-height: 1.7; margin-bottom: 14px; padding-left: 18px; position: relative; }
+    .hold-item::before { content: "→"; position: absolute; left: 0; color: var(--accent); font-family: var(--mono); font-size: 13px; top: 2px; }
+    .hold-item:last-child { margin-bottom: 0; }
+    .hold-item strong { color: var(--ink); font-weight: 600; }
+
+    .framework-ref { margin: 40px 0; padding: 22px 24px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
+    .framework-ref-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+    .framework-ref p { font-size: 16px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 10px !important; }
+    .framework-ref p:last-child { margin-bottom: 0 !important; }
+    .framework-ref a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+    .framework-ref a:hover { border-bottom-color: var(--accent); }
+
+    .post-footer { margin-top: 72px; padding-top: 32px; border-top: 2px solid var(--rule-strong); }
+    .post-footer-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 20px; }
+    .post-footer-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .footer-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--rule); background: var(--paper); font-family: var(--ui); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-medium); font-weight: 500; transition: border-color 0.15s, color 0.15s; }
+    .footer-link:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-link.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .footer-link.primary:hover { background: #7f1d1d; border-color: #7f1d1d; }
+    .footer-link::after { content: "→"; font-size: 13px; }
+
+    .disclaimer { margin-top: 40px; padding: 18px 20px; background: var(--paper-soft); border: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-faint); line-height: 1.7; }
+
+    .site-footer { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 40px; }
+    .site-footer-inner { border-top: 1px solid var(--rule); padding-top: 18px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+
+    @media (max-width: 760px) {
+      body { font-size: 19px; }
+      .article-wrap { grid-template-columns: 1fr; padding: 40px 20px 80px; }
+      .article-wrap > * { grid-column: 1; }
+      .req-head, .req-row { grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr; font-size: 10px; gap: 6px; }
+      .reinvention-item, .ri-head { grid-template-columns: 1fr; }
+      .site-footer { padding: 0 20px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left"><a href="/">XRP Valuation Series</a> &nbsp;·&nbsp; The Living Framework</div>
+    <div class="topbar-right">Field Note · June 2026</div>
+  </div>
+</header>
+
+<article class="article-wrap">
+
+  <div class="post-header">
+    <div class="post-section">The Living Framework &nbsp;·&nbsp; No. 17</div>
+    <h1 class="post-title">A system of <em>interoperable ledgers.</em></h1>
+    <p class="post-subtitle">The BIS named every part of the machine but one.</p>
+    <p class="post-deck">
+      In forty-five pages on the next-generation monetary system, the world's central banks
+      named the prize, conceded the architecture will be plural, and warned what breaks when
+      ledgers cannot talk to one another. They described, in their own words, the exact world
+      the bridge is built for. They named the asset that sits between the ledgers zero times.
+    </p>
+    <div class="post-meta">
+      <span class="meta-tag">The Living Framework</span>
+      <span class="meta-dot"></span>
+      <span>Primary Sources</span>
+      <span class="meta-dot"></span>
+      <span>Settlement Architecture</span>
+      <span class="meta-dot"></span>
+      <span>June 2026</span>
+    </div>
+  </div>
+
+  <div class="post-body">
+
+    <div class="editor-note">
+      <div class="editor-note-label">Editor's note — framework context</div>
+      <p>This field note is a primary-source read of one document: the Bank for International Settlements <em>Annual Economic Report 2026</em>, Chapter III — "Anchoring trust in money: innovation beyond stablecoins," released 23 June 2026. It is not a price prediction. It is a structural argument about what the report describes, what it concedes, and the one thing it leaves unnamed.</p>
+      <p>The argument has three movements, the same three this series has used to size the institutional settlement question. <strong>Reach:</strong> the consortium building the official future covers roughly seven currency areas against a world of some 160 national currencies, and concedes its own work is still a prototype. <strong>Access architecture:</strong> the report's central distinction — public-permissionless versus private-permissioned — collapses two different questions into one, and in doing so has no name for the design that answers them separately. <strong>Atomic settlement:</strong> the prize the report defines is a property of co-location, and every scenario it models lives inside a single connected system. None models the seam between systems that do not share a sovereign.</p>
+      <p>The central caveat, stated once, plainly, and never softened: <strong>the report does not mention XRP, Ripple, or the XRP Ledger. Not once.</strong> Every application here is interpretive. This is the most authoritative entry yet in the pattern Field Note 14 catalogued — the institutions describing the problem are not writing about the asset built to solve it. And the report is not a bullish document. It hardens the incumbent roadmap: Project Agorá is now a demonstrated prototype rather than a proposal, stablecoins are formally downgraded, and the central-bank-anchored unified ledger is restated as the destination. The bridge argument lives in the seam the report leaves open. It does not live in anything the report endorses.</p>
+    </div>
+
+    <p>
+      Once a year the central banks' central bank publishes a flagship report, and once a year a
+      chapter of it tells you where the official monetary system intends to go next. The 2026
+      chapter is the most complete statement of that destination the BIS has produced. It defines
+      the prize precisely. It concedes the architecture will not be one ledger but many. It warns,
+      in unusually plain language, what happens when value tries to cross between ledgers that were
+      never built to communicate. And then it describes its endgame in six words worth holding onto.
+    </p>
+
+    <div class="pull-quote">
+      <p>"A system of fully interoperable ledgers."</p>
+      <p class="pq-attr">— BIS Annual Economic Report 2026, Chapter III, on how the unified ledger may be implemented</p>
+    </div>
+
+    <p>
+      Read that as what it is: the institution most committed to the two-tier system, describing its
+      own future as a <em>plurality</em> of ledgers that must be made to interoperate. Not one chamber.
+      Many. The fragmented, multi-ledger world is no longer a scenario this series has to argue for
+      against the official view. It is now the official view's own design assumption. Everything below
+      follows from taking the report at its word.
+    </p>
+
+    <h2>Section 01 — What the report actually says</h2>
+
+    <p>
+      Start with the honest framing, because the bull case for the bridge is stronger when the report is
+      described accurately than when it is oversold. This is a preserve-and-upgrade document. Its unifying
+      principle is that technology should serve the public-good functions of money rather than undermine
+      them, and it treats tokenisation as an evolution of the existing system, not a new form of money.
+      Against last year's corpus, three things have hardened.
+    </p>
+
+    <div class="data-block">
+      <div class="data-block-head">What hardened — Annual Economic Report 2026 vs the prior BIS corpus</div>
+      <div class="data-row">
+        <span class="data-label">Project Agorá — status</span>
+        <span class="data-value">demonstrated prototype</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Agorá legal finding — tokenisation changes nature of deposits/reserves</span>
+        <span class="data-value">it does not</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Stablecoin issuers — classified (Ch. II) as</span>
+        <span class="data-value">a new NBFI species</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Stablecoin designs resemble</span>
+        <span class="data-value">ETF shares, not money</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Unified ledger — restated destination (CB reserves + bank money + bonds)</span>
+        <span class="data-value">unchanged</span>
+      </div>
+      <div class="data-row highlight">
+        <span class="data-label">Endgame architecture — newly phrased as</span>
+        <span class="data-value">interoperable ledgers</span>
+      </div>
+      <div class="block-note">Agorá was a proposal in the 2023 Blueprint and the 2025 unified-ledger chapter. In 2026 it is reported as a working prototype that settled cross-currency payment-versus-payment, all-or-nothing — with the report adding that any move to production would require further measures. The roadmap is firmer, not softer.</div>
+    </div>
+
+    <p>
+      So the report is not a gift. It is a more confident statement of the incumbent plan than any prior
+      year, and it arms the standard rebuttal to public networks with more force than before. The opening
+      it leaves is not a weakness in the plan. It is a seam in the plan's geometry — and the seam is the
+      same one this series has circled since Part I.
+    </p>
+
+    <h2>Section 02 — Movement I: seven currency areas, a hundred and sixty roads</h2>
+
+    <p>
+      The report's evidence that the architecture is feasible is Project Agorá: seven central banks and
+      more than forty regulated private institutions, testing a shared cross-border platform that settles
+      tokenised commercial-bank money against jurisdiction-specific tokenised central-bank reserves. It
+      works. The prototype settled atomically across currencies. This note does not dispute the achievement.
+      It asks a narrower question the report does not: <em>how much of the world does the consortium actually reach?</em>
+    </p>
+
+    <div class="data-block">
+      <div class="data-block-head">Reach of the official platform — Project Agorá</div>
+      <div class="data-row">
+        <span class="data-label">Central banks participating</span>
+        <span class="data-value">7</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Distinct currency areas represented</span>
+        <span class="data-value">~7</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Private institutions participating</span>
+        <span class="data-value">40+</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Production-ready today</span>
+        <span class="data-value">no — prototype</span>
+      </div>
+      <div class="data-row highlight">
+        <span class="data-label">Actively circulating national currencies worldwide</span>
+        <span class="data-value">~160</span>
+      </div>
+      <div class="block-note">The "40+" are private banks, not currencies. The seven central banks span roughly seven currency areas — only Banque de France carries the euro — so the currency reach and the institution count are different numbers. The ~160 figure is the count of actively circulating national currencies, a round directional number rather than the full ISO 4217 register. Both are used here as orders of magnitude, not precise tallies.</div>
+    </div>
+
+    <p>
+      The headline "forty" is private banks; it is not a currency count, and several readings of the
+      project quietly inflate it into one. The currency reality is roughly seven areas. Set that against
+      the order of magnitude that matters for cross-border settlement, and the shape of the problem appears.
+    </p>
+
+    <div class="chasm-block">
+      <div class="chasm-label">Currency areas wired by the official platform vs the currency universe</div>
+      <div class="chasm-number">7 vs ~160</div>
+      <div class="chasm-sub">The major-currency core is exactly where a direct tokenised pair will exist, atomic settlement will be available, and a neutral bridge has the least to do. The long tail — thin emerging-market-to-emerging-market corridors the consortium has no commercial reason to wire — is where pre-funding costs are highest and where the platform reaches nothing.</div>
+    </div>
+
+    <p>
+      This is the load-bearing distinction, and it is also where the argument must be disciplined. The
+      <em>strong</em> claim is narrow and survives scrutiny: a permissioned consortium of major central
+      banks will build the corridors among themselves and will not build the long tail, because the long
+      tail has no member willing to underwrite it. The <em>fragile</em> claim — that XRP "replaces the
+      settlement layer" — does not survive, and the report itself arms the rebuttal to it. The reach
+      argument is about the residual the consortium leaves on the table, not about displacing the core
+      it is busy occupying.
+    </p>
+
+    <p>
+      Two conditions would falsify even the narrow claim, and they should be named. First, if the
+      consortium's own "interoperable networks" onboard the long tail faster than expected — through
+      a permissioned bridging mechanism rather than a neutral public one — the seam closes without a
+      neutral asset ever entering it. Second, if a small set of wholesale-CBDC corridors expands to
+      cover the corridors that matter, the residual shrinks to a remainder too small to price. Neither
+      has happened. Both are live risks, and the framework is conditional on them not resolving against it.
+    </p>
+
+    <h2>Section 03 — Movement II: the binary the report won't split</h2>
+
+    <p>
+      The report's organising distinction is public-permissionless versus private-permissioned. Everything
+      hangs from it: stablecoins live on the public-permissionless side and inherit its problems —
+      validator rents, congestion, gas fees, fragmentation across base and secondary networks — while the
+      preferred unified ledger lives on the private-permissioned side and inherits its virtues, governance
+      and integrity. The trouble is that this single axis is doing the work of two.
+    </p>
+
+    <p>
+      <strong>Who validates</strong> — open and anonymous, or curated and identifiable — is one question.
+      <strong>Who accesses</strong> — anyone, or an approved list — is a different question. The report
+      binds them together, and by binding them it imports the economic pathologies of Ethereum and Solana
+      (rents, gas, congestion, the layer-1/layer-2 split it documents at length) as if they were the
+      necessary price of public access. They are not. They are the price of open <em>validation</em>.
+      The proof that the report has conflated the two is in its own taxonomy.
+    </p>
+
+    <div class="req-table">
+      <div class="req-head">
+        <span>Network / design</span>
+        <span style="text-align:center;">Validation</span>
+        <span style="text-align:center;">Access</span>
+        <span style="text-align:center;">Rents / gas</span>
+        <span style="text-align:center;">In BIS taxonomy</span>
+      </div>
+      <div class="req-row">
+        <div class="req-name">Bitcoin<small>proof-of-work</small></div>
+        <span class="r-cell">Open</span>
+        <span class="r-cell">Public</span>
+        <span class="r-cell r-fail">Yes</span>
+        <span class="r-cell r-pass">✓</span>
+      </div>
+      <div class="req-row">
+        <div class="req-name">Ethereum<small>proof-of-stake</small></div>
+        <span class="r-cell">Open</span>
+        <span class="r-cell">Public</span>
+        <span class="r-cell r-fail">Yes</span>
+        <span class="r-cell r-pass">✓</span>
+      </div>
+      <div class="req-row">
+        <div class="req-name">BNB · Tron<small>delegated stake</small></div>
+        <span class="r-cell">Delegated</span>
+        <span class="r-cell">Public</span>
+        <span class="r-cell r-fail">Yes</span>
+        <span class="r-cell r-pass">✓</span>
+      </div>
+      <div class="req-row">
+        <div class="req-name">Unified ledger<small>Agorá-type</small></div>
+        <span class="r-cell">Curated</span>
+        <span class="r-cell">Gated</span>
+        <span class="r-cell r-pass">No</span>
+        <span class="r-cell r-pass">✓</span>
+      </div>
+      <div class="req-row xrp">
+        <div class="req-name">XRP Ledger<small>trusted-validator (UNL)</small></div>
+        <span class="r-cell r-cond">Curated</span>
+        <span class="r-cell r-pass">Public</span>
+        <span class="r-cell r-pass">No</span>
+        <span class="r-cell r-fail">✗</span>
+      </div>
+    </div>
+
+    <p>
+      The report's consensus-mechanism table lists proof-of-work, proof-of-stake, and delegated-stake —
+      Bitcoin, Ethereum, BNB Chain, Tron. The XRP Ledger's model, a curated Unique Node List of
+      identifiable validators with no block rewards and no gas, is the only row above that is curated
+      in validation and public in access — and it is the only one absent from the taxonomy entirely.
+      The report's whole critique of public networks is aimed at the rent-and-congestion economics of
+      open validation. It is not aimed at, and does not describe, a public-access ledger that does not
+      use open validation. That design is not rebutted. It is simply not in the map.
+    </p>
+
+    <p>
+      The report knows the hybrid exists. In its endnotes it names "public permissioned networks" and a
+      "network of networks," acknowledges that designs increasingly blend the two sides — and then states
+      it will not treat them in depth. The walled-garden risk it concedes for purely permissioned platforms
+      is the giveaway: gating access requires a gatekeeper, and at cross-border scale the gatekeeper is the
+      club of major central banks. Public access is the only architecture under which the long tail needs
+      no one's approval to settle. On that axis, the permission question becomes the addressable-market
+      question.
+    </p>
+
+    <p>
+      Honesty requires naming what cuts the other way, because this is the movement most vulnerable to
+      overreach. The XRP Ledger's base layer is transparent, and institutions do not want their wholesale
+      flows publicly legible — a concern the report flags directly for public networks. The trusted-validator
+      list is attacked from both sides at once: as too centralised by the decentralisation camp, and as too
+      public by the BIS camp. The defensible position is architectural, not ideological — claim the quadrant
+      the binary has no name for, and do not overclaim pure decentralisation the design does not provide.
+    </p>
+
+    <h2>Section 04 — Movement III: the prize is co-location, not the bridge</h2>
+
+    <p>
+      The report's prize is precise: atomic settlement in central-bank money on a shared ledger, with the
+      cross-border case being payment-versus-payment — two cash legs in two currencies, locked and swapped
+      all-or-nothing. This is worth stating exactly, because precision here is where the series earns its
+      credibility.
+    </p>
+
+    <div class="protocol-note">
+      <div class="protocol-note-label">Precision — PvP is not DvP</div>
+      <p>The cross-border prize the report demonstrates is payment-versus-payment (two currency legs). That is distinct from the delivery-versus-payment (asset-versus-cash) case that Field Note 13 found to be unsplittable. Both are atomic; both are co-located. The distinction matters because the argument below turns on <em>where</em> the two legs live, not on which kind of swap it is.</p>
+    </div>
+
+    <p>
+      Atomicity is a property of <em>co-location</em>. Two assets sit on one ledger; the protocol locks both
+      and exchanges them in a single indivisible step. That is precisely how Agorá settles, and precisely
+      how the XRP Ledger's own decentralised exchange and auto-bridging settle two assets issued on it. The
+      bridge function — source currency into a neutral asset and out the far side, two hops through a
+      volatile intermediary — is a <em>different</em> mechanism. Conflating them is the most common error in
+      this debate, and the series should not make it. The report's atomic prize is co-location. It is not
+      the bridge. Which raises the question the report never asks: what settles between two ledgers that
+      do not share a central bank?
+    </p>
+
+    <p>
+      Look at how the report models the future and the omission becomes structural. It builds three reserve
+      scenarios for a stablecoin economy. Every one of them lives inside a single connected system.
+    </p>
+
+    <div class="escape-block">
+      <div class="escape-block-head">The reserve scenarios the BIS models — and the one it does not</div>
+
+      <div class="escape-entry">
+        <div class="escape-name">Scenario 1 — Issuer holds wholesale bank deposits</div>
+        <div class="escape-text">Retail deposits are displaced and recycled as wholesale deposits inside the same banking system. A compositional shift in one set of balance sheets. Everything settles within a single connected ledger of claims.</div>
+        <div class="escape-verdict">Models settlement inside one system</div>
+      </div>
+
+      <div class="escape-entry">
+        <div class="escape-name">Scenario 2 — Issuer holds short-dated government bills</div>
+        <div class="escape-text">The issuer rotates deposits into treasury bills bought from banks and other non-banks. Liquidity metrics move; high-quality liquid assets shift hands. Still one domestic system, one sovereign, one connected set of rails.</div>
+        <div class="escape-verdict">Models settlement inside one system</div>
+      </div>
+
+      <div class="escape-entry">
+        <div class="escape-name">Scenario 3 — Issuer holds central-bank reserves</div>
+        <div class="escape-text">The most liquid case: reserves move from banks to the issuer's central-bank account. The stablecoin becomes a near-substitute for central-bank money. One central bank, one reserve system, one connected ledger.</div>
+        <div class="escape-verdict">Models settlement inside one system</div>
+      </div>
+
+      <div class="escape-entry">
+        <div class="escape-name">The scenario absent from the chapter — settlement between unconnected ledgers</div>
+        <div class="escape-text">Two ledgers, two sovereigns, no shared central bank, no co-located tokenised pair, value that must cross the boundary all-or-nothing without principal risk. This is the corridor where pre-funding is most expensive and Herstatt risk is worst. It is the precise function a neutral bridge performs. The report models it nowhere.</div>
+        <div class="escape-verdict cseat">✓ The seat this series has always been about — still empty in the model</div>
+      </div>
+
+      <div class="block-note">The report models everything inside a perimeter and is silent on the asset that moves value between perimeters. That is not an oversight to mock — it is the exact shape of the gap. The prize the report defines is co-location; the function it does not model is the bridge.</div>
+    </div>
+
+    <p>
+      So the bridge claim must split cleanly into two, and only the second is about the token. <strong>Rail
+      value</strong>: the XRP Ledger can deliver the report's own atomic prize for two assets issued on it —
+      the same structural achievement as Agorá, on a public-access rail rather than a gated one. <strong>Token
+      value</strong>: the asset XRP captures value as the neutral liquidity bridge for long-tail corridors
+      where no co-located tokenised pair exists, and — contingently — as the inter-ledger bridge if the world
+      fragments into multiple non-interoperable regional unified ledgers. The concession that keeps this
+      honest: inside the dense permissioned core, where a direct tokenised pair already exists, the bridge
+      asset has no structural role. Its domain is the seam, not the core.
+    </p>
+
+    <h2>Section 05 — The concession, in their own words</h2>
+
+    <p>
+      Return to the six words. The report does not describe one unified ledger as the destination; it describes
+      a unified ledger that may be implemented as a system of interoperable networks — and, in the body, as
+      "a system of fully interoperable ledgers." It calls interoperability money's connective tissue. It then
+      spends pages on what happens when that tissue is absent: a token on one chain is not equivalent to the
+      same-named token on another, because they sit on separate ledgers that do not natively communicate; bridges
+      between them carry operational risk; and sending value across them can fail outright, risking, in the
+      report's own phrase, "permanent loss."
+    </p>
+
+    <p>
+      Hold those three admissions together. The future is plural ledgers. Interoperability is the connective
+      tissue that future depends on. And the mechanisms that currently provide it across ledgers are fragile
+      enough to lose funds permanently. The report has described the precise conditions under which a neutral,
+      ledger-agnostic settlement asset has a job — and has named everything in the machine except that asset.
+    </p>
+
+    <div class="reinvention-block">
+      <div class="reinvention-label">What the report named — and what it left unnamed</div>
+      <div class="ri-head"><span>Named, in the report</span><span>Left unnamed</span></div>
+      <div class="reinvention-item">
+        <div class="ri-what">The prize — atomic cross-currency settlement on a shared ledger</div>
+        <div class="ri-cost">The asset that settles between ledgers with no shared central bank</div>
+      </div>
+      <div class="reinvention-item">
+        <div class="ri-what">The architecture — "a system of fully interoperable ledgers"</div>
+        <div class="ri-cost">The connective tissue that carries value across sovereign domains</div>
+      </div>
+      <div class="reinvention-item">
+        <div class="ri-what">The failure — fragmentation, broken singleness across chains, "permanent loss"</div>
+        <div class="ri-cost">A neutral settlement layer that does not itself fragment</div>
+      </div>
+      <div class="reinvention-item">
+        <div class="ri-what">The threat — stablecoin dollarisation eroding monetary sovereignty in EMDEs</div>
+        <div class="ri-cost">A non-sovereign bridge as the antidote to dollar-stablecoin hegemony</div>
+      </div>
+      <div class="reinvention-item">
+        <div class="ri-what">The concentration — 99.4% of fiat stablecoins pegged to a single currency</div>
+        <div class="ri-cost">Anything neutral to that currency at the settlement layer</div>
+      </div>
+    </div>
+
+    <p>
+      The dollarisation section is where the unnamed antidote is most visible. The report lays out, in detail,
+      how foreign dollar-stablecoins erode monetary sovereignty in emerging economies, link crypto rails to FX
+      markets, and slip past capital controls — and its proposed remedy is sound domestic frameworks plus the
+      central-bank-anchored unified ledger. It never once considers that a neutral, non-sovereign bridge asset
+      could let an emerging economy settle cross-border <em>without</em> dollarising. The argument that the
+      bridge is the antidote to dollar hegemony sits fully assembled in the report's own evidence. The report
+      declines to make it. Underneath, it cites a European central banker's "monetary sovereignty" address —
+      the same sovereignty anxiety driving Europe's stablecoin and licensing regime.
+    </p>
+
+    <p>
+      One more thing the report does, quietly, is deflate the instrument it spends the most pages on. Its own
+      US-calibrated model finds the net medium-term output effect of widespread stablecoin adoption is slightly
+      <em>negative</em> — the drag on bank funding and lending outweighs the fiscal-space benefit from issuer
+      demand for government bills — and calls the effect "quantitatively modest" even at one, two, and three
+      trillion dollars of market value. The volume story shrinks under the same scrutiny.
+    </p>
+
+    <div class="data-block">
+      <div class="data-block-head">The report's own deflation of the stablecoin settlement story</div>
+      <div class="data-row">
+        <span class="data-label">Total stablecoin market cap, end-May 2026</span>
+        <span class="data-value">~$320B</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">2025 stablecoin volume reframed by the BIS as</span>
+        <span class="data-value">&lt; 3 weeks of US wholesale</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Volume net of same-party transfers (Visa-adjusted)</span>
+        <span class="data-value">~$390B/yr &middot; &lt;1%</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">CHIPS — single US clearing network, per business day</span>
+        <span class="data-value">~$2.2T/day</span>
+      </div>
+      <div class="data-row highlight">
+        <span class="data-label">Net medium-term output effect at $1T / $2T / $3T adoption</span>
+        <span class="data-value">slightly negative</span>
+      </div>
+      <div class="block-note">The model's margins: public debt/GDP 122%→175%, treasury-bill share 18%→24%, half of stablecoins held abroad. The BIS is not arguing stablecoins are the settlement future; it is arguing, with its own model, that they fall short of money and that the macro payoff is small-to-negative. This is direct support for the float-insufficiency case in Field Note 16 — made by the BIS, against stablecoins, from the inside.</div>
+    </div>
+
+    <h2>Section 06 — What this note does not claim</h2>
+
+    <p>
+      The report does not endorse a neutral bridge asset, does not mention the one this series is about, and
+      should not be read as quietly blessing it. It is a central-bank document arguing for a central-bank-anchored
+      future, and it arms the strongest objections to public networks more thoroughly than any prior edition.
+      The argument here is strictly structural: the report describes a problem whose shape matches the asset,
+      while naming the asset nowhere — exactly the pattern Field Note 14 documented across the BIS, IMF, NY Fed,
+      TBAC, SEC, and DTCC corpus.
+    </p>
+
+    <p>
+      The deepest objection the report raises is integrity at the edge: unhosted wallets, pseudonymity, and the
+      know-your-customer gap on public chains. It is the report's single strongest argument against a public-access
+      settlement rail, and it should be conceded as strong rather than waved away. The honest rejoinder is that
+      integrity is enforceable at the regulated on- and off-ramp and the intermediary layer — where identified
+      institutions interface with the public — rather than baked into the rail itself; the report's own "integrity
+      by design" passage describes screening embedded at the transaction interface, not in the base protocol. That
+      is a real answer, but it is the place the public-access case is most exposed, and the series should keep it
+      flagged as such.
+    </p>
+
+    <p>
+      So the falsification conditions, stated plainly, as this series always states them. The bridge thesis
+      weakens materially if any of the following resolve against it: the consortium's interoperable networks
+      onboard the long tail through a permissioned bridging mechanism, closing the seam before a neutral asset
+      enters it; integrity-at-edge proves regulatorily fatal to a public-access rail for wholesale settlement;
+      or a permissioned, central-bank-issued settlement instrument expands to cover the corridors that matter,
+      shrinking the addressable residual to a remainder too small to price. None has happened. All are live. The
+      conclusion is conditional on them not resolving — and the report, read honestly, does not resolve them
+      against the thesis. It describes the world in which the thesis is true, and declines to name the asset.
+    </p>
+
+    <h2>What to hold from this note</h2>
+
+    <div class="hold-block">
+      <div class="hold-label">The structural argument, summarized</div>
+      <div class="hold-item"><strong>The report hardened the incumbent roadmap.</strong> Agorá is a demonstrated prototype, stablecoins are downgraded to ETF-like instruments and reclassified as a new NBFI species, and the central-bank-anchored unified ledger is the restated destination. This is not a bullish document. Describe it accurately and the seam it leaves is more credible, not less.</div>
+      <div class="hold-item"><strong>Reach: seven currency areas against ~160.</strong> The official platform is seven central banks and forty-plus private institutions — seven currencies. The long tail of emerging-market corridors, where pre-funding is most expensive, is reached by nothing. The strong claim is the residual; the fragile claim — "XRP replaces the layer" — is the one the report arms the rebuttal to.</div>
+      <div class="hold-item"><strong>Access: the binary has no name for the hybrid.</strong> The report's public-versus-private axis conflates who validates with who accesses, imports open-validation pathologies as the price of public access, and lists every consensus model except the XRP Ledger's curated-validation, public-access design. It concedes the hybrid exists in its endnotes and declines to analyse it.</div>
+      <div class="hold-item"><strong>Atomic settlement is co-location, and the bridge is not modeled.</strong> All three reserve scenarios settle inside one connected system. The cross-sovereign seam — two ledgers, no shared central bank, no co-located pair — is modeled nowhere. Rail value and token value are separate claims; concede the bridge has no role inside the dense core.</div>
+      <div class="hold-item"><strong>The concession is in their own words.</strong> "A system of fully interoperable ledgers," interoperability as connective tissue, and cross-chain transfers that can end in "permanent loss." The report describes the fragmented multi-ledger world the bridge is built for, sets up a dollarisation antidote it declines to name, and deflates the stablecoin story with its own slightly-negative output model.</div>
+      <div class="hold-item">The report names every part of the machine but one. The constraint is real, the falsification conditions are live, and the outcome is conditional. The chair is still empty — now in the most authoritative description of the room yet written.</div>
+    </div>
+
+    <div class="framework-ref">
+      <div class="framework-ref-label">Framework status — what this note adds</div>
+      <p><strong>Addition:</strong> The three-movement read of the <em>Annual Economic Report 2026</em> — reach, access architecture, atomic settlement — is new to the series and gives the BIS's most recent flagship its own entry in the primary-source record begun in Field Note 14.</p>
+      <p><strong>Addition:</strong> The two-axis correction in Section 03 — that "who validates" and "who accesses" are orthogonal, and that the XRP Ledger occupies a curated-validation / public-access quadrant absent from the BIS consensus taxonomy — is new, and sharpens the access-architecture argument the series had only stated loosely before.</p>
+      <p><strong>Addition:</strong> The co-location-versus-bridge distinction in Section 04, and the observation that all three BIS reserve scenarios model settlement inside one connected system while the cross-sovereign seam is modeled nowhere, extends Field Note 13's atomicity work to the BIS's own framework. Note the precision: the report's cross-border prize is PvP, distinct from the DvP case Field Note 13 found unsplittable.</p>
+      <p><strong>Addition:</strong> The "named / unnamed" ledger in Section 05 — anchored on the report's own "system of fully interoperable ledgers" and "permanent loss" language, and on the dollarisation antidote it declines to make — is the central new contribution, and is the strongest primary-source confirmation to date of the fragmented multi-ledger premise the series has argued since Part I.</p>
+      <p><strong>Caveat carried, not resolved:</strong> Every application is interpretive. The report does not mention XRP, Ripple, or the XRP Ledger. The integrity-at-edge objection is conceded as the report's strongest, and the falsification conditions in Section 06 are live.</p>
+      <p><strong>Relationship to prior notes:</strong> Field Note 14 established the "they weren't writing about XRP" primary-source method; this note is its most authoritative single instance. Field Note 15 established the empty-chair motif at DTCC; this note finds the same chair empty in the BIS model. Field Note 13 established DvP irreducibility; this note distinguishes the BIS's PvP prize from it. Field Note 16 established the stablecoin float-insufficiency case; this note shows the BIS deflating the same story from the inside.</p>
+      <p>
+        <a href="/blog/source-list/">Field Note 14 — The source list &rarr;</a>
+        &nbsp;&nbsp;
+        <a href="/blog/dtcc-room/">Field Note 15 — The room gets built &rarr;</a>
+        &nbsp;&nbsp;
+        <a href="/blog/thirteen-trillion-question/">Field Note 16 — The $13 trillion question &rarr;</a>
+        &nbsp;&nbsp;
+        <a href="/blog/dvp-irreducible/">Field Note 13 — The leg that cannot move first &rarr;</a>
+        &nbsp;&nbsp;
+        <a href="/part1/">Part I — The square root law &rarr;</a>
+      </p>
+    </div>
+
+    <div class="disclaimer">
+      This is not financial advice. All structural arguments are the author's analysis of a publicly available document. The Bank for International Settlements does not mention XRP, Ripple, or the XRP Ledger; every application here is interpretive. The ~160 currency figure is a directional count of actively circulating national currencies, not the full ISO 4217 register. Primary source: BIS, <em>Annual Economic Report 2026</em>, Chapter III — "Anchoring trust in money: innovation beyond stablecoins," 23 June 2026 (bis.org/publ/arpdf/ar2026e3.htm); press release p260623 (bis.org); <em>Project Agorá: a shared programmable platform for wholesale cross-border payments</em>, BIS othp110 (bis.org). Prior corpus: BIS <em>Annual Economic Report 2023</em>, Chapter III, and <em>2025</em>, Chapter III. Do your own research.
+    </div>
+
+    <div class="post-footer">
+      <div class="post-footer-label">Continue reading</div>
+      <div class="post-footer-links">
+        <a class="footer-link primary" href="/blog/source-list/">Field Note 14 — They weren't writing about XRP.</a>
+        <a class="footer-link" href="/blog/dtcc-room/">Field Note 15 — The room gets built.</a>
+        <a class="footer-link" href="/blog/thirteen-trillion-question/">Field Note 16 — The $13 trillion question.</a>
+        <a class="footer-link" href="/blog/dvp-irreducible/">Field Note 13 — The leg that cannot move first.</a>
+        <a class="footer-link" href="/">All field notes</a>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>XRP Valuation Series &nbsp;·&nbsp; The Living Framework</div>
+    <div>FutureXRP &nbsp;·&nbsp; @the5blairs</div>
+  </div>
+</footer>
+
+</body>
+</html>

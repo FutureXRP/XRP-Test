@@ -175,5 +175,17 @@
     ],
     "title": "The <em>$13 trillion</em> question.",
     "deck": "The SEC Chair named the problem. The private networks cannot solve it. The stablecoin float is a fraction of what is needed — and it is not even fully available for this one use case. Here is the arithmetic, and why every escape route dead-ends at the same wall."
+  },
+  {
+    "number": 17,
+    "slug": "interoperable-ledgers",
+    "date": "June 2026",
+    "tags": [
+      "Primary Sources",
+      "Settlement Architecture"
+    ],
+    "title": "A system of <em>interoperable ledgers.</em>",
+    "subtitle": "The BIS named every part of the machine but one.",
+    "deck": "The BIS just published its most complete account of the next-generation monetary system. It named the prize, conceded the architecture will be plural, and warned what breaks when ledgers can't talk. It named the asset that sits between them zero times."
   }
 ]

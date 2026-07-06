@@ -187,5 +187,17 @@
     "title": "The <em>blank spot</em> on the map.",
     "subtitle": "They drew the future of money. They left one thing off it.",
     "deck": "Once a year, the bank that the world's central banks bank with draws a map of where money is headed. This year's map admits the future will be many separate ledgers that have to be wired together — and never names the wire. That blank spot is what this series has always been about."
+  },
+  {
+    "number": 18,
+    "slug": "coordination-premium",
+    "date": "July 2026",
+    "tags": [
+      "Primary Sources",
+      "Consensus Economics"
+    ],
+    "title": "The premium <em>nobody pays.</em>",
+    "subtitle": "They built a formula for why every blockchain fragments. One ledger set the key variable to zero.",
+    "deck": "In March, the BIS's chief economic adviser published a formal proof that decentralised blockchains must fragment: validators have to be paid a coordination premium, users fund it through congestion, and the priced-out flee to lesser chains. In July, a BIS Bulletin turned the model into a taxonomy of every major consensus mechanism. The XRPL is not in the table. It couldn't be. Its validators work unpaid, its fees are burned, and its premium is zero — and the map's blank spot now has a mathematical explanation."
   }
 ]

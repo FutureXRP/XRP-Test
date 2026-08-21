@@ -769,6 +769,14 @@ function fmtUSD(n) {
   return '$' + Math.round(n).toLocaleString();
 }
 function fmtPrice(n) { return n ? '$' + n.toFixed(4) : '—'; }
+// Peak-ticket formatter: always one decimal place ($2.0M, $2.5M) so the
+// headline capacity number never rounds away meaningful precision.
+function fmtTicket(n) {
+  if (n >= 1e9) return '$' + (n/1e9).toFixed(1) + 'B';
+  if (n >= 1e6) return '$' + (n/1e6).toFixed(1) + 'M';
+  if (n >= 1e3) return '$' + (n/1e3).toFixed(1) + 'K';
+  return '$' + Math.round(n).toLocaleString();
+}
 function fmtB(n) { return (n/1e9).toFixed(1) + 'B'; }
 function fmtPct(n, d=1) { return (n*100).toFixed(d) + '%'; }
 
@@ -883,7 +891,7 @@ function updateReflexivity() {
   const collateral = liveMcap * 0.10;
   const velocity   = liveVolume / liveMcap;
 
-  document.getElementById('reflex-ticket').textContent       = fmtUSD(maxTicket);
+  document.getElementById('reflex-ticket').textContent       = fmtTicket(maxTicket);
   document.getElementById('reflex-ticket-basis').textContent = 'At 10bp tolerance · 5% daily volatility · ' + fmtUSD(liveVolume) + ' live volume';
   document.getElementById('reflex-price').textContent        = fmtPrice(livePrice);
   document.getElementById('reflex-collateral').textContent   = fmtUSD(collateral);
@@ -1068,7 +1076,7 @@ function updateSensitivityTable() {
     for (const s of SENS_SIGMAS) {
       const q  = liveVolume * Math.pow(t.tol / s.sigma, 2);
       const el = document.getElementById(`s-${t.id}-${s.id}`);
-      if (el) el.innerHTML = `<div class="sens-value">${fmtUSD(q)}</div><div class="sens-tier">${sensLabel(q)}</div>`;
+      if (el) el.innerHTML = `<div class="sens-value">${fmtTicket(q)}</div><div class="sens-tier">${sensLabel(q)}</div>`;
     }
   }
 }

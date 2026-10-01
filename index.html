@@ -319,6 +319,7 @@
       color: var(--ink-faint);
     }
     .blog-card-num { color: var(--accent); font-weight: 600; }
+    .card-short { text-transform: none; letter-spacing: 0.04em; color: var(--ink-faint); opacity: 0.85; }
     .blog-card-title {
       font-family: var(--display);
       font-size: clamp(20px, 3vw, 28px);
@@ -913,6 +914,7 @@
               <div class="blog-card-left">
                 <div class="obs-card-meta">
                   <span class="obs-card-label">The Observatory · No. 1</span>
+                  <span class="card-short">xrpvaluation.info/observatory1</span>
                   <span>May 4, 2026</span>
                   <span>Velocity Dynamics · Institutional Transition</span>
                 </div>
@@ -929,6 +931,7 @@
               <div class="blog-card-left">
                 <div class="obs-card-meta">
                   <span class="obs-card-label">The Observatory · No. 2</span>
+                  <span class="card-short">xrpvaluation.info/observatory2</span>
                   <span>May 2, 2026</span>
                   <span>Terminal State · Reserve Asset Dynamics</span>
                 </div>
@@ -945,6 +948,7 @@
               <div class="blog-card-left">
                 <div class="obs-card-meta">
                   <span class="obs-card-label">The Observatory &middot; No. 3</span>
+                  <span class="card-short">xrpvaluation.info/observatory3</span>
                   <span>May 12, 2026</span>
                   <span>FICC &middot; NCCBR &middot; Repo &middot; MV=PQ &middot; Square Root Law</span>
                 </div>
@@ -1093,6 +1097,7 @@
             <div class="blog-card-left">
               <div class="blog-card-meta">
                 <span class="blog-card-num">No. ${post.number}</span>
+                <span class="card-short">xrpvaluation.info/blog${post.number}</span>
                 <span>${post.date}</span>
                 ${tags ? `<span>${tags}</span>` : ''}
               </div>

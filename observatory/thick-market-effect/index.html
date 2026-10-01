@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Thick-Market Effect Has a Formula · Observatory No. 4 · XRP Valuation Series</title>
+  <meta name="description" content="Economists have known for forty years why the world's money gathers around one bridge currency. They never said how deep the bridge has to be. The square-root law does. Here is what happens when you connect the two." />
+  <meta property="og:title" content="The Thick-Market Effect Has a Formula" />
+  <meta property="og:description" content="Why the world keeps gathering around a bridge currency, and what it would take for XRP to become one." />
+  <meta property="og:type" content="article" />
+  <link rel="canonical" href="https://xrpvaluation.info/observatory/thick-market-effect/" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --paper: #ffffff;
+      --paper-soft: #f7f3ea;
+      --paper-deep: #f4efe4;
+      --ink: #171512;
+      --ink-soft: #3a342e;
+      --ink-medium: #61594f;
+      --ink-faint: #8a8073;
+      --rule: #d8d0c3;
+      --rule-strong: #1a1a1a;
+      --accent: #7a5c20;
+      --display: "Newsreader", Georgia, serif;
+      --body: "Newsreader", Georgia, serif;
+      --ui: "IBM Plex Sans", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --text-width: 680px;
+      --page-width: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 20px; line-height: 1.72; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── TOPBAR ── */
+    .topbar { max-width: var(--page-width); margin: 0 auto; padding: 24px 28px 0; }
+    .topbar-inner { border-top: 2px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); padding: 15px 0 13px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-family: var(--ui); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-medium); }
+    .topbar-left { font-weight: 600; color: var(--accent); }
+    .topbar-left a { color: var(--accent); }
+    .topbar-left a:hover { opacity: 0.75; }
+    .topbar-right { letter-spacing: 0.1em; color: var(--ink-faint); }
+
+    /* ── LAYOUT ── */
+    .article-wrap { max-width: var(--page-width); margin: 0 auto; padding: 56px 28px 120px; display: grid; grid-template-columns: 1fr min(var(--text-width), 100%) 1fr; }
+    .article-wrap > * { grid-column: 2; }
+
+    /* ── POST HEADER ── */
+    .post-header { margin-bottom: 56px; }
+    .post-section { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 24px; }
+    .post-section::before { content: ""; display: inline-block; width: 20px; height: 1px; background: var(--accent); }
+
+    h1.post-title { font-family: var(--display); font-size: clamp(36px, 6vw, 62px); line-height: 1.05; font-weight: 500; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 22px; }
+    h1.post-title em { font-style: italic; color: var(--accent); }
+
+    .post-deck { font-family: var(--display); font-style: italic; font-size: clamp(19px, 2.5vw, 24px); line-height: 1.45; color: var(--ink-medium); margin-bottom: 32px; }
+
+    .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 18px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+    .post-meta .meta-tag { color: var(--accent); font-weight: 600; }
+    .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--rule); flex-shrink: 0; }
+
+    /* ── BODY ── */
+    .post-body { padding-top: 48px; }
+    .post-body p { margin-bottom: 28px; font-size: 20px; line-height: 1.72; color: var(--ink-soft); }
+    .post-body p:first-child { font-size: 22px; line-height: 1.65; color: var(--ink); }
+    .post-body h2 { font-family: var(--display); font-size: clamp(24px, 3vw, 32px); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 20px; padding-top: 40px; border-top: 1px solid var(--rule); }
+    .post-body a.inline { color: var(--accent); border-bottom: 1px solid rgba(122,92,32,0.3); }
+    .post-body a.inline:hover { border-bottom-color: var(--accent); }
+    .post-body ul.plain { margin: 0 0 28px 24px; }
+    .post-body ul.plain li { margin-bottom: 14px; font-size: 19px; line-height: 1.65; color: var(--ink-soft); }
+
+    /* ── PULL QUOTE ── */
+    .pull-quote { margin: 44px 0; padding: 28px 32px; border-left: 3px solid var(--accent); background: var(--paper-soft); }
+    .pull-quote p { font-family: var(--display); font-size: clamp(20px, 2.5vw, 26px) !important; font-style: italic; line-height: 1.45; color: var(--ink) !important; margin-bottom: 0 !important; }
+
+    /* ── MATH BLOCK (dark) ── */
+    .math-block { margin: 36px 0; padding: 24px 28px; background: var(--ink); border-radius: 4px; }
+    .math-block .math-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 12px; }
+    .math-block .math-line { font-family: var(--mono); font-size: 15px; color: #fff; line-height: 1.9; }
+    .math-block .math-line .var { color: #c9a84c; }
+    .math-block .math-note { margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.1); font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.6; }
+
+    /* ── CALLOUT ── */
+    .callout { margin: 36px 0; padding: 22px 26px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper-soft); }
+    .callout-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+    .callout p { font-size: 16px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 10px !important; }
+    .callout p:last-child { margin-bottom: 0 !important; }
+
+    /* ── STAT STRIP ── */
+    .stat-strip { margin: 36px 0; display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--rule); overflow: hidden; }
+    .stat-cell { padding: 20px 22px; background: var(--paper); border-right: 1px solid var(--rule); }
+    .stat-cell:last-child { border-right: none; }
+    .stat-number { font-family: var(--display); font-size: 30px; font-weight: 500; color: var(--accent); line-height: 1; margin-bottom: 6px; }
+    .stat-label { font-family: var(--ui); font-size: 12px; color: var(--ink-faint); line-height: 1.45; }
+
+    /* ── GRID TABLES ── */
+    .grid-table { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .grid-table-head { display: grid; background: var(--ink); padding: 12px 20px; gap: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .grid-row { display: grid; padding: 14px 20px; gap: 12px; border-top: 1px solid var(--rule); background: var(--paper); align-items: start; }
+    .grid-row:nth-child(even) { background: var(--paper-soft); }
+    .grid-row.highlight { background: #f0ebe0; border-left: 3px solid var(--accent); }
+    .cols-3 { grid-template-columns: 1.3fr 1fr 1fr; }
+    .cols-4 { grid-template-columns: 1.2fr 1fr 1fr 0.9fr; }
+    .g-name { font-family: var(--ui); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+    .g-cell { font-family: var(--ui); font-size: 13px; color: var(--ink-medium); line-height: 1.5; }
+    .g-cell.accent { font-family: var(--mono); font-size: 12px; color: var(--accent); font-weight: 600; }
+    .g-cell.up { color: #2d6a2d; }
+    .g-cell.down { color: #8b1a1a; }
+    .table-note { padding: 12px 20px; background: var(--paper-deep); border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.6; }
+
+    /* ── SOURCES ── */
+    .sources { margin: 36px 0 0; padding: 22px 24px; border: 1px solid var(--rule); background: var(--paper); }
+    .sources-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 12px; }
+    .sources ol { margin-left: 20px; }
+    .sources li { font-family: var(--ui); font-size: 14px; line-height: 1.6; color: var(--ink-medium); margin-bottom: 8px; }
+    .sources li a { color: var(--accent); border-bottom: 1px solid rgba(122,92,32,0.3); }
+    .sources li a:hover { border-bottom-color: var(--accent); }
+
+    /* ── FRAMEWORK REF ── */
+    .framework-ref { margin: 40px 0; padding: 22px 24px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
+    .framework-ref-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+    .framework-ref p { font-size: 16px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 10px !important; }
+    .framework-ref p:last-child { margin-bottom: 0 !important; }
+    .framework-ref a { color: var(--accent); border-bottom: 1px solid rgba(122,92,32,0.3); }
+    .framework-ref a:hover { border-bottom-color: var(--accent); }
+
+    /* ── CLOSING LINE ── */
+    .closing-line { margin: 56px 0 0; font-family: var(--display); font-size: clamp(22px, 3vw, 30px); font-weight: 500; letter-spacing: -0.02em; color: var(--ink); text-align: center; }
+    .closing-line em { color: var(--accent); }
+
+    /* ── DISCLAIMER ── */
+    .disclaimer { margin-top: 40px; padding: 18px 20px; background: var(--paper-soft); border: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-faint); line-height: 1.7; }
+
+    /* ── POST FOOTER ── */
+    .post-footer { margin-top: 72px; padding-top: 32px; border-top: 2px solid var(--rule-strong); }
+    .post-footer-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 20px; }
+    .post-footer-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .footer-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--rule); background: var(--paper); font-family: var(--ui); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-medium); font-weight: 500; transition: border-color 0.15s, color 0.15s; }
+    .footer-link:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-link.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .footer-link.primary:hover { background: #5c4418; border-color: #5c4418; }
+    .footer-link::after { content: "→"; font-size: 13px; }
+
+    /* ── SITE FOOTER ── */
+    .site-footer { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 40px; }
+    .site-footer-inner { border-top: 1px solid var(--rule); padding-top: 18px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 760px) {
+      body { font-size: 19px; }
+      .article-wrap { grid-template-columns: 1fr; padding: 40px 20px 80px; }
+      .article-wrap > * { grid-column: 1; }
+      .stat-strip { grid-template-columns: 1fr; }
+      .stat-cell { border-right: none; border-bottom: 1px solid var(--rule); }
+      .stat-cell:last-child { border-bottom: none; }
+      .grid-table-head { display: none; }
+      .grid-row.cols-3, .grid-row.cols-4 { grid-template-columns: 1fr; gap: 6px; }
+      .grid-row .g-cell::before { content: attr(data-label); display: block; font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 2px; }
+      .site-footer { padding: 0 20px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left"><a href="/">XRP Valuation Series</a> &nbsp;·&nbsp; The Observatory</div>
+    <div class="topbar-right">The Observatory · October 1, 2026</div>
+  </div>
+</header>
+
+<article class="article-wrap">
+
+  <div class="post-header">
+    <div class="post-section">The Observatory &nbsp;·&nbsp; No. 4</div>
+    <h1 class="post-title">The <em>thick-market effect</em> has a formula.</h1>
+    <p class="post-deck">
+      Economists have known for more than forty years why the world's money gathers around one bridge
+      currency. They never said how deep the bridge has to be. The square-root law does. Here is what
+      happens when you connect the two &mdash; and what it would take for XRP to become a bridge.
+    </p>
+    <div class="post-meta">
+      <span class="meta-tag">The Observatory</span>
+      <span class="meta-dot"></span>
+      <span>General Audience</span>
+      <span class="meta-dot"></span>
+      <span>Vehicle Currency · Thick-Market Externality</span>
+      <span class="meta-dot"></span>
+      <span>Square Root Law · Auto-Bridging</span>
+      <span class="meta-dot"></span>
+      <span>October 1, 2026</span>
+    </div>
+  </div>
+
+  <div class="post-body">
+
+    <p>
+      Imagine twenty cities, and you want a direct flight between every pair of them. That is 190 routes.
+      Most would fly half-empty, tickets would be expensive, and some routes would not survive at all.
+    </p>
+
+    <p>
+      Now build one hub. Every city flies to the hub and connects from there. Twenty cities need only
+      nineteen routes. Each route is full, flights are frequent, and tickets are cheaper &mdash; even
+      though most travelers now take two flights instead of one.
+    </p>
+
+    <p>
+      That is how much of the world's money already works. When a Brazilian company pays a supplier in
+      Korea, the money usually does not go straight from reais to won. It goes reais to dollars, then
+      dollars to won. The dollar is the hub. Economists call it a <em>vehicle currency</em>.
+    </p>
+
+    <div class="stat-strip">
+      <div class="stat-cell">
+        <div class="stat-number">190</div>
+        <div class="stat-label">Direct routes needed to connect 20 currencies pairwise (20 &times; 19 &divide; 2)</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-number">19</div>
+        <div class="stat-label">Routes needed when every currency connects through one hub</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-number">4,950 &rarr; 99</div>
+        <div class="stat-label">The same arithmetic for 100 currencies. The saving grows with the number of currencies.</div>
+      </div>
+    </div>
+
+    <h2>This is not a crypto idea</h2>
+
+    <p>
+      Economists have studied vehicle currencies for more than four decades. Paul Krugman published
+      <em>Vehicle Currencies and the Structure of International Exchange</em> in 1980, twenty-eight years
+      before his Nobel Prize. H&eacute;l&egrave;ne Rey extended the idea in 2001 in the <em>Review of
+      Economic Studies</em>. In 2013, Michael Devereux and Shouyong Shi built a full dynamic general
+      equilibrium model of a vehicle currency in the <em>International Economic Review</em>.
+    </p>
+
+    <p>Their findings, in plain English:</p>
+
+    <ul class="plain">
+      <li>
+        <strong>A hub collapses the number of markets that need to exist.</strong> Twenty currencies need
+        190 direct pairs or 19 hub pairs. The more currencies in the system, the bigger the saving.
+        Devereux and Shi showed that the efficiency gain from a vehicle currency depends directly on the
+        total number of currencies in existence.
+      </li>
+      <li>
+        <strong>The saving feeds on itself.</strong> The more people trade through a hub, the cheaper
+        the hub becomes to trade, which pulls in more trading. Rey called this a
+        <em>thick-market externality</em>, and used it to explain how the dollar displaced the pound
+        after the Second World War.
+      </li>
+      <li>
+        <strong>A thin hub makes things worse.</strong> A hub only pays when it is busy enough that two
+        trades through it cost less than one direct trade. If the hub market is thinner than the markets
+        it replaces, the detour costs more than the direct route it was supposed to save.
+      </li>
+    </ul>
+
+    <p>
+      That last point is the one most people miss, and it is the one this piece is about.
+    </p>
+
+    <h2>What the economists left out</h2>
+
+    <p>
+      All three papers agree that trading gets cheaper as a market gets busier. None of them says
+      <em>how much</em> cheaper. The thick-market externality is a direction, not a number.
+    </p>
+
+    <p>
+      That is where this series comes in. Six parts and eighteen field notes have rested on one formula:
+      the square-root law of market impact, first formalized by Almgren and Chriss and since measured
+      across decades of real trading in stocks, bonds, and currencies. In plain terms, the price move
+      caused by a large trade depends on the trade's size relative to how much the market trades each
+      day. Make the market four times busier, and the same trade moves the price about half as much.
+    </p>
+
+    <div class="math-block">
+      <div class="math-label">The square-root law, as used throughout this series</div>
+      <div class="math-line">impact &asymp; <span class="var">&sigma;</span> &times; &radic;(<span class="var">Q</span> / <span class="var">V</span>)</div>
+      <div class="math-line">inverted: required <span class="var">V</span> = <span class="var">Q</span> &times; (<span class="var">&sigma;</span> / tolerance)&sup2;</div>
+      <div class="math-line">implied price = <span class="var">V</span> &divide; turnover &divide; tradeable float</div>
+      <div class="math-note">&sigma; = daily volatility &middot; Q = ticket size &middot; V = daily traded volume &middot; tolerance = the slippage an institution will accept. Full derivation and all inputs in Part I. Try your own inputs in the calculator.</div>
+    </div>
+
+    <p>
+      The square-root law gives us a way to put numbers on the thick-market effect the economists
+      described. The two ideas were developed separately, by different researchers in different fields.
+      Connecting them is our own step, not something the original papers claimed. But once you connect
+      them, you can do something the economics alone could not: estimate how deep a hub has to be before
+      routing through it makes sense.
+    </p>
+
+    <h2>Putting the two together</h2>
+
+    <p>
+      The economists say a hub wins once it is busy enough that two trades through it cost less than one
+      direct trade. The square-root law lets us estimate how busy "busy enough" is.
+    </p>
+
+    <p>
+      <a class="inline" href="/part1/">Part I</a> sized the institutional case as a single $2 billion
+      settlement, executed with no more than 10 basis points of slippage &mdash; one tenth of one percent
+      &mdash; at an assumed daily volatility of 3%. Run that through the formula and XRP's market would
+      need to trade roughly $1.8 trillion a day. At the series' central turnover assumption (1% of market
+      value traded per day, across a tradeable float of roughly 61 billion XRP), that works out to about
+      $2,950 per XRP. Stress every skeptic-friendly input at once &mdash; maximum netting of peak tickets
+      and the high-efficiency 1.5% turnover case &mdash; and Part I's floor for the same scenario is
+      roughly $1,300.
+    </p>
+
+    <p>
+      We call this a <em>model-implied liquidity threshold</em>, not a price floor. Nothing stops XRP from
+      settling a $2 billion payment at $10. At $10, though, the market is not deep enough to absorb it
+      without a price move far outside what an institution would accept.
+    </p>
+
+    <div class="callout">
+      <div class="callout-label">What this number is, and isn't</div>
+      <p>
+        The square-root law describes a relationship between trade size, daily volume, volatility, and
+        price impact. It does not produce one universal XRP price. Every dollar figure in this series
+        depends on stated assumptions: volatility, tradeable float, the slippage tolerance institutions
+        accept, and the turnover ratio linking daily volume to market value. Change the assumptions and
+        the number changes. That is why the series publishes them, and why the
+        <a class="inline" href="/calculator/">calculator</a> lets you change them yourself.
+      </p>
+    </div>
+
+    <p>
+      Below the threshold, routing through XRP costs more than the alternative, and institutions have no
+      reason to do it. Above it, each new user makes XRP cheaper for everyone else, and the hub effect the
+      economists described starts working in XRP's favor.
+    </p>
+
+    <h2>The two-trade cost is how a hub gets chosen</h2>
+
+    <p>
+      Back to the airport. A connecting flight means two takeoffs and two landings, so there are two
+      chances for delay. Bridging money works the same way. Routing reais to won through XRP means two
+      trades: reais into XRP, then XRP into won. Each trade nudges the price, so each one has a cost.
+    </p>
+
+    <p>
+      Here is the logic in one illustrative example. Say trading Currency A directly into Currency B costs
+      4 cents per $100. Going through XRP means two trades, and while XRP's market is thin, each leg also
+      costs 4 cents. That is 8 cents in total, so nobody takes the detour.
+    </p>
+
+    <p>
+      As XRP's market gets busier, each leg gets cheaper: 3 cents, then 2, then 1.5. At some point the two
+      legs together cost less than the direct route. From then on, routing through XRP wins on price alone.
+    </p>
+
+    <div class="grid-table">
+      <div class="grid-table-head cols-4">
+        <div>XRP market depth</div>
+        <div>Cost per leg</div>
+        <div>Two legs via XRP</div>
+        <div>Direct A&rarr;B at 4&cent;</div>
+      </div>
+      <div class="grid-row cols-4">
+        <div class="g-name">Thin</div>
+        <div class="g-cell" data-label="Cost per leg">4&cent; per $100</div>
+        <div class="g-cell" data-label="Two legs via XRP">8&cent;</div>
+        <div class="g-cell down" data-label="Verdict">Direct wins</div>
+      </div>
+      <div class="grid-row cols-4">
+        <div class="g-name">Deeper</div>
+        <div class="g-cell" data-label="Cost per leg">3&cent; per $100</div>
+        <div class="g-cell" data-label="Two legs via XRP">6&cent;</div>
+        <div class="g-cell down" data-label="Verdict">Direct wins</div>
+      </div>
+      <div class="grid-row cols-4">
+        <div class="g-name">Crossover</div>
+        <div class="g-cell" data-label="Cost per leg">2&cent; per $100</div>
+        <div class="g-cell" data-label="Two legs via XRP">4&cent;</div>
+        <div class="g-cell" data-label="Verdict">Tie</div>
+      </div>
+      <div class="grid-row cols-4 highlight">
+        <div class="g-name">Thick</div>
+        <div class="g-cell" data-label="Cost per leg">1.5&cent; per $100</div>
+        <div class="g-cell" data-label="Two legs via XRP">3&cent;</div>
+        <div class="g-cell up" data-label="Verdict">XRP wins</div>
+      </div>
+      <div class="table-note">Illustrative only. The cents figures are chosen to show the crossover, not measured from any market. Under the square-root law, reaching each cheaper row requires the hub's daily volume to grow by the square of the cost reduction.</div>
+    </div>
+
+    <p>
+      Every trade that switches routes adds volume to XRP's market. That makes XRP cheaper for the next
+      pair of currencies, which may then switch too. That is the feedback loop the economists described,
+      and the square-root law tells us roughly where the crossover sits.
+    </p>
+
+    <div class="pull-quote">
+      <p>The two-trade cost does not argue against a bridge asset. It is the test every would-be hub has to pass &mdash; and it is why shallow hubs fail.</p>
+    </div>
+
+    <h2>How the two-trade cost changes the math</h2>
+
+    <p>
+      We want to be upfront about one assumption, because it moves the number a long way.
+    </p>
+
+    <p>
+      Part I's $2,950 threshold applies the 10 basis point tolerance to each trade on its own. Part II
+      makes the convention explicit: the slippage tolerance governs what the pool has to absorb per
+      transaction. If an institution instead wants the whole journey &mdash; both legs combined &mdash;
+      to stay under 10 basis points, each leg only gets half the allowance.
+    </p>
+
+    <p>
+      Because of how the square-root law works, cutting the allowance in half does not double the
+      required market size. It quadruples it. The required daily volume moves from roughly $1.8 trillion
+      to roughly $7.2 trillion, and the implied price moves from about $2,950 to about $11,800 under the
+      same turnover and float assumptions. Part I's stress-tested floor would move from roughly $1,300 to
+      roughly $5,200.
+    </p>
+
+    <div class="grid-table">
+      <div class="grid-table-head cols-4">
+        <div>Tolerance convention</div>
+        <div>Per-leg allowance</div>
+        <div>Required daily volume</div>
+        <div>Implied price (1% turnover)</div>
+      </div>
+      <div class="grid-row cols-4 highlight">
+        <div class="g-name">Per trade (series baseline, Part I)</div>
+        <div class="g-cell" data-label="Per-leg allowance">10 bp</div>
+        <div class="g-cell" data-label="Required daily volume">~$1.8 trillion</div>
+        <div class="g-cell accent" data-label="Implied price">~$2,950</div>
+      </div>
+      <div class="grid-row cols-4">
+        <div class="g-name">End-to-end (both legs share 10 bp)</div>
+        <div class="g-cell" data-label="Per-leg allowance">5 bp</div>
+        <div class="g-cell" data-label="Required daily volume">~$7.2 trillion</div>
+        <div class="g-cell accent" data-label="Implied price">~$11,800</div>
+      </div>
+      <div class="table-note">Inputs: $2B ticket, &sigma; = 3%, tradeable float &asymp; 61B XRP, 1.0% daily turnover, as in Part I's institutional scenario. Halving the tolerance quadruples required volume because volume enters the formula as a square. Both rows are model outputs under stated assumptions, not forecasts.</div>
+    </div>
+
+    <p>
+      We are not claiming the higher figure. The answer depends on how institutions define their
+      tolerance, and they have not said. The honest position is that the liquidity threshold sits
+      somewhere in that range, depending on a convention that has not been made public.
+    </p>
+
+    <p>
+      Two things soften the upper bound without removing it. First, the two legs of a bridge trade happen
+      in two different markets &mdash; the reais-to-XRP market and the XRP-to-won market &mdash; and the
+      series uses XRP's aggregate daily volume as a proxy for both. Second, a liquidity provider who
+      handles both legs can net them, so the market only has to absorb the imbalance. Neither changes the
+      direction of the adjustment. An end-to-end standard raises the threshold. It does not lower it.
+    </p>
+
+    <h2>Why a neutral hub matters</h2>
+
+    <p>
+      Devereux and Shi found two things about who wins when a vehicle currency emerges. The welfare gains
+      are real, but they tilt heavily toward the residents of the country that issues the hub currency.
+      And the hub's survival places natural limits on that country's monetary policy: a hub that inflates
+      too freely stops being a hub. Today the dollar is the hub, so the United States collects the
+      advantage and lives with the constraint.
+    </p>
+
+    <p>
+      XRP has no issuing country. No nation's citizens automatically collect the hub advantage, and no
+      central bank can expand XRP's supply through monetary policy: the maximum supply was fixed at
+      100 billion when the ledger launched, and transaction fees are destroyed rather than paid to anyone.
+      That does not mean nobody profits from a bridge role. Market makers, liquidity providers, exchanges,
+      and holders all could. It means the sovereign advantage the economists identified does not apply.
+      Whether institutions and central banks value that neutrality &mdash; or distrust a hub no one
+      controls &mdash; is still an open question.
+    </p>
+
+    <h2>What this piece adds to the series</h2>
+
+    <p>
+      Until now, the series has rested on market mechanics: how big trades move prices, how settlement
+      timing works, how much money moves through the system. This piece puts an economic foundation
+      underneath it.
+    </p>
+
+    <p>
+      The economics tells us why liquidity tends to gather around a hub. The open question is which asset,
+      or small group of assets, captures that liquidity, and whether XRP becomes one of them.
+    </p>
+
+    <p>
+      Economists modeled why vehicle currencies emerge. Market researchers measured how liquidity changes
+      trading costs. XRP gives us a real bridge asset to test both ideas against, on a public ledger, every
+      quarter.
+    </p>
+
+    <h2>What would prove this wrong</h2>
+
+    <p>
+      The XRP Ledger has had a built-in feature called <em>auto-bridging</em> since 2014. When an order
+      on the ledger's decentralized exchange would swap one issued token for another, the ledger
+      automatically checks whether routing through XRP &mdash; token to XRP, then XRP to token &mdash;
+      gives a better rate than the direct order book, and uses whichever combination fills the order
+      best. Since the 2024 AMM amendment, those paths can draw on both order-book offers and automated
+      market maker pools. The behavior the economists described is not hypothetical here. It is written
+      into the ledger's code.
+    </p>
+
+    <p>
+      That makes the test unusually clean. The share of token-to-token trades that actually route through
+      XRP is measurable on-ledger. If XRP is becoming a hub, that share should rise over time. If it stays
+      flat while volume grows, the hub is forming somewhere else.
+    </p>
+
+    <div class="grid-table">
+      <div class="grid-table-head cols-3">
+        <div>What to watch</div>
+        <div>Supports the thesis if&hellip;</div>
+        <div>Weakens it if&hellip;</div>
+      </div>
+      <div class="grid-row cols-3">
+        <div class="g-name">Share of token-to-token DEX trades auto-bridged through XRP</div>
+        <div class="g-cell up" data-label="Supports if">Rises quarter over quarter</div>
+        <div class="g-cell down" data-label="Weakens if">Stays flat as DEX volume grows</div>
+      </div>
+      <div class="grid-row cols-3">
+        <div class="g-name">XRP daily spot volume</div>
+        <div class="g-cell up" data-label="Supports if">Trends toward the trillion-dollar-a-day range Part I's institutional scenario requires</div>
+        <div class="g-cell down" data-label="Weakens if">Plateaus far below it as adoption claims grow</div>
+      </div>
+      <div class="grid-row cols-3">
+        <div class="g-name">Direct stablecoin-to-stablecoin pairs on major venues</div>
+        <div class="g-cell up" data-label="Supports if">Stay thin relative to XRP pairs</div>
+        <div class="g-cell down" data-label="Weakens if">Deepen enough to make a hub unnecessary</div>
+      </div>
+      <div class="grid-row cols-3">
+        <div class="g-name">Competing bridge assets (other tokens, tokenized deposits, CBDCs)</div>
+        <div class="g-cell up" data-label="Supports if">Fail to build depth</div>
+        <div class="g-cell down" data-label="Weakens if">Build depth faster than XRP</div>
+      </div>
+      <div class="grid-row cols-3">
+        <div class="g-name">Institutional slippage standards, once disclosed</div>
+        <div class="g-cell up" data-label="Supports if">Defined per trade (series baseline holds)</div>
+        <div class="g-cell down" data-label="Weakens if">Defined end-to-end, raising the threshold fourfold</div>
+      </div>
+      <div class="table-note">One honest limit on the first row: token-to-token volume on the XRPL's own exchange is a small fraction of XRP's global trading. The auto-bridged share tests whether the hub mechanism works where it is hard-coded, not whether global settlement flow has arrived.</div>
+    </div>
+
+    <div class="framework-ref">
+      <div class="framework-ref-label">Where this sits in the framework</div>
+      <p>
+        The square-root law, its inputs, and the $2B institutional scenario are established in
+        <a href="/part1/">Part I</a>. The per-transaction reading of the slippage tolerance is made
+        explicit in <a href="/part2/">Part II</a>. The pathfinding and dynamic liquidity assembly that
+        auto-bridging relies on are examined in <a href="/blog/dynamic-assembly/">Field Note No. 8</a>
+        and <a href="/blog/pathfinding-threshold/">Field Note No. 10</a>. The velocity dynamics that
+        determine how much of XRP's float is actually available to a bridge are the subject of
+        <a href="/observatory/velocity-problem/">Observatory No. 1</a>.
+      </p>
+    </div>
+
+    <div class="sources">
+      <div class="sources-label">Sources</div>
+      <ol>
+        <li>Krugman, P. (1980). "Vehicle Currencies and the Structure of International Exchange." <em>Journal of Money, Credit and Banking</em> 12(3): 513&ndash;526.</li>
+        <li>Rey, H. (2001). "International Trade and Currency Exchange." <em>Review of Economic Studies</em> 68(2): 443&ndash;464.</li>
+        <li>Devereux, M. B., &amp; Shi, S. (2013). "Vehicle Currency." <em>International Economic Review</em> 54(1): 97&ndash;133.</li>
+        <li>Hernandez Cruz, W., Dahi, F., Feng, Y., Xu, J., Malhotra, A., &amp; Tasca, P. (2023, revised 2025). "AMM-based DEX on the XRP Ledger." arXiv:2312.13749; accepted to IEEE ICBC 2025. One author (Malhotra) is affiliated with Ripple Labs and co-authored the XLS-30 AMM specification.</li>
+        <li>XRP Ledger documentation, "Auto-Bridging" (<a href="https://xrpl.org/docs/concepts/tokens/decentralized-exchange/autobridging">xrpl.org</a>), and "Introducing: Offer Autobridging," XRP Ledger blog, 2014.</li>
+        <li>Square-root market impact, the $2B institutional scenario, and the ~$2,950 / ~$1,300 figures: <a href="/part1/">Part I</a> and <a href="/part2/">Part II</a> of this series.</li>
+      </ol>
+    </div>
+
+    <p class="closing-line">XRP is not being valued. <em>It is being sized.</em></p>
+
+    <div class="disclaimer">
+      This is not financial advice. This Observatory piece connects two bodies of work that were developed
+      independently: the vehicle-currency literature in international economics (Krugman 1980; Rey 2001;
+      Devereux and Shi 2013) and the square-root law of market impact used throughout this series. The
+      connection between them is the author's own step, not a claim made by the original papers. All
+      dollar figures are outputs of the Part I framework under stated assumptions (a $2B ticket, 3% daily
+      volatility, 10 bp slippage tolerance, 1.0% daily turnover, roughly 61B XRP tradeable float) and
+      change when those assumptions change. The cents-per-$100 example is illustrative, not measured.
+      Auto-bridging behavior from XRPL documentation. Do your own research.
+    </div>
+
+    <div class="post-footer">
+      <div class="post-footer-label">Continue reading</div>
+      <div class="post-footer-links">
+        <a class="footer-link primary" href="/part1/">Part I — XRP is not being valued. It is being sized.</a>
+        <a class="footer-link" href="/calculator/">Calculator — run your own inputs.</a>
+        <a class="footer-link" href="/observatory/plumbing-paper/">Observatory No. 3 — The plumbing paper.</a>
+        <a class="footer-link" href="/observatory/velocity-problem/">Observatory No. 1 — The velocity problem.</a>
+        <a class="footer-link" href="/">All articles</a>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>XRP Valuation Series &nbsp;·&nbsp; The Observatory</div>
+    <div>FutureXRP &nbsp;·&nbsp; @the5blairs</div>
+  </div>
+</footer>
+
+</body>
+</html>

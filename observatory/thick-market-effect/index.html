@@ -8,6 +8,9 @@
   <meta property="og:title" content="The Thick-Market Effect Has a Formula" />
   <meta property="og:description" content="Why the world keeps gathering around a bridge currency, and what it would take for XRP to become one." />
   <meta property="og:type" content="article" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="The Thick-Market Effect Has a Formula" />
+  <meta name="twitter:description" content="Why the world keeps gathering around a bridge currency, and what it would take for XRP to become one." />
   <link rel="canonical" href="https://xrpvaluation.info/observatory/thick-market-effect/" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -23,7 +26,7 @@
       --ink: #171512;
       --ink-soft: #3a342e;
       --ink-medium: #61594f;
-      --ink-faint: #8a8073;
+      --ink-faint: #6f665a;
       --rule: #d8d0c3;
       --rule-strong: #1a1a1a;
       --accent: #7a5c20;
@@ -258,15 +261,14 @@
         <em>thick-market externality</em>, and used it to explain how the dollar displaced the pound
         after the Second World War.
       </li>
-      <li>
-        <strong>A thin hub makes things worse.</strong> A hub only pays when it is busy enough that two
-        trades through it cost less than one direct trade. If the hub market is thinner than the markets
-        it replaces, the detour costs more than the direct route it was supposed to save.
-      </li>
     </ul>
 
     <p>
-      That last point is the one most people miss, and it is the one this piece is about.
+      And one inference that follows from their models but is our own reading, not a finding the papers
+      state: <strong>a thin hub makes things worse.</strong> A hub only pays when it is busy enough that
+      two trades through it cost less than one direct trade. If the hub market is thinner than the markets
+      it replaces, the detour costs more than the direct route it was supposed to save. That is the point
+      most people miss, and it is the one this piece is about.
     </p>
 
     <h2>What the economists left out</h2>
@@ -278,10 +280,14 @@
 
     <p>
       That is where this series comes in. Six parts and eighteen field notes have rested on one formula:
-      the square-root law of market impact, first formalized by Almgren and Chriss and since measured
-      across decades of real trading in stocks, bonds, and currencies. In plain terms, the price move
-      caused by a large trade depends on the trade's size relative to how much the market trades each
-      day. Make the market four times busier, and the same trade moves the price about half as much.
+      the square-root law of market impact. It is part of a broader market-impact literature that runs
+      from Barra's models in the 1990s through Almgren and Chriss's work on optimal execution to the
+      large empirical studies of Bouchaud's group and T&oacute;th and colleagues. The evidence for it is
+      strongest in equities and futures, thinner for bonds and foreign exchange, and, as
+      <a class="inline" href="/blog/source-list/">the series' source list</a> records, independently
+      confirmed on institutional crypto orders. In plain terms, the price move caused by a large trade
+      depends on the trade's size relative to how much the market trades each day. Make the market four
+      times busier, and the same trade moves the price about half as much.
     </p>
 
     <div class="math-block">
@@ -324,6 +330,48 @@
       without a price move far outside what an institution would accept.
     </p>
 
+    <p>
+      Now the comparison the number needs. The Bank for International Settlements measured global
+      foreign-exchange turnover at about $9.5 trillion a day in April 2025, with spot trading roughly a
+      third of that, near $3 trillion, and the dollar on one side of 89% of all trades. The institutional
+      scenario therefore asks XRP's market to trade on the order of 60% of all global FX spot, every day,
+      before the hub clears a single $2 billion ticket at 10 basis points. At 1% turnover, that volume
+      implies a tradeable float worth about $180 trillion, larger than every listed equity market on
+      earth combined, which stood near $150 trillion at the end of 2025. And XRP's reported spot volume
+      in late 2026 has run in the low single-digit billions of dollars a day: roughly a thousand times
+      short of the scenario. A reader who is not given that comparison will treat $2,950 as a
+      destination. A reader who is given it will read it the way the model intends: as the model saying
+      the bar is extraordinary.
+    </p>
+
+    <div class="stat-strip">
+      <div class="stat-cell">
+        <div class="stat-number">~$3T</div>
+        <div class="stat-label">Global FX spot turnover per day, April 2025 (BIS), out of ~$9.5T total FX turnover</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-number">~$1.8T</div>
+        <div class="stat-label">XRP daily volume the Part I institutional scenario requires, per leg, at 10 bp</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-number">~$2B</div>
+        <div class="stat-label">XRP's typical reported daily spot volume in late September 2026</div>
+      </div>
+    </div>
+
+    <p>
+      One input deserves its own sentence, because it swings the answer by orders of magnitude. The
+      formula divides required volume by turnover, so a hub that trades $1.8 trillion a day against 1%
+      turnover needs a float worth $180 trillion, while the same hub at 10% turnover needs a tenth of
+      that. A bridge asset is defined by throughput, which seems to argue for high turnover and a lower
+      price. <a class="inline" href="/part1/">Part I</a> argues the opposite happens as institutions
+      arrive: inventory buffers, treasury allocations, and pre-positioned corridors pull turnover down,
+      and today's 2% to 2.5% ratio is driven by speculation rather than settlement.
+      <a class="inline" href="/observatory/velocity-problem/">Observatory No. 1</a> models that
+      inversion in detail. Readers who reject it should divide every dollar figure in this piece
+      accordingly. The crossover logic survives; the price attached to it does not.
+    </p>
+
     <div class="callout">
       <div class="callout-label">What this number is, and isn't</div>
       <p>
@@ -337,9 +385,10 @@
     </div>
 
     <p>
-      Below the threshold, routing through XRP costs more than the alternative, and institutions have no
-      reason to do it. Above it, each new user makes XRP cheaper for everyone else, and the hub effect the
-      economists described starts working in XRP's favor.
+      Below the threshold, XRP cannot win on liquidity cost alone; speed, counterparty exposure, capital
+      treatment, or the absence of a direct pair might still justify it, but the economics of the hub
+      do not. Above it, each new user makes XRP cheaper for everyone else, and the thick-market feedback
+      loop the economists described can begin working in XRP's favor.
     </p>
 
     <h2>The two-trade cost is how a hub gets chosen</h2>
@@ -455,11 +504,16 @@
     </p>
 
     <p>
-      Two things soften the upper bound without removing it. First, the two legs of a bridge trade happen
-      in two different markets &mdash; the reais-to-XRP market and the XRP-to-won market &mdash; and the
-      series uses XRP's aggregate daily volume as a proxy for both. Second, a liquidity provider who
-      handles both legs can net them, so the market only has to absorb the imbalance. Neither changes the
-      direction of the adjustment. An end-to-end standard raises the threshold. It does not lower it.
+      Three things soften the upper bound without removing it. First, the two legs of a bridge trade
+      happen in two different markets &mdash; the reais-to-XRP market and the XRP-to-won market &mdash;
+      and the series uses XRP's aggregate daily volume as a proxy for both. Second, a liquidity provider
+      who handles both legs can net them, so the market only has to absorb the imbalance. Third, and most
+      important: the square-root law is an empirical regularity for large orders worked through
+      continuous public order books. It is not a theorem about settlement bridges. Inventory-based market
+      makers, OTC netting, and prefunded corridors do not pay the full public-book impact on every leg.
+      In this piece the law is a proxy for how deep the market has to be, not a measurement of how a
+      bridge desk would actually quote. None of this changes the direction of the adjustment. An
+      end-to-end standard raises the threshold. It does not lower it.
     </p>
 
     <h2>Why a neutral hub matters</h2>
@@ -478,8 +532,36 @@
       100 billion when the ledger launched, and transaction fees are destroyed rather than paid to anyone.
       That does not mean nobody profits from a bridge role. Market makers, liquidity providers, exchanges,
       and holders all could. It means the sovereign advantage the economists identified does not apply.
-      Whether institutions and central banks value that neutrality &mdash; or distrust a hub no one
-      controls &mdash; is still an open question.
+    </p>
+
+    <p>
+      "A hub no one controls" needs one caveat, because critics will raise it. Ripple still holds roughly
+      38 to 40 billion XRP, close to 40% of total supply, about 32 billion of it in time-locked escrow
+      that releases up to 1 billion a month, most of which is re-locked. That is not monetary policy; the
+      ledger cannot create new XRP. But it is a concentration no vehicle currency has had, and whether
+      institutions and central banks value a hub with no sovereign &mdash; or distrust a hub with one
+      dominant holder &mdash; is still an open question.
+    </p>
+
+    <h2>The incumbent is already on-chain</h2>
+
+    <p>
+      The thick-market logic cuts both ways, and the piece would be dishonest if it only pointed it at
+      XRP's advantage. The incumbent on-chain bridge is not a thin market waiting to be displaced. It is
+      the dollar, in stablecoin form, and by the same externality Rey described, incumbency is the
+      largest advantage a hub can have. Dollar stablecoins already carry most of the volume that moves
+      between tokens and across chains, and every trade through them deepens them further.
+    </p>
+
+    <p>
+      Rey's own historical example is sobering here. The dollar displaced sterling as the vehicle currency
+      only after a hegemonic shift: two world wars, the collapse of Britain's creditor position, and
+      decades of trade re-routing through American markets. Thick-market externalities explain why the
+      shift, once started, was self-reinforcing. They do not explain why it started. For XRP to displace
+      a dollar stablecoin as the on-chain hub, something has to overcome the incumbent's head start:
+      a cost advantage large enough to beat two legs against one, a regulatory or neutrality reason that
+      stablecoins cannot satisfy, or corridors where no deep dollar pair exists. The watch table below
+      treats stablecoin depth as a first-order test for that reason, not a footnote.
     </p>
 
     <h2>What this piece adds to the series</h2>
@@ -504,19 +586,25 @@
     <h2>What would prove this wrong</h2>
 
     <p>
-      The XRP Ledger has had a built-in feature called <em>auto-bridging</em> since 2014. When an order
+      The XRP Ledger has had a built-in feature called <em>auto-bridging</em> since 2014. When an offer
       on the ledger's decentralized exchange would swap one issued token for another, the ledger
       automatically checks whether routing through XRP &mdash; token to XRP, then XRP to token &mdash;
-      gives a better rate than the direct order book, and uses whichever combination fills the order
-      best. Since the 2024 AMM amendment, those paths can draw on both order-book offers and automated
-      market maker pools. The behavior the economists described is not hypothetical here. It is written
-      into the ledger's code.
+      gives a better rate than the direct order book, and fills the offer with whichever combination is
+      best. Cross-currency payments work differently: they do not use auto-bridging by default, but the
+      ledger's pathfinding can produce the same XRP-intermediated route when it is the cheapest path,
+      and since the 2024 AMM amendment those paths can draw on both order-book offers and automated
+      market maker pools. Either way, the behavior the economists described is not hypothetical here.
+      It is written into the ledger's code.
     </p>
 
     <p>
-      That makes the test unusually clean. The share of token-to-token trades that actually route through
-      XRP is measurable on-ledger. If XRP is becoming a hub, that share should rise over time. If it stays
-      flat while volume grows, the hub is forming somewhere else.
+      That makes the test unusually clean, with one limit stated up front. The share of token-to-token
+      trades that actually route through XRP is measurable on-ledger. But token-to-token volume on the
+      ledger's own exchange is a small fraction of XRP's global trading, most of which happens on
+      centralized venues. So the auto-bridged share tests whether the hub mechanism works where it is
+      hard-coded, not whether global settlement flow has arrived. Within that limit: if XRP is becoming a
+      hub, that share should rise over time. If it stays flat while volume grows, the hub is forming
+      somewhere else.
     </p>
 
     <div class="grid-table">
@@ -573,10 +661,23 @@
         <li>Rey, H. (2001). "International Trade and Currency Exchange." <em>Review of Economic Studies</em> 68(2): 443&ndash;464.</li>
         <li>Devereux, M. B., &amp; Shi, S. (2013). "Vehicle Currency." <em>International Economic Review</em> 54(1): 97&ndash;133.</li>
         <li>Hernandez Cruz, W., Dahi, F., Feng, Y., Xu, J., Malhotra, A., &amp; Tasca, P. (2023, revised 2025). "AMM-based DEX on the XRP Ledger." arXiv:2312.13749; accepted to IEEE ICBC 2025. One author (Malhotra) is affiliated with Ripple Labs and co-authored the XLS-30 AMM specification.</li>
+        <li>Bank for International Settlements (2025). <em>Triennial Central Bank Survey: OTC foreign exchange turnover in April 2025</em>, published 30 September 2025 (<a href="https://www.bis.org/statistics/rpfx25_fx.htm">bis.org</a>).</li>
+        <li>World Federation of Exchanges and SIFMA, global equity market capitalization at end-2025 (approximately $152&ndash;158 trillion).</li>
+        <li>Torre, N. (1997). <em>BARRA Market Impact Model Handbook</em>; Almgren, R., &amp; Chriss, N. (2000). "Optimal Execution of Portfolio Transactions." <em>Journal of Risk</em> 3(2); T&oacute;th, B., et al. (2011). "Anomalous Price Impact and the Critical Nature of Liquidity in Financial Markets." <em>Physical Review X</em> 1(2).</li>
+        <li>Ripple escrow and holdings: on-ledger escrow balances as of 30 September 2026 and Ripple's quarterly XRP Markets Reports. XRP spot volume: public market trackers, late September 2026.</li>
         <li>XRP Ledger documentation, "Auto-Bridging" (<a href="https://xrpl.org/docs/concepts/tokens/decentralized-exchange/autobridging">xrpl.org</a>), and "Introducing: Offer Autobridging," XRP Ledger blog, 2014.</li>
         <li>Square-root market impact, the $2B institutional scenario, and the ~$2,950 / ~$1,300 figures: <a href="/part1/">Part I</a> and <a href="/part2/">Part II</a> of this series.</li>
       </ol>
     </div>
+
+    <p>
+      The question, then, is not whether markets prefer hubs. They already do. Nor is it whether XRP can
+      technically sit between two assets. It already can. The unanswered question is whether XRP can
+      become liquid enough that routing through it is cheaper than routing around it, against an
+      incumbent that is already deep. If that crossover happens, liquidity begins attracting liquidity,
+      and the economics changes from adoption chasing depth to depth attracting adoption. If it never
+      happens, the tests above will say so.
+    </p>
 
     <p class="closing-line">XRP is not being valued. <em>It is being sized.</em></p>
 
@@ -587,8 +688,11 @@
       connection between them is the author's own step, not a claim made by the original papers. All
       dollar figures are outputs of the Part I framework under stated assumptions (a $2B ticket, 3% daily
       volatility, 10 bp slippage tolerance, 1.0% daily turnover, roughly 61B XRP tradeable float) and
-      change when those assumptions change. The cents-per-$100 example is illustrative, not measured.
-      Auto-bridging behavior from XRPL documentation. Do your own research.
+      change when those assumptions change; the 1.0% turnover input alone moves them by an order of
+      magnitude. The cents-per-$100 example is illustrative, not measured. FX turnover from the BIS 2025
+      Triennial Survey. Equity market capitalization from WFE and SIFMA end-2025 data. Ripple holdings
+      from on-ledger escrow data. Auto-bridging and pathfinding behavior from XRPL documentation. Do your
+      own research.
     </div>
 
     <div class="post-footer">

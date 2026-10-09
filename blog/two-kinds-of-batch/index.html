@@ -6,7 +6,7 @@
   <title>Field Note 19: Two kinds of batch — XRP Valuation Series</title>
   <meta name="description" content="The IMF says the way to make instant settlement affordable is to wait. The XRP Ledger just switched on the tool for not waiting. Both are called a batch — and they mean opposite things." />
   <meta property="og:title" content="Field Note 19: Two kinds of batch" />
-  <meta property="og:description" content="The IMF's October 2026 tokenization chapter and the XRP Ledger's Batch amendment landed a day apart. One batch slows settlement down so trades can cancel out. The other makes transfers land in the same instant, or not at all." />
+  <meta property="og:description" content="The IMF's October 2026 tokenization chapter and the XRP Ledger's Batch amendment landed a day apart. One batch waits so trades can cancel out. The other refuses to wait. The gap between them is the job XRP was built for — and the square-root law prices what each adoption scenario requires." />
   <meta property="og:type" content="article" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -96,6 +96,36 @@
     .data-row.highlight .data-value { color: var(--accent); }
     .data-block .block-note { padding: 14px 20px; background: var(--paper-deep); border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.65; }
 
+    /* FORMULA BLOCK */
+    .formula-block { margin: 36px 0; background: var(--ink); padding: 28px 32px; text-align: center; }
+    .formula-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 14px; }
+    .formula-line { font-family: var(--mono); font-size: clamp(14px, 2.2vw, 18px); color: #c9a84c; line-height: 1.6; }
+    .formula-sub { font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.5); line-height: 1.65; max-width: 540px; margin: 14px auto 0; }
+
+    /* PRICE TABLE */
+    .price-table { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .price-head { display: grid; grid-template-columns: 1.4fr 0.8fr 0.9fr 1fr 0.7fr; background: var(--ink); padding: 12px 20px; gap: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .price-row { display: grid; grid-template-columns: 1.4fr 0.8fr 0.9fr 1fr 0.7fr; padding: 15px 20px; gap: 12px; border-top: 1px solid var(--rule); background: var(--paper); align-items: center; }
+    .price-row:nth-child(even) { background: var(--paper-soft); }
+    .price-row.near { background: #f0f6f1; border-left: 3px solid #0F6E56; }
+    .price-name { font-family: var(--ui); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.45; }
+    .price-name small { display: block; font-weight: 400; font-size: 11px; color: var(--ink-faint); font-family: var(--mono); margin-top: 2px; }
+    .price-cell { font-family: var(--mono); font-size: 13px; color: var(--ink-soft); text-align: right; }
+    .price-cell.req { font-size: 15px; font-weight: 600; color: var(--accent); }
+    .price-row.near .price-cell.req { color: #0F6E56; }
+    .price-table .block-note { padding: 14px 20px; background: var(--paper-deep); border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.65; }
+
+    /* TIMELINE */
+    .timeline-block { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .timeline-head { background: var(--ink); padding: 12px 20px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .timeline-row { display: grid; grid-template-columns: 170px 1fr; gap: 16px; padding: 16px 20px; border-top: 1px solid var(--rule); background: var(--paper); align-items: start; }
+    .timeline-row:nth-child(even) { background: var(--paper-soft); }
+    .timeline-row.done { border-left: 3px solid #0F6E56; }
+    .timeline-date { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--accent); line-height: 1.5; }
+    .timeline-row.done .timeline-date { color: #0F6E56; }
+    .timeline-what { font-family: var(--ui); font-size: 14px; color: var(--ink-medium); line-height: 1.6; }
+    .timeline-what strong { color: var(--ink); font-weight: 600; }
+
     /* TRIPWIRE TABLE */
     .trip-table { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
     .trip-head { display: grid; grid-template-columns: 0.9fr 1.2fr 1.2fr 0.9fr; background: var(--ink); padding: 12px 20px; gap: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
@@ -149,6 +179,12 @@
       .trip-head { display: none; }
       .trip-row { grid-template-columns: 1fr; gap: 8px; }
       .trip-cell::before { content: attr(data-col) " — "; font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+      .price-head { display: none; }
+      .price-row { grid-template-columns: 1fr 1fr; gap: 8px 12px; }
+      .price-row .price-name { grid-column: 1 / -1; }
+      .price-cell { text-align: left; }
+      .price-cell::before { content: attr(data-col) ": "; font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+      .timeline-row { grid-template-columns: 1fr; gap: 6px; }
       .site-footer { padding: 0 20px 32px; }
     }
   </style>
@@ -339,7 +375,7 @@
       <li><strong>Its best case settles in central bank money.</strong> In the IMF's optimistic scenario, networks connect through common standards and pay each other in central bank money. No neutral asset is needed in that picture.</li>
       <li><strong>Its likely case is private plumbing.</strong> The IMF expects tokenization to grow first inside permissioned networks run by banks, custodians, and market utilities, largely invisible to investors. It notes that most tokenized repo today is between affiliated firms.</li>
       <li><strong>The market is voting for netting right now.</strong> The US clearinghouse for Treasuries and repo clears more than $12 trillion a day, up 165 percent since regulators first proposed mandatory clearing. That is money moving toward the netted system, not away from it.</li>
-      <li><strong>A tool is not demand.</strong> Batch makes atomic multi-party settlement cleaner on the XRP Ledger. It does not make any institution choose it, and it does not make them pay in XRP. A bond can settle against a stablecoin such as RLUSD on the XRP Ledger with XRP covering only the network fee. There are three separate steps: the ledger can do it, institutions actually use it, and that use creates demand for XRP. Today's activation is only the first.</li>
+      <li><strong>A tool is not demand.</strong> Batch makes atomic multi-party settlement cleaner on the XRP Ledger. It does not make any institution choose it, and it does not make them pay in XRP. A bond can settle against a stablecoin such as RLUSD on the XRP Ledger with XRP covering only the network fee. There are three separate steps: the ledger can do it, institutions actually use it, and that use creates demand for XRP. Today's activation closed the first — the step the other two could not begin without.</li>
     </ul>
 
     <p>
@@ -353,6 +389,100 @@
       The thesis remains conditional. If settlement stays batched and netted inside private
       networks, a bridge asset has little to do. If it moves to instant settlement across many
       ledgers, the gap the IMF describes has to be filled by something.
+    </p>
+
+    <h2>Why the odds are better than the chapter reads</h2>
+
+    <p>
+      Hold the concessions above in one hand. Now hold the other side, because a conditional
+      thesis is not a lottery ticket, and the conditions here are not hypothetical.
+    </p>
+
+    <ul class="plain-list">
+      <li><strong>The IMF didn't describe a long shot. It described a vacancy.</strong> Of the four things the Fund says are holding tokenization back, three — legal certainty, regulatory clarity, interoperability — are problems governments and standards bodies grind through. The fourth, a safe settlement asset that works across platforms, is a seat waiting for an occupant. The chapter establishes that the seat exists and is empty. That is not a reason for pessimism about the asset built for it.</li>
+      <li><strong>XRP is not auditioning from zero.</strong> It is the only neutral asset already doing cross-border settlement in production at scale: more than $35 billion annualized through ODL as of Q1 2026, growing 41 percent year over year, across 70-plus corridor pairs covering roughly 80 percent of major global remittance routes. Every other candidate for the bridge seat is a whitepaper or a pilot. This one has a decade of flow behind it.</li>
+      <li><strong>The infrastructure keeps compounding in one direction.</strong> A native exchange since 2012. Settlement finality in seconds. Fees burned rather than paid to validators — the zero coordination premium of Field Note 18. And as of this afternoon, atomic all-or-nothing multi-party settlement. Add the regulatory layer: an OCC trust-bank charter conditionally approved, a Federal Reserve payment-access application in process, and more litigated legal clarity in the United States than any other major digital asset. Each piece makes the next institution's decision easier.</li>
+      <li><strong>The IMF's best case has the worst track record.</strong> Its optimistic scenario — every network linked by common standards, settling in central bank money across borders — is the scenario official bodies have been promising for a decade and missing. The FSB has already conceded the G20's 2027 cross-border targets will not be met. The world where coordination arrives slowly and unevenly is the world we are actually in, and it is precisely the world where a neutral bridge earns its keep.</li>
+      <li><strong>This series' own math does not price a moonshot.</strong> In the Part VI adoption framework, the scenarios in which XRP captures or shares the settlement hub role carry a combined 35 to 55 percent probability. That is not one in a million. That is a coin flip whose payoff structure the next section prices.</li>
+    </ul>
+
+    <h2>What the formula says the price must do</h2>
+
+    <p>
+      Readers of this series know what comes next, because the math has not changed since
+      Part I. If institutions do settle through XRP at size, the market must be deep enough to
+      absorb the peak ticket without breaching slippage tolerance — and depth is a function of
+      price. The square-root market impact law makes that requirement exact.
+    </p>
+
+    <div class="formula-block">
+      <div class="formula-label">The square-root law, inverted — Part I</div>
+      <div class="formula-line">slippage = σ × √(ticket ÷ volume)</div>
+      <div class="formula-line" style="margin-top:10px">required price = ticket × (σ ÷ tol)² ÷ turnover ÷ supply</div>
+      <div class="formula-sub">Set slippage equal to the institution's tolerance, note that daily volume = turnover × price × supply, and solve for price. Every variable is observable or a stated assumption.</div>
+    </div>
+
+    <p>
+      Run each adoption scenario through it — the same parameters the
+      <a href="/calculator/" style="color:var(--accent);border-bottom:1px solid rgba(155,34,38,0.3)">calculator</a> and the
+      <a href="/terminal/" style="color:var(--accent);border-bottom:1px solid rgba(155,34,38,0.3)">settlement terminal</a> run live —
+      at 1 percent daily turnover (the hybrid OTC/public central case), today's circulating
+      supply of about 63 billion XRP, and today's price of roughly $1.39:
+    </p>
+
+    <div class="price-table">
+      <div class="price-head">
+        <span>Scenario</span>
+        <span style="text-align:right">Peak ticket</span>
+        <span style="text-align:right">Required price</span>
+        <span style="text-align:right">Range (turnover 1.5%–0.3%)</span>
+        <span style="text-align:right">Multiple</span>
+      </div>
+      <div class="price-row near">
+        <div class="price-name">SME &amp; remittance corridors<small>50bp tolerance · 5% volatility</small></div>
+        <div class="price-cell" data-col="Ticket">$100M</div>
+        <div class="price-cell req" data-col="Required">$16</div>
+        <div class="price-cell" data-col="Range">$11 – $53</div>
+        <div class="price-cell" data-col="Multiple">~11×</div>
+      </div>
+      <div class="price-row">
+        <div class="price-name">Corporate treasury &amp; regional banks<small>25bp tolerance · 4% volatility</small></div>
+        <div class="price-cell" data-col="Ticket">$500M</div>
+        <div class="price-cell req" data-col="Required">$203</div>
+        <div class="price-cell" data-col="Range">$135 – $677</div>
+        <div class="price-cell" data-col="Multiple">~146×</div>
+      </div>
+      <div class="price-row">
+        <div class="price-name">Large bank &amp; fund operations<small>10bp tolerance · 3% volatility</small></div>
+        <div class="price-cell" data-col="Ticket">$2B</div>
+        <div class="price-cell req" data-col="Required">$2,860</div>
+        <div class="price-cell" data-col="Range">$1,900 – $9,500</div>
+        <div class="price-cell" data-col="Multiple">~2,100×</div>
+      </div>
+      <div class="price-row">
+        <div class="price-name">Central bank &amp; reserve operations<small>10bp tolerance · 2% volatility</small></div>
+        <div class="price-cell" data-col="Ticket">$10B</div>
+        <div class="price-cell req" data-col="Required">$6,350</div>
+        <div class="price-cell" data-col="Range">$4,230 – $21,200</div>
+        <div class="price-cell" data-col="Multiple">~4,600×</div>
+      </div>
+      <div class="price-row">
+        <div class="price-name">Dominant global bridge, mature asset<small>10bp tolerance · 1.5% volatility</small></div>
+        <div class="price-cell" data-col="Ticket">$50B</div>
+        <div class="price-cell req" data-col="Required">$17,900</div>
+        <div class="price-cell" data-col="Range">$11,900 – $59,400</div>
+        <div class="price-cell" data-col="Multiple">~12,800×</div>
+      </div>
+      <div class="block-note">Required price = peak ticket × (σ ÷ tolerance)² ÷ turnover ÷ circulating supply. Central case: 1% daily turnover, ~63.1B circulating supply, reference price ~$1.39 (October 9, 2026). These are conditional requirements, not predictions: each row states what the formula demands of the price if — and only if — that scenario materializes with those parameters. Lower volatility and deeper OTC execution (0.3% turnover) raise the requirement; higher turnover lowers it. Live versions of this table, updated every 60 seconds, run on the settlement terminal.</div>
+    </div>
+
+    <p>
+      Read the table the way the series always has: not as a forecast but as a consistency
+      check. The first row says remittance-scale settlement needs a price in the teens —
+      an order of magnitude from here, not a fantasy. The rows below it say that if the
+      batch-settled, cross-ledger future the IMF cannot quite bring itself to predict actually
+      arrives, the prices the formula requires are not optional. Depth is not a vibe. It is
+      purchased with market capitalization, and the formula says exactly how much.
     </p>
 
     <h2>What to watch</h2>
@@ -416,6 +546,36 @@
       </div>
     </div>
 
+    <p>
+      The tripwires above are conditions. These are dates. The DTCC — the US clearing utility
+      whose netting numbers opened this note — has published a calendar that will test both
+      kinds of batch in sequence over the next nine months:
+    </p>
+
+    <div class="timeline-block">
+      <div class="timeline-head">The DTCC calendar — fixed dates that test the thesis</div>
+      <div class="timeline-row done">
+        <div class="timeline-date">July 2026 ✓</div>
+        <div class="timeline-what"><strong>Limited production tokenized trades began</strong> under DTC's SEC-sanctioned tokenization pilot — Russell 1000 names, major-index ETFs, and US Treasuries, with 50-plus firms participating including BlackRock, Goldman Sachs, and JPMorgan.</div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-date">October 2026</div>
+        <div class="timeline-what"><strong>Wider tokenization service launch.</strong> The pilot opens beyond limited production trades. Watch what settles the cash leg — that is the seat this note is about.</div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-date">December 31, 2026</div>
+        <div class="timeline-what"><strong>US Treasury cash clearing deadline.</strong> Eligible Treasury cash trades must clear centrally at FICC. More flow into the netted system — the first kind of batch, at full scale.</div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-date">Mid-2027</div>
+        <div class="timeline-what"><strong>DTC-tokenized assets go live on Stellar</strong> — DTCC's first public-chain leg, with DTC retaining the golden record. The registry layer fragments across venues; fragmentation is what makes a neutral bridge necessary.</div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-date">June 30, 2027</div>
+        <div class="timeline-what"><strong>US Treasury repo clearing deadline.</strong> The repo leg — the $303-billion-a-day corner the IMF calls tokenization's busiest — must clear centrally. After this date the blend question stops being theoretical: tokenized repo either stays netted inside one venue, or its leftovers start crossing ledgers.</div>
+      </div>
+    </div>
+
     <h2>The question that remains</h2>
 
     <p>
@@ -433,19 +593,24 @@
     <p>
       Central bank money can handle obligations inside one country. Tokenized deposits and
       stablecoins can handle payments inside their own networks. Connected systems may link
-      some networks with no bridge asset at all. If a meaningful share of the market still
-      needs neutral liquidity between networks, XRP is one candidate for the job.
+      some networks with no bridge asset at all. But if a meaningful share of the market needs
+      neutral liquidity between networks — and the IMF's own chapter says nothing currently
+      provides it — XRP is the best-positioned candidate for the job, and the only one already
+      doing a version of it in production at tens of billions of dollars a year.
     </p>
 
     <p>
-      Batch does not prove the thesis. It removes one technical obstacle to testing it. The
-      next evidence will not come from an amendment vote. It will come from the settlement
-      flows.
+      Batch does not prove the thesis. It arms it. The capability question is now closed; the
+      adoption question is open; and the price question, if adoption comes, has an exact
+      answer — the table above. The next evidence will not come from an amendment vote. It
+      will come from the settlement flows, and the calendar that forces them is already
+      printed.
     </p>
 
     <div class="framework-ref">
       <div class="framework-ref-label">Framework status — what this note adds</div>
-      <p><strong>What's new:</strong> The netting-versus-instant-settlement tension from Part II now has the IMF's own confirmation — as settlement moves toward real time, nettable trades fall and funding needs rise — plus the IMF's proposed middle path, programmable batching. And the atomic-settlement capability Field Note 13 argued is irreducible is no longer pending on the XRP Ledger: it is live.</p>
+      <p><strong>What's new:</strong> The netting-versus-instant-settlement tension from Part II now has the IMF's own confirmation — as settlement moves toward real time, nettable trades fall and funding needs rise — plus the IMF's proposed middle path, programmable batching. The atomic-settlement capability Field Note 13 argued is irreducible is no longer pending on the XRP Ledger: it is live. And the Part I square-root law now has a scenario price table anchored to today's supply and price, consistent with the live calculator and terminal.</p>
+      <p><strong>The affirmative case, stated plainly:</strong> The seat the IMF describes is empty, the asset built for it is the only neutral candidate with production flow behind it, and this series' own Part VI framework puts the hub-role scenarios at a combined 35–55 percent — a coin flip with the payoff structure the price table makes explicit, not a long shot.</p>
       <p><strong>The honest limits, kept in plain sight:</strong> The IMF chapter never mentions XRP, Ripple, or RLUSD. Its preferred settlement assets are central bank money, tokenized deposits, and stablecoins. A live amendment is capability, not adoption, and not demand. Every link drawn here is this series' reading, not the IMF's claim.</p>
       <p>
         <a href="/part2/">Part II — The netting argument &rarr;</a>
@@ -466,6 +631,8 @@
         <li>XRPL.org, Vulnerability Disclosure Report: XRPL Batch Amendment, for the February 2026 flaw.</li>
         <li>Scheduled activation times and validator support from XRPScan data as reported by AltcoinBuzz, October 6, 2026; same-day activation confirmed by industry reporting, October 9, 2026. The September delay as reported by Coinpaper.</li>
         <li>The December 31, 2026 cash and June 30, 2027 repo clearing deadlines per the SEC's extended compliance dates, as reported by The DESK.</li>
+        <li>DTCC tokenization pilot timeline (July 2026 limited production trades, October 2026 wider launch, DTC-tokenized assets on Stellar targeted mid-2027) per DTCC announcements and industry reporting of the SEC-sanctioned pilot.</li>
+        <li>Price (~$1.39) and circulating supply (~63.1B XRP) as of October 9, 2026, per major market trackers. ODL volume, corridor count, and the Part VI scenario probabilities are this series' own documented figures — see the <a href="/terminal/" style="color:var(--accent)">settlement terminal</a>.</li>
         <li>Earlier in this series: <a href="/part2/" style="color:var(--accent)">Part II, the netting argument</a> and <a href="/blog/dvp-irreducible/" style="color:var(--accent)">Field Note 13, DvP irreducibility</a>.</li>
       </ul>
     </div>

@@ -473,7 +473,13 @@
         <div class="price-cell" data-col="Range">$11,900 – $59,400</div>
         <div class="price-cell" data-col="Multiple">~12,800×</div>
       </div>
-      <div class="block-note">Required price = peak ticket × (σ ÷ tolerance)² ÷ turnover ÷ circulating supply. Central case: 1% daily turnover, ~63.1B circulating supply, reference price ~$1.39 (October 9, 2026). These are conditional requirements, not predictions: each row states what the formula demands of the price if — and only if — that scenario materializes with those parameters. Lower volatility and deeper OTC execution (0.3% turnover) raise the requirement; higher turnover lowers it. Live versions of this table, updated every 60 seconds, run on the settlement terminal.</div>
+      <div class="block-note">Required price = peak ticket × (σ ÷ tolerance)² ÷ turnover ÷ circulating supply. Central case: 1% daily turnover, ~63.1B circulating supply, reference price ~$1.39 (October 9, 2026). Parameters are Part I's scenario set, identical to the live calculator and settlement terminal. These are conditional requirements, not predictions: each row states what the formula demands of the price if — and only if — that scenario materializes with those parameters. Lower volatility and deeper OTC execution (0.3% turnover) raise the requirement; higher turnover lowers it. On the 10bp rows, see the tolerance note below the table.</div>
+    </div>
+
+    <div class="editor-note" style="margin-top:32px">
+      <div class="editor-note-label">On the tolerance standard — 10bp or 3.5bp?</div>
+      <p>The series carries two published slippage standards, and the distinction matters enough to state here. <strong>Part I uses 10bp</strong> as the practical benchmark for serious institutional settlement, drawn from institutional FX practice, where desks typically operate within 5–30 basis points depending on pair, urgency, and venue. <strong>Part V tightens this to 3.5bp</strong> — the strictest institutional standard, reflecting that FX settlement desks execute at sub-5-basis-point tolerances as a matter of operations, and that at sovereign scale there is no middle ground: a rail either runs at sub-5bp or institutions do not use it.</p>
+      <p>The two standards are parameterized differently and converge where they meet. Part I pairs 10bp with the compressed volatility of a mature market (1.5% at full adoption). Part V pairs 3.5bp with today's 5% volatility in a pool-sizing form of the same Almgren-Chriss impact law. Run the $50 billion sovereign-scale ticket through both: Part I's route produces ~$18,400; Part V's produces $18,545. <strong>The strict standard and the practical benchmark land within one percent of each other</strong> — tightening the tolerance and compressing the volatility are offsetting assumptions, and the convergence is the integrity check on the whole framework. The table above uses the Part I parameterization for continuity with the live calculator and terminal; Observatory No. 3 documents the reconciliation in full.</p>
     </div>
 
     <p>
@@ -633,6 +639,7 @@
         <li>The December 31, 2026 cash and June 30, 2027 repo clearing deadlines per the SEC's extended compliance dates, as reported by The DESK.</li>
         <li>DTCC tokenization pilot timeline (July 2026 limited production trades, October 2026 wider launch, DTC-tokenized assets on Stellar targeted mid-2027) per DTCC announcements and industry reporting of the SEC-sanctioned pilot.</li>
         <li>Price (~$1.39) and circulating supply (~63.1B XRP) as of October 9, 2026, per major market trackers. ODL volume, corridor count, and the Part VI scenario probabilities are this series' own documented figures — see the <a href="/terminal/" style="color:var(--accent)">settlement terminal</a>.</li>
+        <li>Slippage tolerance standards: 10bp practical benchmark per <a href="/part1/" style="color:var(--accent)">Part I</a>; 3.5bp strict institutional standard per <a href="/part5/" style="color:var(--accent)">Part V</a>; the reconciliation of the two per <a href="/observatory/plumbing-paper/" style="color:var(--accent)">Observatory No. 3</a>.</li>
         <li>Earlier in this series: <a href="/part2/" style="color:var(--accent)">Part II, the netting argument</a> and <a href="/blog/dvp-irreducible/" style="color:var(--accent)">Field Note 13, DvP irreducibility</a>.</li>
       </ul>
     </div>

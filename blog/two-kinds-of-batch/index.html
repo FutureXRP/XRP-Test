@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Field Note 19: Two kinds of batch — XRP Valuation Series</title>
+  <meta name="description" content="The IMF says the way to make instant settlement affordable is to wait. The XRP Ledger just switched on the tool for not waiting. Both are called a batch — and they mean opposite things." />
+  <meta property="og:title" content="Field Note 19: Two kinds of batch" />
+  <meta property="og:description" content="The IMF's October 2026 tokenization chapter and the XRP Ledger's Batch amendment landed a day apart. One batch slows settlement down so trades can cancel out. The other makes transfers land in the same instant, or not at all." />
+  <meta property="og:type" content="article" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --paper: #ffffff;
+      --paper-soft: #f7f3ea;
+      --paper-deep: #f4efe4;
+      --ink: #171512;
+      --ink-soft: #3a342e;
+      --ink-medium: #61594f;
+      --ink-faint: #8a8073;
+      --rule: #d8d0c3;
+      --rule-strong: #1a1a1a;
+      --accent: #9b2226;
+      --display: "Newsreader", Georgia, serif;
+      --body: "Newsreader", Georgia, serif;
+      --ui: "IBM Plex Sans", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --text-width: 680px;
+      --page-width: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 20px; line-height: 1.72; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    a { color: inherit; text-decoration: none; }
+
+    .topbar { max-width: var(--page-width); margin: 0 auto; padding: 24px 28px 0; }
+    .topbar-inner { border-top: 2px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); padding: 15px 0 13px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-family: var(--ui); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-medium); }
+    .topbar-left { font-weight: 600; color: var(--accent); }
+    .topbar-left a { color: var(--accent); }
+    .topbar-left a:hover { opacity: 0.75; }
+    .topbar-right { letter-spacing: 0.1em; color: var(--ink-faint); }
+
+    .article-wrap { max-width: var(--page-width); margin: 0 auto; padding: 56px 28px 120px; display: grid; grid-template-columns: 1fr min(var(--text-width), 100%) 1fr; }
+    .article-wrap > * { grid-column: 2; }
+
+    .post-header { margin-bottom: 56px; }
+    .post-section { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 24px; }
+    .post-section::before { content: ""; display: inline-block; width: 20px; height: 1px; background: var(--accent); }
+
+    h1.post-title { font-family: var(--display); font-size: clamp(36px, 6vw, 62px); line-height: 1.05; font-weight: 500; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 14px; }
+    h1.post-title em { font-style: italic; color: var(--accent); }
+
+    .post-subtitle { font-family: var(--display); font-style: italic; font-size: clamp(20px, 2.8vw, 28px); color: var(--ink-medium); margin-bottom: 22px; letter-spacing: -0.01em; }
+
+    .post-deck { font-family: var(--display); font-style: italic; font-size: clamp(19px, 2.5vw, 24px); line-height: 1.45; color: var(--ink-medium); margin-bottom: 32px; }
+
+    .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 18px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+    .post-meta .meta-tag { color: var(--accent); font-weight: 600; }
+    .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--rule); flex-shrink: 0; }
+
+    .post-body { padding-top: 48px; }
+    .post-body p { margin-bottom: 28px; font-size: 20px; line-height: 1.72; color: var(--ink-soft); }
+    .post-body p:first-child { font-size: 22px; line-height: 1.65; color: var(--ink); }
+    .post-body h2 { font-family: var(--display); font-size: clamp(24px, 3vw, 32px); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 20px; padding-top: 40px; border-top: 1px solid var(--rule); }
+    .post-body ul.plain-list { margin: 0 0 28px 22px; }
+    .post-body ul.plain-list li { margin-bottom: 16px; font-size: 19px; line-height: 1.7; color: var(--ink-soft); }
+    .post-body ul.plain-list li strong { color: var(--ink); font-weight: 600; }
+    .post-body ol.plain-list { margin: 0 0 28px 24px; }
+    .post-body ol.plain-list li { margin-bottom: 16px; font-size: 19px; line-height: 1.7; color: var(--ink-soft); }
+    .post-body ol.plain-list li strong { color: var(--ink); font-weight: 600; }
+
+    .pull-quote { margin: 44px 0; padding: 28px 32px; border-left: 3px solid var(--accent); background: var(--paper-soft); }
+    .pull-quote p { font-family: var(--display); font-size: clamp(20px, 2.5vw, 26px) !important; font-style: italic; line-height: 1.45; color: var(--ink) !important; margin-bottom: 0 !important; }
+    .pull-quote .pq-attr { font-family: var(--mono); font-style: normal; font-size: 12px !important; letter-spacing: 0.08em; color: var(--ink-faint) !important; margin-top: 16px !important; text-transform: uppercase; }
+
+    .editor-note { margin: 0 0 40px; padding: 24px 28px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
+    .editor-note-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 12px; }
+    .editor-note p { font-size: 16px !important; line-height: 1.7; color: var(--ink-medium) !important; margin-bottom: 12px !important; }
+    .editor-note p:last-child { margin-bottom: 0 !important; }
+
+    /* DATA TABLE */
+    .data-block { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .data-block-head { background: var(--ink); padding: 12px 20px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .data-row { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 20px; border-top: 1px solid var(--rule); background: var(--paper); gap: 1rem; }
+    .data-row:nth-child(even) { background: var(--paper-soft); }
+    .data-row.highlight { background: #fff5f5; border-left: 3px solid var(--accent); }
+    .data-label { font-family: var(--ui); font-size: 14px; color: var(--ink-medium); flex: 1; line-height: 1.5; }
+    .data-value { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+    .data-row.highlight .data-label { color: var(--accent); font-weight: 500; }
+    .data-row.highlight .data-value { color: var(--accent); }
+    .data-block .block-note { padding: 14px 20px; background: var(--paper-deep); border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.65; }
+
+    /* TRIPWIRE TABLE */
+    .trip-table { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .trip-head { display: grid; grid-template-columns: 0.9fr 1.2fr 1.2fr 0.9fr; background: var(--ink); padding: 12px 20px; gap: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .trip-row { display: grid; grid-template-columns: 0.9fr 1.2fr 1.2fr 0.9fr; padding: 15px 20px; gap: 12px; border-top: 1px solid var(--rule); background: var(--paper); align-items: start; }
+    .trip-row:nth-child(even) { background: var(--paper-soft); }
+    .trip-row.resolved { background: #f0f6f1; border-left: 3px solid #0F6E56; }
+    .trip-row.key { background: #fff5f5; border-left: 3px solid var(--accent); }
+    .trip-name { font-family: var(--ui); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.5; }
+    .trip-cell { font-family: var(--ui); font-size: 13px; color: var(--ink-medium); line-height: 1.55; }
+    .trip-check { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.55; }
+    .trip-row.resolved .trip-name { color: #0F6E56; }
+    .trip-row.key .trip-name { color: var(--accent); }
+
+    .hold-block { margin: 36px 0; padding: 28px 32px; border: 1px solid var(--rule); background: var(--paper-soft); }
+    .hold-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 16px; }
+    .hold-item { font-family: var(--ui); font-size: 15px; color: var(--ink-medium); line-height: 1.7; margin-bottom: 14px; padding-left: 18px; position: relative; }
+    .hold-item::before { content: "→"; position: absolute; left: 0; color: var(--accent); font-family: var(--mono); font-size: 13px; top: 2px; }
+    .hold-item:last-child { margin-bottom: 0; }
+    .hold-item strong { color: var(--ink); font-weight: 600; }
+
+    .framework-ref { margin: 40px 0; padding: 22px 24px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
+    .framework-ref-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+    .framework-ref p { font-size: 16px !important; line-height: 1.65; color: var(--ink-medium) !important; margin-bottom: 10px !important; }
+    .framework-ref p:last-child { margin-bottom: 0 !important; }
+    .framework-ref a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+    .framework-ref a:hover { border-bottom-color: var(--accent); }
+
+    .sources-block { margin: 40px 0 0; padding: 22px 24px; border: 1px solid var(--rule); background: var(--paper); }
+    .sources-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 12px; }
+    .sources-block ul { margin-left: 20px; }
+    .sources-block li { font-family: var(--ui); font-size: 14px; line-height: 1.7; color: var(--ink-medium); margin-bottom: 8px; }
+
+    .post-footer { margin-top: 72px; padding-top: 32px; border-top: 2px solid var(--rule-strong); }
+    .post-footer-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 20px; }
+    .post-footer-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .footer-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--rule); background: var(--paper); font-family: var(--ui); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-medium); font-weight: 500; transition: border-color 0.15s, color 0.15s; }
+    .footer-link:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-link.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .footer-link.primary:hover { background: #7f1d1d; border-color: #7f1d1d; }
+    .footer-link::after { content: "→"; font-size: 13px; }
+
+    .disclaimer { margin-top: 40px; padding: 18px 20px; background: var(--paper-soft); border: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-faint); line-height: 1.7; }
+
+    .site-footer { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 40px; }
+    .site-footer-inner { border-top: 1px solid var(--rule); padding-top: 18px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+
+    @media (max-width: 760px) {
+      body { font-size: 19px; }
+      .article-wrap { grid-template-columns: 1fr; padding: 40px 20px 80px; }
+      .article-wrap > * { grid-column: 1; }
+      .trip-head { display: none; }
+      .trip-row { grid-template-columns: 1fr; gap: 8px; }
+      .trip-cell::before { content: attr(data-col) " — "; font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+      .site-footer { padding: 0 20px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left"><a href="/">XRP Valuation Series</a> &nbsp;·&nbsp; The Living Framework</div>
+    <div class="topbar-right">Field Note · October 2026</div>
+  </div>
+</header>
+
+<article class="article-wrap">
+
+  <div class="post-header">
+    <div class="post-section">The Living Framework &nbsp;·&nbsp; No. 19</div>
+    <h1 class="post-title">Two kinds of <em>batch.</em></h1>
+    <p class="post-subtitle">One waits so trades can cancel out. The other refuses to wait at all.</p>
+    <p class="post-deck">
+      The IMF says the way to make instant settlement affordable is to wait. The XRP Ledger
+      just switched on the tool for not waiting. Both are called a batch — and they mean
+      opposite things.
+    </p>
+    <div class="post-meta">
+      <span class="meta-tag">The Living Framework</span>
+      <span class="meta-dot"></span>
+      <span>Primary Sources</span>
+      <span class="meta-dot"></span>
+      <span>Settlement Architecture</span>
+      <span class="meta-dot"></span>
+      <span>October 9, 2026</span>
+    </div>
+  </div>
+
+  <div class="post-body">
+
+    <div class="editor-note">
+      <div class="editor-note-label">Editor's note — what this is</div>
+      <p>Two things landed a day apart this week, and they point in opposite directions. Yesterday, October 8, the International Monetary Fund published its chapter on tokenization in the October 2026 Global Financial Stability Report. Today, October 9, the XRP Ledger's Batch upgrade went live on the main network.</p>
+      <p>Both use the word "batch." They do not mean the same thing. <strong>One batch slows settlement down so that trades can cancel each other out. The other makes several transfers happen at the same instant, or not at all.</strong> Whether the market picks one or blends the two is the question this series has been circling since Part II.</p>
+    </div>
+
+    <h2>What the IMF said</h2>
+
+    <p>
+      The chapter is called "Scaling Tokenization: New Efficiencies, New Vulnerabilities."
+      It is not about XRP. That is what makes it useful: it is the plumbing described by the
+      people responsible for it.
+    </p>
+
+    <p>Three findings matter for this series.</p>
+
+    <ol class="plain-list">
+      <li><strong>No settlement money works across tokenized platforms yet.</strong> When a tokenized bond changes hands, something has to pay for it on the same ledger. Central bank money, bank deposits, and stablecoins each do that job somewhere today. None does it safely across every platform. The IMF lists the lack of a safe on-chain settlement asset as one of four things holding tokenization back, next to legal certainty, regulatory clarity, and networks that cannot talk to each other.</li>
+      <li><strong>Instant settlement costs more cash, not less.</strong> The IMF says all-or-nothing settlement removes the risk that one side fails to deliver. It also says this raises the amount of money firms must have ready during the day, because everything has to be funded up front.</li>
+      <li><strong>The market is small and split up.</strong> Tokenized assets total about $65 billion, roughly 0.20 percent of outstanding US Treasuries. The busiest corner is tokenized repo, short-term lending against collateral, at about $303 billion a day.</li>
+    </ol>
+
+    <p>
+      The XRP Ledger appears once, in a chart of the networks that carry tokenized value. It
+      sits alongside Ethereum, Solana, Avalanche, Stellar, and BNB Chain. The text does not
+      give its share.
+    </p>
+
+    <h2>The IMF's batch: wait, group, and cancel out</h2>
+
+    <p>
+      Today's system saves cash through netting. If you owe me $100 and I owe you $95, we do
+      not move $195. We move $5.
+    </p>
+
+    <div class="data-block">
+      <div class="data-block-head">The scale of netting — hard to overstate</div>
+      <div class="data-row">
+        <div class="data-label">Payments eliminated by netting at the US stock clearinghouse, average</div>
+        <div class="data-value">98%</div>
+      </div>
+      <div class="data-row">
+        <div class="data-label">Trades processed on an average day in 2020</div>
+        <div class="data-value">$1.77 trillion</div>
+      </div>
+      <div class="data-row highlight">
+        <div class="data-label">What actually had to change hands after netting</div>
+        <div class="data-value">just under $38 billion</div>
+      </div>
+      <div class="block-note">Source: DTCC, "How Same-Day Settlement Works at DTCC." Netting needs time — you have to wait for offsetting trades to arrive before you can cancel them against each other.</div>
+    </div>
+
+    <p>
+      Netting needs time. You have to wait for offsetting trades to arrive before you can
+      cancel them against each other. Settle each trade the instant it happens and there is
+      nothing to cancel it against.
+    </p>
+
+    <p>
+      The IMF agrees. In a section on tokenized repo, it says that as settlement moves closer
+      to real time, the share of trades that can be netted could fall substantially, leaving
+      dealers needing more cash and more balance sheet. That is the argument of Part II of this
+      series, in the IMF's own words.
+    </p>
+
+    <p>
+      Then comes its answer. Use software to hold trades for a short window, group them, net
+      them, and settle the remainder. The IMF calls this programmable batching and is plain
+      about the price: it comes at the cost of settlement speed. It cites research on stock
+      trading suggesting much of the saving survives even with windows as short as one hour,
+      when a central clearinghouse sits in the middle.
+    </p>
+
+    <div class="pull-quote">
+      <p>The IMF's batch is a step back from instant settlement. It keeps the ledger and gives up the instant.</p>
+      <p class="pq-attr">— The first kind of batch</p>
+    </div>
+
+    <h2>The XRP Ledger's batch: all or nothing, live today</h2>
+
+    <p>
+      The XRP Ledger's Batch upgrade went live today, Friday, October 9, 2026, at 2:46 PM UTC
+      (9:46 AM Central). Its companion security fix switched on 34 minutes earlier, at 2:12 PM
+      UTC.
+    </p>
+
+    <p>
+      The upgrade, known as BatchV1_1 or XLS-56, lets an account bundle up to eight
+      transactions into one. In its all-or-nothing mode, every transaction in the bundle
+      succeeds together or the whole bundle fails as if it never happened.
+    </p>
+
+    <p>
+      That is the property settlement people care about. The bond moves if and only if the
+      payment moves. Field Note 13 covered why that link cannot be split.
+    </p>
+
+    <p>Three points of honesty about the upgrade:</p>
+
+    <ul class="plain-list">
+      <li><strong>It is not the ledger's first atomic tool.</strong> The XRP Ledger has been able to swap one asset for another in a single step since 2012. Batch extends that to multi-step settlements involving several parties.</li>
+      <li><strong>It took two tries.</strong> A serious flaw was found in the first version in February 2026, while validators were still voting. It never reached the live network and no funds were at risk. The corrected version was first on track for September 29, then slipped when validator support dipped and the two-week voting clock reset.</li>
+      <li><strong>The vote held, but only just in time.</strong> An upgrade needs more than 80 percent validator support for two full weeks. As of October 6 the companion security fix showed 100 percent, and both amendments activated on schedule this afternoon.</li>
+    </ul>
+
+    <p>
+      So the XRP Ledger's batch is the opposite of the IMF's. Nothing waits and nothing is
+      netted. Everything in the bundle settles in the same moment.
+    </p>
+
+    <h2>A possible blend: net first, then settle the remainder atomically</h2>
+
+    <p>
+      The two batches do not have to be rivals. A clearinghouse could keep netting and then
+      settle whatever is left in one all-or-nothing step.
+    </p>
+
+    <p>
+      Take $1 trillion of trades. If netting removes 98 percent, $20 billion still has to be
+      paid. Netting has shrunk the bill. It has not decided what the bill is paid in.
+    </p>
+
+    <p>
+      Inside one country, one currency, and one clearinghouse, the answer is easy: central
+      bank money. That is how the US Treasury market settles today, and it is where this blend
+      is most likely to take hold. No bridge asset is needed there.
+    </p>
+
+    <p>
+      The blend gets harder as it stretches. Part II of this series laid out why: netting
+      depends on a waiting window, and the shorter the window, the fewer trades cancel out. A
+      market that runs around the clock, across several ledgers and currencies, has shorter
+      windows and no single clearinghouse sitting in the middle of all of it.
+    </p>
+
+    <p>
+      So this note treats the blend as possible, and likely in the places that already net
+      well. It is much less clear that it can cover value moving between ledgers and
+      currencies. That leftover is where a neutral asset would have work to do.
+    </p>
+
+    <h2>The concession, at full strength</h2>
+
+    <p>
+      It would be easy to read this week's chapter as the IMF validating the XRP thesis. It
+      does not, and this series does not get to pretend otherwise.
+    </p>
+
+    <ul class="plain-list">
+      <li><strong>The IMF never considers a bridge asset.</strong> Its definitions set aside protocol tokens and crypto assets such as Bitcoin and Ether. XRP, Ripple, and RLUSD are not mentioned. The settlement options it weighs are central bank money, tokenized bank deposits, and stablecoins.</li>
+      <li><strong>Its best case settles in central bank money.</strong> In the IMF's optimistic scenario, networks connect through common standards and pay each other in central bank money. No neutral asset is needed in that picture.</li>
+      <li><strong>Its likely case is private plumbing.</strong> The IMF expects tokenization to grow first inside permissioned networks run by banks, custodians, and market utilities, largely invisible to investors. It notes that most tokenized repo today is between affiliated firms.</li>
+      <li><strong>The market is voting for netting right now.</strong> The US clearinghouse for Treasuries and repo clears more than $12 trillion a day, up 165 percent since regulators first proposed mandatory clearing. That is money moving toward the netted system, not away from it.</li>
+      <li><strong>A tool is not demand.</strong> Batch makes atomic multi-party settlement cleaner on the XRP Ledger. It does not make any institution choose it, and it does not make them pay in XRP. A bond can settle against a stablecoin such as RLUSD on the XRP Ledger with XRP covering only the network fee. There are three separate steps: the ledger can do it, institutions actually use it, and that use creates demand for XRP. Today's activation is only the first.</li>
+    </ul>
+
+    <p>
+      What the chapter does give the thesis is narrower and still real. The IMF confirms that
+      no settlement money yet works safely across tokenized platforms. It confirms that
+      instant settlement destroys netting. And it expects many separate ledgers for years,
+      which means something has to carry value between them.
+    </p>
+
+    <p>
+      The thesis remains conditional. If settlement stays batched and netted inside private
+      networks, a bridge asset has little to do. If it moves to instant settlement across many
+      ledgers, the gap the IMF describes has to be filled by something.
+    </p>
+
+    <h2>What to watch</h2>
+
+    <p>
+      A thesis that cannot be proven wrong is a story, not a framework. These are the things
+      that would move this one in either direction. The first tripwire resolved this
+      afternoon, in the thesis's favor. The cash-side and inventory rows matter most from
+      here: they are the difference between the XRP Ledger being <em>used</em> and XRP being
+      <em>needed</em>.
+    </p>
+
+    <div class="trip-table">
+      <div class="trip-head">
+        <span>Tripwire</span>
+        <span>Supports the thesis</span>
+        <span>Counts against it</span>
+        <span>Where to check</span>
+      </div>
+      <div class="trip-row resolved">
+        <div class="trip-name">Batch activation — resolved Oct 9</div>
+        <div class="trip-cell" data-col="Supports">Went live October 9 as scheduled ✓</div>
+        <div class="trip-cell" data-col="Against">Slips again or needs another fix</div>
+        <div class="trip-check" data-col="Check">XRPScan amendments page</div>
+      </div>
+      <div class="trip-row">
+        <div class="trip-name">From capability to adoption</div>
+        <div class="trip-cell" data-col="Supports">Regulated institutions use all-or-nothing bundles for real settlement</div>
+        <div class="trip-cell" data-col="Against">Live but used mainly for convenience</div>
+        <div class="trip-check" data-col="Check">XRP Ledger transaction data</div>
+      </div>
+      <div class="trip-row key">
+        <div class="trip-name">What pays the cash side</div>
+        <div class="trip-cell" data-col="Supports">Settlements on the ledger route through XRP</div>
+        <div class="trip-cell" data-col="Against">They settle directly in RLUSD or other stablecoins, with XRP only paying fees</div>
+        <div class="trip-check" data-col="Check">XRP Ledger transaction data</div>
+      </div>
+      <div class="trip-row key">
+        <div class="trip-name">Who holds XRP inventory</div>
+        <div class="trip-cell" data-col="Supports">Partner institutions and outside market makers build their own XRP balances</div>
+        <div class="trip-cell" data-col="Against">Inventory stays with Ripple and its affiliates</div>
+        <div class="trip-check" data-col="Check">On-ledger balances, order-book depth, company disclosures</div>
+      </div>
+      <div class="trip-row">
+        <div class="trip-name">XRP Ledger's share of tokenized value</div>
+        <div class="trip-cell" data-col="Supports">Share rises quarter over quarter</div>
+        <div class="trip-cell" data-col="Against">Share flat or falling as the market grows</div>
+        <div class="trip-check" data-col="Check">RWA.xyz, the IMF's own data source</div>
+      </div>
+      <div class="trip-row">
+        <div class="trip-name">How tokenized repo settles</div>
+        <div class="trip-cell" data-col="Supports">Trade by trade, or netted with leftovers that cross ledgers</div>
+        <div class="trip-cell" data-col="Against">Netted inside one cleared venue and paid in central bank money</div>
+        <div class="trip-check" data-col="Check">Platform and clearinghouse announcements</div>
+      </div>
+      <div class="trip-row">
+        <div class="trip-name">US Treasury clearing mandate</div>
+        <div class="trip-cell" data-col="Supports">Large flows stay outside central clearing</div>
+        <div class="trip-cell" data-col="Against">Flow keeps moving into the clearinghouse after the December 31, 2026 cash deadline and the June 30, 2027 repo deadline</div>
+        <div class="trip-check" data-col="Check">DTCC and SEC releases</div>
+      </div>
+    </div>
+
+    <h2>The question that remains</h2>
+
+    <p>
+      The IMF has described the liquidity problem. The XRP Ledger now has a live tool for
+      atomic settlement. Neither one shows that XRP will become a settlement asset.
+    </p>
+
+    <p>
+      The financial system may not have to choose between netting and instant settlement. It
+      may use both. But after trades are netted, something is still owed. After ledgers are
+      connected, value still has to cross between them. Someone has to supply that liquidity,
+      in some asset.
+    </p>
+
+    <p>
+      Central bank money can handle obligations inside one country. Tokenized deposits and
+      stablecoins can handle payments inside their own networks. Connected systems may link
+      some networks with no bridge asset at all. If a meaningful share of the market still
+      needs neutral liquidity between networks, XRP is one candidate for the job.
+    </p>
+
+    <p>
+      Batch does not prove the thesis. It removes one technical obstacle to testing it. The
+      next evidence will not come from an amendment vote. It will come from the settlement
+      flows.
+    </p>
+
+    <div class="framework-ref">
+      <div class="framework-ref-label">Framework status — what this note adds</div>
+      <p><strong>What's new:</strong> The netting-versus-instant-settlement tension from Part II now has the IMF's own confirmation — as settlement moves toward real time, nettable trades fall and funding needs rise — plus the IMF's proposed middle path, programmable batching. And the atomic-settlement capability Field Note 13 argued is irreducible is no longer pending on the XRP Ledger: it is live.</p>
+      <p><strong>The honest limits, kept in plain sight:</strong> The IMF chapter never mentions XRP, Ripple, or RLUSD. Its preferred settlement assets are central bank money, tokenized deposits, and stablecoins. A live amendment is capability, not adoption, and not demand. Every link drawn here is this series' reading, not the IMF's claim.</p>
+      <p>
+        <a href="/part2/">Part II — The netting argument &rarr;</a>
+        &nbsp;&nbsp;
+        <a href="/blog/dvp-irreducible/">Field Note 13 — DvP irreducibility &rarr;</a>
+        &nbsp;&nbsp;
+        <a href="/blog/batch-transactions/">Field Note 3 — Batch transactions on the XRPL &rarr;</a>
+      </p>
+    </div>
+
+    <div class="sources-block">
+      <div class="sources-label">Sources</div>
+      <ul>
+        <li>International Monetary Fund, Global Financial Stability Report, October 2026, Chapter 3, "Scaling Tokenization: New Efficiencies, New Vulnerabilities," pp. 43–69. Netting and batching: Box 3.2, pp. 64–65. Settlement assets: pp. 50 and 61. Scenarios: pp. 56–59. Published October 8, 2026.</li>
+        <li>DTCC, "How Same-Day Settlement Works at DTCC," for the 98 percent netting figure and the 2020 example.</li>
+        <li>DTCC, FICC survey on the Treasury cash clearing deadline, July 27, 2026, for daily cleared volume (cash and repo combined) and growth since the mandate was proposed.</li>
+        <li>XRPL.org, Known Amendments, for BatchV1_1 and fixBatchV1_2.</li>
+        <li>XRPL.org, Vulnerability Disclosure Report: XRPL Batch Amendment, for the February 2026 flaw.</li>
+        <li>Scheduled activation times and validator support from XRPScan data as reported by AltcoinBuzz, October 6, 2026; same-day activation confirmed by industry reporting, October 9, 2026. The September delay as reported by Coinpaper.</li>
+        <li>The December 31, 2026 cash and June 30, 2027 repo clearing deadlines per the SEC's extended compliance dates, as reported by The DESK.</li>
+        <li>Earlier in this series: <a href="/part2/" style="color:var(--accent)">Part II, the netting argument</a> and <a href="/blog/dvp-irreducible/" style="color:var(--accent)">Field Note 13, DvP irreducibility</a>.</li>
+      </ul>
+    </div>
+
+    <div class="disclaimer">
+      This is not financial advice. The documents cited are public and primary. Connecting them to XRP is this series' own analysis, and that analysis is conditional and speculative. Read the sources and form your own view.
+    </div>
+
+    <div class="post-footer">
+      <div class="post-footer-label">Continue reading</div>
+      <div class="post-footer-links">
+        <a class="footer-link primary" href="/blog/coordination-premium/">Field Note 18 — The premium nobody pays.</a>
+        <a class="footer-link" href="/blog/interoperable-ledgers/">Field Note 17 — The blank spot on the map.</a>
+        <a class="footer-link" href="/blog/dvp-irreducible/">Field Note 13 — DvP irreducibility.</a>
+        <a class="footer-link" href="/blog/batch-transactions/">Field Note 3 — Batch transactions on the XRPL.</a>
+        <a class="footer-link" href="/">All field notes</a>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>XRP Valuation Series &nbsp;·&nbsp; The Living Framework</div>
+    <div>FutureXRP &nbsp;·&nbsp; @the5blairs</div>
+  </div>
+</footer>
+
+</body>
+</html>

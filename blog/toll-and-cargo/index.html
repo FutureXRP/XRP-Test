@@ -278,18 +278,19 @@
           <tr><td class="tok">ALGO</td><td>Algorand</td><td>Only for ALGO payments</td><td>Toll, consensus</td><td>Toll + deposit</td></tr>
           <tr><td class="tok">ADA</td><td>Cardano</td><td>Only for ADA payments</td><td>Toll, staking</td><td>Toll + deposit</td></tr>
           <tr><td class="tok">AVAX</td><td>Avalanche</td><td>Only for AVAX transfers</td><td>Toll, staking</td><td>Toll + deposit</td></tr>
-          <tr><td class="tok">LINK</td><td>Chainlink</td><td>No</td><td>Oracle and CCIP service fees, staking</td><td>Key</td></tr>
-          <tr><td class="tok">QNT</td><td>Quant</td><td>No</td><td>Platform access and licensing</td><td>Key</td></tr>
-          <tr><td class="tok">DOT / ATOM</td><td>Polkadot / Cosmos Hub</td><td>No (connected chains settle their own assets)</td><td>Shared security, governance</td><td>Deposit + key</td></tr>
-          <tr><td class="tok">VET / VTHO</td><td>VeChain</td><td>No; VTHO is the gas, VET generates it</td><td>Toll (VTHO), staking (VET)</td><td>Dual-token</td></tr>
-          <tr><td class="tok">IOTA</td><td>IOTA</td><td>No for trade assets</td><td>Toll, staking, storage deposits</td><td>Toll + deposit</td></tr>
-          <tr><td class="tok">FIL</td><td>Filecoin</td><td>Pays for storage, not a financial bridge</td><td>Storage fees, provider collateral</td><td>Service + deposit</td></tr>
-          <tr><td class="tok">ICP</td><td>Internet Computer</td><td>No; converted into compute cycles</td><td>Compute, governance</td><td>Key</td></tr>
-          <tr><td class="tok">ONDO</td><td>Ondo</td><td>No; separate from Ondo's Treasury products</td><td>Governance</td><td>Key</td></tr>
-          <tr><td class="tok">BNB, CRO, POL, TRX, NEAR, SUI, APT, FLR</td><td>Various</td><td>Only for their own transfers</td><td>Toll, staking, ecosystem perks</td><td>Toll + deposit</td></tr>
+          <tr><td class="tok">LINK</td><td>Chainlink</td><td>Only for LINK transfers</td><td>Oracle and CCIP service fees, staking</td><td>Key</td></tr>
+          <tr><td class="tok">QNT</td><td>Quant</td><td>Only for QNT transfers</td><td>Platform access and licensing</td><td>Key</td></tr>
+          <tr><td class="tok">DOT / ATOM</td><td>Polkadot / Cosmos Hub</td><td>Only for their own transfers; connected chains settle their own assets</td><td>Shared security, governance</td><td>Deposit + key</td></tr>
+          <tr><td class="tok">VET / VTHO</td><td>VeChain</td><td>Only for VET/VTHO transfers; VTHO is the gas, VET generates it</td><td>Toll (VTHO), staking (VET)</td><td>Dual-token</td></tr>
+          <tr><td class="tok">IOTA</td><td>IOTA</td><td>Only for IOTA transfers; trade assets move as their own tokens</td><td>Toll, staking, storage deposits</td><td>Toll + deposit</td></tr>
+          <tr><td class="tok">FIL</td><td>Filecoin</td><td>Only for FIL transfers; pays for storage, not a financial bridge</td><td>Storage fees, provider collateral</td><td>Service + deposit</td></tr>
+          <tr><td class="tok">ICP</td><td>Internet Computer</td><td>Only for ICP transfers; service use converts it into compute cycles</td><td>Compute, governance</td><td>Key</td></tr>
+          <tr><td class="tok">ONDO</td><td>Ondo</td><td>Only for ONDO transfers; separate from Ondo's Treasury products</td><td>Governance</td><td>Key</td></tr>
+          <tr><td class="tok">FLR</td><td>Flare</td><td>Only for FLR transfers — but FAssets such as FXRP must be over-collateralized by agents and pool providers in FLR and stablecoins, sized against minted value</td><td>Toll, staking, FAsset collateral</td><td>Toll + deposit</td></tr>
+          <tr><td class="tok">BNB, CRO, POL, TRX, NEAR, SUI, APT</td><td>Various</td><td>Only for their own transfers</td><td>Toll, staking, ecosystem perks</td><td>Toll + deposit</td></tr>
         </tbody>
       </table>
-      <div class="block-note">Design intent, not current scale. Highlighted rows: the two ledgers with a native cross-currency routing mechanism for the native token.</div>
+      <div class="block-note">Design intent, not current scale. Highlighted rows: the two ledgers with a native cross-currency routing mechanism for the native token. XRP and XLM share the same jobs; their model labels differ because the close-ups judge how each network's flagship uses route value today.</div>
     </div>
 
     <p>
@@ -326,9 +327,9 @@
       and pay XLM fees
       (<a href="https://developers.stellar.org/docs/learn/fundamentals/lumens">Stellar docs</a>).
       But nothing requires Stellar volume to route through XLM, and the network's flagship
-      institutional uses — USDC, tokenized funds, and the DTCC registry connection (DTCC's
-      tokenization pilot entered limited production in July 2026; DTC-tokenized assets on
-      Stellar are targeted for mid-2027 —
+      institutional uses — USDC, tokenized funds, and the DTCC arrangement (DTCC plans to bring
+      DTC-tokenized assets to Stellar in the first half of 2027; its July 2026
+      limited-production pilot ran on DTCC's own and partner infrastructure, not Stellar —
       <a href="https://www.dtcc.com/news/2026/may/27/tokenization-service-to-connect-with-stellar-public-blockchain-as-dtc-advances-multi-chain-strategy">DTCC announcement</a>)
       — move issued assets directly, with XLM collecting the toll.
     </p>
@@ -343,7 +344,8 @@
       To be clear about what the design permits: XDC is a capable payment coin — seconds to
       finality, negligible fees — and as an EVM network it can settle DvP atomically, composing
       the asset leg and the cash leg into one all-or-nothing transaction (a generality the XRP
-      Ledger only reached with October's Batch amendment). What the design does not do is put
+      Ledger itself only reached with October's Batch amendment — and one Stellar and Hedera
+      have long offered natively). What the design does not do is put
       XDC in the cash leg by default: that seat is being filled by USDC and tokenized deposits,
       and XDC earns the cargo label the moment institutions choose it as the settlement asset —
       the same test this series applies to XRP on rails where RLUSD settles the cash leg today.
@@ -362,7 +364,12 @@
       fees denominated and paid in LINK, fees paid in alternative assets (CCIP accepts some
       non-LINK fee tokens —
       <a href="https://docs.chain.link/ccip/concepts/fees-and-billing">Chainlink docs</a>),
-      and staking. CCIP can move billions in other assets without that value ever being LINK.
+      and staking. Since 2025, Payment Abstraction converts fees paid in other assets into
+      LINK, and a share of service revenue accrues to the Chainlink Reserve — a held stock
+      with no withdrawals planned for several years (a stated plan, not a contractual lock).
+      That turns part of the toll into a deposit; the demand is still sized by service
+      revenue, not by the value the services move. CCIP can move billions in other assets
+      without that value ever being LINK.
     </p>
 
     <p>
@@ -441,15 +448,18 @@
     <p>
       <strong>How Scenario B is sized.</strong> Tolls scale with transaction count, not value —
       so count the transactions. $1 trillion at an average ticket of $10,000 is 100 million
-      transactions; at Hedera's published $0.0001 transfer fee
-      (<a href="https://docs.hedera.com/learn/networks/mainnet/fees">fee schedule</a>), that is
-      about $10,000 a year. Price the toll more generously — say 0.0001% of value — and it is
-      still only about $1 million a year. Low fees are a selling point for adoption; they are
-      also why enormous fee-only volume spends almost nothing on the token. And a fee is held
-      for minutes, not weeks: the toll model's standing balance rounds to zero. (One real
-      difference inside the toll column: the XRPL destroys its fees, while most networks pay
-      them to validators, who can sell them. A burned toll is a slow supply sink; a recycled
-      toll is not even that.)
+      transactions. On Hedera, whose fees are fixed in dollars
+      (<a href="https://docs.hedera.com/learn/networks/mainnet/fees">fee schedule</a>), a plain
+      HBAR transfer is $0.0001 and a transfer carrying custom token fees is listed at $0.002 —
+      so 100 million transfers cost between $10,000 and $200,000 a year, depending on which
+      line item the flow actually pays; XDC gas runs to fractions of a cent per transaction.
+      Price the toll more generously — say 0.0001% of value — and it is still only about
+      $1 million a year. Low fees are a selling point for adoption; they are also why enormous
+      fee-only volume spends almost nothing on the token. And a fee is held for minutes, not
+      weeks: the toll model's standing balance rounds to zero. (One real difference inside the
+      toll column: the XRPL destroys all of its fees; Ethereum and Avalanche burn most of
+      theirs; other networks pay most or all to validators or treasuries, where they can be
+      sold. A burned toll is a slow supply sink; a recycled toll is not even that.)
     </p>
 
     <p>

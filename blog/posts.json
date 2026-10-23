@@ -210,5 +210,17 @@
     ],
     "title": "Two kinds of <em>batch.</em>",
     "deck": "The IMF's October 2026 tokenization chapter and the XRP Ledger's Batch amendment landed a day apart. One batch waits so trades can cancel each other out; the other settles everything in the same instant, or not at all. The IMF confirmed the netting argument of Part II in its own words — and described an empty settlement seat that XRP is the best-positioned candidate to fill. With the square-root law's price requirements for every adoption scenario, and the DTCC calendar through June 2027."
+  },
+  {
+    "number": 20,
+    "slug": "toll-and-cargo",
+    "date": "October 23, 2026",
+    "tags": [
+      "Token Design",
+      "Methodology"
+    ],
+    "title": "The toll and <em>the cargo.</em>",
+    "subtitle": "A map of where token demand actually comes from.",
+    "deck": "A blockchain can move a trillion dollars a year without its coin being worth a trillion dollars. Whether the coin benefits depends on one thing: does the coin carry the money, or does it just collect the toll? This note sorts every major utility token by that question — and applies the same evidentiary standard to XRP that it applies to everyone else."
   }
 ]

@@ -83,14 +83,19 @@
     .editor-note p:last-child { margin-bottom: 0 !important; }
 
     /* MAP TABLE */
-    .map-wrap { margin: 36px 0; border: 1px solid var(--rule); overflow-x: auto; }
-    .map-table { width: 100%; min-width: 640px; border-collapse: collapse; }
+    .map-wrap { margin: 36px 0; border: 1px solid var(--rule); overflow-x: auto; position: relative; left: 50%; transform: translateX(-50%); width: min(920px, calc(100vw - 40px)); }
+    .map-table { width: 100%; min-width: 640px; border-collapse: collapse; table-layout: fixed; }
     .map-table thead tr { background: var(--ink); }
     .map-table th { padding: 11px 14px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.45); font-weight: 500; text-align: left; }
+    .map-table th:nth-child(1) { width: 15%; }
+    .map-table th:nth-child(2) { width: 14%; }
+    .map-table th:nth-child(3) { width: 33%; }
+    .map-table th:nth-child(4) { width: 21%; }
+    .map-table th:nth-child(5) { width: 17%; }
     .map-table td { padding: 12px 14px; border-top: 1px solid var(--rule); font-family: var(--ui); font-size: 13px; line-height: 1.5; color: var(--ink-medium); vertical-align: top; }
     .map-table tbody tr:nth-child(even) { background: var(--paper-soft); }
     .map-table tbody tr { background: var(--paper); }
-    .map-table td.tok { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+    .map-table td.tok { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--ink); }
     .map-table tr.bridge-row { background: #fff5f5 !important; border-left: 3px solid var(--accent); }
     .map-table tr.bridge-row td.tok { color: var(--accent); }
     .map-wrap .block-note { padding: 14px 20px; background: var(--paper-deep); border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.65; }

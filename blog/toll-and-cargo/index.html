@@ -266,7 +266,7 @@
         <tbody>
           <tr class="bridge-row"><td class="tok">XRP</td><td>XRP Ledger</td><td>Yes, built-in currency bridge (auto-bridging)</td><td>Cargo, toll, reserves</td><td>Bridge + value</td></tr>
           <tr class="bridge-row"><td class="tok">XLM</td><td>Stellar</td><td>Yes, as a path-payment bridge where liquidity exists</td><td>Cargo, toll, reserves</td><td>Bridge + toll</td></tr>
-          <tr><td class="tok">XDC</td><td>XDC Network</td><td>Only for XDC transfers; trade assets move as their own tokens</td><td>Toll, validator deposit</td><td>Toll + deposit</td></tr>
+          <tr><td class="tok">XDC</td><td>XDC Network</td><td>In XDC transfers; can serve as a payment asset or DvP cash leg if chosen — trade assets move as their own tokens</td><td>Toll, validator deposit</td><td>Toll + optional value</td></tr>
           <tr><td class="tok">HBAR</td><td>Hedera</td><td>Only for HBAR payments</td><td>Toll (USD-priced), security</td><td>Toll + deposit</td></tr>
           <tr><td class="tok">ETH</td><td>Ethereum</td><td>In ETH transfers and some DEX routes; not required for asset settlement</td><td>Toll, staking, DeFi collateral</td><td>Mixed</td></tr>
           <tr><td class="tok">SOL</td><td>Solana</td><td>In SOL transfers and some DEX routes; not required for asset settlement</td><td>Toll, staking</td><td>Toll + deposit</td></tr>
@@ -329,11 +329,19 @@
     </p>
 
     <p>
-      <strong>XDC (XDC Network): toll and deposit.</strong> XDC pays gas and secures validators
-      (<a href="https://xdc.network/faqs/">XDC FAQ</a>). A $100 million tokenized trade
-      instrument can move on XDC without anyone buying $100 million of XDC. Circle launched
-      native USDC and CCTP V2 on XDC in September 2025, giving the network a non-XDC settlement
-      asset (<a href="https://www.circle.com/blog/now-available-usdc-cctp-v2-on-xdc-network">Circle</a>).
+      <strong>XDC (XDC Network): toll and deposit, with optional cargo.</strong> XDC pays gas
+      and secures validators (<a href="https://xdc.network/faqs/">XDC FAQ</a>). A $100 million
+      tokenized trade instrument can move on XDC without anyone buying $100 million of XDC.
+      Circle launched native USDC and CCTP V2 on XDC in September 2025, giving the network a
+      non-XDC settlement asset
+      (<a href="https://www.circle.com/blog/now-available-usdc-cctp-v2-on-xdc-network">Circle</a>).
+      To be clear about what the design permits: XDC is a capable payment coin — seconds to
+      finality, negligible fees — and as an EVM network it can settle DvP atomically, composing
+      the asset leg and the cash leg into one all-or-nothing transaction (a generality the XRP
+      Ledger only reached with October's Batch amendment). What the design does not do is put
+      XDC in the cash leg by default: that seat is being filled by USDC and tokenized deposits,
+      and XDC earns the cargo label the moment institutions choose it as the settlement asset —
+      the same test this series applies to XRP on rails where RLUSD settles the cash leg today.
     </p>
 
     <p>
@@ -482,7 +490,8 @@
       <strong>$500 million of trade receivables on XDC.</strong> The receivables move as their
       own tokens and XDC pays gas. XDC demand grows beyond fees only if something else
       happens: institutions hold XDC inventory, post it as collateral, stake it as validators,
-      or choose it as the payment asset.
+      or choose it as the payment asset or the DvP cash leg. The settlement can be atomic on
+      XDC either way — the question is only what plays the cash leg.
     </p>
 
     <p>

@@ -222,5 +222,17 @@
     "title": "The toll and <em>the cargo.</em>",
     "subtitle": "A map of where token demand actually comes from.",
     "deck": "A blockchain can move a trillion dollars a year without its coin being worth a trillion dollars. Whether the coin benefits depends on one thing: does the coin carry the money, or does it just collect the toll? This note sorts every major utility token by that question — and applies the same evidentiary standard to XRP that it applies to everyone else."
+  },
+  {
+    "number": 21,
+    "slug": "locked-or-moving",
+    "date": "November 18, 2026",
+    "tags": [
+      "Token Design",
+      "Settlement Architecture"
+    ],
+    "title": "Locked, or <em>moving.</em>",
+    "subtitle": "XRP as collateral, or XRP on the cash leg.",
+    "deck": "Repo is coming to the XRP Ledger, and XRP can do two different jobs in it. Locked as collateral, the math is a consistency check in the tens to hundreds of dollars. Moving on the cash leg, the series’ scenario math lands in the thousands. Which job XRP gets is Field Note 20’s cargo question — asked, for the first time, by a live product."
   }
 ]

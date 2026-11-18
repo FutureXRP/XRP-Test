@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta property="og:image" content="https://xrpvaluation.info/card.png" />
+  <meta name="twitter:image" content="https://xrpvaluation.info/card.png" />
+  <title>Field Note 21: Locked or Moving — XRP Valuation Series</title>
+  <meta name="description" content="Repo is coming to the XRP Ledger, and XRP can do two different jobs in it. Locked as collateral, the math is a consistency check. Moving on the cash leg, the series’ scenario math binds. Which job XRP gets is the cargo question, asked by a live product." />
+  <meta property="og:title" content="Field Note 21: Locked or Moving" />
+  <meta property="og:description" content="XRP as collateral is a stock; XRP on the cash leg is a flow. A repo trade can use either — and they are worth very different amounts. Field Note 20’s cargo question, asked by a live product." />
+  <meta property="og:type" content="article" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Field Note 21: Locked or Moving" />
+  <meta name="twitter:description" content="XRP as collateral is a stock; XRP on the cash leg is a flow. A repo trade can use either — and they are worth very different amounts." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --paper: #ffffff;
+      --paper-soft: #f7f3ea;
+      --paper-deep: #f4efe4;
+      --ink: #171512;
+      --ink-soft: #3a342e;
+      --ink-medium: #61594f;
+      --ink-faint: #8a8073;
+      --rule: #d8d0c3;
+      --rule-strong: #1a1a1a;
+      --accent: #9b2226;
+      --display: "Newsreader", Georgia, serif;
+      --body: "Newsreader", Georgia, serif;
+      --ui: "IBM Plex Sans", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --text-width: 680px;
+      --page-width: 1120px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 20px; line-height: 1.72; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    a { color: inherit; text-decoration: none; }
+
+    .topbar { max-width: var(--page-width); margin: 0 auto; padding: 24px 28px 0; }
+    .topbar-inner { border-top: 2px solid var(--rule-strong); border-bottom: 1px solid var(--rule-strong); padding: 15px 0 13px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-family: var(--ui); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-medium); }
+    .topbar-left { font-weight: 600; color: var(--accent); }
+    .topbar-left a { color: var(--accent); }
+    .topbar-left a:hover { opacity: 0.75; }
+    .topbar-right { letter-spacing: 0.1em; color: var(--ink-faint); }
+
+    .article-wrap { max-width: var(--page-width); margin: 0 auto; padding: 56px 28px 120px; display: grid; grid-template-columns: 1fr min(var(--text-width), 100%) 1fr; }
+    .article-wrap > * { grid-column: 2; }
+
+    .post-header { margin-bottom: 56px; }
+    .post-section { display: inline-flex; align-items: center; gap: 10px; font-family: var(--ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 24px; }
+    .post-section::before { content: ""; display: inline-block; width: 20px; height: 1px; background: var(--accent); }
+
+    h1.post-title { font-family: var(--display); font-size: clamp(36px, 6vw, 62px); line-height: 1.05; font-weight: 500; letter-spacing: -0.025em; color: var(--ink); margin-bottom: 14px; }
+    h1.post-title em { font-style: italic; color: var(--accent); }
+
+    .post-subtitle { font-family: var(--display); font-style: italic; font-size: clamp(20px, 2.8vw, 28px); color: var(--ink-medium); margin-bottom: 22px; letter-spacing: -0.01em; }
+
+    .post-deck { font-family: var(--display); font-style: italic; font-size: clamp(19px, 2.5vw, 24px); line-height: 1.45; color: var(--ink-medium); margin-bottom: 32px; }
+
+    .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; padding: 18px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+    .post-meta .meta-tag { color: var(--accent); font-weight: 600; }
+    .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--rule); flex-shrink: 0; }
+
+    .post-body { padding-top: 48px; }
+    .post-body p { margin-bottom: 28px; font-size: 20px; line-height: 1.72; color: var(--ink-soft); }
+    .post-body p:first-child { font-size: 22px; line-height: 1.65; color: var(--ink); }
+    .post-body h2 { font-family: var(--display); font-size: clamp(24px, 3vw, 32px); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); margin: 52px 0 20px; padding-top: 40px; border-top: 1px solid var(--rule); }
+    .post-body p a, .post-body li a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+    .post-body p a:hover, .post-body li a:hover { border-bottom-color: var(--accent); }
+    .post-body ul.plain-list { margin: 0 0 28px 22px; }
+    .post-body ul.plain-list li { margin-bottom: 16px; font-size: 19px; line-height: 1.7; color: var(--ink-soft); }
+    .post-body ul.plain-list li strong { color: var(--ink); font-weight: 600; }
+    .post-body ol.plain-list { margin: 0 0 28px 24px; }
+    .post-body ol.plain-list li { margin-bottom: 16px; font-size: 19px; line-height: 1.7; color: var(--ink-soft); }
+    .post-body ol.plain-list li strong { color: var(--ink); font-weight: 600; }
+
+    .editor-note { margin: 0 0 40px; padding: 24px 28px; border: 1px solid var(--rule); border-left: 3px solid var(--accent); background: var(--paper); }
+    .editor-note-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 12px; }
+    .editor-note p { font-size: 16px !important; line-height: 1.7; color: var(--ink-medium) !important; margin-bottom: 12px !important; }
+    .editor-note p:last-child { margin-bottom: 0 !important; }
+
+    /* MAP TABLE */
+    .map-wrap { margin: 36px 0; border: 1px solid var(--rule); overflow-x: auto; position: relative; left: 50%; transform: translateX(-50%); width: min(920px, calc(100vw - 40px)); }
+    .map-table { width: 100%; min-width: 640px; border-collapse: collapse; table-layout: fixed; }
+    .map-table thead tr { background: var(--ink); }
+    .map-table th { padding: 11px 14px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.45); font-weight: 500; text-align: left; }
+    .map-table th:nth-child(1) { width: 15%; }
+    .map-table th:nth-child(2) { width: 14%; }
+    .map-table th:nth-child(3) { width: 33%; }
+    .map-table th:nth-child(4) { width: 21%; }
+    .map-table th:nth-child(5) { width: 17%; }
+    .map-table td { padding: 12px 14px; border-top: 1px solid var(--rule); font-family: var(--ui); font-size: 13px; line-height: 1.5; color: var(--ink-medium); vertical-align: top; }
+    .map-table tbody tr:nth-child(even) { background: var(--paper-soft); }
+    .map-table tbody tr { background: var(--paper); }
+    .map-table td.tok { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--ink); }
+    .map-table tr.bridge-row { background: #fff5f5 !important; border-left: 3px solid var(--accent); }
+    .map-table tr.bridge-row td.tok { color: var(--accent); }
+    .map-table tr.open-row { background: #faf6ee !important; border-left: 3px solid #8a6f3a; }
+    .map-table tr.open-row td.tok { color: #8a6f3a; }
+    .map-wrap .block-note { padding: 14px 20px; background: var(--paper-deep); border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.65; }
+
+    /* SCENARIO TABLE */
+    .scen-table { margin: 36px 0; border: 1px solid var(--rule); overflow: hidden; }
+    .scen-head { display: grid; grid-template-columns: 0.9fr 1.1fr 1.3fr; background: var(--ink); padding: 12px 20px; gap: 12px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .scen-row { display: grid; grid-template-columns: 0.9fr 1.1fr 1.3fr; padding: 15px 20px; gap: 12px; border-top: 1px solid var(--rule); background: var(--paper); align-items: start; }
+    .scen-row:nth-child(even) { background: var(--paper-soft); }
+    .scen-row.cargo { background: #fff5f5; border-left: 3px solid var(--accent); }
+    .scen-name { font-family: var(--ui); font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.5; }
+    .scen-row.cargo .scen-name { color: var(--accent); }
+    .scen-cell { font-family: var(--ui); font-size: 13px; color: var(--ink-medium); line-height: 1.55; }
+    .scen-table .block-note { padding: 14px 20px; background: var(--paper-deep); border-top: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; color: var(--ink-faint); line-height: 1.65; }
+
+    /* FORMULA BLOCK */
+    .formula-block { margin: 36px 0; background: var(--ink); padding: 28px 32px; text-align: center; }
+    .formula-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 14px; }
+    .formula-line { font-family: var(--mono); font-size: clamp(14px, 2.2vw, 18px); color: #c9a84c; line-height: 1.6; }
+    .formula-sub { font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.5); line-height: 1.65; max-width: 540px; margin: 14px auto 0; }
+
+    /* TRIPWIRE TIERS */
+    .hold-block { margin: 36px 0; padding: 28px 32px; border: 1px solid var(--rule); background: var(--paper-soft); }
+    .hold-block.tier-1 { border-left: 3px solid var(--accent); }
+    .hold-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 16px; }
+    .hold-block.tier-1 .hold-label { color: var(--accent); }
+    .hold-item { font-family: var(--ui); font-size: 15px; color: var(--ink-medium); line-height: 1.7; margin-bottom: 14px; padding-left: 18px; position: relative; }
+    .hold-item::before { content: "→"; position: absolute; left: 0; color: var(--accent); font-family: var(--mono); font-size: 13px; top: 2px; }
+    .hold-item:last-child { margin-bottom: 0; }
+    .hold-item strong { color: var(--ink); font-weight: 600; }
+    .hold-item a { color: var(--accent); border-bottom: 1px solid rgba(155,34,38,0.3); }
+
+    .sources-block { margin: 40px 0 0; padding: 22px 24px; border: 1px solid var(--rule); background: var(--paper); }
+    .sources-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 12px; }
+    .sources-block ul { margin-left: 20px; }
+    .sources-block li { font-family: var(--ui); font-size: 14px; line-height: 1.7; color: var(--ink-medium); margin-bottom: 8px; }
+    .sources-block a { color: var(--accent); }
+
+    .post-footer { margin-top: 72px; padding-top: 32px; border-top: 2px solid var(--rule-strong); }
+    .post-footer-label { font-family: var(--ui); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-bottom: 20px; }
+    .post-footer-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    .footer-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--rule); background: var(--paper); font-family: var(--ui); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-medium); font-weight: 500; transition: border-color 0.15s, color 0.15s; }
+    .footer-link:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-link.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .footer-link.primary:hover { background: #7f1d1d; border-color: #7f1d1d; }
+    .footer-link::after { content: "→"; font-size: 13px; }
+
+    .disclaimer { margin-top: 40px; padding: 18px 20px; background: var(--paper-soft); border: 1px solid var(--rule); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-faint); line-height: 1.7; }
+
+    .site-footer { max-width: var(--page-width); margin: 0 auto; padding: 0 28px 40px; }
+    .site-footer-inner { border-top: 1px solid var(--rule); padding-top: 18px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+
+    @media (max-width: 760px) {
+      body { font-size: 19px; }
+      .article-wrap { grid-template-columns: 1fr; padding: 40px 20px 80px; }
+      .article-wrap > * { grid-column: 1; }
+      .scen-head { display: none; }
+      .scen-row { grid-template-columns: 1fr; gap: 8px; }
+      .scen-cell::before { content: attr(data-col) " — "; font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); }
+      .site-footer { padding: 0 20px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left"><a href="/">XRP Valuation Series</a> &nbsp;·&nbsp; The Living Framework</div>
+    <div class="topbar-right">Field Note · November 2026</div>
+  </div>
+</header>
+
+<article class="article-wrap">
+
+  <div class="post-header">
+    <div class="post-section">The Living Framework &nbsp;·&nbsp; No. 21</div>
+    <h1 class="post-title">Locked, or <em>moving.</em></h1>
+    <p class="post-subtitle">XRP as collateral, or XRP on the cash leg.</p>
+    <p class="post-deck">
+      Repo is coming to the XRP Ledger, and XRP can do two different jobs in it. Locked as
+      collateral, the math is a consistency check in the tens to hundreds of dollars. Moving
+      on the cash leg, the series' scenario math lands in the thousands. Which job XRP gets
+      is Field Note 20's cargo question — asked, for the first time, by a live product.
+    </p>
+    <div class="post-meta">
+      <span class="meta-tag">The Living Framework</span>
+      <span class="meta-dot"></span>
+      <span>Token Design</span>
+      <span class="meta-dot"></span>
+      <span>Settlement Architecture</span>
+      <span class="meta-dot"></span>
+      <span>November 18, 2026</span>
+    </div>
+  </div>
+
+  <div class="post-body">
+
+    <div class="editor-note">
+      <div class="editor-note-label">Editor's note — what this is, and a sourcing caveat</div>
+      <p><a href="/blog/toll-and-cargo/">Field Note No. 20</a> ended with a question to ask of every adoption headline: how much of the value must pass through, or sit in, the token? This month that question stopped being hypothetical. A RippleX interview at Swell described repo — the first wholesale credit market being built on the XRP Ledger — and in the example given, XRP is not the money. It is the thing locked up beside the money.</p>
+      <p>The quotes below are taken from an interview recorded at Ripple Swell in November 2026, as carried by the contemporaneous coverage of record linked in the sources — the primary video is not yet linked here, and this note will be updated when it is. Coverage published since styles Cooper's role at RippleX differently; nothing in this note depends on the title.</p>
+    </div>
+
+    <h2 style="margin-top:0;padding-top:0;border-top:none">What was said</h2>
+
+    <p>Jazzi Cooper of RippleX, interviewed at Swell this month, said three things that matter for this framework.</p>
+
+    <ul class="plain-list">
+      <li><strong>Repo is close.</strong> Repo transactions have been completed in a development environment, with production pilots planned for early next quarter.</li>
+      <li><strong>The roles.</strong> In her words: "RLUSD is cash, XRP can be collateral."</li>
+      <li><strong>The two jobs.</strong> Outside of reserves and fees, she named two main opportunities for XRP: as a bridge asset and as a collateral asset.</li>
+    </ul>
+
+    <p>
+      She did not say the development transactions used XRP. Money market fund tokens were
+      named alongside XRP as high-quality collateral, so the first pilots may not involve XRP
+      at all. Read through Field Note 20's map: the bridge role is the cargo job, the
+      collateral role is the deposit job — and Ripple's own product head has just told us
+      which one the first wholesale market on the ledger reaches for by default.
+    </p>
+
+    <h2>Two jobs, two kinds of number</h2>
+
+    <p>
+      Collateral is a stock and the cash leg is a flow. That one difference drives everything
+      below.
+    </p>
+
+    <div class="scen-table">
+      <div class="scen-head">
+        <span></span>
+        <span>XRP as collateral (the deposit job)</span>
+        <span>XRP on the cash leg (the cargo job)</span>
+      </div>
+      <div class="scen-row">
+        <span class="scen-name">What it does</span>
+        <span class="scen-cell" data-col="Collateral">Sits locked while someone borrows against it</span>
+        <span class="scen-cell" data-col="Cash leg">Sits in the middle of the payment</span>
+      </div>
+      <div class="scen-row">
+        <span class="scen-name">How long it is held</span>
+        <span class="scen-cell" data-col="Collateral">The life of the loan</span>
+        <span class="scen-cell" data-col="Cash leg">Seconds</span>
+      </div>
+      <div class="scen-row">
+        <span class="scen-name">What sets the demand</span>
+        <span class="scen-cell" data-col="Collateral">Loan balance plus a safety margin</span>
+        <span class="scen-cell" data-col="Cash leg">How deep the market must be for a big ticket</span>
+      </div>
+      <div class="scen-row">
+        <span class="scen-name">Who has to hold it</span>
+        <span class="scen-cell" data-col="Collateral">The borrower, or someone lending XRP to the borrower</span>
+        <span class="scen-cell" data-col="Cash leg">Market makers</span>
+      </div>
+      <div class="scen-row">
+        <span class="scen-name">Is XRP required?</span>
+        <span class="scen-cell" data-col="Collateral">No — fund tokens work too</span>
+        <span class="scen-cell" data-col="Cash leg">Only when the two sides hold different money</span>
+      </div>
+      <div class="scen-row">
+        <span class="scen-name">Framework gate</span>
+        <span class="scen-cell" data-col="Collateral">A consistency check, formalized below</span>
+        <span class="scen-cell" data-col="Cash leg">Gate 1, then Gate 2</span>
+      </div>
+      <div class="block-note">The vocabulary is Field Note 20's: collateral is the deposit job, the cash leg is the cargo job. A trade that uses XRP as collateral adds nothing to the flow through XRP — it takes XRP out of circulation instead.</div>
+    </div>
+
+    <h2>The collateral check</h2>
+
+    <p>
+      The collateral number is not a valuation. It is a consistency check: for XRP to back a
+      given amount of repo, the price has to be at least high enough that the posted coins,
+      after the lender's haircut, cover the balance.
+    </p>
+
+    <div class="formula-block">
+      <div class="formula-label">The deposit job's consistency check</div>
+      <div class="formula-line">price &nbsp;≥&nbsp; XRP-backed repo outstanding &nbsp;÷&nbsp; (1 − haircut) × XRP posted</div>
+      <div class="formula-sub">Illustrative inputs: 30% haircut, 5 billion XRP posted. $100B backed → about $29 · $1T backed → about $286. Both inputs are placeholders, not sourced figures — labeled as such until the pilots disclose real ones.</div>
+    </div>
+
+    <p>
+      Note what this check does not do: it does not push the price up on its own. If XRP is
+      too cheap to back the loan book, lenders do not bid the price higher — they take a fund
+      token instead. Collateral demand is permissive, not causal. That is the deposit job's
+      ceiling, and it is why Field Note 20 put the two jobs in different columns.
+    </p>
+
+    <h2>The cash leg</h2>
+
+    <p>
+      On the cash leg, the series' gates set the number, at the series' published parameters —
+      circulating supply near 63 billion and the central 1% daily turnover, with each
+      scenario's volatility and tolerance as the calculator and terminal state them.
+    </p>
+
+    <p>
+      <strong>Gate 1 clears.</strong> The quantity identity asks whether the float can carry
+      the flow at all. A trillion dollars a year of repo cash legs at
+      <a href="/observatory/velocity-problem/">Observatory No. 1</a>'s 20–50 modeled turns
+      needs $20–50 billion of working float — comfortably inside any price this note
+      discusses.
+    </p>
+
+    <p>
+      <strong>Gate 2 binds.</strong> The square-root law asks whether one large ticket can
+      pass through without moving the price against itself. Repo tickets are wholesale-sized,
+      and wholesale standards are tight:
+    </p>
+
+    <div class="scen-table">
+      <div class="scen-head">
+        <span>Ticket · standard</span>
+        <span>Daily depth needed</span>
+        <span>Implied price (63B supply, 1% turnover)</span>
+      </div>
+      <div class="scen-row">
+        <span class="scen-name">$2B · institutional (10bp, σ = 3%)</span>
+        <span class="scen-cell" data-col="Depth">$1.8T</span>
+        <span class="scen-cell" data-col="Price">≈ $2,900</span>
+      </div>
+      <div class="scen-row">
+        <span class="scen-name">$5B · mature wholesale (10bp, σ = 2%)</span>
+        <span class="scen-cell" data-col="Depth">$2.0T</span>
+        <span class="scen-cell" data-col="Price">≈ $3,200</span>
+      </div>
+      <div class="block-note">Q_max and required-price formulas, scenario volatilities and tolerance tiers exactly as published in Part I, the calculator, and the terminal. Central 1% turnover; the published range (1.5% to 0.3%) moves each figure by ÷1.5 to ×3.3. These are conditional scenario outputs, not predictions.</div>
+    </div>
+
+    <p>
+      XRP used this way is held for seconds. The value does not come from the dollars passing
+      through — Field Note 20's throughput-is-not-demand rule — it comes from how much XRP
+      market makers must keep on hand so a big trade clears cleanly.
+    </p>
+
+    <h2>How the two jobs interact</h2>
+
+    <p>
+      Collateral does not compete with the cash leg. It feeds it, modestly: locked XRP leaves
+      the float, and the same required market cap spreads over fewer coins. Five billion XRP
+      genuinely locked takes the denominator from 63 to 58 billion and lifts each Gate 2
+      figure by about nine percent — roughly $2,900 to $3,100, $3,200 to $3,400. Two honest
+      caveats. The effect is real but second-order at today's float. And it holds only if the
+      collateral is truly locked: if the lender can re-use what is posted, the coins are back
+      in circulation and the float has not shrunk at all.
+    </p>
+
+    <h2>The concession at full strength</h2>
+
+    <p>The strongest reading against the thesis is that collateral is the only job XRP gets in repo. Here is that case with nothing held back.</p>
+
+    <ul class="plain-list">
+      <li><strong>Ripple's own product lead put a stablecoin on the cash leg.</strong> Repo is the first wholesale market being built on the ledger, and in her example XRP is not the money.</li>
+      <li><strong>Collateral can be borrowed, not bought.</strong> Cooper described holders lending XRP for yield so someone else can post it. That locks float without anyone buying a single coin.</li>
+      <li><strong>Nobody has to pick XRP.</strong> Money market fund tokens were named as high-quality collateral in the same breath, and they do not swing in price.</li>
+      <li><strong>Collateral gets sold in a crash.</strong> When the price falls, lenders liquidate. The float comes back at the worst moment — the deposit job's demand is procyclical in reverse.</li>
+      <li><strong>The competing cash leg is real.</strong> The BIS ran Project Agorá with real value in July 2026, settling across currencies with tokenised central bank reserves and bank deposits. No bridge asset was involved, and every leg was pre-funded before it moved.</li>
+      <li><strong>Value capture is not automatic.</strong> Asked whether repo could capture value for XRP, Cooper said product-market fit comes first and a capture mechanism comes later. That is an honest answer, and the framework should treat it as one.</li>
+    </ul>
+
+    <p>
+      If all of that holds, repo on the XRP Ledger is good for the ledger and a modest float
+      story for the token — a network headline, in Field Note 20's terms, with a deposit-sized
+      token story attached.
+    </p>
+
+    <h2>Where the hub comes in</h2>
+
+    <p>
+      XRP reaches the cash leg only when the two sides of a trade hold different money. When
+      both sides hold the same dollar token, the trade settles directly and no bridge is
+      needed. The mismatch shows up across currencies, across issuers, and across ledgers —
+      and Cooper made the hub case herself: pair every asset against XRP and you need a small
+      fraction of the markets you would need pairing everything against everything, an
+      efficiency she put at roughly fifteen-fold against stablecoin pairs. Applied to repo:
+      ten kinds of collateral against ten kinds of cash is a hundred direct markets, or
+      twenty through a hub. That is Field Note 20's corridor arithmetic, stated by the
+      product's own builder.
+    </p>
+
+    <p>
+      Agorá shows the same gap from the other side. Its platform settles atomically — and
+      every token had to be funded before it could move, with banks supplying each currency
+      conversion from their own trading desks. A dollar stablecoin can be the hub for dollar
+      assets, but it is fixed at a dollar: carrying trillions means trillions of them sitting
+      ready. The pre-funding burden does not disappear in the official system; it is the
+      open-work item in the BIS's own report.
+    </p>
+
+    <h2>What would have to be true</h2>
+
+    <p>None of this is a prediction. It is sizing under stated conditions, and the conditions can be checked when the pilots start early next quarter.</p>
+
+    <div class="hold-block tier-1">
+      <div class="hold-label">For the cash-leg numbers to matter</div>
+      <div class="hold-item">XRP shows up on the cash side of a production trade, not only as collateral.</div>
+      <div class="hold-item">Trades involve more than one kind of cash or more than one currency — the mismatch a hub exists for.</div>
+      <div class="hold-item">Counterparties or their market makers hold their own XRP inventory rather than sourcing it just-in-time.</div>
+      <div class="hold-item">Tokenized bank deposits fail to solve pre-funding at scale. If they solve it, the cash-leg number falls.</div>
+    </div>
+
+    <div class="hold-block">
+      <div class="hold-label">For the collateral check to matter</div>
+      <div class="hold-item">XRP is accepted as collateral in the pilots — not only fund tokens.</div>
+      <div class="hold-item">Posted XRP cannot be re-used by the lender.</div>
+      <div class="hold-item">The amount locked is disclosed, so the float adjustment uses a real figure instead of this note's placeholder.</div>
+    </div>
+
+    <div class="hold-block">
+      <div class="hold-label">The pilot checklist — what to record when they start</div>
+      <div class="hold-item">Is XRP in the pilots at all?</div>
+      <div class="hold-item">Which side of the trade is it on? This is the entire question of this note.</div>
+      <div class="hold-item">How many kinds of cash are used?</div>
+      <div class="hold-item">What haircut is applied to XRP?</div>
+      <div class="hold-item">Does RLUSD on the ledger grow large enough to be the cash at wholesale scale?</div>
+    </div>
+
+    <p>
+      One sentence of position, so the note cannot be read as hedging: the interview is good
+      news for the ledger, neutral-to-good news for the token, and a live test of the only
+      distinction this series has ever argued matters. Locked is a floor. Moving is the
+      thesis. The pilots will tell us which one is being built.
+    </p>
+
+    <div class="sources-block">
+      <div class="sources-label">Sources</div>
+      <ul>
+        <li>Jazzi Cooper interview recorded at Ripple Swell, November 2026 — quotes as carried by contemporaneous coverage of record: <a href="https://www.kucoin.com/news/insight/XRP/6afc6e849278e40007d86071">KuCoin insight coverage</a>; <a href="https://www.kucoin.com/news/flash/ripplex-highlights-xrp-as-institutional-credit-collateral-use-case">KuCoin flash</a>; <a href="https://coinpedia.org/news/ripplex-executive-says-xrp-is-15x-more-efficient-than-stablecoin-pairs/amp/">Coinpedia on the pairing-efficiency claim</a>. Primary video link to be added; this note updates when it is.</li>
+        <li><a href="https://www.bis.org/press/p260527.htm">BIS — Project Agorá report (May 27, 2026)</a>: atomic settlement demonstrated; liquidity-saving mechanisms on the open-work list.</li>
+        <li><a href="https://paymentexpert.com/2026/07/31/lloyds-tests-tokenised-deposits/">Lloyds live tokenised-deposit transactions, July 2026 (coverage)</a> — banks supplying currency conversion from their own desks.</li>
+        <li><a href="/blog/toll-and-cargo/">Field Note No. 20 — The Toll and the Cargo</a>: the cargo/deposit vocabulary, Gate 1 and Gate 2, throughput-is-not-demand.</li>
+        <li><a href="/observatory/velocity-problem/">Observatory No. 1 — The Velocity Problem</a>: the 20–50× modeled institutional velocity.</li>
+        <li><a href="/part1/">Part I</a>, the <a href="/calculator/">calculator</a>, and the <a href="/terminal/">terminal</a>: the published scenario parameters used in the Gate 2 table.</li>
+      </ul>
+    </div>
+
+    <div class="disclaimer">
+      This Field Note sizes two token roles under stated assumptions. The collateral inputs are labeled placeholders; the cash-leg figures are conditional scenario outputs, not predictions. Nothing here is investment advice.
+    </div>
+
+    <div class="post-footer">
+      <div class="post-footer-label">Continue reading</div>
+      <div class="post-footer-links">
+        <a class="footer-link primary" href="/blog/toll-and-cargo/">Field Note 20 — The Toll and the Cargo.</a>
+        <a class="footer-link" href="/blog/two-kinds-of-batch/">Field Note 19 — Two kinds of batch.</a>
+        <a class="footer-link" href="/observatory/velocity-problem/">Observatory No. 1 — The Velocity Problem.</a>
+        <a class="footer-link" href="/">All field notes</a>
+      </div>
+    </div>
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>XRP Valuation Series &nbsp;·&nbsp; The Living Framework</div>
+    <div>FutureXRP &nbsp;·&nbsp; @the5blairs</div>
+  </div>
+</footer>
+
+</body>
+</html>
